@@ -1,8 +1,7 @@
 			
-			<div id="intro">Мы&nbsp;&mdash; небольшая компания людей, которые любят создавать хорошие проекты и&nbsp;помогать в&nbsp;этом своим клиентам.</div>
+			<div id="intro"></div>
 			<div id="menu">
-				<a href="/principles">Принципы</a>
-				<a href="/methods">Методы</a>
-				<a href="/start">Начало</a>
+				<a href="/part1">Part 1</a>
+				<a href="/part2">Part 2</a>
+				<a href="/part3">Part 3</a>
 			</div>
-			<a href="mailto:welcome@dataloft.ru">welcome@dataloft.ru</a>

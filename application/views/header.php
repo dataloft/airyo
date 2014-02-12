@@ -3,6 +3,6 @@
 <head>
 	<link type="text/css" href="/i/css/view-style.css" rel="stylesheet"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Dataloft</title>
+	<title>Airyo</title>
 </head>
 <body>

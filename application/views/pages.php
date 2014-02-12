@@ -3,11 +3,11 @@
 			<h1><?=$page->h1?></h1>
 			<?=$page->content?>
 			<div id="ftr">
-				Dataloft 2013
+				Airyo 2014
 			</div>
 		</div>
 		<div id="l">
-			<div id="dataloft"><a href="/">Dataloft</a></div>
+			<div id="airyo"><a href="/">Airyo</a></div>
 			<?$this->load->view('menu')?>
 		</div>
 	</div>

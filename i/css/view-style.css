@@ -51,7 +51,7 @@ p {
 	margin: 3em 0 3em 0;
 	background-color: #fff;
 	padding: 25px 25px 25px;
-	border-radius: 3px;
+	border-radius: 5px;
 }
 
 #ftr {
@@ -60,15 +60,15 @@ p {
 	font-size: 90%;
 }
 
-#dataloft a {
+#airyo a {
 	display: inline-block;
-	background: #4baefe;
+	background: #00cc33;
 	color: #fff;
 	padding: 1.3em 2.3em 1.3em 2.3em;
 	font-size: 140%;
 	text-decoration: none;
 	text-transform: uppercase;
-	border-radius: 10px;
+	border-radius: 5px;
 }
 
 #intro {
