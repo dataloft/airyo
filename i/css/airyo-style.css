@@ -1,0 +1,101 @@
+body {
+	font-family: Lucida Sans,Helvetica,Arial,Verdana,sans-serif;
+	font-size: 85%;
+	color: #555;
+	background-color: #fff;
+}
+
+h1,h2,h3 			{margin: 1em 0 0 0; font-weight: normal; color: #333;}
+
+h1:first-of-type,
+h2:first-of-type,
+h3:first-of-type 	{margin-top: 0;}
+
+h1 					{margin-bottom:.5em;}
+
+h3 					{font-weight: bold;}
+
+a 					{color: #555;}
+
+p 					{margin-top: .7em;}
+
+#layout 			{width: 750px;margin: auto;padding-top: 20px;}
+
+#dataloft a {
+	display: inline-block;
+	background: #4baefe;
+	color: #fff;
+	padding: 1.3em 2.3em 1.3em 2.3em;
+	font-size: 140%;
+	text-decoration: none;
+	text-transform: uppercase;
+	border-radius: 10px;
+}
+
+#intro {font-size: 130%;margin: 45px 0 0 0;}
+
+#intro a {color: #555;}
+
+#l>a:last-of-type {font-size: 130%;color: #1b9aff;}
+
+#i {margin: 0 0 30px 0;}
+
+
+
+.clear {clear:both;}
+
+
+
+
+.sitename {
+	margin: 0 0 1em 0;
+	font-weight: normal;
+	color: #333;
+	font-size: 180%;
+}
+
+/* menu */
+#menu {padding: 0; margin: 0; width: 600; float: left;}
+#menu li {padding: 0; margin: 0; display: inline;}
+a.trash {float: right; display: block; width: 100px; text-align: right}
+
+
+/* footer */
+#ftr-airyo		{width: 150px; float: left; padding-top: 30px}
+#ftr-user		{width: 300px; float: right; padding-top: 30px; text-align: right}
+
+/* login */
+.login			{margin: 20px 0 20px 0;}
+.login div		{margin: 0 0 10px 0;}
+.login label 	{width: 80px; display: block; float: left}
+.login button 	{font-size: 100%; margin-top: 15px; width: 100px}
+
+/* module */
+div.mod {margin: 20px 0 20px 0}
+div.mod h2 {margin-bottom: 20px}
+
+/* content */
+form.content-type {width: 150px; float: left}
+form.content-type select {width: 150px}
+form.content-search {width: 570px; float: right}
+form.content-search input {width: 570px;}
+a.add {text-align: right; display: block; margin-top: 20px}
+div.list {margin: 20px 0 20px 0}
+div.list a {display: block}
+form.content-edit textarea {width: 100%; height: 300px;}
+form.content-edit input {width: 100%;}
+form.content-edit label {display: block;}
+form.content-edit div {margin: 0 0 10px 0;}
+
+
+
+
+
+
+
+
+
+
+
+
+

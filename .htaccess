@@ -1,0 +1,15 @@
+Options +FollowSymLinks -Indexes
+Options -MultiViews
+DirectoryIndex index.php index.html
+AddType "text/html; charset=utf-8" .html
+AddDefaultCharset utf-8 
+
+RewriteEngine on
+#RewriteCond $1 !^(index\.php|images|robots\.txt)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php/$1 [L,QSA]
+
+<Files .*>
+	Deny from all
+</Files>

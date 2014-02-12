@@ -38,9 +38,20 @@
 |
 */
 
-$route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
+$route['default_controller'] = 'pages';
+$route['(:any)'] = 'pages/index/$1';
+
+// admin
+$route['admin'] = 'admin/main';
+$route['admin/logout'] = 'admin/main/logout';
+$route['admin/content'] = 'admin/content';
+$route['admin/content/edit'] = 'admin/content/edit';
+$route['admin/content/edit/(:num)'] = 'admin/content/edit/$1';
+$route['admin/menu'] = 'admin/menu';
+$route['admin/menu/edit'] = 'admin/menu/edit';
+$route['admin/menu/edit/(:num)'] = 'admin/menu/edit/$1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
