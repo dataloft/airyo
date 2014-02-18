@@ -4,11 +4,16 @@ class Content extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
+		$this->load->library('ion_auth');
 		$this->load->model('pages_model');
 	}
 
 	public function index($page = '') {
-		
+
+		if(!$this->ion_auth->logged_in()) {
+			redirect('admin', 'refresh');
+		}
+
 		$data['menu'] = array();
 		$data['usermenu'] = array();
 		

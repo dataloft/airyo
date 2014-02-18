@@ -44,8 +44,11 @@ $route['default_controller'] = 'pages';
 $route['(:any)'] = 'pages/index/$1';
 
 // admin
-$route['admin'] = 'admin/main';
-$route['admin/logout'] = 'admin/main/logout';
+$route['admin'] = 'admin/auth/login';
+$route['admin/login'] = 'admin/auth/login';
+$route['admin/registration'] = 'admin/auth/registration';
+$route['admin/logout'] = 'admin/auth/logout';
+
 $route['admin/content'] = 'admin/content';
 $route['admin/content/edit'] = 'admin/content/edit';
 $route['admin/content/edit/(:num)'] = 'admin/content/edit/$1';
