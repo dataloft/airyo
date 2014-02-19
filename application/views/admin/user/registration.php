@@ -1,6 +1,6 @@
 
 		<h2>Регистрация нового пользователя в системе</h2>
-		<form id="login" class="login" action="/admin/registration" method="POST">
+		<form id="login" class="login" action="/admin/create_user" method="POST">
 			<div id="reg">
 				<dl>
 					<dd><span class="pole">Имя</span><input type="text" name="first_name"></dd>
