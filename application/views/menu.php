@@ -1,7 +1,8 @@
-			
-			<div id="intro"></div>
-			<div id="menu">
-				<a href="/part1">Part 1</a>
-				<a href="/part2">Part 2</a>
-				<a href="/part3">Part 3</a>
-			</div>
+<div class="header">
+<ul class="nav nav-pills pull-right">
+  <li><a href="/part1">О компании</a></li>
+  <li><a href="/part2">Вакансии</a></li>
+  <li><a href="/part3">Контакты</a></li>
+</ul>
+<h3 class="text-muted">Airyo</h3>
+</div>

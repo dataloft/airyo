@@ -1,26 +1,23 @@
-<div class="mod">
-	<h2>Меню сайта / редактирование</h2>
+<div class="container">
+	<h1 class="page-header">Меню&nbsp;сайта<small> / редактирование</small></h1></h2>
 
-	<form id="" class="content-edit" name="" method="post" action="">
-	
-		<div>
-			<label for="">Название пункта меню</label>
-			<input name="" type="text" />
-		</div>
-		
-		<div>
-			<label for="">Родительский раздел</label>
-			<input name="" type="text" />
-		</div>
-		
-		<div>
-			<label for="">Ссылка</label>
-			<input name="" type="text" />
-		</div>
-		
-		<button name="submit" type="submit" value="">Сохранить</button>
-	
-	</form>
 
-	
+ <form role="form">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Название пункта меню</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Родительский раздел</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Ссылка</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
+  </div>
+
+  <button type="submit" class="btn btn-success">Сохранить</button>
+</form>
+
+
 </div>
