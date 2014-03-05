@@ -56,6 +56,7 @@ $route['admin/content/edit/(:num)'] = 'admin/content/edit/$1';
 $route['admin/menu'] = 'admin/menu';
 $route['admin/menu/edit'] = 'admin/menu/edit';
 $route['admin/menu/edit/(:num)'] = 'admin/menu/edit/$1';
+$route['admin/files'] = 'admin/files';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
