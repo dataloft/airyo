@@ -7,7 +7,7 @@
 	</ol>
 	<div class="row">
 		<div class="col-md-12" style="margin-top: 20px">
-			<p class="pull-right"><span class="glyphicon glyphicon-file" style="color: #777"></span> <a href="/admin/content/edit" class="add">Создать файл</a></p>
+			<p class="pull-right"><span class="glyphicon glyphicon-upload" style="color: #777"></span> <a href="/admin/content/edit" class="add">Загрузить файлы</a></p>
 		</div>
 	</div>
 	<div class="row">
