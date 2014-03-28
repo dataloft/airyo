@@ -33,7 +33,7 @@ class Auth extends CI_Controller {
 			return show_error('You must be an administrator to view this page.');
 		} else {
 			//set the flash data error message if there is one
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+			//$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
 			//list the users
 			$this->data['users'] = $this->ion_auth->users()->result();
@@ -69,23 +69,25 @@ class Auth extends CI_Controller {
 			}
 			else
 			{
+
 				//if the login was un-successful
 				//redirect them back to the login page
-				$this->session->set_flashdata('message', $this->ion_auth->errors());
-
+                $this->session->set_flashdata('message', $this->ion_auth->errors());
+                $this->data['message'] = ($this->session->flashdata('message')) ? $this->session->flashdata('message') : $this->ion_auth->errors();
 				$this->load->view('admin/header');
-				$this->load->view('admin/user/login');
+				$this->load->view('admin/user/login',$this->data);
 				$this->load->view('admin/footer');
 				//redirect('admin/auth/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
 			}
 		} else {
 			if ($this->ion_auth->logged_in()) {
 				//redirect them to the login page
-				redirect('admin/content', 'refresh');
+               redirect('admin/content', 'refresh');
 			}
-
+            //$this->validation->set_message('Имя функц.', 'Ваше сообщение об ошибке');
 			//the user is not logging in so display the login page
 			//set the flash data error message if there is one
+            $this->session->set_flashdata('message', $this->ion_auth->errors());
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
 			$this->data['identity'] = array('name' => 'identity',
@@ -99,7 +101,7 @@ class Auth extends CI_Controller {
 			);
 
 			$this->load->view('admin/header');
-			$this->load->view('admin/user/login');
+			$this->load->view('admin/user/login',$this->data);
 			$this->load->view('admin/footer');
 
 			//$this->_render_page('admin/auth/login', $this->data);
@@ -116,7 +118,7 @@ class Auth extends CI_Controller {
 		$logout = $this->ion_auth->logout();
 
 		//redirect them to the login page
-		$this->session->set_flashdata('message', $this->ion_auth->messages());
+		//$this->session->set_flashdata('message', $this->ion_auth->messages());
 
 		redirect('admin/login', 'refresh');
 	}

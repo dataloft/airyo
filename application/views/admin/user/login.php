@@ -7,11 +7,21 @@
 					<div style="float:right; font-size: 80%; position: relative; top:-15px"><a href="#">Забыли пароль?</a></div>
 				</div>
 				<div class="panel-body">
-					<div class="alert alert-danger"> <a class="close" data-dismiss="alert" href="#">&times;</a> Неправильное имя или пароль </div>
+                   <?
+                    if ($message)
+                    {
+                    ?>
+                    <div class="alert alert-danger"> <a class="close" data-dismiss="alert" href="#">&times;</a>
+                        <? echo $message; ?>
+                    </div>
+                    <?
+                    }
+                    ?>
+
 					<?php echo form_open("admin/login", 'id="login" class="login" name="login" method="POST"');?>
 					<fieldset>
 						<div class="input-group" style="margin-bottom: 25px"> <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-							<input class="form-control" placeholder="Имя или email" name="identity" type="text" autofocus required>
+							<input class="form-control" value="<? echo set_value('identity'); ?>" placeholder="Имя или email" name="identity" type="text" autofocus required>
 						</div>
 						<div class="input-group" style="margin-bottom: 25px"> <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 							<input class="form-control" placeholder="Пароль" name="password" type="password" value="" required>
