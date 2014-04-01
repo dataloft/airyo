@@ -1,31 +1,26 @@
 <?php
-class Pages_model extends CI_Model {
+class Menu_model extends CI_Model {
 
 	public function __construct() {
 		parent::__construct();
 	}
 
-	public function getList($type=false, $search=false) {
+	public function getList($type=false) {
         $this->db->select('*');
         if (!empty($type))
-            $this->db->where('type',$type);
-        if (!empty($search))
+            $this->db->where('menu_group',$type);
+        $q =  $this->db->get('menu');
+        if ($q->num_rows() > 0)
         {
-            $this->db->like('h1',$search);
-            $this->db->or_like('alias',$search);
-            $this->db->or_like('title',$search);
-            $this->db->or_like('content',$search);
-            $this->db->or_like('meta_description',$search);
-            $this->db->or_like('meta_keywords',$search);
-
+            foreach ( $q->result() as $row )
+            {
+                $result[] = $row;
+            }
+            return  $result;
         }
+        return false;
 
-
-        $q =  $this->db->get('pages');
-        return  $q->result_array();
 	}
-
-
 
 	public function get($page) {
 		$q = $this->db;
@@ -36,10 +31,18 @@ class Pages_model extends CI_Model {
 		return $q->row();
 	}
 
+    public function getMenuGroup($id="") {
+        $this->db->select('*');
+        if (!empty($id))
+            $this->db->where('id',$id);
+        $q =  $this->db->get('menu_group');
+        return  $q->result_array();
+    }
+
     public function getToId($id) {
         $q = $this->db;
         $this->sql = "
-			SELECT * FROM pages WHERE id = '".$id."'
+			SELECT * FROM menu WHERE id = '".$id."'
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
@@ -62,7 +65,7 @@ class Pages_model extends CI_Model {
 
     public function Add ($data)
     {
-        $this->db->insert('pages', $data);
+        $this->db->insert('menu', $data);
         $return = $this->db->insert_id();
 
         return $return;
@@ -70,7 +73,7 @@ class Pages_model extends CI_Model {
 
     public function Update ($id, $data)
     {
-       if ($this->db->update('pages', $data, array('id' => $id)))
+       if ($this->db->update('menu', $data, array('id' => $id)))
         //$return = $this->db->affected_rows() == 1;
             return true;
         else
