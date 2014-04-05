@@ -41,9 +41,9 @@
 		<?if(isset($menu)):?>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="/admin/content">Наполнение</a></li>
-				<li><a href="/admin/menu">Меню</a></li>
-				<li><a href="/admin/files">Файлы</a></li>
+				<li <? if ($main_menu == 'content') echo 'class="active"';?> ><a href="/admin/content">Наполнение</a></li>
+				<li <? if ($main_menu == 'menu') echo 'class="active"';?> ><a href="/admin/menu">Меню</a></li>
+				<li <? if ($main_menu == 'files') echo 'class="active"';?>><a href="/admin/files">Файлы</a></li>
 				<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="#">Модуль 1</a></li>
@@ -59,3 +59,16 @@
 		<?endif?>
 	</div>
 </div>
+<script>
+var url = document.location.href;
+$.each($(".menu a"),function(){
+if(this.href == url){
+$(this).addClass('active-menu');
+};
+});
+
+$(".box-category a").each(function(e){
+
+
+});
+</script>

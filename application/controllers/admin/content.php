@@ -17,6 +17,7 @@ class Content extends CI_Controller {
 			redirect('admin', 'refresh');
 		}
 
+		$data['main_menu'] = 'content';
 		$data['menu'] = array();
 		$data['usermenu'] = array();
         $data['type'] = '';
@@ -36,6 +37,7 @@ class Content extends CI_Controller {
         $data = array();
         $data['id'] = '';
         $data['message'] = '';
+        $data['main_menu'] = 'content';
         $data['menu'] = array();
         $data['usermenu'] = array();
         $page = new ArrayObject;
@@ -104,7 +106,8 @@ class Content extends CI_Controller {
         $data = array();
         $data['id'] = '';
         $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-		$data['menu'] = array();
+        $data['main_menu'] = 'content';
+        $data['menu'] = array();
 		$data['usermenu'] = array();
         $page = new ArrayObject;
         $data['title'] = "Добавить/редактировать страницу";

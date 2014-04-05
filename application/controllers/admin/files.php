@@ -14,6 +14,7 @@ class Files extends CI_Controller {
 		}
 
 		$data['menu'] = array();
+		$data['main_menu'] = 'files';
 		$data['usermenu'] = array();
 		
 		$this->load->view('admin/header', $data);

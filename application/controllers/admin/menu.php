@@ -18,6 +18,7 @@ class Menu extends CI_Controller {
         {
             redirect('admin', 'refresh');
         }
+        $data['main_menu'] = 'menu';
         $data['menu'] = array();
         $data['usermenu'] = array();
         $data['menu_group'] = '';
@@ -163,6 +164,7 @@ class Menu extends CI_Controller {
         $data['id'] = '';
         $data['message'] = '';
         $data['menu'] = array();
+        $data['main_menu'] = 'menu';
         $data['usermenu'] = array();
         $menu = new ArrayObject;
         $data['title'] = "Добавить/редактировать пункт меню";
@@ -241,6 +243,7 @@ class Menu extends CI_Controller {
         $data['id'] = '';
         $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
         $data['menu'] = array();
+        $data['main_menu'] = 'menu';
         $data['usermenu'] = array();
         $menu = new ArrayObject;
         $data['title'] = "Добавить/редактировать пункт меню";
