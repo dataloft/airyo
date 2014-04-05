@@ -1,5 +1,4 @@
 
-<?$this->load->view('menu')?>
 
       <div class="jumbotron">
         <h1><?=$page->h1?></h1>

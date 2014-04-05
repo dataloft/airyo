@@ -13,8 +13,13 @@
 
         <input type="text" class="form-control" id="url" name="url" value="<? echo $menu->url; ?>" placeholder="" >
     </div>
+    <div class="form-group <?php if (form_error('order')) echo 'has-error"'; ?>">
+        <label for="order" class="control-label">Номер пункта меню</label>
+
+        <input type="text" class="form-control" id="order" name="order" value="<? echo $menu->order; ?>" placeholder="" size="4">
+    </div>
     <div class="form-group <?php if (form_error('level_menu')) echo 'has-error"'; ?>">
-        <label for="level_menu" class="control-label">Тип страницы</label>
+        <label for="level_menu" class="control-label">Родительский раздел</label>
         <select class="form-control" name="level_menu">
             <option value="0"></option>
           <?
