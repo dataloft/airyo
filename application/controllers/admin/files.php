@@ -118,7 +118,7 @@ class Files extends CI_Controller {
                 $url .= ($value . DIRECTORY_SEPARATOR);
             } else {
                 $url = DIRECTORY_SEPARATOR;
-                $value = 'Home';
+                $value = 'Files';
             }
             $data['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
         }
