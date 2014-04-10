@@ -8,7 +8,7 @@
             $pathSize = count($path);
             foreach ($path as $value) {
         ?>
-            <li><a href="/admin/files/dir/<?=$value['url'];?>"><?=$value['text'];?></a></li>
+            <li><a href="/admin/files/<?=$value['url'];?>"><?=$value['text'];?></a></li>
        <?}?>
 	</ol>
 	<div class="row">
@@ -25,8 +25,8 @@
                     <? else: ?>
                     <?php if ($row['type'] == 'dir'): ?>
                         <li class="list-group-item">
-                            <span class="glyphicon glyphicon-folder-open" style="color: #777;"></span>
-                            <a href="<?php echo $row['url']; ?>"> <?php echo $row['label']; ?> </a>
+                            <span class="glyphicon glyphicon-folder-open" style="color: #777; margin-right: 10px;"></span>
+                            <a href="<?php echo $row['url']; ?>"><?php echo $row['label']; ?></a>
                         </li>
                     <?php else: ?>
                         <li class="list-group-item"><span class="glyphicon glyphiconicon-file"></span><span data="label"><?php echo $row['label']; ?></span>

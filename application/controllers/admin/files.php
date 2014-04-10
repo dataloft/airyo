@@ -22,9 +22,9 @@ class Files extends CI_Controller {
 		$data['result'] = array();
         $data['message'] = array();
         $this->path = '';
-        if (count($segments = $this->uri->segment_array()) > 3)
+        if (count($segments = $this->uri->segment_array()) > 2)
         {
-            for ($i = 4; $i <= count($segments); $i++)
+            for ($i = 3; $i <= count($segments); $i++)
             {
                 if ($segments[$i] === "." || $segments[$i] === ".." || $segments[$i] === "") continue;
                 $this->path.= $segments[$i].DIRECTORY_SEPARATOR;
@@ -64,7 +64,7 @@ class Files extends CI_Controller {
                     'path' => $path,
                     'label' => $label,
                     'extension' => '-',
-                    'url' => '/admin/files/dir/'.$path
+                    'url' => '/admin/files/'.$path
                 );
             } else {
                 $size = @filesize($item);
@@ -104,7 +104,7 @@ class Files extends CI_Controller {
         if ($upDir == '' || $upDir == '.')
             array_unshift($data['result'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/admin/files'));
         else
-            array_unshift($data['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/admin/files/dir/'.$upDir));
+            array_unshift($data['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/admin/files/'.$upDir));
 
         // Создаем путь (хлебные крошки)
         $currDir = preg_replace("/".$this->start_folder."/",'',rtrim($this->getCurrentDir($this->path), '\\/'),1);

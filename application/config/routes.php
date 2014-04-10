@@ -66,7 +66,7 @@ $route['admin/menu/edit/(:num)'] = 'admin/menu/edit/$1';
 //admin file manager
 $route['admin/files'] = 'admin/files';
 $route['admin/files/dir'] = 'admin/files';
-$route['admin/files/dir/(:any)'] = 'admin/files/index/$1/$2';
+$route['admin/files/(:any)'] = 'admin/files/index/$1';
 
 $route['(:any)'] = 'pages/index/$1';
 
