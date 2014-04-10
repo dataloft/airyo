@@ -3,6 +3,7 @@
 class Files extends CI_Controller {
 
     protected $start_folder = 'public';
+    protected $path = '';
 
 	public function __construct() {
 		parent::__construct();
@@ -12,38 +13,58 @@ class Files extends CI_Controller {
 	}
 
 	public function index() {
-
-		if(!$this->ion_auth->logged_in()) {
+   		if(!$this->ion_auth->logged_in()) {
 			redirect('admin', 'refresh');
 		}
-
 		$data['menu'] = array();
 		$data['main_menu'] = 'files';
 		$data['usermenu'] = array();
-
-        $dir = $this->getCurrentDir();
-        $data['dir'] = $dir;
-
-        if (!is_dir($dir)) echo 'Нет папки';
-        try {
-            $array = $this->readdir($dir);
-        } catch (Exception $e) {
-            $array = array();
-            echo 'Невозможно прочитать папку "' . $dir . '".';
+		$data['result'] = array();
+        $data['message'] = array();
+        $this->path = '';
+        if (count($segments = $this->uri->segment_array()) > 3)
+        {
+            for ($i = 4; $i <= count($segments); $i++)
+            {
+                if ($segments[$i] === "." || $segments[$i] === ".." || $segments[$i] === "") continue;
+                $this->path.= $segments[$i].DIRECTORY_SEPARATOR;
+            }
         }
-        if (!empty($array))
-        foreach ($array as $item) {
+
+        $dir = $this->getCurrentDir($this->path);
+
+
+        if (!is_dir($dir))
+            $data['message'] = array(
+                'msg_type' => 'danger',
+                'text' => 'Каталог не найден'
+            );
+        try {
+            $arr = $this->readdir($dir);
+        } catch (Exception $e) {
+            $arr = array();
+            $data['message'] = array(
+                'msg_type' => 'danger',
+                'text' => 'Не удалось прочитать каталог'
+            );
+        }
+        if (!empty($arr))
+        foreach ($arr as $item) {
+
+            if ($item === "." || $item === "..") continue;
+
             $label = basename($item);
-            $path =  ltrim(ltrim($item,'/'), $this->start_folder.'/');
+            //echo $item;
+            $path =  preg_replace("/".$this->start_folder."\//", '', (ltrim($item,'/')),1);
             $isLink = is_link($path);
             if (is_dir($item)) {
-                $data['data'][] = array(
+                $data['result'][] = array(
                     'type' => 'dir',
                     'isLink' => $isLink,
                     'path' => $path,
                     'label' => $label,
                     'extension' => '-',
-                    'url' => '/admin/files/?dir='.$path
+                    'url' => '/admin/files/dir/'.$path
                 );
             } else {
                 $size = @filesize($item);
@@ -59,7 +80,7 @@ class Files extends CI_Controller {
                 }
                 $extension = pathinfo($path, PATHINFO_EXTENSION);
                 if (empty($extension)) $extension = '-';
-                $data['data'][] = array(
+                $data['result'][] = array(
                     'type' => 'file',
                     'isLink' => $isLink,
                     'path' => $path,
@@ -71,16 +92,23 @@ class Files extends CI_Controller {
             }
         }
         else
-            $data['data']=array();
-
-        $upDir = ltrim(ltrim(dirname($dir),'public'),"/");
-        if ($upDir == '' or $upDir == '.')
-            array_unshift($data['data'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/admin/files'));
+        {
+            $data['result']=array();
+            if(empty($data['message']))
+                $data['message'] = array(
+                'msg_type' => 'warning',
+                'text' => 'Каталог пуст'
+            );
+        }
+        $upDir = ltrim(ltrim(dirname($dir),$this->start_folder),"/");
+        if ($upDir == '' || $upDir == '.')
+            array_unshift($data['result'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/admin/files'));
         else
-            array_unshift($data['data'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/admin/files/?dir='.$upDir));
+            array_unshift($data['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/admin/files/dir/'.$upDir));
 
         // Создаем путь (хлебные крошки)
-        $currDir = preg_replace("/public/",'',rtrim($this->getCurrentDir(), '\\/'),1);
+        $currDir = preg_replace("/".$this->start_folder."/",'',rtrim($this->getCurrentDir($this->path), '\\/'),1);
+
         $currExplodedDir = preg_split('#\\\\|/#', $currDir);
         if (isset($currExplodedDir[0]) && $currExplodedDir[0] == '') $currExplodedDir[0] = DIRECTORY_SEPARATOR; //FIX для UNIX
         $data['path'] = array();
@@ -105,14 +133,22 @@ class Files extends CI_Controller {
 		
 	}
 
-    protected function getCurrentDir()
+    protected function getCurrentDir($folder = '')
     {
-       return ($this->input->get('dir')) ? $this->start_folder.DIRECTORY_SEPARATOR.$this->input->get('dir') : $this->start_folder;
+       return ($this->uri->segment(3)) ? $this->start_folder.DIRECTORY_SEPARATOR.$folder : $this->start_folder;
     }
 
     public static function readdir($dir, $onlyDirs = false)
     {
-        if (!is_dir($dir)) throw new Exception('Директория не найдена'); //TODO: Сообщение об ошибке.
+        if (!is_dir($dir))
+        {
+             $data['message'] = array(
+                'msg_type' => 'danger',
+                'text' => 'Каталог не найден'
+            );
+            return false;
+
+        } //TODO: Сообщение об ошибке.
 
         if (!preg_match('#[\\\\/]$#u', $dir)) {
             $dir .= DIRECTORY_SEPARATOR;
@@ -138,7 +174,11 @@ class Files extends CI_Controller {
                 return array_merge($dirs, $files);
             }
         } else {
-            throw new  Exception('Не удалось открыть деректорию'); //TODO: Сообщение об ошибке.
+         $data['message'] = array(
+                'msg_type' => 'danger',
+                'text' => 'Не удалось открыть каталог'
+            ); //TODO: Сообщение об ошибке.
+            return false;
         }
     }
 	
