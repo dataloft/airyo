@@ -1,5 +1,5 @@
 <div class="container">
-    <h1 class="page-header">Меню&nbsp;сайта</h1>
+    <h1 class="page-header">Меню</h1>
     <div class="row">
         <div class="col-md-3" style="margin-bottom: 10px">
             <form class="content-search" action="" method="post">

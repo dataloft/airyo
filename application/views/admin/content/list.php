@@ -1,5 +1,5 @@
 <div class="container">
-	<h1 class="page-header">Наполнение&nbsp;сайта</h1>
+	<h1 class="page-header">Наполнение</h1>
 	<div class="row">
         <form class="content-search" method="post">
 		<div class="col-md-9 col-md-push-3" style="margin-bottom: 10px">
