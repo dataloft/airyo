@@ -2,7 +2,7 @@
     <? if ($message) {?>
         <div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
     <? } ?>
-    <h1 class="page-header">Меню&nbsp;сайта<small> / редактирование</small></h1>
+    <h1 class="page-header">Меню<small> / редактирование</small></h1>
     <?php echo form_open("", 'name="edit" method="POST"');?>
     <div class="form-group <?php if (form_error('name')) echo 'has-error"'; ?>">
         <label for="name" class="control-label">Название пункта меню</label>

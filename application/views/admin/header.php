@@ -52,9 +52,9 @@
 					</ul>
 				</li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
+			<!--ul class="nav navbar-nav navbar-right">
 				<li><a href="#"><span class="glyphicon glyphicon-trash"></span> Корзина</a></li>
-			</ul>
+			</ul-->
 		</div>
 		<?endif?>
 	</div>

@@ -2,14 +2,14 @@
     <? if ($message) {?>
 	<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
 	<? } ?>
-    <h1 class="page-header">Наполнение&nbsp;сайта<small> / страницы</small></h1>
+    <h1 class="page-header">Наполнение<small> / страницы</small></h1>
     <?php echo form_open("", 'name="edit" method="POST"');?>
 		<div class="form-group <?php if (form_error('content')) echo 'has-error"'; ?>">
             <label for="description" class="control-label">Html-код страницы</label>
 			<textarea rows="20" id="content" name="content" class="form-control" placeholder=""><? echo $page->content; ?></textarea>
 		</div>
 		<div class="form-group <?php if (form_error('h1')) echo 'has-error"'; ?>">
-			<label for="h1" class="control-label">Название страницы</label>
+			<label for="h1" class="control-label">Название</label>
 
 			<input type="text" class="form-control" id="h1" name="h1" value="<? echo $page->h1; ?>" placeholder="" >
 		</div>
@@ -18,7 +18,7 @@
             <input type="text" class="form-control" id="alias" name="alias" value="<? echo $page->alias; ?>" placeholder="" >
 		</div>
         <div class="form-group <?php if (form_error('type')) echo 'has-error"'; ?>">
-            <label for="type" class="control-label">Тип страницы</label>
+            <label for="type" class="control-label">Тип записи</label>
             <select class="form-control" name="type">
                 <option value="Страницы"  <? if ($page->type=='Страницы') echo 'selected'; ?>>Страницы</option>
                 <option value="Новости"  <? if ($page->type=='Новости') echo 'selected'; ?>>Новости</option>
