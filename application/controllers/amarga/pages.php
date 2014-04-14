@@ -14,7 +14,8 @@ class Pages extends CI_Controller {
 		if($data['page']) {
 			$this->load->view('amarga/header');
 			$this->load->view('amarga/menu', $data);
-			$this->load->view('amarga/pages', $data);
+			$this->load->view('amarga/pages_inner', $data);
+			$this->load->view('amarga/copyright');
 			$this->load->view('amarga/footer');
 		} else {
 			show_404();

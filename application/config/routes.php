@@ -40,7 +40,7 @@
 
 $route['404_override'] = '';
 
-$route['default_controller'] = 'amarga/pages';
+$route['default_controller'] = 'amarga/welcome';
 
 // admin
 $route['admin'] = 'admin';
@@ -67,6 +67,9 @@ $route['admin/menu/edit/(:num)'] = 'admin/menu/edit/$1';
 $route['admin/files'] = 'admin/files';
 $route['admin/files/dir'] = 'admin/files';
 $route['admin/files/(:any)'] = 'admin/files/index/$1';
+
+
+
 
 $route['(:any)'] = 'amarga/pages/index/$1';
 
