@@ -29,6 +29,7 @@
 				<span class="icon-bar"></span> 
 			</button>
 			<?endif?>
+
 			<a class="navbar-brand" href="<?=$_SERVER['HTTP_HOST'];?>" target="_blank" style="margin-right: 20px"><span class="glyphicon glyphicon-edit"></span> <?=ltrim($_SERVER['HTTP_HOST'],'www.');?></a>
 		</div>
 		<?if(isset($menu)):?>
