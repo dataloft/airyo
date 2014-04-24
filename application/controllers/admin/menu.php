@@ -8,6 +8,7 @@ class Menu extends CI_Controller {
         $this->load->library('form_validation');
         $this->load->helper('url');
         $this->load->model('menu_model');
+        $this->load->model('trash_model');
         //$this->lang->load('menu');
         $this->load->helper('language');
 	}
@@ -18,6 +19,7 @@ class Menu extends CI_Controller {
         {
             redirect('admin', 'refresh');
         }
+        $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
         $data['main_menu'] = 'menu';
         $data['menu'] = array();
         $data['usermenu'] = array();
@@ -367,7 +369,47 @@ class Menu extends CI_Controller {
             $this->menu_model->UpdateOrderList($row);
         }
     }
-	
+
+    public function delete ()
+    {
+        if (isset($_POST)) {
+            $id = $this->input->post('id');
+            if ($id)
+            {
+                $data['menu'] = $this->menu_model->getToId($id);
+                if (!empty($data['menu']))
+                {
+                    $additional_data = array(
+                        'deleted_id' => $id,
+                        'type' =>  'menu',
+                        'data' =>     serialize($data['menu'])
+                    );
+                    if ($this->trash_model->Add($additional_data))
+                    {
+                        if ($this->menu_model->delete($id))
+                        {
+                            $output['success']='success';
+                            $this->session->set_flashdata('message',  array(
+                                    'type' => 'success',
+                                    'text' => 'Запись удалена'
+                                )
+                            );
+                        }
+                        else
+                        {
+                            $output['error']='error';
+                        }
+                    }
+                    else {
+                        $output['error']='error';
+                    }
+                    echo json_encode($output);
+
+                }
+
+            }
+        }
+    }
 }
 
 /* End of file page.php */

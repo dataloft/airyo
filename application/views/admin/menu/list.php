@@ -1,4 +1,7 @@
 <div class="container">
+    <? if ($message) {?>
+        <div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
+    <? } ?>
     <h1 class="page-header">Меню</h1>
     <div class="row">
         <div class="col-md-3" style="margin-bottom: 10px">

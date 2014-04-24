@@ -116,9 +116,14 @@ class Menu_model extends CI_Model {
 		
 	}
 
-	public function delete() {
-		
-	}
+    public function delete($id)
+    {
+        if ($this->db->delete('menu', array('id' => $id)))
+            //$return = $this->db->affected_rows() == 1;
+            return true;
+        else
+            return false;
+    }
 
 }
 
