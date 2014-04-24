@@ -8,6 +8,7 @@ class Content extends CI_Controller {
         $this->load->library('form_validation');
         $this->load->helper('url');
 		$this->load->model('pages_model');
+		$this->load->model('trash_model');
         $this->lang->load('content');
         $this->load->helper('language');
 	}
@@ -22,6 +23,7 @@ class Content extends CI_Controller {
 		$data['usermenu'] = array();
         $data['type'] = '';
         $data['search'] = '';
+        $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
         if ($this->input->post('typeSelect'))
             $data['type'] = $this->input->post('typeSelect');
         if ($this->input->post('search'))
@@ -33,6 +35,7 @@ class Content extends CI_Controller {
 		$this->load->view('admin/content/list', $data);
 		$this->load->view('admin/footer', $data);
 	}
+
 	public function add() {
         $data = array();
         $data['id'] = '';
@@ -46,7 +49,6 @@ class Content extends CI_Controller {
         {
             redirect('auth', 'refresh');
         }
-
         $this->form_validation->set_rules('content', '', 'required');
         $this->form_validation->set_rules('h1', '', 'required');
         $this->form_validation->set_rules('alias', '', 'is_unique[pages.alias]');
@@ -95,11 +97,9 @@ class Content extends CI_Controller {
                 'text' =>  validation_errors()
             );
         }
-
         $this->load->view('admin/header', $data);
         $this->load->view('admin/content/edit', $data);
         $this->load->view('admin/footer', $data);
-
     }
 
 	public function edit($id = '') {
@@ -204,6 +204,47 @@ class Content extends CI_Controller {
             return true;
         else
             return false;
+    }
+
+    public function delete ()
+    {
+        if (isset($_POST)) {
+            $id = $this->input->post('id');
+            if ($id)
+            {
+                $data['page'] = $this->pages_model->getToId($id);
+                if (!empty($data['page']))
+                {
+                    $additional_data = array(
+                        'deleted_id' => $id,
+                        'type' =>  'page',
+                        'data' =>     serialize($data['page'])
+                    );
+                    if ($this->trash_model->Add($additional_data))
+                    {
+                        if ($this->pages_model->delete($id))
+                        {
+                            $output['success']='success';
+                            $this->session->set_flashdata('message',  array(
+                                    'type' => 'success',
+                                    'text' => 'Запись удалена'
+                                )
+                            );
+                        }
+                        else
+                        {
+                            $output['error']='error';
+                        }
+                    }
+                    else {
+                        $output['error']='error';
+                    }
+                   echo json_encode($output);
+
+                }
+
+            }
+        }
     }
 }
 

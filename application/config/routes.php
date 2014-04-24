@@ -55,6 +55,7 @@ $route['admin/content'] = 'admin/content';
 $route['admin/content/add'] = 'admin/content/add';
 $route['admin/content/edit'] = 'admin/content/edit';
 $route['admin/content/edit/(:num)'] = 'admin/content/edit/$1';
+$route['admin/content/delete'] = 'admin/content/delete';
 
 //admin menu
 $route['admin/menu'] = 'admin/menu';
@@ -62,6 +63,7 @@ $route['admin/menu/add'] = 'admin/menu/add';
 $route['admin/menu/add/(:num)'] = 'admin/menu/add/$1';
 $route['admin/menu/edit'] = 'admin/menu/edit';
 $route['admin/menu/edit/(:num)'] = 'admin/menu/edit/$1';
+$route['admin/menu/delete'] = 'admin/menu/delete';
 
 //admin file manager
 $route['admin/files'] = 'admin/files';
