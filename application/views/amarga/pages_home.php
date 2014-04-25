@@ -127,7 +127,7 @@
 			</ul>
         </div>
         <div class="col one_fourth last_box">
-        	<h5>Наши соцсети</h5>
+        	<h5>Мы в интернете</h5>
             <ul class="footer_link">
             	<li><a href="#" class="facebook social">Facebook</a></li>
                 <li><a href="#" class="linkedin social">Linkedin</a></li>
