@@ -41,10 +41,10 @@
             <label>  <input type="checkbox" id="enabled"  value="1" name="enabled" <? if ($page->enabled) echo 'checked'; ?> > Enabled</label>
         </div>
         <? if (!empty($id)) {?> <input type="hidden" name="id" value="<?=$id?>"><?} else {?><input type="hidden" name="action" value="add"><?}?>
-		<button type="submit" class="btn btn-success">Сохранить</button>
+		<button type="submit" class="btn btn-success" style="float: left;">Сохранить</button>
 
     <?php echo form_close();?>
-    <? if (!empty($id)) {?><button type="submit" class="btn btn-success" id="<?=$id?>" onclick="trash('<?=$id?>');">Удалить</button><?}?>
+    <? if (!empty($id)) {?><button type="submit" class="btn btn-warning btn-sm" style="float: right;" id="<?=$id?>" onclick="trash('<?=$id?>');">Удалить</button><?}?>
 </div>
 
 <script type="text/javascript"><!--
