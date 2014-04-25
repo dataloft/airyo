@@ -96,7 +96,22 @@
     </div>
     
     <div id="templatemo_bottom">
-    	<div class="col one_fourth">
+    	<div class="col three_fourth">
+    		<h5>Место проведения семинара</h5>
+    		<iframe src="https://www.google.com/maps/embed?pb=!1m29!1m12!1m3!1d593834.3016350116!2d56.78590708213384!3d54.451195517105305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m14!1i0!3e6!4m5!1s0x43d93a259216bce1%3A0xaceec0921eda92cc!2sUfa%2C+Bashkortostan!3m2!1d54.75!2d55.9666667!4m5!1s0x43d9f4e9e1260a45%3A0x55715849f5caf2a1!2sUsmangali%2C+Bashkortostan+Republits!3m2!1d54.2272222!2d57.5111111!5e0!3m2!1sen!2sru!4v1398432553845" width="700" height="300" frameborder="0" style="border:0"></iframe>
+    	</div>
+    	<div class="col one_fourth last_box">
+        	<h5>Мы в интернете</h5>
+            <ul class="footer_link">
+            	<li><a href="#" class="facebook social">Facebook</a></li>
+                <li><a href="#" class="linkedin social">Linkedin</a></li>
+                <li><a href="#" class="myspace social">Myspace</a></li>
+                <li><a href="#" class="youtube social">Youtube</a></li>
+                <li><a href="#" class="vimeo social">Vimeo</a></li>
+			</ul>
+        </div>
+        <div class="cleaner"></div>
+    	<!--div class="col one_fourth">
         	<h5>Recent Posts</h5>
             <ul class="footer_link">
             	<li><a href="#">Morbi posuere dictum diam</a></li>
@@ -136,5 +151,5 @@
                 <li><a href="#" class="vimeo social">Vimeo</a></li>
 			</ul>
         </div>
-        <div class="cleaner"></div>
+        <div class="cleaner"></div-->
     </div>
