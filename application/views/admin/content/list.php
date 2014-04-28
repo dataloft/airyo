@@ -1,5 +1,5 @@
 <div class="container">
-    <? if ($message) {?>
+    <? if (is_array($message) and array_key_exists('type', $message)) {?>
         <div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
     <? } ?>
 	<h1 class="page-header">Наполнение</h1>
