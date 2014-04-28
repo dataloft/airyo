@@ -1,6 +1,6 @@
 	<div id="templatemo_header">
     	<div style="text-align: center">
-	         <img src="/themes/amarga/images/top_seminar_27june.gif">
+	         <a href="/shamanhealingufa"><img src="/themes/amarga/images/top_seminar_27june.gif"></a>
     	</div>
     	<div id="site_title"><h1>Ошо-группы с Ма Прем Амарга</h1></div>
     	<div class="cleaner"></div>

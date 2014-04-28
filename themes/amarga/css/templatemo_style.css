@@ -31,12 +31,12 @@ cite a, cite a:link, cite a:visited  { font-weight: 400; color:#fff; text-decora
 cite span { font-weight: 400; color: #d6e5e4; }
 em { color: #fff; }
 
-h1, h2, h3, h4, h5, h6 { color: #000; font-weight: normal;  font-family: Georgia, "Times New Roman", Times, serif }
-h1 { font-size: 34px; margin: 0 0 30px; padding: 5px 0 }
-h2 { font-size: 28px; margin: 0 0 20px; padding: 5px 0; }
-h3 { font-size: 22px; margin: 0 0 10px; padding: 0; }
-h4 { font-size: 18px; margin: 0 0 15px; padding: 0; }
-h5 { font-size: 16px; margin: 0 0 10px; padding: 0;  }
+h1, h2, h3, h4, h5, h6 { color: #000; font-weight: normal;  font-family: Georgia, "Times New Roman", Times, serif; line-height: normal}
+h1 { font-size: 34px; margin: 0 0 10px; padding: 5px 0 }
+h2 { font-size: 28px; margin: 0 0 7px; padding: 5px 0; }
+h3 { font-size: 22px; margin: 0 0 5px; padding: 0; }
+h4 { font-size: 18px; margin: 0 0 5px; padding: 0; }
+h5 { font-size: 16px; margin: 0 0 5px; padding: 0;  }
 h6 { font-size: 14px; margin: 0 0 5px; padding: 0; }
 
 .cleaner { clear: both }
@@ -140,7 +140,7 @@ h6 { font-size: 14px; margin: 0 0 5px; padding: 0; }
 #templatemo_bottom {
 	clear: both;
 	margin: 30px 0 10px;
-	padding: 30px 10px 10px;
+	padding: 20px 10px 10px 20px;
 	font-size: 11px;
 	background: #579c98 url(/themes/amarga/images/templatemo_hr_divider.jpg) repeat-x bottom;
 }
@@ -150,12 +150,7 @@ h6 { font-size: 14px; margin: 0 0 5px; padding: 0; }
 	text-align: center;
 	line-height: 40px;
 	height: 50px;
-}
-
-#smartandy {
-	margin: 0;
-	display: inline;
-	padding-left: 2em;
+	margin: 20px 0 0 0;
 }
 
 #site_title { 
