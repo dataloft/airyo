@@ -130,7 +130,7 @@ class Content extends CI_Controller {
             if ($this->form_validation->run() == true)
             {
 
-                $page->content = $this->input->post('content',TRUE);
+                $page->content = $this->input->post('content');
                 $page->h1 = $this->input->post('h1',TRUE);
                 $page->alias = $this->input->post('alias',TRUE);
                 $page->title = $this->input->post('title',TRUE);
