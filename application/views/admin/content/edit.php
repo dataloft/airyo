@@ -11,7 +11,7 @@
 		<div class="form-group <?php if (form_error('h1')) echo 'has-error"'; ?>">
 			<label for="h1" class="control-label">Название</label>
 
-			<input type="text" class="form-control" id="h1" name="h1" value="<? echo $page->h1; ?>" placeholder="" >
+			<input type="text" class="form-control" id="h1" name="h1" value="<? echo htmlspecialchars($page->h1); ?>" placeholder="" >
 		</div>
 		<div class="form-group <?php if (form_error('alias')) echo 'has-error"'; ?>">
 			<label for="alias" class="control-label">Адрес</label>
