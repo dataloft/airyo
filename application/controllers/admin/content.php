@@ -49,7 +49,7 @@ class Content extends CI_Controller {
         {
             redirect('auth', 'refresh');
         }
-        $this->form_validation->set_rules('content', '', 'required');
+        /*$this->form_validation->set_rules('content', '', 'required');*/
         $this->form_validation->set_rules('h1', '', 'required');
         $this->form_validation->set_rules('alias', '', 'is_unique[pages.alias]');
         $page->content = $this->input->post('content');
@@ -117,7 +117,7 @@ class Content extends CI_Controller {
             redirect('auth', 'refresh');
         }
 
-        $this->form_validation->set_rules('content', '', 'required');
+       /* $this->form_validation->set_rules('content', '', 'required');*/
         $this->form_validation->set_rules('h1', '', 'required');
         $this->form_validation->set_rules('alias', '', 'callback_check_alias');
         // Если передан Ид ищем содержание стр в БД
