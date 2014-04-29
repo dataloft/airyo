@@ -24,6 +24,16 @@
                 <a href="/amarga" class="more">Читать дальше</a>	
                 <div class="cleaner"></div>
             </div>
+            
+            <div class="sb_box">
+            	<script type="text/javascript" src="//vk.com/js/api/openapi.js?112"></script>
+				<!-- VK Widget -->
+				<div id="vk_groups"></div>
+				<script type="text/javascript">
+				VK.Widgets.Group("vk_groups", {mode: 0, width: "300", height: "400", color1: '6eb3b0', color2: 'fff', color3: '2B587A'}, 63820110);
+				</script>
+			</div>
+            
         </div>
         <div class="cleaner"></div>
     </div>

@@ -46,12 +46,13 @@
     </div>
     
     <div id="templatemo_main">
-    	<div class="col one_third">
+    	<div class="col one_third" style="font-size: 110%">
         	<h2>Почему именно Амарга?</h2>
             <p>Это не случайный человек. Ма Прем Амарга не сама приезжает в Россию, ее ПРИГЛАШАЮТ в Россию: в Москву, в Санкт-Петербург, в Казань, в Екатеринбург, в Пермь, в Челябинск…</p>
 <p>За 20 лет своей духовной практики она помогла и продолжает помогать людям начать любить и уважать себя, понимать и удовлетворять свои базовые потребности, увидеть свою жизнь в ясном свете осознанности.</p>
 <p>И самое главное - это все - ее личный опыт. Она начала с себя, и прошла сложный и достаточно болезненный путь. </p>
 <p>То, что есть у Амарги сейчас - здоровые глубокие и любящие отношения, самореализация и очень светлая красивая энергия, - позволяет сказать: У Амарги есть полное право делиться своей мудростью, опытом и своей любовью к людям.</p>
+			<p>Ма Прем Амарга родилась в Германии и своё внутреннее...</p>
             <a href="/amarga" class="more">Читать дальше</a>
         </div>
         <div class="col one_third">
@@ -68,7 +69,7 @@
 			
 			<a class="participate" href="/seminar-shamanhealing">Подробнее</a>
         </div>
-        <div class="col one_third last_box">
+        <div class="col one_third">
         	<h2>Предыдущие семинары</h2>
         	
         	<h5><a href="/seminar-shamanhealing">Внутренний ребенок</a></h5>
@@ -77,6 +78,15 @@
             <h5><a href="/seminar-shamanhealing">Любить себя</a></h5>
             <a href="/seminar-love"><img src="/public/seminars/love/love290.jpg" alt="" class="image_frame" /></a>
         </div>
+        
+        <div class="col one_third last_box">
+            	<script type="text/javascript" src="//vk.com/js/api/openapi.js?112"></script>
+				<!-- VK Widget -->
+				<div id="vk_groups"></div>
+				<script type="text/javascript">
+				VK.Widgets.Group("vk_groups", {mode: 0, width: "300", height: "200", color1: '6eb3b0', color2: 'fff', color3: '2B587A'}, 63820110);
+				</script>
+		</div>
         
         <div class="cleaner hr_divider"></div>
         
