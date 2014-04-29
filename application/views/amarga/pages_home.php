@@ -57,7 +57,7 @@
         <div class="col one_third">
         	<h2>Ближайший семинар</h2>
         	<h3><a href="/seminar-shamanhealing">От Темноты к Свету</a></h3>
-            <a href="/seminar-shamanhealing"><img src="/public/shamanhealing/shamanhealing290.jpg" alt="" height="200" width="290" class="image_frame" /></a>
+            <a href="/seminar-shamanhealing"><img src="/public/seminars/shamanhealing/shamanhealing290.jpg" alt="" height="200" width="290" class="image_frame" /></a>
             <p><em><a href="/seminar-shamanhealing">«От Темноты к Свету» - Шаманское Энергетическое Исцеление
 			Пятидневный ретрит в горах, знакомство со своим Внутренним Шаманом.</a></em></p>
 			
