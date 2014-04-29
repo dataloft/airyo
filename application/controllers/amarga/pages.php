@@ -9,6 +9,7 @@ class Pages extends CI_Controller {
 	}
 
 	public function index($page = '') {
+        $page = $this->uri->uri_string();
 		$data['page'] = $this->pages_model->get($page);
         $data['menu'] = $this->menu_model->getList(1,true);
         
