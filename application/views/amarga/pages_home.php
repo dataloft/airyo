@@ -8,7 +8,7 @@
         	<a href="/seminar-shamanhealing"><img src="/public/slider/05.jpg" alt="" /></a>
         </div>
         <div id="htmlcaption" class="nivo-html-caption">
-            <strong>This</strong> is an example of a <em>HTML</em> caption with <a href="#">a link</a>.
+            
         </div>
         <script type="text/javascript" src="/themes/amarga/js/jquery-1.4.3.min.js"></script>
 		<script type="text/javascript" src="/themes/amarga/js/jquery.nivo.slider.pack.js"></script>

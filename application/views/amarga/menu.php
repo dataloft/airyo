@@ -1,7 +1,7 @@
 	<div id="templatemo_header">
     	<div style="text-align: center">
 	         <a href="/seminar-shamanhealing"><img src="/themes/amarga/images/top_seminar_27june.gif"></a><br>
-	         <a href="/go">Максимальная скидка действует до 10 мая 2014 года</a>
+	         <a href="/go">Максимальная скидка действует до 31 мая 2014 года</a>
     	</div>
     	<div id="site_title"><h1>Ошо-группы с Ма Прем Амарга</h1></div>
     	<div class="cleaner"></div>
