@@ -56,6 +56,7 @@
         </div>
         <div class="col one_third">
         	<h2>Ближайший семинар</h2>
+        	<h3>27 июня 2014, 5 дней</h3>
         	<h3><a href="/seminar-shamanhealing">От Темноты к Свету</a></h3>
             <a href="/seminar-shamanhealing"><img src="/public/seminars/shamanhealing/shamanhealing290.jpg" alt="" height="200" width="290" class="image_frame" /></a>
             <p><em><a href="/seminar-shamanhealing">«От Темноты к Свету» - Шаманское Энергетическое Исцеление
@@ -65,7 +66,7 @@
 			
 			<p>Семинар состоит из трёх шагов, и он поможет нам соединиться со своим источником жизненной энергии, своими способностями к самоисцелению и направит нас на поиск видения, интуиции...</p>
 			
-			<a class="participate" href="/seminar-shamanhealing">Участвовать</a>
+			<a class="participate" href="/seminar-shamanhealing">Подробнее</a>
         </div>
         <div class="col one_third last_box">
         	<h2>Предыдущие семинары</h2>
