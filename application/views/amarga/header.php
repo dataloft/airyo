@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Slate Theme - Free CSS Template</title>
+<title><?=$page->h1?></title>
 <meta name="keywords" content="slate, theme, darkcyan, teal color, free templates, web design, CSS, HTML" />
 <meta name="description" content="Slate Theme is using darkcyan or teal color free template by templatemo.com" />
 <link href="/themes/amarga/css/templatemo_style.css" rel="stylesheet" type="text/css" />

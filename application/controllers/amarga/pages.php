@@ -13,7 +13,7 @@ class Pages extends CI_Controller {
         $data['menu'] = $this->menu_model->getList(1,true);
         
 		if($data['page']) {
-			$this->load->view('amarga/header');
+			$this->load->view('amarga/header', $data);
 			$this->load->view('amarga/menu', $data);
 			
 			if ($this->uri->uri_string != '') {
