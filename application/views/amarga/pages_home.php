@@ -71,10 +71,10 @@
         	<h2>Предыдущие семинары</h2>
         	
         	<h5><a href="/seminar-shamanhealing">Внутренний ребенок</a></h5>
-            <a href="/prev/child"><img src="/public/seminars/child/child290.jpg" alt="" class="image_frame" /></a>
+            <a href="/seminar-child"><img src="/public/seminars/child/child290.jpg" alt="" class="image_frame" /></a>
             
             <h5><a href="/seminar-shamanhealing">Любить себя</a></h5>
-            <a href="/prev/love"><img src="/public/seminars/love/love290.jpg" alt="" class="image_frame" /></a>
+            <a href="/seminar-love"><img src="/public/seminars/love/love290.jpg" alt="" class="image_frame" /></a>
         </div>
         
         <div class="cleaner hr_divider"></div>
