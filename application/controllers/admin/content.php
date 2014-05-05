@@ -58,7 +58,7 @@ class Content extends CI_Controller {
         $page->title = $this->input->post('title');
         $page->meta_description = $this->input->post('meta_description');
         $page->meta_keywords = $this->input->post('meta_keywords');
-        $page->type = $this->input->post('type');
+        $page->type = $this->input->get('type')?$this->input->get('type'):$this->input->post('type');
         $page->enabled = $this->input->post('enabled');
         $data['page'] = $page;
         if ($this->form_validation->run() == true)
@@ -98,7 +98,23 @@ class Content extends CI_Controller {
             );
         }
         $this->load->view('admin/header', $data);
-        $this->load->view('admin/content/edit', $data);
+        switch ($page->type)
+        {
+            case 'Страницы':
+                $this->load->view('admin/content/pages', $data);
+            break;
+
+            case 'Новости':
+                $this->load->view('admin/content/news', $data);
+            break;
+            case 'Фрагменты':
+                $this->load->view('admin/content/fragments', $data);
+            break;
+            default:
+                $this->load->view('admin/content/edit', $data);
+        }
+
+
         $this->load->view('admin/footer', $data);
     }
 
@@ -186,7 +202,7 @@ class Content extends CI_Controller {
         //Вставляем новую запись
         else
         {
-            redirect("admin/content/add", 'refresh');
+            redirect("admin/content/add?type=".$this->input->get('type'), 'refresh');
         }
         $this->load->view('admin/header', $data);
         $this->load->view('admin/content/edit', $data);

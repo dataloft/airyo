@@ -28,7 +28,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12" style="margin-top: 20px">
-			<p class="pull-right"><span class="glyphicon glyphicon-plus" style="color: #777"></span> <a href="/admin/content/edit" class="add">Создать</a></p>
+			<p class="pull-right"><span class="glyphicon glyphicon-plus" style="color: #777"></span> <a href="/admin/content/edit<? if (!empty($type)) echo '?type='.$type; ?>" class="add">Создать</a></p>
 		</div>
 	</div>
 	<div class="row">
