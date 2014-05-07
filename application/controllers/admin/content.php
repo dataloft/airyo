@@ -7,7 +7,7 @@ class Content extends CI_Controller {
 		$this->load->library('ion_auth');
         $this->load->library('form_validation');
         $this->load->helper('url');
-		$this->load->model('pages_model');
+		$this->load->model('content_model');
 		$this->load->model('trash_model');
         $this->lang->load('content');
         $this->load->helper('language');
@@ -30,7 +30,8 @@ class Content extends CI_Controller {
             $data['search'] = $this->input->post('search');
 
 
-        $data['content']  = $this->pages_model->getList($data['type'],$data['search']);
+        $data['content']  = $this->content_model->getList($data['type'],$data['search']);
+        $data['type_list']  = $this->content_model->getType();
 		$this->load->view('admin/header', $data);
 		$this->load->view('admin/content/list', $data);
 		$this->load->view('admin/footer', $data);
@@ -49,6 +50,7 @@ class Content extends CI_Controller {
         {
             redirect('auth', 'refresh');
         }
+        $data['type_list']  = $this->content_model->getType();
         /*$this->form_validation->set_rules('content', '', 'required');*/
         $this->form_validation->set_rules('h1', '', 'required');
         $this->form_validation->set_rules('alias', '', 'is_unique[pages.alias]');
@@ -73,7 +75,7 @@ class Content extends CI_Controller {
                 'meta_keywords' =>  $page->meta_keywords,
                 'enabled' =>    $page->enabled
             );
-            if ($id = $this->pages_model->Add($additional_data))
+            if ($id = $this->content_model->Add($additional_data))
             {
                 $this->session->set_flashdata('message',  array(
                     'type' => 'success',
@@ -98,22 +100,14 @@ class Content extends CI_Controller {
             );
         }
         $this->load->view('admin/header', $data);
-        switch ($page->type)
-        {
-            case 'Страницы':
-                $this->load->view('admin/content/pages', $data);
-            break;
-
-            case 'Новости':
-                $this->load->view('admin/content/news', $data);
-            break;
-            case 'Фрагменты':
-                $this->load->view('admin/content/fragments', $data);
-            break;
-            default:
-                $this->load->view('admin/content/edit', $data);
+        $alias = 'edit';
+        foreach ($data['type_list'] as $item) {
+            if ($page->type == $item->id)
+               $alias = $item->alias;
+            else
+                continue;
         }
-
+        $this->load->view('admin/content/'.$alias, $data);
 
         $this->load->view('admin/footer', $data);
     }
@@ -132,14 +126,14 @@ class Content extends CI_Controller {
         {
             redirect('auth', 'refresh');
         }
-
+        $data['type_list']  = $this->content_model->getType();
        /* $this->form_validation->set_rules('content', '', 'required');*/
         $this->form_validation->set_rules('h1', '', 'required');
         $this->form_validation->set_rules('alias', '', 'callback_check_alias');
         // Если передан Ид ищем содержание стр в БД
         if (!empty($id))
         {
-            $data['page'] = $this->pages_model->getToId($id);
+            $data['page'] = $this->content_model->getToId($id);
             if (empty($data['page']))
                 show_404();
             $data['id'] = $id;
@@ -165,7 +159,7 @@ class Content extends CI_Controller {
                   'meta_keywords' =>  $page->meta_keywords,
                   'enabled' =>  $page->enabled
                 );
-                if ($this->pages_model->Update($data['id'],$additional_data))
+                if ($this->content_model->Update($data['id'],$additional_data))
                 {
                     $data['message'] = array(
                         'type' => 'success',
@@ -205,14 +199,21 @@ class Content extends CI_Controller {
             redirect("admin/content/add?type=".$this->input->get('type'), 'refresh');
         }
         $this->load->view('admin/header', $data);
-        $this->load->view('admin/content/edit', $data);
+        $alias = 'edit';
+        foreach ($data['type_list'] as $item) {
+            if ( $data['page']->type == $item->id)
+                $alias = $item->alias;
+            else
+                continue;
+        }
+        $this->load->view('admin/content/'.$alias, $data);
         $this->load->view('admin/footer', $data);
 
 	}
 
     public function check_alias ()
     {
-        $page =  $this->pages_model->getToAlias($this->input->post('alias'));
+        $page =  $this->content_model->getToAlias($this->input->post('alias'));
         $this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
         if (empty($page))
             return true;
@@ -228,7 +229,7 @@ class Content extends CI_Controller {
             $id = $this->input->post('id');
             if ($id)
             {
-                $data['page'] = $this->pages_model->getToId($id);
+                $data['page'] = $this->content_model->getToId($id);
                 if (!empty($data['page']))
                 {
                     $additional_data = array(
@@ -238,7 +239,7 @@ class Content extends CI_Controller {
                     );
                     if ($this->trash_model->Add($additional_data))
                     {
-                        if ($this->pages_model->delete($id))
+                        if ($this->content_model->delete($id))
                         {
                             $output['success']='success';
                             $this->session->set_flashdata('message',  array(

@@ -17,11 +17,10 @@
 		</div>
 		<div class="col-md-3 col-md-pull-9" style="margin-bottom: 10px">
 				<select class="form-control" name="typeSelect" id="typeSelect" onchange="this.form.submit();">
-
                     <option value="">Все типы записей</option>
-					<option value="Страницы" <? if ($type=='Страницы') echo 'selected'; ?>>Страницы</option>
-					<option value="Новости" <? if ($type=='Новости') echo 'selected'; ?>>Новости</option>
-					<option value="Фрагменты" <? if ($type=='Фрагменты') echo 'selected'; ?>>Фрагменты</option>
+                    <? foreach ($type_list as $item) { ?>
+                        <option value="<?=$item->id?>" <? if ($type==$item->id) echo 'selected'; ?>><?=$item->type?></option>
+                    <?}?>
 				</select>
 		</div>
         </form>

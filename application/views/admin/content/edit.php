@@ -20,9 +20,9 @@
         <div class="form-group <?php if (form_error('type')) echo 'has-error"'; ?>">
             <label for="type" class="control-label">Тип записи</label>
             <select class="form-control" name="type">
-                <option value="Страницы"  <? if ($page->type=='Страницы') echo 'selected'; ?>>Страницы</option>
-                <option value="Новости"  <? if ($page->type=='Новости') echo 'selected'; ?>>Новости</option>
-                <option value="Фрагменты"  <? if ($page->type=='Фрагменты') echo 'selected'; ?>>Фрагменты</option>
+                <? foreach ($type_list as $item) { ?>
+                    <option value="<?=$item->id?>" <? if ($page->type==$item->id) echo 'selected'; ?>><?=$item->type?></option>
+                <?}?>
             </select>
         </div>
         <div class="form-group <?php if (form_error('title')) echo 'has-error"'; ?>">

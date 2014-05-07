@@ -1,5 +1,5 @@
 <?php
-class Pages_model extends CI_Model {
+class Content_model extends CI_Model {
 
 	public function __construct() {
 		parent::__construct();
@@ -21,16 +21,23 @@ class Pages_model extends CI_Model {
         }
 
 
-        $q =  $this->db->get('pages');
+        $q =  $this->db->get('content');
         return  $q->result_array();
 	}
 
 
 
-	public function get($page) {
+	public function getType() {
+		$q = $this->db;
+		$this->sql = "SELECT * FROM `type_content`";
+		$q = $q->query($this->sql);
+		return $q->result();
+	}
+
+    public function get($page) {
 		$q = $this->db;
 		$this->sql = "
-			SELECT * FROM pages WHERE alias = '".$page."' and enabled = 1
+			SELECT * FROM content WHERE alias = '".$page."' and enabled = 1
 		";
 		$q = $q->query($this->sql);
 		return $q->row();
@@ -39,7 +46,7 @@ class Pages_model extends CI_Model {
     public function getToId($id) {
         $q = $this->db;
         $this->sql = "
-			SELECT * FROM pages WHERE id = '".$id."'
+			SELECT * FROM content WHERE id = '".$id."'
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
@@ -51,7 +58,7 @@ class Pages_model extends CI_Model {
     public function getToAlias($alias) {
         $q = $this->db;
         $this->sql = "
-			SELECT * FROM pages WHERE alias = '".$alias."'
+			SELECT * FROM content WHERE alias = '".$alias."'
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
@@ -62,7 +69,7 @@ class Pages_model extends CI_Model {
 
     public function Add ($data)
     {
-        $this->db->insert('pages', $data);
+        $this->db->insert('content', $data);
         $return = $this->db->insert_id();
 
         return $return;
@@ -70,7 +77,7 @@ class Pages_model extends CI_Model {
 
     public function Update ($id, $data)
     {
-       if ($this->db->update('pages', $data, array('id' => $id)))
+       if ($this->db->update('content', $data, array('id' => $id)))
         //$return = $this->db->affected_rows() == 1;
             return true;
         else
@@ -83,7 +90,7 @@ class Pages_model extends CI_Model {
 
 	public function delete($id)
     {
-        if ($this->db->delete('pages', array('id' => $id)))
+        if ($this->db->delete('content', array('id' => $id)))
             //$return = $this->db->affected_rows() == 1;
             return true;
         else
