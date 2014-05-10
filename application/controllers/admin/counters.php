@@ -7,7 +7,7 @@ class Counters extends CI_Controller {
 		$this->load->library('ion_auth');
         $this->load->library('form_validation');
         $this->load->helper('url');
-		$this->load->model('pages_model');
+		$this->load->model('content_model');
 		$this->load->model('trash_model');
         $this->lang->load('content');
         $this->load->helper('language');
