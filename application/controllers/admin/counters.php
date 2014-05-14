@@ -25,7 +25,7 @@ class Counters extends CI_Controller {
         $data['search'] = '';
         $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 		$this->load->view('admin/header', $data);
-		$this->load->view('admin/modules/counters', $data);
+		$this->load->view('admin/counters/counters', $data);
 		$this->load->view('admin/footer', $data);
 	}
 }

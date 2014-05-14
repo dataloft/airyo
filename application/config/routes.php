@@ -71,7 +71,7 @@ $route['admin/files/dir'] = 'admin/files';
 $route['admin/files/(:any)'] = 'admin/files/index/$1';
 
 //admin modules
-$route['admin/modules/counters'] = 'admin/counters';
+$route['admin/counters'] = 'admin/counters';
 
 $route['(:any)'] = 'amarga/pages/index/$1';
 

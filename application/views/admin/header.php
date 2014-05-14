@@ -40,7 +40,7 @@
 				<li <? if ($main_menu == 'files') echo 'class="active"';?>><a href="/admin/files">Файлы</a></li>
 				<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="/admin/modules/counters">Счетчики</a></li>
+						<li><a href="/admin/counters">Счетчики</a></li>
 					</ul>
 				</li>
 			</ul>
