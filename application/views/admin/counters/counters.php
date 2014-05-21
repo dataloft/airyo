@@ -6,19 +6,19 @@
     <?php echo form_open("", 'name="edit" method="POST"');?>
 		
 		<div class="form-group <?php if (form_error('counters')) echo 'has-error"'; ?>">
-            <label for="counters" class="control-label">Код счетчиков</label>
-			<textarea rows="20" id="counters" name="counters" class="form-control" placeholder=""></textarea>
+            <label for="text" class="control-label">Код счетчиков</label>
+			<textarea rows="20" id="text" name="text" class="form-control" placeholder=""><?=$counters->text?></textarea>
 		</div>
-		<div class="form-group <?php if (form_error('domains')) echo 'has-error"'; ?>">
+		<div class="form-group <?php if (form_error('domian')) echo 'has-error"'; ?>">
 			<label for="domains" class="control-label">Домены на которых будет выводиться код счетчиков</label>
-			<input type="text" class="form-control" id="domains" name="domains" value="" placeholder="" >
+			<input type="text" class="form-control" id="domian" name="domian" value="<?=$counters->domian?>" placeholder="" >
 		</div>
 		<div class="form-group <?php if (form_error('ip_restrict')) echo 'has-error"'; ?>">
 			<label for="ip_restrict" class="control-label">Ограничение для IP</label>
-            <input type="text" class="form-control" id="ip_restrict" name="alias" value="" placeholder="" >
+            <input type="text" class="form-control" id="ip_restrict" name="ip" value="<?=$counters->ip?>" placeholder="" >
 		</div>
               
-		<button type="submit" class="btn btn-success" style="float: left;">Сохранить</button>
+		<button type="submit" class="btn btn-success" name="save" style="float: left;">Сохранить</button>
 
     <?php echo form_close();?>
 </div>
