@@ -5,6 +5,7 @@ class Pages extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('content_model');
+		$this->load->model('counters_model');
 		$this->load->model('menu_model');
 	}
 
@@ -23,9 +24,10 @@ class Pages extends CI_Controller {
 			else {
 				$this->load->view('amarga/pages_home', $data);
 			}
-			
-			$this->load->view('amarga/copyright');
-			$this->load->view('amarga/footer');
+            if($counters = $this->counters_model->getCounters($this->input->ip_address(), $_SERVER['HTTP_HOST'])) $data['counters'] = $counters; else $data['counters'] = '';
+
+            $this->load->view('amarga/copyright');
+			$this->load->view('amarga/footer', $data);
 		} else {
 			show_404();
 		}
