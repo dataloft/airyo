@@ -9,9 +9,9 @@
             <label for="text" class="control-label">Код счетчиков</label>
 			<textarea rows="20" id="text" name="text" class="form-control" placeholder=""><?=$counters->text?></textarea>
 		</div>
-		<div class="form-group <?php if (form_error('domian')) echo 'has-error"'; ?>">
+		<div class="form-group <?php if (form_error('domain')) echo 'has-error"'; ?>">
 			<label for="domains" class="control-label">Домены на которых будет выводиться код счетчиков</label>
-			<input type="text" class="form-control" id="domian" name="domian" value="<?=$counters->domian?>" placeholder="" >
+			<input type="text" class="form-control" id="domain" name="domain" value="<?=$counters->domain?>" placeholder="" >
 		</div>
 		<div class="form-group <?php if (form_error('ip_restrict')) echo 'has-error"'; ?>">
 			<label for="ip_restrict" class="control-label">Ограничение для IP</label>
