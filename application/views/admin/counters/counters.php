@@ -10,7 +10,7 @@
 			<textarea rows="20" id="counters" name="counters" class="form-control" placeholder=""></textarea>
 		</div>
 		<div class="form-group <?php if (form_error('domains')) echo 'has-error"'; ?>">
-			<label for="domains" class="control-label">Домены</label>
+			<label for="domains" class="control-label">Домены на которых будет выводиться код счетчиков</label>
 			<input type="text" class="form-control" id="domains" name="domains" value="" placeholder="" >
 		</div>
 		<div class="form-group <?php if (form_error('ip_restrict')) echo 'has-error"'; ?>">
