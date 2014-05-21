@@ -23,6 +23,7 @@ class Counters extends CI_Controller {
 		$data['usermenu'] = array();
         $data['type'] = '';
         $data['search'] = '';
+        $counters = new ArrayObject;
         $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
         $this->form_validation->set_rules('text', '', 'required');
         $data['counters'] = $this->counters_model->getCounters();
@@ -33,13 +34,13 @@ class Counters extends CI_Controller {
         {
             $counters->text = $this->input->post('text');
             $counters->ip = $this->input->post('ip');
-            $counters->domian = $this->input->post('domian');
+            $counters->domain = $this->input->post('domain');
             $counters->id = $data['counters']->id;
             $data['counters'] = $counters;
             $additional_data = array(
                 'text' => $counters->text,
                 'ip' => $counters->ip,
-                'domian' =>  $counters->domian
+                'domain' =>  $counters->domain
             );
 
             if ($this->counters_model->Update($counters->id, $additional_data))
@@ -54,7 +55,7 @@ class Counters extends CI_Controller {
 
                 $counters->text = $this->input->post('text');
                 $counters->ip = $this->input->post('ip');
-                $counters->domian = $this->input->post('domian');
+                $counters->domain = $this->input->post('domain');
                 $counters->id = $data['counters']->id;
                 $data['counters'] = $counters;
                 $data['message'] = array(
@@ -67,7 +68,7 @@ class Counters extends CI_Controller {
         {
             $counters->text = $this->input->post('text');
             $counters->ip = $this->input->post('ip');
-            $counters->domian = $this->input->post('domian');
+            $counters->domain = $this->input->post('domain');
             $counters->id = $data['counters']->id;
             $data['counters'] = $counters;
             $data['message'] = array(

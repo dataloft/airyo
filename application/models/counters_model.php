@@ -5,18 +5,18 @@ class Counters_model extends CI_Model {
 		parent::__construct();
 	}
 
-    public function getCounters($ip=false, $domian = false)
+    public function getCounters($ip=false, $domain = false)
     {
         $this->db->select('*');
         if (!empty($ip))
             $this->db->not_like('ip', $ip);
 
-        if (!empty($domian))
+        if (!empty($domain))
         {
-            list($x1,$x2) = explode('.',strrev($domian));
+            list($x1,$x2) = explode('.',strrev($domain));
             $xdomain = $x1.'.'.$x2;
             $xdomain = strrev($xdomain);
-            $this->db->where("(domian LIKE ('%".$domian."%') or domian LIKE ('%*.".$xdomain."%'))");
+            $this->db->where("(domain LIKE ('%".$domain."%') or domain LIKE ('%*.".$xdomain."%'))");
         }
 
         $this->db->order_by('id','desc');
