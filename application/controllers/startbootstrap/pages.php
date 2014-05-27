@@ -16,7 +16,7 @@ class Pages extends CI_Controller {
         
 		if($data['page']) {
 			$this->load->view('startbootstrap/header', $data);
-			$this->load->view('startbootstrap/menu', $data);
+			$this->load->view('startbootstrap/nav', $data);
 			
 			if ($this->uri->uri_string != '') {
 				$this->load->view('startbootstrap/pages_inner', $data);
@@ -26,7 +26,6 @@ class Pages extends CI_Controller {
 			}
             if($counters = $this->counters_model->getCounters($this->input->ip_address(), $_SERVER['HTTP_HOST'])) $data['counters'] = $counters; else $data['counters'] = '';
 
-            $this->load->view('startbootstrap/copyright');
 			$this->load->view('startbootstrap/footer', $data);
 		} else {
 			show_404();

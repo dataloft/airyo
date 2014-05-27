@@ -1,57 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
+	<div class="full-width-image-1">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Small Business Template with Logo for Bootstrap 3</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="/themes/startbootstrap/css/bootstrap.css" rel="stylesheet">
-
-    <!-- Add custom CSS here -->
-    <link href="/themes/startbootstrap/css/half-slider.css" rel="stylesheet">
-
-</head>
-
-<body>
-
-    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">Start Bootstrap</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="/about">About</a>
-                    </li>
-                    <li><a href="#services">Services</a>
-                    </li>
-                    <li><a href="#contact">Contact</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+        <div class="logo-wrapper">
+            <img class="img-responsive" src="http://fakeimg.pl/200x150/fff/000?text=Logo&font=lobster" />
         </div>
-        <!-- /.container -->
-    </nav>
+
+    </div>
+    <!-- /full-width-image-1 -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 section">
+                <h1 class="section-heading">An Interesting Headline Goes Here</h1>
+                <p class="lead section-lead">This stylish template features placeholder images from placehold.it and lorempixel! With some custom font stylings and awesome photos, you will have a beautiful website up and running in no time!</p>
+                <p class="section-paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sollicitudin auctor quam ac tempor. Cras a ante sed libero mollis sodales. Praesent fringilla, neque ut ultrices faucibus, dolor eros ultrices neque, nec bibendum arcu ipsum eget justo. Phasellus vestibulum sagittis purus laoreet varius. Pellentesque malesuada malesuada mattis. Aliquam sed porta nisi, eget suscipit dolor. Nam ipsum sapien, rhoncus eu leo eu, ultricies pellentesque tellus.</p>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 section">
+                <?=$page->content?>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="full-width-image-2">
+        <!-- box content goes here if you want to put text or a button in here -->
+    </div>
+    <!-- /full-width-image-2 -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 section">
+                <h1 class="section-heading">Another Interesting Headline</h1>
+                <p class="lead section-lead">The two different full width images are defined in the CSS. They aren't the same! One has a defined height, and one does not! Go crazy and get creative!</p>
+                <p class="section-paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sollicitudin auctor quam ac tempor. Cras a ante sed libero mollis sodales. Praesent fringilla, neque ut ultrices faucibus, dolor eros ultrices neque, nec bibendum arcu ipsum eget justo. Phasellus vestibulum sagittis purus laoreet varius. Pellentesque malesuada malesuada mattis. Aliquam sed porta nisi, eget suscipit dolor. Nam ipsum sapien, rhoncus eu leo eu, ultricies pellentesque tellus.</p>
+            </div>
+        </div>
+    </div>
+
 
     <div class="container">
 
-        <div class="row content">
+        <div class="row content-spacer">
             <div class="col-lg-8">
-                <img class="img-responsive img-rounded" src="http://placehold.it/900x350">
+                <img class="img-responsive img-rounded" src="http://lorempixel.com/900/350">
                 <!-- take out img-rounded if you don't want the rounded corners on the image -->
             </div>
             <div class="col-lg-4">
@@ -89,24 +85,73 @@
             </div>
         </div>
 
-        <footer>
-            <hr>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Company 2013</p>
+        
+        <div class="jumbotron content-spacer">
+            <h1>A Warm Welcome!</h1>
+            <p>Introduce your website content using this jumbotron! It's an awesome way to call attention to something that needs to be read! It's also a great alternative to using a banner image if you don't have a good quality picture!</p>
+            <p><a class="btn btn-primary btn-large">Call to action!</a>
+            </p>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>Latest Features</h3>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+
+            <div class="col-lg-3 col-md-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="http://lorempixel.com/800/500/technics/1" alt="">
+                    <div class="caption">
+                        <h3>Feature Label</h3>
+                        <p>This would be a great spot to feature some brand new products!</p>
+                        <p><a href="#" class="btn btn-primary">Buy Now!</a>  <a href="#" class="btn btn-default">More Info</a>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </footer>
+
+            <div class="col-lg-3 col-md-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="http://lorempixel.com/800/500/technics/2" alt="">
+                    <div class="caption">
+                        <h3>Feature Label</h3>
+                        <p>This would be a great spot to feature some brand new products!</p>
+                        <p><a href="#" class="btn btn-primary">Buy Now!</a>  <a href="#" class="btn btn-default">More Info</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="http://lorempixel.com/800/500/technics/3" alt="">
+                    <div class="caption">
+                        <h3>Feature Label</h3>
+                        <p>This would be a great spot to feature some brand new products!</p>
+                        <p><a href="#" class="btn btn-primary">Buy Now!</a>  <a href="#" class="btn btn-default">More Info</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 hero-feature">
+                <div class="thumbnail">
+                    <img src="http://lorempixel.com/800/500/technics/4" alt="">
+                    <div class="caption">
+                        <h3>Feature Label</h3>
+                        <p>This would be a great spot to feature some brand new products!</p>
+                        <p><a href="#" class="btn btn-primary">Buy Now!</a>  <a href="#" class="btn btn-default">More Info</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
     </div>
-    <!-- /.container -->
-
-    <!-- JavaScript -->
-    <script src="/themes/startbootstrap/js/jquery-1.10.2.js"></script>
-    <script src="/themes/startbootstrap/js/bootstrap.js"></script>
-
-</body>
-
-</html>
-
-<!-- Localized -->
