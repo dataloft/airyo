@@ -12,9 +12,12 @@
        <?}?>
 	</ol>
 	<div class="row">
-		<div class="col-md-12" style="margin-top: 20px">
-			<p class="pull-right"><span class="glyphicon glyphicon-upload" style="color: #777"></span> <a href="/admin/content/edit" class="add">Загрузить файлы</a></p>
-		</div>
+		<!--div class="col-md-12" style="margin-top: 20px">
+			<p class="pull-right"><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Создать папку</a></p>
+		</div-->
+
+
+
 	</div>
 	<div class="row">
 		<div class="col-md-12">
@@ -29,11 +32,94 @@
                             <a href="<?php echo $row['url']; ?>"><?php echo $row['label']; ?></a>
                         </li>
                     <?php else: ?>
-                        <li class="list-group-item"><span class="glyphicon glyphiconicon-file"></span><span data="label"><?php echo $row['label']; ?></span>
+                        <li class="list-group-item"><a href="" style="color: #555"><?php echo $row['label']; ?></a></li>
                 <?php endif; ?>
                 <?php endif; ?>
                 <?php endforeach; ?>
 			</ul>
 		</div>
+		
+		
+
+<!--div class="col-md-12">
+<div class="panel panel-default">
+<div class="panel-heading">
+  <h4 class="panel-title">
+    <a href="#collapseOne" data-toggle="collapse">Действия</a>
+  </h4>
+</div>
+<div id="collapseOne" class="panel-collapse collapse in">
+  <div class="panel-body"-->
+    
+    
+
+
+<div class="col-md-12">
+
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#mkdir" data-toggle="tab">Создать папку</a></li>
+  <li><a href="#upload" data-toggle="tab">Загрузка файлов</a></li>
+  <li><a href="#multiupload" data-toggle="tab">Мультизагрузка</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane fade in active" id="mkdir">
+	  
+	  
+	  
+<form role="form" class="form-inline" style="margin-top: 20px">
+  <div class="form-group">
+    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Название папки">
+  </div>
+  <button type="submit" class="btn btn-success">Создать</button>
+</form>
+
+	  
+	  
+	  
+  </div>
+  <div class="tab-pane fade" id="upload">
+	  
+	  
+
+<form role="form" style="margin-top: 20px">
+  <div class="form-group">
+    <input type="file" id="exampleInputFile">
+    <input type="file" id="exampleInputFile">
+    <input type="file" id="exampleInputFile">
+  </div>
+  <div class="form-group">
+  	<button type="button" class="btn btn-default btn-xs">Добавить еще файлы</button>
+  </div>
+  <button type="submit" class="btn btn-success">Загрузить</button>
+</form>	  
+	  
+	  
+	  
+  </div>
+  <div class="tab-pane fade" id="multiupload"></div>
+</div>
+
+    
+    
+    
+    
+</div>    
+    
+  <!--/div>
+</div>
+</div>
+</div-->
+	
+
+		
+		
 	</div>
+	
+	
+
+	
 </div>
