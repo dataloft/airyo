@@ -13,12 +13,39 @@
 	</ol>
 	<div class="row">
 		<!--div class="col-md-12" style="margin-top: 20px">
-			<p class="pull-right"><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Создать папку</a></p>
+			<ul class="nav nav-pills pull-right">
+				<li><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Выделить все</a></li>
+				<li><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Удалить</a></li>
+			</ul>
+		</div>
+		
+		
+		<div class="btn-group pull-right">
+		  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Выделить все</a></button>
+		  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Удалить</a></button>
 		</div-->
+
+
+<div class="col-md-12" style="margin: 0 0 20px">
+<ul class="nav nav-pills pull-right">
+  <li>
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      <span class="glyphicon glyphicon-ok" style="color: #777"></span>&nbsp;&nbsp;Выделить все
+    </a>
+  </li>
+  <li>
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      <span class="glyphicon glyphicon glyphicon-trash" style="color: #777"></span>&nbsp;&nbsp;Удалить
+    </a>
+  </li>
+</ul>
+</div>
 
 
 
 	</div>
+	
+	
 	<div class="row">
 		<div class="col-md-12">
 			<ul class="list-group">
@@ -28,11 +55,12 @@
                     <? else: ?>
                     <?php if ($row['type'] == 'dir'): ?>
                         <li class="list-group-item">
+                        	<input type="checkbox">&nbsp;&nbsp;
                             <span class="glyphicon glyphicon-folder-open" style="color: #777; margin-right: 10px;"></span>
                             <a href="<?php echo $row['url']; ?>"><?php echo $row['label']; ?></a>
                         </li>
                     <?php else: ?>
-                        <li class="list-group-item"><a href="" style="color: #555"><?php echo $row['label']; ?></a></li>
+                        <li class="list-group-item"><input type="checkbox">&nbsp;&nbsp;<a href="" style="color: #555"><?php echo $row['label']; ?></a></li>
                 <?php endif; ?>
                 <?php endif; ?>
                 <?php endforeach; ?>
