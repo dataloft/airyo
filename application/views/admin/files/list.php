@@ -87,33 +87,22 @@
 
 <!-- Nav tabs -->
 <ul class="nav nav-tabs">
-  <li class="active"><a href="#mkdir" data-toggle="tab">Создать папку</a></li>
-  <li><a href="#upload" data-toggle="tab">Загрузка файлов</a></li>
-  <li><a href="#multiupload" data-toggle="tab">Мультизагрузка</a></li>
+  <li class="active"><a href="#upload" data-toggle="tab">Загрузка файлов</a></li>
+  <li><a href="#mkdir" data-toggle="tab">Создать папку</a></li>
+  <li><a href="#renamedir" data-toggle="tab">Переименовать папку</a></li>
+  <!--li><a href="#multiupload" data-toggle="tab">Мультизагрузка</a></li-->
 </ul>
 
 <!-- Tab panes -->
+
 <div class="tab-content">
-  <div class="tab-pane fade in active" id="mkdir">
-	  
-	  
-	  
-<form role="form" class="form-inline" style="margin-top: 20px">
-  <div class="form-group">
-    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Название папки">
-  </div>
-  <button type="submit" class="btn btn-success">Создать</button>
-</form>
-
-	  
-	  
-	  
-  </div>
-  <div class="tab-pane fade" id="upload">
+  
+  
+  <div class="tab-pane fade in active" id="upload">
 	  
 	  
 
-<form role="form" style="margin-top: 20px">
+<!--form role="form" style="margin-top: 20px">
   <div class="form-group">
     <input type="file" id="exampleInputFile">
     <input type="file" id="exampleInputFile">
@@ -123,12 +112,48 @@
   	<button type="button" class="btn btn-default btn-xs">Добавить еще файлы</button>
   </div>
   <button type="submit" class="btn btn-success">Загрузить</button>
-</form>	  
+</form-->	  
 	  
 	  
 	  
   </div>
-  <div class="tab-pane fade" id="multiupload"></div>
+
+
+
+
+  <div class="tab-pane fade" id="mkdir">
+	  
+	  
+	  
+<form role="form" class="form-inline" style="margin-top: 20px">
+  <div class="form-group">
+    <input type="asdasd" class="form-control" id="exampleInputEmail1" placeholder="Название папки">
+  </div>
+  <button type="submit" class="btn btn-success">Создать</button>
+</form>
+
+
+	  
+	  
+	  
+  </div>
+  
+  
+  <div class="tab-pane fade" id="renamedir">
+
+
+<form role="form" class="form-inline" style="margin-top: 20px">
+  <div class="form-group">
+    <input type="asdasd" class="form-control" id="exampleInputEmail1" value="<?= $path[$pathSize-1]['text'];?>">
+  </div>
+  <button type="submit" class="btn btn-success">Переименовать</button>
+</form>
+
+	  
+	  
+	  
+  </div>
+
 </div>
 
     
