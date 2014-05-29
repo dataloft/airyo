@@ -18,7 +18,7 @@
             <input type="text" class="form-control" id="ip_restrict" name="ip" value="<?=$counters->ip?>" placeholder="" >
 		</div>
               
-		<button type="submit" class="btn btn-success" name="save" style="float: left;">Сохранить</button>
+		<button type="submit" class="btn btn-success" name="save" value="save" style="float: left;">Сохранить</button>
 
     <?php echo form_close();?>
 </div>
