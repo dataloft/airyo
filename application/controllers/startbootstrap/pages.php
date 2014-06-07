@@ -7,6 +7,7 @@ class Pages extends CI_Controller {
 		$this->load->model('content_model');
 		$this->load->model('counters_model');
 		$this->load->model('menu_model');
+        $this->load->helper('url');
 	}
 
 	public function index($page = '') {
