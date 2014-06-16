@@ -16,8 +16,9 @@
                 <?
 			    foreach ($menu as $item)
 			    {
+
 			    ?>
-			    	<li <? echo (($this->uri->uri_string() or current_url()) == $item->url) ? 'class="active"' : ''; ?>><a href="<?=$item->url?>"><?=$item->name?></a></li>
+			    	<li <? echo (($this->uri->uri_string() == $item->url or current_url() == $item->url) ) ? 'class="active"' : ''; ?>><a href="<?=$item->url?>"><?=$item->name?></a></li>
 			    <?
 			    }
 			    ?>
