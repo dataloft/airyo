@@ -382,7 +382,7 @@ class Files extends CI_Controller {
 
             $this->session->set_flashdata('message',  array(
                     'msg_type' => 'success',
-                    'text' => 'Files downloaded'
+                    'text' => 'Files uploaded'
                 )
             );
 
