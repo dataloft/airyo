@@ -1,0 +1,25 @@
+#dropzone {
+    background: #ffffff;
+    z-index: 99999;
+    width:100%;
+    height: 100%;
+    position: relative;
+
+}
+#dropzone.in {
+
+}
+#dropzone.hover {
+   opacity: 0.3;
+    border: 1px solid #333333;
+}
+#dropzone.fade {
+
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    opacity: 1;
+
+}

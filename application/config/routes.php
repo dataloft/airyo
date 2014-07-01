@@ -68,6 +68,7 @@ $route['admin/menu/delete'] = 'admin/menu/delete';
 //admin file manager
 $route['admin/files'] = 'admin/files';
 $route['admin/files/dir'] = 'admin/files';
+$route['admin/files/upload'] = 'admin/files/upload';
 $route['admin/files/(:any)'] = 'admin/files/index/$1';
 
 //admin modules
