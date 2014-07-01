@@ -19,8 +19,8 @@
 				<li><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Удалить</a></li>
 			</ul>
 		</div>
-		
-		
+
+
 		<div class="btn-group pull-right">
 		  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Выделить все</a></button>
 		  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Удалить</a></button>
@@ -48,10 +48,12 @@
 
 
 	</div>
-	
-	
+
+
 	<div class="row">
-		<div class="col-md-12">
+
+		<div id="dropzone" class="dropzone col-md-12">
+
 			<ul class="list-group">
                 <form action="/admin/files/delete" id="delete" method="post">
                 <?php foreach ($result as $i => $row): ?>
@@ -72,17 +74,16 @@
                 </form>
 			</ul>
 		</div>
-		
 
-<div class="col-md-12">
-<p>Загрузка файлов</p>
-<div class="progress progress-striped active">
-  <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-    <span class="sr-only">45% Complete</span>
-  </div>
-</div>
-</div>
-		
+        <div class="col-md-12">
+            <br>
+            <br>
+            <!-- The global progress bar -->
+            <div id="progress" class="hidden progress">
+                <div class="progress-bar progress-bar-success"></div>
+            </div>
+
+        </div>
 
 <!--div class="col-md-12">
 <div class="panel panel-default">
@@ -93,104 +94,65 @@
 </div>
 <div id="collapseOne" class="panel-collapse collapse in">
   <div class="panel-body"-->
-    
-    
 
 
-<div class="col-md-12" style="margin-top: 20px">
 
+        <div class="col-md-12" style="margin-top: 20px">
 
-<!-- Nav tabs -->
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#upload" data-toggle="tab">Загрузка файлов</a></li>
-  <li><a href="#mkdir" data-toggle="tab">Создать папку</a></li>
-  <? if ($value['url']!='') {?>
-  <li><a href="#renamedir" data-toggle="tab">Переименовать папку</a></li>
-  <?}?>
-  <!--li><a href="#multiupload" data-toggle="tab">Мультизагрузка</a></li-->
-</ul>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#upload" data-toggle="tab">Загрузка файлов</a></li>
+                <li><a href="#mkdir" data-toggle="tab">Создать папку</a></li>
+                <? if ($value['url']!='') {?>
+				  <li><a href="#renamedir" data-toggle="tab">Переименовать папку</a></li>
+				<?}?>
+            </ul>
 
-<!-- Tab panes -->
+            <!-- Tab panes -->
 
-<div class="tab-content">
-  
-  
-  <div class="tab-pane fade in active" id="upload">
-	  
-	  
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="upload">
+                    <form id="fileupload" action="/admin/files/upload" method="POST" enctype="multipart/form-data" style="margin-top: 20px">
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                        <span class="btn btn-success fileinput-button">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>Add files...</span>
+                            <!-- The file input field used as target for the file upload widget -->
+                            <input  type="file" name="file" multiple>
+                            <input type="hidden" name="pth" value="<?=$value['url'];?>">
+                        </span>
+                    </form>
+                </div>
 
-<!--form role="form" style="margin-top: 20px">
-  <div class="form-group">
-    <input type="file" id="exampleInputFile">
-    <input type="file" id="exampleInputFile">
-    <input type="file" id="exampleInputFile">
+                <div class="tab-pane fade" id="mkdir">
+                    <form role="form" action="/admin/files/createfolder" method="post" class="form-inline" style="margin-top: 20px">
+					  <div class="form-group">
+					      <input type="hidden" value="<?=$value['url'];?>" name="path">
+					    <input type="text" class="form-control" name="fname" placeholder="Название папки">
+					  </div>
+					  <button type="submit" class="btn btn-success">Создать</button>
+					</form>
+                </div>
+
+				    <? if ($value['url']!='') {?>
+				  <div class="tab-pane fade" id="renamedir">
+				
+				
+				<form role="form" action="/admin/files/renamefolder" method="post" class="form-inline" style="margin-top: 20px">
+				  <div class="form-group">
+				    <input type="text" class="form-control" name="fname" value="<?= $path[$pathSize-1]['text'];?>">
+				      <input type="hidden" class="form-control" name="oldfname" value="<?= $path[$pathSize-1]['text'];?>">
+				      <input type="hidden" class="form-control" name="path" value="<?= $path[$pathSize-2]['url'];?>">
+				  </div>
+				  <button type="submit" class="btn btn-success">Переименовать</button>
+				</form>
+				
+					  
+					  
+					  
+				  </div>
+				    <?}?>
+            </div>
+        </div>
   </div>
-  <div class="form-group">
-  	<button type="button" class="btn btn-default btn-xs">Добавить еще файлы</button>
-  </div>
-  <button type="submit" class="btn btn-success">Загрузить</button>
-</form-->	  
-	  
-	  
-	  
-  </div>
-
-
-
-
-  <div class="tab-pane fade" id="mkdir">
-	  
-	  
-	  
-<form role="form" action="/admin/files/createfolder" method="post" class="form-inline" style="margin-top: 20px">
-  <div class="form-group">
-      <input type="hidden" value="<?=$value['url'];?>" name="path">
-    <input type="text" class="form-control" name="fname" placeholder="Название папки">
-  </div>
-  <button type="submit" class="btn btn-success">Создать</button>
-</form>
-
-
-	  
-	  
-	  
-  </div>
-
-    <? if ($value['url']!='') {?>
-  <div class="tab-pane fade" id="renamedir">
-
-
-<form role="form" action="/admin/files/renamefolder" method="post" class="form-inline" style="margin-top: 20px">
-  <div class="form-group">
-    <input type="text" class="form-control" name="fname" value="<?= $path[$pathSize-1]['text'];?>">
-      <input type="hidden" class="form-control" name="oldfname" value="<?= $path[$pathSize-1]['text'];?>">
-      <input type="hidden" class="form-control" name="path" value="<?= $path[$pathSize-2]['url'];?>">
-  </div>
-  <button type="submit" class="btn btn-success">Переименовать</button>
-</form>
-
-	  
-	  
-	  
-  </div>
-    <?}?>
-
-</div>
-
-    
-    
-    
-    
-</div>    
-    
-  <!--/div>
-</div>
-</div>
-</div-->
-	
-
-		
-		
-	</div>
-
 </div>
