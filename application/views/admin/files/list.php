@@ -12,36 +12,33 @@
             <li><a href="/admin/files/<?=$value['url'];?>"><?=$value['text'];?></a></li>
        <?}?>
 	</ol>
+	
+	
+	<? if (sizeof($result) > 1) {?>
 	<div class="row">
-
-
-
-<div class="col-md-12" style="margin: 0 0 20px">
-<ul class="nav nav-pills pull-right">
-  <li>
-    <a class="dropdown-toggle " id="checkAll" data-toggle="dropdown" href="#">
-      <span class="glyphicon glyphicon-ok" style="color: #777"></span>&nbsp;&nbsp;Выделить все
-    </a>
-  <a class="dropdown-toggle hidden" id="uncheckAll" data-toggle="dropdown" href="#">
-      <span class="glyphicon glyphicon-ok" style="color: #777"></span>&nbsp;&nbsp;Снять выделение
-  </a>
-  </li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="$('#delete').submit();">
-      <span class="glyphicon glyphicon glyphicon-trash" style="color: #777"></span>&nbsp;&nbsp;Удалить
-    </a>
-  </li>
-</ul>
-</div>
-
-
+		<div class="col-md-12" style="margin: 0 0 20px">
+		<ul class="nav nav-pills pull-right">
+		  <li>
+		    <a class="dropdown-toggle " id="checkAll" data-toggle="dropdown" href="#">
+		      <span class="glyphicon glyphicon-ok" style="color: #777"></span>&nbsp;&nbsp;Выделить все
+		    </a>
+		  <a class="dropdown-toggle hidden" id="uncheckAll" data-toggle="dropdown" href="#">
+		      <span class="glyphicon glyphicon-ok" style="color: #777"></span>&nbsp;&nbsp;Снять выделение
+		  </a>
+		  </li>
+		  <li>
+		    <a class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="$('#delete').submit();">
+		      <span class="glyphicon glyphicon glyphicon-trash" style="color: #777"></span>&nbsp;&nbsp;Удалить
+		    </a>
+		  </li>
+		</ul>
+		</div>
 	</div>
+	<?}?>
 
 
 	<div class="row">
-
 		<div id="dropzone" class="dropzone col-md-12">
-
 			<ul class="list-group">
                 <form action="/admin/files/delete" id="delete" method="post">
                 <?php foreach ($result as $i => $row): ?>
@@ -62,7 +59,6 @@
                 </form>
 			</ul>
 		</div>
-
         <div class="col-md-12">
             <br>
             <br>
@@ -70,9 +66,7 @@
             <div id="progress" class="hidden progress">
                 <div class="progress-bar progress-bar-success"></div>
             </div>
-
         </div>
-
 
 
         <div class="col-md-12" style="margin-top: 20px">
@@ -112,25 +106,19 @@
 					</form>
                 </div>
 
-				    <? if ($value['url']!='') {?>
+				<? if ($value['url']!='') {?>
 				  <div class="tab-pane fade" id="renamedir">
-				
-				
-				<form role="form" action="/admin/files/renamefolder" method="post" class="form-inline" style="margin-top: 20px">
-				  <div class="form-group">
-				    <input type="text" class="form-control" name="fname" value="<?= $path[$pathSize-1]['text'];?>">
-				      <input type="hidden" class="form-control" name="oldfname" value="<?= $path[$pathSize-1]['text'];?>">
-				      <input type="hidden" class="form-control" name="path" value="<?= $path[$pathSize-2]['url'];?>">
+					<form role="form" action="/admin/files/renamefolder" method="post" class="form-inline" style="margin-top: 20px">
+					  <div class="form-group">
+					    <input type="text" class="form-control" name="fname" value="<?= $path[$pathSize-1]['text'];?>">
+					      <input type="hidden" class="form-control" name="oldfname" value="<?= $path[$pathSize-1]['text'];?>">
+					      <input type="hidden" class="form-control" name="path" value="<?= $path[$pathSize-2]['url'];?>">
+					  </div>
+					  <button type="submit" class="btn btn-success">Переименовать</button>
+					</form> 
 				  </div>
-				  <button type="submit" class="btn btn-success">Переименовать</button>
-				</form>
-				
-					  
-					  
-					  
-				  </div>
-				    <?}?>
+				<?}?>
             </div>
         </div>
-  </div>
+   </div>
 </div>
