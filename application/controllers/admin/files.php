@@ -20,7 +20,7 @@ class Files extends CI_Controller {
 		$data['main_menu'] = 'files';
 		$data['usermenu'] = array();
 		$data['result'] = array();
-        $data['message'] = array();
+        $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
         $this->path = '';
         if (count($segments = $this->uri->segment_array()) > 2)
         {
@@ -133,6 +133,153 @@ class Files extends CI_Controller {
 		
 	}
 
+    public function delete() {
+		if ($_POST['selected'])
+        {
+            foreach ($_POST['selected'] as $item)
+            {
+                if (is_dir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$item))
+                    $this->removeDir($this->start_folder.DIRECTORY_SEPARATOR.$item);
+                else
+                {
+                   @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$item);
+                }
+            }
+        }
+        redirect($_SERVER['HTTP_REFERER'], 'refresh');
+	}
+
+    public function createFolder ()
+    {
+        if (!empty($_POST['fname']))
+        {
+            if(preg_match("/^(?:[a-z0-9_-]|\.(?!\.))+$/iD", iconv('UTF-8', 'windows-1251', $_POST['fname'])))
+            {
+                $path = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder;
+                if (!empty($_POST['path']))
+                    $path .=DIRECTORY_SEPARATOR.$_POST['path'];
+                if (!is_dir($path.DIRECTORY_SEPARATOR.(iconv("UTF-8", "cp1251", $_POST['fname']))))
+                {
+                    mkdir($path.DIRECTORY_SEPARATOR.(iconv("UTF-8", "cp1251", $_POST['fname'])));
+
+                }
+                else
+                {
+                    $this->session->set_flashdata('message',  array(
+                            'msg_type' => 'danger',
+                            'text' => 'Папка с таким именем уже есть'
+                        )
+                    );
+                }
+            }
+            else
+            {
+                $this->session->set_flashdata('message',  array(
+                        'msg_type' => 'danger',
+                        'text' => 'Недопустимое имя папки'
+                    )
+                );
+            }
+
+        }
+        else
+        {
+            $this->session->set_flashdata('message',  array(
+                    'msg_type' => 'danger',
+                    'text' => 'Недопустимое имя папки'
+                )
+            );
+        }
+        redirect($_SERVER['HTTP_REFERER'], 'refresh');
+    }
+
+    public function renameFolder ()
+    {
+        $redirect = $_SERVER['HTTP_REFERER'];
+        if (!empty($_POST['fname']))
+        {
+            $redirect = '/admin/files/'.$_POST['path'].$_POST['oldfname'];
+            if (($_POST['oldfname']!=$_POST['fname']) and preg_match("/(^[a-zA-Z0-9]+([a-zA-Z\_0-9\.-]*))$/" , iconv('UTF-8', 'windows-1251', $_POST['fname'])) )
+            {
+                $arr = $this->readdir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path']);
+                if (!empty($arr))
+                    foreach ($arr as $item)
+                    {
+                        if (basename($item) == $_POST['fname'])
+                        {
+                            $this->session->set_flashdata('message',  array(
+                                    'msg_type' => 'danger',
+                                    'text' => 'Папка с таким именем уже существует'
+                                )
+                            );
+                            redirect($redirect, 'refresh');
+                        }
+
+                    }
+
+                if (is_dir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path'].$_POST['oldfname']))
+                {
+
+                    if (rename ($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path'].$_POST['oldfname'], $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path'].$_POST['fname']))
+                    {
+                        $this->session->set_flashdata('message',  array(
+                                'msg_type' => 'success',
+                                'text' => 'Папка переименована'
+                            )
+                        );
+                        $redirect = '/admin/files/'.$_POST['path'].$_POST['fname'];
+                    }
+                }
+                else
+                {
+
+                    $this->session->set_flashdata('message',  array(
+                            'msg_type' => 'danger',
+                            'text' => 'Папка ненайдена'
+                        )
+                    );
+                }
+
+            }
+            else
+            {
+                    $this->session->set_flashdata('message',  array(
+                            'msg_type' => 'danger',
+                            'text' => 'Недопустимое имя папки'
+                        )
+                    );
+            }
+
+        }
+        else
+        {
+            $this->session->set_flashdata('message',  array(
+                    'msg_type' => 'danger',
+                    'text' => 'Недопустимое имя папки'
+                )
+            );
+        }
+
+        redirect($redirect, 'refresh');
+    }
+
+    protected function removeDir($directory) {
+        $dir = opendir($directory);
+        while(($file = readdir($dir)))
+        {
+            if ( is_file ($directory."/".$file))
+            {
+                unlink ($directory."/".$file);
+            }
+            else if ( is_dir ($directory."/".$file) &&
+                ($file != ".") && ($file != ".."))
+            {
+                $this->removeDir ($directory."/".$file);
+            }
+        }
+        closedir ($dir);
+        rmdir ($directory);
+    }
     protected function getCurrentDir($folder = '')
     {
        return ($this->uri->segment(3)) ? $this->start_folder.DIRECTORY_SEPARATOR.$folder : $this->start_folder;
