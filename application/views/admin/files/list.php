@@ -13,18 +13,7 @@
        <?}?>
 	</ol>
 	<div class="row">
-		<!--div class="col-md-12" style="margin-top: 20px">
-			<ul class="nav nav-pills pull-right">
-				<li><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Выделить все</a></li>
-				<li><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Удалить</a></li>
-			</ul>
-		</div>
 
-
-		<div class="btn-group pull-right">
-		  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Выделить все</a></button>
-		  <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-folder-open" style="color: #777"></span>&nbsp;&nbsp;<a href="?mkdir" class="add">Удалить</a></button>
-		</div-->
 
 
 <div class="col-md-12" style="margin: 0 0 20px">
@@ -44,7 +33,6 @@
   </li>
 </ul>
 </div>
-
 
 
 	</div>
@@ -85,16 +73,6 @@
 
         </div>
 
-<!--div class="col-md-12">
-<div class="panel panel-default">
-<div class="panel-heading">
-  <h4 class="panel-title">
-    <a href="#collapseOne" data-toggle="collapse">Действия</a>
-  </h4>
-</div>
-<div id="collapseOne" class="panel-collapse collapse in">
-  <div class="panel-body"-->
-
 
 
         <div class="col-md-12" style="margin-top: 20px">
@@ -116,7 +94,7 @@
                         <!-- The fileinput-button span is used to style the file input field as button -->
                         <span class="btn btn-success fileinput-button">
                             <i class="glyphicon glyphicon-plus"></i>
-                            <span>Add files...</span>
+                            <span>Загрузить файлы</span>
                             <!-- The file input field used as target for the file upload widget -->
                             <input  type="file" name="file" multiple>
                             <input type="hidden" name="pth" value="<?=$value['url'];?>">
