@@ -17,9 +17,16 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- Generic page styles -->
-
+<?
+if (!empty($styles))
+    foreach ($styles as $style) {
+?>
+        <link rel="stylesheet" href="<?=$style?>">
+    <?
+    }
+?>
     <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-    <link rel="stylesheet" href="/i/FileUpload/css/jquery.fileupload.css">
+
     <link rel="stylesheet" href="/i/FileUpload/css/jquery.fileupload-ui.css">
     <link rel="stylesheet" href="/i/FileUpload/css/style.css">
 </head>

@@ -28,6 +28,24 @@ class Files extends CI_Controller {
 		$data['usermenu'] = array();
 		$data['result'] = array();
         $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+        $data['scripts'] = array(
+            '/i/FileUpload/js/vendor/jquery.ui.widget.js',
+            '/i/FileUpload/js/load-image.min.js',
+            '/i/FileUpload/js/canvas-to-blob.min.js',
+            '/i/FileUpload/js/jquery.iframe-transport.js',
+            '/i/FileUpload/js/jquery.fileupload.js',
+            '/i/FileUpload/js/jquery.fileupload-process.js',
+            '/i/FileUpload/js/jquery.fileupload-image.js',
+            '/i/FileUpload/js/jquery.fileupload-audio.js',
+            '/i/FileUpload/js/jquery.fileupload-video.js',
+            '/i/FileUpload/js/jquery.fileupload-validate.js',
+            '/i/FileUpload/js/main.js'
+        );
+        $data['styles'] = array(
+            '/i/FileUpload/css/jquery.fileupload.css',
+            '/i/FileUpload/css/jquery.fileupload-ui.css',
+            '/i/FileUpload/css/style.css'
+        );
         $this->path = '';
         if (count($segments = $this->uri->segment_array()) > 2)
         {
