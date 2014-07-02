@@ -27,8 +27,8 @@ if (!empty($styles))
 ?>
     <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
 
-    <link rel="stylesheet" href="/i/FileUpload/css/jquery.fileupload-ui.css">
-    <link rel="stylesheet" href="/i/FileUpload/css/style.css">
+    <link rel="stylesheet" href="/themes/airyo/js/FileUpload/css/jquery.fileupload-ui.css">
+    <link rel="stylesheet" href="/themes/airyo/js/FileUpload/css/style.css">
 </head>
 <body>
 <div class="navbar navbar-default" role="navigation">
