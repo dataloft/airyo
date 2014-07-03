@@ -358,7 +358,7 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
 
-$config['auth'] = 'authh';
+$config['auth'] = 'adm';
 
 
 /* End of file config.php */
