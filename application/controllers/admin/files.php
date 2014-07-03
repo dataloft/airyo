@@ -30,15 +30,8 @@ class Files extends CI_Controller {
         $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
         $data['scripts'] = array(
             '/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',
-            '/themes/airyo/js/FileUpload/js/load-image.min.js',
-            '/themes/airyo/js/FileUpload/js/canvas-to-blob.min.js',
             '/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js',
             '/themes/airyo/js/FileUpload/js/jquery.fileupload.js',
-            '/themes/airyo/js/FileUpload/js/jquery.fileupload-process.js',
-            '/themes/airyo/js/FileUpload/js/jquery.fileupload-image.js',
-            '/themes/airyo/js/FileUpload/js/jquery.fileupload-audio.js',
-            '/themes/airyo/js/FileUpload/js/jquery.fileupload-video.js',
-            '/themes/airyo/js/FileUpload/js/jquery.fileupload-validate.js',
             '/themes/airyo/js/FileUpload/js/main.js'
         );
         $data['styles'] = array(
