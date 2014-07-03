@@ -31,7 +31,7 @@ $(function () {
             /*  $.each(data.result.files, function (index, file) {
              $('<p/>').text(file.name).appendTo('#files');
              });*/
-            window.location.replace(data.result.path);
+            //window.location.replace(data.result.path);
 
         },
         progressall: function (e, data) {
@@ -40,6 +40,7 @@ $(function () {
                 'width',
                 progress + '%'
             );
+
         },
         start: function () {
             $('#progress').removeClass('hidden');
@@ -47,6 +48,7 @@ $(function () {
     }).prop('disabled', !$.support.fileInput)
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
 });
+$('#fileupload').bind('fileuploadstop', function (e) { window.location.replace(''); });
 $(document).bind('drop dragover', function (e) {
     e.stopPropagation();
     e.preventDefault();
