@@ -44,9 +44,9 @@ $route['default_controller'] = 'startbootstrap/pages';
 
 // admin
 $route['admin'] = 'admin';
-$route['admin'] = 'admin/auth/login';
-$route['auth'] = 'admin/auth/login';
-$route['admin/login'] = 'admin/auth/login';
+//$route['admin'] = 'admin/auth/login';
+$route['authh'] = 'admin/auth/login';
+//$route['admin/login'] = 'admin/auth/login';
 $route['admin/registration'] = 'admin/auth/create_user';
 $route['admin/logout'] = 'admin/auth/logout';
 

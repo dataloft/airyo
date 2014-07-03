@@ -11,6 +11,9 @@ class Content extends CI_Controller {
         $this->load->model('trash_model');
         $this->lang->load('content');
         $this->load->helper('language');
+        if(!$this->ion_auth->logged_in()) {
+           show_404();
+        }
     }
 
     public function index($page = '') {

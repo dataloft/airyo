@@ -18,7 +18,7 @@
                     }
                     ?>
 
-					<?php echo form_open("admin/login", 'id="login" class="login" name="login" method="POST"');?>
+					<?php echo form_open("", 'id="login" class="login" name="login" method="POST"');?>
 					<fieldset>
 						<div class="input-group" style="margin-bottom: 25px"> <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 							<input class="form-control" value="<? echo set_value('identity'); ?>" placeholder="Имя или email" name="identity" type="text" autofocus required>

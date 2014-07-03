@@ -112,6 +112,9 @@ class Auth extends CI_Controller {
 	 * Log the user out
 	 */
 	function logout() {
+        if(!$this->ion_auth->logged_in()) {
+            show_404();
+        }
 		$this->data['title'] = "Logout";
 
 		//log the user out
@@ -120,11 +123,12 @@ class Auth extends CI_Controller {
 		//redirect them to the login page
 		//$this->session->set_flashdata('message', $this->ion_auth->messages());
 
-		redirect('admin/login', 'refresh');
+		redirect($this->config->item('auth'), 'refresh');
 	}
 
 	//change password
 	function change_password() {
+
 		$this->form_validation->set_rules('old', $this->lang->line('change_password_validation_old_password_label'), 'required');
 		$this->form_validation->set_rules('new', $this->lang->line('change_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
 		$this->form_validation->set_rules('new_confirm', $this->lang->line('change_password_validation_new_password_confirm_label'), 'required');
@@ -389,6 +393,9 @@ class Auth extends CI_Controller {
 	//create a new user
 	function create_user()
 	{
+        if(!$this->ion_auth->logged_in()) {
+            show_404();
+        }
 		$this->data['title'] = "Create User";
 
 		/*if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
@@ -481,6 +488,9 @@ class Auth extends CI_Controller {
 	//edit a user
 	function edit_user($id)
 	{
+        if(!$this->ion_auth->logged_in()) {
+            show_404();
+        }
 		$this->data['title'] = "Edit User";
 
 		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
@@ -599,6 +609,9 @@ class Auth extends CI_Controller {
 	// create a new group
 	function create_group()
 	{
+        if(!$this->ion_auth->logged_in()) {
+            show_404();
+        }
 		$this->data['title'] = $this->lang->line('create_group_title');
 
 		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
@@ -647,6 +660,9 @@ class Auth extends CI_Controller {
 	//edit a group
 	function edit_group($id)
 	{
+        if(!$this->ion_auth->logged_in()) {
+            show_404();
+        }
 		// bail if no group id given
 		if(!$id || empty($id))
 		{

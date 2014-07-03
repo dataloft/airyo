@@ -17,6 +17,9 @@ class Files extends CI_Controller {
         $this->load->helper('file');
         $this->load->helper('url');
         $this->config->load('not_allowed_mimes');
+        if(!$this->ion_auth->logged_in()) {
+            show_404();
+        }
 	}
 
 	public function index() {
