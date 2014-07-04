@@ -7,7 +7,7 @@ class Trash_model extends CI_Model {
 
     public function Add ($data)
     {
-        $this->db->insert('trash', $data);
+        $this->db->insert($this->db->dbprefix('trash'), $data);
         $return = $this->db->insert_id();
 
         return $return;

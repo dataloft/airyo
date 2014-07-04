@@ -31,7 +31,7 @@ class Login_model extends CI_Model {
 				users_info.group_thread,
 				users_info.vcard
 			FROM
-				users_info
+				'.$this->db->dbprefix('users_info').'
 			WHERE TRUE '.
 				$sAndMailboxId;
 

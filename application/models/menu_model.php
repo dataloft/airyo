@@ -15,7 +15,7 @@ class Menu_model extends CI_Model {
         $this->db->order_by('parent_id','asc');
         $this->db->order_by('id','asc');
 
-        $q =  $this->db->get('menu');
+        $q =  $this->db->get($this->db->dbprefix('menu'));
         if ($q->num_rows() > 0)
         {
             foreach ( $q->result() as $row )
@@ -33,7 +33,7 @@ class Menu_model extends CI_Model {
            $this->db->where('menu_group',$menu_group);
         $this->db->order_by('parent_id','asc');
         $this->db->order_by('order','asc');
-        $q =  $this->db->get('menu');
+        $q =  $this->db->get($this->db->dbprefix('menu'));
         if ($q->num_rows() > 0)
         {
            return  $q->result();
@@ -42,7 +42,7 @@ class Menu_model extends CI_Model {
     }
 
     public function updateOrderList($data) {
-        if ($this->db->update('menu', $data, array('id' => $data->id)))
+        if ($this->db->update($this->db->dbprefix('menu'), $data, array('id' => $data->id)))
             //$return = $this->db->affected_rows() == 1;
             return true;
         else
@@ -53,7 +53,7 @@ class Menu_model extends CI_Model {
         $this->db->select('*');
         if (!empty($id))
             $this->db->where('id',$id);
-        $q =  $this->db->get('menu_group');
+        $q =  $this->db->get($this->db->dbprefix('menu_group'));
         return  $q->result_array();
     }
 
@@ -62,7 +62,7 @@ class Menu_model extends CI_Model {
         $this->db->where('parent_id',$parent_id);
         $this->db->order_by('order','desc');
         $this->db->limit(1);
-        $q = $this->db->get('menu');
+        $q = $this->db->get($this->db->dbprefix('menu'));
         if ($q->num_rows() > 0)
         {
             $row = $q->row();
@@ -76,7 +76,7 @@ class Menu_model extends CI_Model {
         $this->db->where('parent_id', $parent_id);
         $this->db->where('order', $order);
         $this->db->where('id !=', $id);
-        $q = $this->db->get('menu');
+        $q = $this->db->get($this->db->dbprefix('menu'));
         if ($q->num_rows() > 0)
         {
             $row = $q->row();
@@ -88,7 +88,7 @@ class Menu_model extends CI_Model {
     public function getToId($id) {
         $q = $this->db;
         $this->sql = "
-			SELECT * FROM menu WHERE id = '".$id."'
+			SELECT * FROM ".$this->db->dbprefix('menu')." WHERE id = '".$id."'
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
@@ -99,14 +99,14 @@ class Menu_model extends CI_Model {
 
     public function Add ($data)
     {
-        $this->db->insert('menu', $data);
+        $this->db->insert($this->db->dbprefix('menu'), $data);
         $return = $this->db->insert_id();
         return $return;
     }
 
     public function Update ($id, $data)
     {
-       if ($this->db->update('menu', $data, array('id' => $id)))
+       if ($this->db->update($this->db->dbprefix('menu'), $data, array('id' => $id)))
             return true;
         else
             return false;
@@ -118,7 +118,7 @@ class Menu_model extends CI_Model {
 
     public function delete($id)
     {
-        if ($this->db->delete('menu', array('id' => $id)))
+        if ($this->db->delete($this->db->dbprefix('menu'), array('id' => $id)))
             //$return = $this->db->affected_rows() == 1;
             return true;
         else

@@ -21,7 +21,7 @@ class Content_model extends CI_Model {
         }
 
 
-        $q =  $this->db->get('content');
+        $q =  $this->db->get($this->db->dbprefix('content'));
         return  $q->result_array();
 	}
 
@@ -29,7 +29,7 @@ class Content_model extends CI_Model {
 
 	public function getType() {
 		$q = $this->db;
-		$this->sql = "SELECT * FROM `type_content`";
+		$this->sql = "SELECT * FROM ".$this->db->dbprefix('type_content');
 		$q = $q->query($this->sql);
 		return $q->result();
 	}
@@ -37,7 +37,7 @@ class Content_model extends CI_Model {
     public function get($page) {
 		$q = $this->db;
 		$this->sql = "
-			SELECT * FROM content WHERE alias = '".$page."' and enabled = 1
+			SELECT * FROM ".$this->db->dbprefix('content')." WHERE alias = '".$page."' and enabled = 1
 		";
 		$q = $q->query($this->sql);
 		return $q->row();
@@ -46,7 +46,7 @@ class Content_model extends CI_Model {
     public function getToId($id) {
         $q = $this->db;
         $this->sql = "
-			SELECT * FROM content WHERE id = '".$id."'
+			SELECT * FROM ".$this->db->dbprefix('content')." WHERE id = '".$id."'
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
@@ -58,7 +58,7 @@ class Content_model extends CI_Model {
     public function getToAlias($alias) {
         $q = $this->db;
         $this->sql = "
-			SELECT * FROM content WHERE alias = '".$alias."'
+			SELECT * FROM ".$this->db->dbprefix('content')." WHERE alias = '".$alias."'
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
@@ -69,7 +69,7 @@ class Content_model extends CI_Model {
 
     public function Add ($data)
     {
-        $this->db->insert('content', $data);
+        $this->db->insert($this->db->dbprefix('content'), $data);
         $return = $this->db->insert_id();
 
         return $return;
@@ -77,7 +77,7 @@ class Content_model extends CI_Model {
 
     public function Update ($id, $data)
     {
-       if ($this->db->update('content', $data, array('id' => $id)))
+       if ($this->db->update($this->db->dbprefix('content'), $data, array('id' => $id)))
         //$return = $this->db->affected_rows() == 1;
             return true;
         else
@@ -90,7 +90,7 @@ class Content_model extends CI_Model {
 
 	public function delete($id)
     {
-        if ($this->db->delete('content', array('id' => $id)))
+        if ($this->db->delete($this->db->dbprefix('content'), array('id' => $id)))
             //$return = $this->db->affected_rows() == 1;
             return true;
         else
