@@ -53,13 +53,24 @@ if (!empty($styles))
 				<li <? if ($main_menu == 'files') echo 'class="active"';?>><a href="/admin/files">Файлы</a></li>
 				<li class="dropdown <?  if ($main_menu[0] == 'modules') echo 'active';?>"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>
 					<ul class="dropdown-menu">
+						<li><a href="/admin/gallery">Галереи</a></li>
+						<li><a href="/admin/">Слайдеры</a></li>
+						<li><a href="/admin/">Каталог товаров</a></li>
+						<li><a href="/admin/">Пользователи</a></li>
+						<li><a href="/admin/">Заказы</a></li>
+						<li><a href="/admin/">Формы и запросы</a></li>
+						<li><a href="/admin/">Комментарии, отзывы</a></li>
+						<li><a href="/admin/">Подписчики</a></li>
+						<li><a href="/admin/">Журнал действий</a></li>
+						<li><a href="/admin/">Настройки сайта</a></li>
+						<li><a href="/admin/">Пакетные операции</a></li>
 						<li  <? if ($main_menu[1] == 'counters') echo 'class="active"';?>><a href="/admin/counters">Счетчики</a></li>
 					</ul>
 				</li>
 			</ul>
-			<!--ul class="nav navbar-nav navbar-right">
+			<ul class="nav navbar-nav navbar-right">
 				<li><a href="#"><span class="glyphicon glyphicon-trash"></span> Корзина</a></li>
-			</ul-->
+			</ul>
 		</div>
 		<?endif?>
 	</div>
