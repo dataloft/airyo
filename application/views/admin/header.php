@@ -59,8 +59,8 @@ if (!empty($styles))
 						<li><a href="/admin/">Пользователи</a></li>
 						<li><a href="/admin/">Заказы</a></li>
 						<li><a href="/admin/">Формы и запросы</a></li>
-						<li><a href="/admin/">Комментарии, отзывы</a></li>
-						<li><a href="/admin/">Подписчики</a></li>
+						<li><a href="/admin/">Комментарии</a></li>
+						<li><a href="/admin/">Подписки и рассылки</a></li>
 						<li><a href="/admin/">Журнал действий</a></li>
 						<li><a href="/admin/">Настройки сайта</a></li>
 						<li><a href="/admin/">Пакетные операции</a></li>
