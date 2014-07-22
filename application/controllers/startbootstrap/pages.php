@@ -18,7 +18,7 @@ class Pages extends CI_Controller {
 		if($data['page']) {
 			$this->load->view('startbootstrap/header', $data);
 			$this->load->view('startbootstrap/nav', $data);
-			
+
 			if ($this->uri->uri_string != '') {
 				$this->load->view('startbootstrap/pages_inner', $data);
 			}

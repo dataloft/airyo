@@ -50,7 +50,7 @@ class Content_model extends CI_Model {
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
-            return $q->row();
+            return $q->row_array();
 
         return false;
     }
