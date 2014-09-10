@@ -57,6 +57,11 @@ $route['admin/content/edit'] = 'admin/content/edit';
 $route['admin/content/edit/(:num)'] = 'admin/content/edit/$1';
 $route['admin/content/delete'] = 'admin/content/delete';
 
+//admin settings profile
+$route['admin/settings'] = 'admin/settings';
+$route['admin/settings/edit'] = 'admin/settings/edit';
+$route['admin/settings/edit/(:num)'] = 'admin/settings/edit/$1';
+
 //admin menu
 $route['admin/menu'] = 'admin/menu';
 $route['admin/menu/add'] = 'admin/menu/add';
