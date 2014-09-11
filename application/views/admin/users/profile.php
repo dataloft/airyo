@@ -2,7 +2,7 @@
 	<?php if ($message) : ?>
 		<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
 	<?php endif; ?>
-	<h1 class="page-header">Настройки</h1>
+	<h1 class="page-header">Профиль</h1>
 
 	<div class="bs-tabs">
 		<!-- Tabs -->
@@ -56,7 +56,6 @@
 							<button type="submit" class="btn btn-primary">Сохранить</button>
 						</div>
 					</div>
-				<input type="hidden" name="user_id" value="<?=$user->id; ?>" />
 				<input type="hidden" name="form_edit" value="profile" />
 				<?php echo form_close();?>
 			</div>
@@ -65,21 +64,26 @@
 					<div class="form-group <?php if(form_error('password')) echo 'has-error"'; ?>">
 						<label for="inputPassword" class="control-label col-xs-2">Пароль:</label>
 						<div class="col-xs-3">
-							<input type="password" class="form-control" id="inputPassword" placeholder="Пароль">
+							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Пароль">
 						</div>
 					</div>
-					<div class="form-group <?php if(form_error('password')) echo 'has-error"'; ?>">
-						<label for="inputRepeatPassword" class="control-label col-xs-2">Подтверждение пароля:</label>
+					<div class="form-group <?php if(form_error('passconf')) echo 'has-error"'; ?>">
+						<label for="inputConfirmPassword" class="control-label col-xs-2">Подтверждение пароля:</label>
 						<div class="col-xs-3">
-							<input type="password" class="form-control" id="inputRepeatPassword" placeholder="Подтверждение пароля">
+							<input type="password" class="form-control" name="passconf" id="inputConfirmPassword" placeholder="Подтверждение пароля">
 						</div>
 					</div>
+					<div class="form-group <?php if(form_error('newpass')) echo 'has-error"'; ?>">
+						<label for="inputNewPassword" class="control-label col-xs-2">Новый пароль:</label>
+						<div class="col-xs-3">
+							<input type="password" class="form-control" name="newpass" id="inputNewPassword" placeholder="Новый пароль">
+						</div>
+				</div>
 					<div class="form-group">
 						<div class="col-xs-offset-2 col-xs-10">
 							<button type="submit" class="btn btn-primary">Сохранить</button>
 						</div>
 					</div>
-				<input type="hidden" name="user_id" value="<?=$user->id; ?>" />
 				<input type="hidden" name="form_edit" value="password" />
 				<?php echo form_close();?>
 			</div>

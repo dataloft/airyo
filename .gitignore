@@ -16,5 +16,5 @@ application/logs/*
 */cache/!.htaccess
 /.idea
 /.htaccess
-/application/config/database.php
+application/config/database.php
 public/*
