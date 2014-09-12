@@ -59,6 +59,7 @@ $route['admin/content/delete'] = 'admin/content/delete';
 
 //admin users (profile)
 $route['admin/users'] = 'admin/users';
+$route['admin/users/(:num)'] = 'admin/users';
 $route['admin/users/profile'] = 'admin/users/profile';
 $route['admin/users/add'] = 'admin/users/add';
 $route['admin/users/edit'] = 'admin/users/edit';

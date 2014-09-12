@@ -1,5 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Class Users
+ *
+ * @editor N.Zakharenko
+ */
 class Users extends CI_Controller {
 
 	/** @var  int */
@@ -9,10 +14,11 @@ class Users extends CI_Controller {
 		parent::__construct();
 		$this->load->library('ion_auth');
 		$this->load->library('form_validation');
+		$this->load->library('pagination');
 		$this->load->helper('url');
+		$this->load->helper('language');
 		$this->load->model('users_model');
 		$this->lang->load('content');
-		$this->load->helper('language');
 		$this->iUserId = $this->ion_auth->get_user_id();
 
 		if(!$this->ion_auth->logged_in()) {
@@ -29,7 +35,37 @@ class Users extends CI_Controller {
 		$data['menu'] = array();
 		$data['usermenu'] = array();
 
-		$data['user']  = $this->users_model->getUserById($this->iUserId);
+		$config = array(
+				'full_tag_open'     => '<ul class="pagination pagination-sm">',
+				'full_tag_close'    => '</ul>',
+				'first_link'        => '&laquo;',
+				'first_tag_open'    => '<li>',
+				'first_tag_close'   => '</li>',
+				'last_link'         => '&raquo;',
+				'last_tag_open'     => '<li>',
+				'last_tag_close'    => '</li>',
+				'next_link'         => '&raquo',
+				'next_tag_open'     => '<li>',
+				'next_tag_close'    => '</li>',
+				'prev_link'         => '&laquo',
+				'prev_tag_open'     => '<li>',
+				'prev_tag_close'    => '</li>',
+				'cur_tag_open'      => '<li class="active"><span>',
+				'cur_tag_close'     => '<span class="sr-only">(current)</span></span></li>',
+				'num_tag_open'      => '<li>',
+				'num_tag_close'     => '</li>',
+				'base_url'          => '/admin/users/',
+				'total_rows'        => $this->users_model->record_count(),
+				'per_page'          => '20'
+		);
+
+		$this->pagination->initialize($config);
+
+		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		$data["users"] = $this->users_model->fetch_countries($config["per_page"], $page);
+
+		$data['pagination'] = $this->pagination;
+
 		$data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
 		$this->load->view('admin/header', $data);
@@ -38,7 +74,31 @@ class Users extends CI_Controller {
 	}
 
 	/**
-	 * Отображение/редактирование профиля пользователя
+	 * Отображение/редактирование пользователя
+	 *
+	 * @param $iId
+	 *
+	 * @return edit view
+	 */
+	public function edit($iId) {
+		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
+			redirect('auth', 'refresh');
+		}
+
+		$data['main_menu'] = 'users';
+		$data['menu'] = array();
+		$data['usermenu'] = array();
+
+		$data['user']  = $this->users_model->getUserById($iId);
+		$data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+
+		$this->load->view('admin/header', $data);
+		$this->load->view('admin/users/edit', $data);
+		$this->load->view('admin/footer', $data);
+	}
+
+	/**
+	 * Отображение/редактирование профиля
 	 *
 	 * @author N.Zakharenko
 	 */

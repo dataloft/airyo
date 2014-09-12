@@ -48,6 +48,7 @@ if (!empty($styles))
 		<?if(isset($menu)):?>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
+				<li <? if ($main_menu == 'users') echo 'class="active"';?> ><a href="/admin/users">Пользователи</a></li>
 				<li <? if ($main_menu == 'content') echo 'class="active"';?> ><a href="/admin/content">Наполнение</a></li>
 				<li <? if ($main_menu == 'menu') echo 'class="active"';?> ><a href="/admin/menu">Меню</a></li>
 				<li <? if ($main_menu == 'files') echo 'class="active"';?>><a href="/admin/files">Файлы</a></li>

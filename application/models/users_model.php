@@ -7,6 +7,23 @@ class Users_model extends CI_Model {
 		parent::__construct();
 	}
 
+	public function record_count() {
+		return $this->db->count_all("users");
+	}
+
+	public function fetch_countries($limit, $start) {
+		$this->db->limit($limit, $start);
+		$query = $this->db->get("users");
+
+		if ($query->num_rows() > 0) {
+			foreach ($query->result() as $row) {
+				$data[] = $row;
+			}
+			return $data;
+		}
+		return false;
+	}
+
 	/**
 	 * Метод получения пользователей
 	 *
@@ -15,7 +32,7 @@ class Users_model extends CI_Model {
 	 *
 	 * @author N.Zakharenko
 	 */
-	public function getUsers($aParams){
+	public function getUsers(array $aParams = array()){
 		$aParams = self::validateUserData($aParams);
 
 		$this->db->select('*');
