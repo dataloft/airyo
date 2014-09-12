@@ -46,6 +46,6 @@
 				<button type="submit" class="btn btn-primary">Сохранить</button>
 			</div>
 		</div>
-	<input type="hidden" name="form_edit" value="profile" />
+	<input type="hidden" name="form_edit" value="edit" />
 	<?php echo form_close();?>
 </div>

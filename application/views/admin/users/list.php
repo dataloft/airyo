@@ -41,7 +41,7 @@
 			        <?php foreach ($users as $user) : ?>
 			        <tr>
 				        <td><?=$user->id; ?></td>
-				        <td><a href="users/edit/<?=$user->id; ?>"><?=$user->username; ?></a></td>
+				        <td><a href="<?=($profile_id == $user->id) ? 'users/profile' : 'users/edit/'.$user->id; ?>"><?=$user->username; ?></a></td>
 				        <td><?=$user->email; ?></td>
 				        <td><?=$user->first_name; ?></td>
 				        <td><?=$user->last_name; ?></td>

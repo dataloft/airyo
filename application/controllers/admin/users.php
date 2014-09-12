@@ -64,6 +64,7 @@ class Users extends CI_Controller {
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 		$data["users"] = $this->users_model->fetch_countries($config["per_page"], $page);
 
+		$data['profile_id'] = $this->iUserId;
 		$data['pagination'] = $this->pagination;
 
 		$data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
@@ -84,17 +85,30 @@ class Users extends CI_Controller {
 		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
 			redirect('auth', 'refresh');
 		}
+		$iId = intval($iId);
+		if($iId == $this->iUserId) {
+			redirect("admin/users/profile", 'refresh');
+		} else {
+			$data['main_menu'] = 'users';
+			$data['menu'] = array();
+			$data['usermenu'] = array();
 
-		$data['main_menu'] = 'users';
-		$data['menu'] = array();
-		$data['usermenu'] = array();
+			$oPost = (object) $this->input->post();
 
-		$data['user']  = $this->users_model->getUserById($iId);
-		$data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+			if(!empty($oPost->form_edit)) {
+				$aMessage = $this->updateProfile($iId);
 
-		$this->load->view('admin/header', $data);
-		$this->load->view('admin/users/edit', $data);
-		$this->load->view('admin/footer', $data);
+				/** Оповещение */
+				$this->session->set_flashdata('message', $aMessage);
+			}
+
+			$data['user']  = $this->users_model->getUserById($iId);
+			$data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+
+			$this->load->view('admin/header', $data);
+			$this->load->view('admin/users/edit', $data);
+			$this->load->view('admin/footer', $data);
+		}
 	}
 
 	/**
@@ -111,49 +125,18 @@ class Users extends CI_Controller {
 		$data['menu'] = array();
 		$data['usermenu'] = array();
 
-		$data['user']  = $this->users_model->getUserById($this->iUserId);
-
 		$oPost = (object) $this->input->post();
 
 		if(!empty($oPost->form_edit)) {
 			$aMessage = array();
 
 			if($oPost->form_edit == "profile") {
-				$this->form_validation->set_rules('username', 'Пользователь', 'trim|required|min_length[5]|max_length[25]|alpha_numeric');
-				$this->form_validation->set_rules('first_name', 'Имя', 'trim|min_length[2]|xss_clean');
-				$this->form_validation->set_rules('last_name', 'Фамилия', 'trim|min_length[2]|xss_clean');
-				$this->form_validation->set_rules('email', 'Почтовый адрес', 'trim|required|valid_email|xss_clean');
-				$this->form_validation->set_rules('company', 'Название компании', 'trim|min_length[3]|xss_clean');
-				$this->form_validation->set_rules('phone', 'Телефонный номер', 'trim|alpha_dash');
-
-				if ($this->form_validation->run() == true) {
-					$aProfileData = array(
-						'username'      => $this->input->post('username',TRUE),
-						'first_name'    => $this->input->post('first_name',TRUE),
-						'last_name'     => $this->input->post('last_name',TRUE),
-						'email'         => $this->input->post('email',TRUE),
-						'company'       => $this->input->post('company',TRUE),
-						'phone'         => $this->input->post('phone',TRUE),
-					);
-
-					if ($this->users_model->Update($this->iUserId, $aProfileData)) {
-						$aMessage = array(
-							'type' => 'success',
-							'text' => 'Успешное сохранение профиля'
-						);
-					}
-				} else {
-					$aMessage = array(
-						'type' => 'danger',
-						'text' =>  validation_errors()
-					);
-				}
+				$aMessage = $this->updateProfile($this->iUserId);
 			}
 			elseif($oPost->form_edit == "password") {
 				$this->form_validation->set_rules('password', 'Пароль', 'trim|required|matches[passconf]|md5');
 				$this->form_validation->set_rules('passconf', 'Подтверждение пароля', 'trim|required');
 				$this->form_validation->set_rules('newpass', 'Новый пароль', 'trim|required');
-
 
 				if ($this->form_validation->run() == true) {
 					if($data['user']->password === $this->input->post('password',TRUE)) {
@@ -180,11 +163,56 @@ class Users extends CI_Controller {
 			$this->session->set_flashdata('message', $aMessage);
 		}
 
+		$data['user']  = $this->users_model->getUserById($this->iUserId);
 		$data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
 		$this->load->view('admin/header', $data);
 		$this->load->view('admin/users/profile', $data);
 		$this->load->view('admin/footer', $data);
+	}
+
+	private function updateProfile($iId){
+		$aMessage = array();
+
+		$iId = intval($iId);
+		if($iId > 0) {
+			$this->form_validation->set_rules('username', 'Пользователь', 'trim|required|min_length[5]|max_length[25]|alpha_numeric');
+			$this->form_validation->set_rules('first_name', 'Имя', 'trim|min_length[2]|xss_clean');
+			$this->form_validation->set_rules('last_name', 'Фамилия', 'trim|min_length[2]|xss_clean');
+			$this->form_validation->set_rules('email', 'Почтовый адрес', 'trim|required|valid_email|xss_clean');
+			$this->form_validation->set_rules('company', 'Название компании', 'trim|min_length[3]|xss_clean');
+			$this->form_validation->set_rules('phone', 'Телефонный номер', 'trim|alpha_dash');
+
+			if ($this->form_validation->run() == true) {
+				$aProfileData = array(
+					'username'      => $this->input->post('username',TRUE),
+					'first_name'    => $this->input->post('first_name',TRUE),
+					'last_name'     => $this->input->post('last_name',TRUE),
+					'email'         => $this->input->post('email',TRUE),
+					'company'       => $this->input->post('company',TRUE),
+					'phone'         => $this->input->post('phone',TRUE),
+				);
+
+				if ($this->users_model->Update($iId, $aProfileData)) {
+					$aMessage = array(
+						'type' => 'success',
+						'text' => 'Успешное сохранение профиля'
+					);
+				}
+			} else {
+				$aMessage = array(
+					'type' => 'danger',
+					'text' =>  validation_errors()
+				);
+			}
+		} else {
+			$aMessage = array(
+				'type' => 'warning',
+				'text' =>  'Ошибка при сохранении'
+			);
+		}
+
+		return $aMessage;
 	}
 }
 
