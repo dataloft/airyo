@@ -139,19 +139,11 @@ class Users extends CI_Controller {
 				$this->form_validation->set_rules('newpass', 'Новый пароль', 'trim|required');
 
 				if ($this->form_validation->run() == true) {
-					if($data['user']->password === $this->input->post('password',TRUE)) {
-						if ($this->users_model->Update($this->iUserId, array('password' => $this->input->post('newpass',TRUE)))) {
-							$aMessage = array(
-									'type' => 'success',
-									'text' => 'Пароль изменён'
-							);
-						}
-					} else {
-						$aMessage = array(
-							'type' => 'warning',
-							'text' => "Неверный пароль"
-						);
-					}
+					$identity = $this->session->userdata($this->config->item('identity', 'ion_auth'));
+					$OldPassword = $oPost->password;
+					$NewPassword = $oPost->newpass;
+
+					$aMessage = $this->changePassword($identity, $OldPassword, $NewPassword);
 				} else {
 					$aMessage = array(
 						'type' => 'danger',
@@ -171,6 +163,12 @@ class Users extends CI_Controller {
 		$this->load->view('admin/footer', $data);
 	}
 
+	/**
+	 * Обновление профиля
+	 *
+	 * @param $iId
+	 * @return array
+	 */
 	private function updateProfile($iId){
 		$aMessage = array();
 
@@ -209,6 +207,32 @@ class Users extends CI_Controller {
 			$aMessage = array(
 				'type' => 'warning',
 				'text' =>  'Ошибка при сохранении'
+			);
+		}
+
+		return $aMessage;
+	}
+
+	/**
+	 * Изменение пароля
+	 *
+	 * @param $iId
+	 * @param $sOld
+	 * @param $sNew
+	 * @return bool
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	private function changePassword($iId, $sOld, $sNew) {
+		if ($this->ion_auth->change_password($iId, $sOld, $sNew)) {
+			$aMessage = array(
+				'type' => 'success',
+				'text' => 'Пароль изменён'
+			);
+		} else {
+			$aMessage = array(
+				'type' => 'warning',
+				'text' => "Неверный пароль"
 			);
 		}
 
