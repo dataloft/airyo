@@ -9,16 +9,6 @@
 			</button>
 			<p class="navbar-brand text-muted"><small>&copy; Airyo 2014</small></p>
 		</div>
-		<?if(isset($usermenu)):?>
-		<div class="nav collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-			<p class="navbar-text navbar-right">
-				<span class="glyphicon glyphicon-user"></span> 
-				<a href="/admin/users/profile" style="margin-right: 20px;">Андрей Цветков</a>
-				<span class="glyphicon glyphicon-log-out"></span> 
-				<a href="/admin/logout">Выйти</a>
-			</p>
-		</div>
-		<?endif?>
 	</div>
 </div>
 
