@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Files extends CI_Controller {
+class Files extends CommonAdminController {
 
     protected $start_folder = 'public';
     protected $path = '';
@@ -8,45 +8,36 @@ class Files extends CI_Controller {
     protected $path_img_thumb_upload_folder;
     protected $path_url_img_upload_folder;
     protected $path_url_img_thumb_upload_folder;
-
     protected $delete_img_url;
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->library('ion_auth');
         $this->load->helper('file');
-        $this->load->helper('url');
         $this->config->load('not_allowed_mimes');
-        if(!$this->ion_auth->logged_in()) {
-            show_404();
-        }
 	}
 
 	public function index() {
-   		if(!$this->ion_auth->logged_in()) {
-			redirect('admin', 'refresh');
-		}
-		$data['menu'] = array();
-		$data['main_menu'] = 'files';
-		$data['usermenu'] = array();
-		$data['result'] = array();
-        $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-        $data['scripts'] = array(
+		$header_data['menu'] = array();
+		$header_data['main_menu'] = 'files';
+		$header_data['usermenu'] = array();
+
+		$body_data['result'] = array();
+		$body_data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		$footer_data['scripts'] = array(
             '/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',
             '/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js',
             '/themes/airyo/js/FileUpload/js/jquery.fileupload.js',
             '/themes/airyo/js/FileUpload/js/main.js'
         );
-        $data['styles'] = array(
+		$header_data['styles'] = array(
             '/themes/airyo/js/FileUpload/css/jquery.fileupload.css',
             '/themes/airyo/js/FileUpload/css/jquery.fileupload-ui.css',
             '/themes/airyo/js/FileUpload/css/style.css'
         );
+
         $this->path = '';
-        if (count($segments = $this->uri->segment_array()) > 2)
-        {
-            for ($i = 3; $i <= count($segments); $i++)
-            {
+        if (count($segments = $this->uri->segment_array()) > 2) {
+            for ($i = 3; $i <= count($segments); $i++) {
                 if ($segments[$i] === "." || $segments[$i] === ".." || $segments[$i] === "") continue;
                 $this->path.= $segments[$i].DIRECTORY_SEPARATOR;
             }
@@ -54,85 +45,87 @@ class Files extends CI_Controller {
 
         $dir = $this->getCurrentDir($this->path);
 
-
-        if (!is_dir($dir))
-            $data['message'] = array(
-                'msg_type' => 'danger',
-                'text' => 'Каталог не найден'
-            );
+        if (!is_dir($dir)) {
+	        $body_data['message'] = array(
+			        'msg_type' => 'danger',
+			        'text' => 'Каталог не найден'
+	        );
+        }
         try {
             $arr = $this->readdir($dir);
         } catch (Exception $e) {
             $arr = array();
-            $data['message'] = array(
+	        $body_data['message'] = array(
                 'msg_type' => 'danger',
                 'text' => 'Не удалось прочитать каталог'
             );
         }
-        if (!empty($arr))
-        foreach ($arr as $item) {
+        if (!empty($arr)) {
+	        foreach ($arr as $item) {
 
-            if ($item === "." || $item === "..") continue;
+	            if ($item === "." || $item === "..") continue;
 
-            $label = basename($item);
-            //echo $item;
-            $path =  preg_replace("/".$this->start_folder."\//", '', (ltrim($item,'/')),1);
-            $isLink = is_link($path);
-            if (is_dir($item)) {
-                $data['result'][] = array(
-                    'type' => 'dir',
-                    'isLink' => $isLink,
-                    'path' => $path,
-                    'label' => $label,
-                    'extension' => '-',
-                    'url' => '/admin/files/'.$path
-                );
-            } else {
-                $size = @filesize($item);
-                if ($size === false) {
-                    $intsize = 0;
-                    $size = 'N/A';
-                } else if ($size < 0) {
-                    $intsize = 0;
-                    $size = '> 1Гb';
-                } else {
-                    $intsize = $size;
-                    $size = number_format($size, 0, ' ', ' ');
-                }
-                $extension = pathinfo($path, PATHINFO_EXTENSION);
-                if (empty($extension)) $extension = '-';
-                $data['result'][] = array(
-                    'type' => 'file',
-                    'isLink' => $isLink,
-                    'path' => $path,
-                    'label' => $label,
-                    'size' => $size,
-                    'intsize' => $intsize,
-                    'extension' => $extension,
-                );
+	            $label = basename($item);
+	            //echo $item;
+	            $path =  preg_replace("/".$this->start_folder."\//", '', (ltrim($item,'/')),1);
+	            $isLink = is_link($path);
+	            if (is_dir($item)) {
+		            $body_data['result'][] = array(
+	                    'type' => 'dir',
+	                    'isLink' => $isLink,
+	                    'path' => $path,
+	                    'label' => $label,
+	                    'extension' => '-',
+	                    'url' => '/admin/files/'.$path
+	                );
+	            } else {
+	                $size = @filesize($item);
+	                if ($size === false) {
+	                    $intsize = 0;
+	                    $size = 'N/A';
+	                } else if ($size < 0) {
+	                    $intsize = 0;
+	                    $size = '> 1Гb';
+	                } else {
+	                    $intsize = $size;
+	                    $size = number_format($size, 0, ' ', ' ');
+	                }
+	                $extension = pathinfo($path, PATHINFO_EXTENSION);
+	                if (empty($extension)) $extension = '-';
+		            $body_data['result'][] = array(
+	                    'type' => 'file',
+	                    'isLink' => $isLink,
+	                    'path' => $path,
+	                    'label' => $label,
+	                    'size' => $size,
+	                    'intsize' => $intsize,
+	                    'extension' => $extension,
+	                );
+	            }
+	        }
+        } else {
+	        $body_data['result']=array();
+            if(empty($body_data['message'])) {
+	            $body_data['message'] = array(
+			            'msg_type' => 'warning',
+			            'text' => 'Каталог пуст'
+	            );
             }
         }
-        else
-        {
-            $data['result']=array();
-            if(empty($data['message']))
-                $data['message'] = array(
-                'msg_type' => 'warning',
-                'text' => 'Каталог пуст'
-            );
-        }
+
         $upDir = ltrim(ltrim(dirname($dir),$this->start_folder),"/");
-        if ($upDir == '' || $upDir == '.')
-            array_unshift($data['result'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/admin/files'));
-        else
-            array_unshift($data['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/admin/files/'.$upDir));
+        if ($upDir == '' || $upDir == '.') {
+	        array_unshift($body_data['result'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/admin/files'));
+        } else {
+	        array_unshift($body_data['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/admin/files/'.$upDir));
+        }
 
         // Создаем путь (хлебные крошки)
         $currDir = preg_replace("/".$this->start_folder."/",'',rtrim($this->getCurrentDir($this->path), '\\/'),1);
 
         $currExplodedDir = preg_split('#\\\\|/#', $currDir);
         if (isset($currExplodedDir[0]) && $currExplodedDir[0] == '') $currExplodedDir[0] = DIRECTORY_SEPARATOR; //FIX для UNIX
-        $data['path'] = array();
+		$body_data['path'] = array();
         $url = '';
         foreach ($currExplodedDir as $value) {
             if ($value != DIRECTORY_SEPARATOR) {
@@ -141,14 +134,15 @@ class Files extends CI_Controller {
                 $url = DIRECTORY_SEPARATOR;
                 $value = 'Files';
             }
-            $data['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
+	        $body_data['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
         }
 
-		$this->load->view('admin/header', $data);
-		$this->load->view('admin/files/list', $data);
-		$this->load->view('admin/footer', $data);
+		$this->header_vars = $header_data;
+		$this->body_vars = $body_data;
+		$this->footer_vars = $footer_data;
+		$this->body_file = 'admin/files/list';
 	}
-	
+
 	public function edit($id = '') {
 		
 		

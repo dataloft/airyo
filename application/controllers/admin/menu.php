@@ -1,112 +1,93 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Menu extends CI_Controller {
+class Menu extends CommonAdminController {
 
 	public function __construct() {
 		parent::__construct();
-        $this->load->library('ion_auth');
-        $this->load->library('form_validation');
-        $this->load->helper('url');
-        $this->load->model('menu_model');
-        $this->load->model('trash_model');
-        //$this->lang->load('menu');
-        $this->load->helper('language');
-        if(!$this->ion_auth->logged_in()) {
-            show_404();
-        }
+		$this->load->model('menu_model');
+		$this->load->model('trash_model');
 	}
 
-	public function index()
-    {
-        if(!$this->ion_auth->logged_in())
-        {
-            redirect('admin', 'refresh');
-        }
-        $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-        $data['main_menu'] = 'menu';
-        $data['menu'] = array();
-        $data['usermenu'] = array();
-        $data['menu_group'] = '';
-        $data['menu_list'] =  $this->menu_model->getMenuGroup();
-        $data['menu_group'] = $data['menu_list'][0]['id'];
-        if ($this->input->post('typeSelect'))
-            $data['menu_group'] = $this->input->post('typeSelect');
-        if ($list = $this->menu_model->getList($data['menu_group']))
-           $data['content']  = $this->printTreeList($this->buildTree($list));
-        else
-            $data['content'] = '';
-        $this->load->view('admin/header', $data);
-        $this->load->view('admin/menu/list', $data);
-        $this->load->view('admin/footer', $data);
+	public function index() {
+		$header_data['main_menu'] = 'menu';
+		$header_data['menu'] = array();
+		$header_data['usermenu'] = array();
+		$header_data['menu_group'] = '';
+
+		$body_data['menu_list'] =  $this->menu_model->getMenuGroup();
+		$body_data['menu_group'] = $body_data['menu_list'][0]['id'];
+
+		if ($this->input->post('typeSelect')) {
+			$body_data['menu_group'] = $this->input->post('typeSelect');
+		}
+
+		if ($list = $this->menu_model->getList($body_data['menu_group'])) {
+			$body_data['content']  = $this->printTreeList($this->buildTree($list));
+		} else {
+			$body_data['content'] = '';
+		}
+		$body_data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+
+		$this->header_vars = $header_data;
+		$this->body_vars = $body_data;
+		$this->body_file = 'admin/menu/list';
 	}
 
-    public function buildTree($array_items)
-    {
+	/**
+	 * Построекние дерева
+	 *
+	 * @param $array_items
+	 *
+	 * @return array|bool
+	 *
+	 * @editor N.Kulchinskiy
+	 */
+	public function buildTree($array_items)	{
+		if (is_array($array_items)) {
+			$items_count = count($array_items);
 
-        if (is_array($array_items))
-        {
+			for ($i = 0; $i < $items_count; $i++) {
+				$item = clone($array_items[$i]);
 
-            $items_count = count($array_items);
+				if ($item->parent_id == 0) { //верхний уровень
+					$children = $this->getChildNode($array_items, $item->id);
+					$item->child = $children;
+					$result[] = $item;
+				}
+			}
+		}
 
-            for ($i = 0; $i < $items_count; $i++)
-            {
+		return (isset($result)) ? $result : false;
+	}
 
-                $item = clone($array_items[$i]);
+	/**
+	 * Получение пунктов меню
+	 *
+	 * @param $array
+	 * @param $id
+	 *
+	 * @return array|bool
+	 *
+	 * @editor N.Kulchinskiy
+	 */
+	public function getChildNode($array, $id) {
+		$count = count($array);
 
-                if ($item->parent_id == 0) { //верхний уровень
+		for ($i = 0; $i < $count; $i++) { // перебор массива
+			$item = clone($array[$i]);
+			if ($item->parent_id == $id) { // 2 уровень найден
+				$children = $this->getChildNode($array, $item->id);
+				$item->child = $children;
+				$child_array[] = $item; // добавить 2 уровень
+			}
+		}
 
-                    $children = $this->getChildNode($array_items, $item->id);
-
-                    $item->child = $children;
-
-                    $result[] = $item;
-
-                }
-
-            }
-
-        }
-
-        return (isset($result)) ? $result : false;
-
-    }
-
-    public function getChildNode($array, $id)
-    {
-
-        $count = count($array);
-
-        for ($i = 0; $i < $count; $i++) { // перебор массива
-
-            $item = clone($array[$i]);
-
-            if ($item->parent_id == $id) { // 2 уровень найден
-
-                $children = $this->getChildNode($array, $item->id);
-
-                $item->child = $children;
-
-                $child_array[] = $item; // добавить 2 уровень
-
-            }
-
-        }
-
-        if (isset($child_array))
-        {
-
-            return $child_array;
-
-        }
-
-        else
-        {
-
-            return false;
-
-        }
-
-    }
+		if (isset($child_array)) {
+			return $child_array;
+		} else {
+			return false;
+		}
+	}
 
     function printSelectList($items, $current=0, $level=0, $id=0, $mem_lvl = -1)
     {

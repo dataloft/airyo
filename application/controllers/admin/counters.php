@@ -1,36 +1,26 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Counters extends CI_Controller {
+class Counters extends CommonAdminController {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('ion_auth');
-        $this->load->library('form_validation');
-        $this->load->helper('url');
         $this->load->model('counters_model');
         $this->load->model('trash_model');
-        $this->lang->load('content');
-        $this->load->helper('language');
-        if(!$this->ion_auth->logged_in()) {
-            show_404();
-        }
     }
 
     public function index() {
-        if(!$this->ion_auth->logged_in()) {
-            redirect('admin', 'refresh');
-        }
-        $data['main_menu'][0] = 'modules';
-        $data['main_menu'][1] = 'counters';
-        $data['menu'] = array();
-        $data['usermenu'] = array();
-        $data['type'] = '';
-        $data['search'] = '';
+	    $header_data['main_menu'][0] = 'modules';
+	    $header_data['main_menu'][1] = 'counters';
+	    $header_data['menu'] = array();
+	    $header_data['usermenu'] = array();
+
+	    $body_data['type'] = '';
+	    $body_data['search'] = '';
         $counters = new ArrayObject;
-        $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-        //$this->form_validation->set_rules('text', '', 'required');
-        $data['counters'] = $this->counters_model->getCounters();
-        if (empty($data['counters']))
+	    $body_data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+	    $body_data['counters'] = $this->counters_model->getCounters();
+
+        if (empty($body_data['counters']))
             show_404();
 
         if ($this->input->post('save'))
@@ -38,40 +28,38 @@ class Counters extends CI_Controller {
             $counters->text = $this->input->post('text');
             $counters->ip = $this->input->post('ip');
             $counters->domain = $this->input->post('domain');
-            $counters->id = $data['counters']->id;
-            $data['counters'] = $counters;
+            $counters->id = $body_data['counters']->id;
+	        $body_data['counters'] = $counters;
             $additional_data = array(
                 'text' => $counters->text,
                 'ip' => $counters->ip,
                 'domain' =>  $counters->domain
             );
 
-            if ($this->counters_model->Update($counters->id, $additional_data))
-            {
-                $data['message'] = array(
+            if ($this->counters_model->Update($counters->id, $additional_data)) {
+	            $body_data['message'] = array(
                     'type' => 'success',
                     'text' => 'Запись обновлена'
                 );
-            }
-            else
-            {
-
+            } else {
                 $counters->text = $this->input->post('text');
                 $counters->ip = $this->input->post('ip');
                 $counters->domain = $this->input->post('domain');
-                $counters->id = $data['counters']->id;
-                $data['counters'] = $counters;
-                $data['message'] = array(
+                $counters->id = $body_data['counters']->id;
+	            $body_data['counters'] = $counters;
+	            $body_data['message'] = array(
                     'type' => 'danger',
                     'text' => validation_errors()
                 );
             }
         }
-        $this->load->view('admin/header', $data);
-        $this->load->view('admin/counters/counters', $data);
-        $this->load->view('admin/footer', $data);
+
+	    $this->header_vars = $header_data;
+	    $this->body_vars = $body_data;
+	    $this->body_file = 'admin/counters/counters';
+
     }
 }
 
-/* End of file page.php */
-/* Location: ./application/controllers/page.php */
+/* End of file counters.php */
+/* Location: ./application/controllers/admin/counters.php */

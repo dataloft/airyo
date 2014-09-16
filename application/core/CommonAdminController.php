@@ -1,12 +1,24 @@
 <?php
+if( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+/**
+ * Class CommonAdminController
+ *
+ * @author N.Kulchinskiy
+ */
 class CommonAdminController extends CI_Controller
 {
+	/** @var string  */
 	protected $header_file = 'admin/common/header';
+	/** @var string  */
 	protected $body_file;
+	/** @var string  */
 	protected $footer_file = 'admin/common/footer';
+	/** @var array  */
 	protected $header_vars = array();
+	/** @var array  */
 	protected $body_vars = array();
+	/** @var array  */
 	protected $footer_vars = array();
 
 	public function __construct($bLogin = true) {
@@ -25,13 +37,23 @@ class CommonAdminController extends CI_Controller
 		}
 	}
 
-	public function _remap($method, $params = array())
-	{
+	/**
+	 * Формирование отображения
+	 *
+	 * @param       $method
+	 * @param array $params
+	 *
+	 * @return mixed
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function _remap($method, $params = array()) {
+
 		// you can set default variables to send to the template here
-		$this->header_vars['title'] = 'My website';
+		$this->header_vars['title'] = 'Airyo project';
 		$this->body_file = strtolower(get_class($this)).'/'.$method;
-		if (method_exists($this, $method))
-		{
+
+		if(method_exists($this, $method)) {
 			$result = call_user_func_array(array($this, $method), $params);
 			$this->load->view($this->header_file, $this->header_vars);
 			$this->load->view($this->body_file, $this->body_vars);
