@@ -5,10 +5,10 @@
  *
  * @editor N.Zakharenko
  */
-class Users extends CI_Controller {
+class Users extends CommonAdminController {
 
 	/** @var  int */
-	private $iUserId;
+	protected $iUserId;
 
 	public function __construct() {
 		parent::__construct();
@@ -31,9 +31,9 @@ class Users extends CI_Controller {
 			redirect('auth', 'refresh');
 		}
 
-		$data['main_menu'] = 'users';
-		$data['menu'] = array();
-		$data['usermenu'] = array();
+		$data_header['main_menu'] = 'users';
+		$data_header['menu'] = array();
+		$data_header['usermenu'] = array();
 
 		$config = array(
 				'full_tag_open'     => '<ul class="pagination pagination-sm">',
@@ -62,16 +62,16 @@ class Users extends CI_Controller {
 		$this->pagination->initialize($config);
 
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$data["users"] = $this->users_model->fetch_countries($config["per_page"], $page);
+		$data_body["users"] = $this->users_model->fetch_countries($config["per_page"], $page);
 
-		$data['profile_id'] = $this->iUserId;
-		$data['pagination'] = $this->pagination;
+		$data_body['profile_id'] = $this->iUserId;
+		$data_body['pagination'] = $this->pagination;
 
-		$data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		$data_body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
-		$this->load->view('admin/header', $data);
-		$this->load->view('admin/users/list', $data);
-		$this->load->view('admin/footer', $data);
+		$this->header_vars = $data_header;
+		$this->body_vars = $data_body;
+		$this->body_file = 'admin/users/list';
 	}
 
 	/**
@@ -89,9 +89,9 @@ class Users extends CI_Controller {
 		if($iId == $this->iUserId) {
 			redirect("admin/users/profile", 'refresh');
 		} else {
-			$data['main_menu'] = 'users';
-			$data['menu'] = array();
-			$data['usermenu'] = array();
+			$data_header['main_menu'] = 'users';
+			$data_header['menu'] = array();
+			$data_header['usermenu'] = array();
 
 			$oPost = (object) $this->input->post();
 
@@ -102,12 +102,12 @@ class Users extends CI_Controller {
 				$this->session->set_flashdata('message', $aMessage);
 			}
 
-			$data['user']  = $this->users_model->getUserById($iId);
-			$data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+			$data_body['user']  = $this->users_model->getUserById($iId);
+			$data_body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
-			$this->load->view('admin/header', $data);
-			$this->load->view('admin/users/edit', $data);
-			$this->load->view('admin/footer', $data);
+			$this->header_vars = $data_header;
+			$this->body_vars = $data_body;
+			$this->body_file = 'admin/users/edit';
 		}
 	}
 
@@ -121,9 +121,9 @@ class Users extends CI_Controller {
 			redirect('auth', 'refresh');
 		}
 
-		$data['main_menu'] = 'users';
-		$data['menu'] = array();
-		$data['usermenu'] = array();
+		$data_header['main_menu'] = 'users';
+		$data_header['menu'] = array();
+		$data_header['usermenu'] = array();
 
 		$oPost = (object) $this->input->post();
 
@@ -155,12 +155,12 @@ class Users extends CI_Controller {
 			$this->session->set_flashdata('message', $aMessage);
 		}
 
-		$data['user']  = $this->users_model->getUserById($this->iUserId);
-		$data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		$data_body['user']  = $this->users_model->getUserById($this->iUserId);
+		$data_body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
-		$this->load->view('admin/header', $data);
-		$this->load->view('admin/users/profile', $data);
-		$this->load->view('admin/footer', $data);
+		$this->header_vars = $data_header;
+		$this->body_vars = $data_body;
+		$this->body_file = 'admin/users/profile';
 	}
 
 	/**

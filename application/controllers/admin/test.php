@@ -16,5 +16,7 @@ class Test extends CommonAdminController {
 
 	public function index() {
 		parent::index();
+
+		$this->body_file = 'admin/test/test';
 	}
 } 

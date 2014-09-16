@@ -34,14 +34,14 @@ if (!empty($styles))
 <div class="navbar navbar-default" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
-			<?if(isset($menu)):?>
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> 
-				<span class="sr-only">Toggle navigation</span> 
-				<span class="icon-bar"></span> 
-				<span class="icon-bar"></span> 
-				<span class="icon-bar"></span> 
-			</button>
-			<?endif?>
+			<?php if(isset($menu)) : ?>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			<?php endif; ?>
 
 			<a class="navbar-brand" href="/" target="_blank" style="margin-right: 20px"><span class="glyphicon glyphicon-edit"></span> <?=ltrim($_SERVER['HTTP_HOST'],'www.');?></a>
 		</div>

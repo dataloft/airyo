@@ -1,23 +1,18 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Auth extends CI_Controller {
+class Auth extends CommonAdminController {
 
 	function __construct() {
-		parent::__construct();
-		$this->load->library('ion_auth');
-		$this->load->library('form_validation');
-		$this->load->helper('url');
+		parent::__construct(false);
 
 		// Load MongoDB library instead of native db driver if required
 		$this->config->item('use_mongodb', 'ion_auth') ?
 		$this->load->library('mongo_db') :
-
 		$this->load->database();
-
-		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
-
 		$this->lang->load('auth');
 		$this->load->helper('language');
+
+		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 	}
 
 	/**
@@ -69,7 +64,6 @@ class Auth extends CI_Controller {
 			}
 			else
 			{
-
 				//if the login was un-successful
 				//redirect them back to the login page
                 $this->session->set_flashdata('message', $this->ion_auth->errors());
@@ -100,11 +94,8 @@ class Auth extends CI_Controller {
 				'type' => 'password',
 			);
 
-			$this->load->view('admin/header');
-			$this->load->view('admin/user/login',$this->data);
-			$this->load->view('admin/footer');
-
-			//$this->_render_page('admin/auth/login', $this->data);
+			$this->body_file = 'admin/user/login';
+			$this->body_vars = $this->data;
 		}
 	}
 

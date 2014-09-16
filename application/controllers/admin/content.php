@@ -1,43 +1,32 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Content extends CI_Controller {
+class Content extends CommonAdminController {
 
     public function __construct() {
         parent::__construct();
-        $this->load->library('ion_auth');
-        $this->load->library('form_validation');
-        $this->load->helper('url');
         $this->load->model('content_model');
         $this->load->model('trash_model');
-        $this->lang->load('content');
-        $this->load->helper('language');
-        if(!$this->ion_auth->logged_in()) {
-           show_404();
-        }
     }
 
     public function index($page = '') {
-        if(!$this->ion_auth->logged_in()) {
-            redirect('admin', 'refresh');
-        }
-
-        $data['main_menu'] = 'content';
-        $data['menu'] = array();
-        $data['usermenu'] = array();
-        $data['type'] = '';
-        $data['search'] = '';
-        $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+	    $data_header['main_menu'] = 'content';
+	    $data_header['menu'] = array();
+	    $data_header['usermenu'] = array();
+	    $data_body['type'] = '';
+	    $data_body['search'] = '';
+	    $data_body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
         if ($this->input->post('typeSelect'))
-            $data['type'] = $this->input->post('typeSelect');
+	        $data_body['type'] = $this->input->post('typeSelect');
         if ($this->input->post('search'))
-            $data['search'] = $this->input->post('search');
+	        $data_body['search'] = $this->input->post('search');
 
 
-        $data['content']  = $this->content_model->getList($data['type'],$data['search']);
-        $data['type_list']  = $this->content_model->getType();
-        $this->load->view('admin/header', $data);
-        $this->load->view('admin/content/list', $data);
-        $this->load->view('admin/footer', $data);
+	    $data_body['content']  = $this->content_model->getList($data_body['type'], $data_body['search']);
+	    $data_body['type_list']  = $this->content_model->getType();
+
+	    $this->header_vars = $data_header;
+	    $this->body_vars = $data_body;
+	    $this->body_file = 'admin/content/list';
     }
 
     public function add() {

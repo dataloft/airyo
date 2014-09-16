@@ -9,6 +9,22 @@ class CommonAdminController extends CI_Controller
 	protected $body_vars = array();
 	protected $footer_vars = array();
 
+	public function __construct($bLogin = true) {
+		parent::__construct();
+
+		$this->load->library('ion_auth');
+		$this->load->library('form_validation');
+		$this->load->library('pagination');
+		$this->load->helper('url');
+		$this->load->helper('language');
+		$this->lang->load('content');
+		$this->iUserId = $this->ion_auth->get_user_id();
+
+		if(!$this->ion_auth->logged_in() AND $bLogin) {
+			redirect('admin', 'refresh');
+		}
+	}
+
 	public function _remap($method, $params = array())
 	{
 		// you can set default variables to send to the template here
@@ -24,40 +40,4 @@ class CommonAdminController extends CI_Controller
 		}
 		show_404();
 	}
-
-	public function __construct() {
-		parent::__construct();
-
-		$this->load->library('ion_auth');
-		$this->load->library('form_validation');
-		$this->load->library('pagination');
-		$this->load->helper('url');
-		$this->load->helper('language');
-		$this->lang->load('content');
-		$this->iUserId = $this->ion_auth->get_user_id();
-
-		if(!$this->ion_auth->logged_in()) {
-			redirect('adm', 'refresh');
-		}
-	}
-
-	public function index() {
-
-		$data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-		$this->body_file = 'admin/test/test';
-		//$this->load->view('admin/test/test', $data);
-	}
-
-	public function add() {
-
-	}
-
-	public function edit() {
-
-	}
-
-	public function delete() {
-
-	}
-
 }
