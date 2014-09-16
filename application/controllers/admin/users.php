@@ -3,17 +3,12 @@
 /**
  * Class Users
  *
- * @editor N.Zakharenko
+ * @editor N.Kulchinskiy
  */
 class Users extends CommonAdminController {
 
-	/** @var  int */
-	protected $iUserId;
-
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('users_model');
-		$this->iUserId = $this->ion_auth->get_user_id();
 	}
 
 	public function index() {
@@ -50,7 +45,7 @@ class Users extends CommonAdminController {
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 		$data_body["users"] = $this->users_model->fetch_countries($config["per_page"], $page);
 
-		$data_body['profile_id'] = $this->iUserId;
+		$data_body['profile_id'] = $this->oUser->id;
 		$data_body['pagination'] = $this->pagination;
 
 		$data_body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
@@ -69,7 +64,7 @@ class Users extends CommonAdminController {
 	 */
 	public function edit($iId) {
 		$iId = intval($iId);
-		if($iId == $this->iUserId) {
+		if($iId == $this->oUser->id) {
 			redirect("admin/users/profile", 'refresh');
 		} else {
 			$data_header['main_menu'] = 'users';
@@ -110,7 +105,7 @@ class Users extends CommonAdminController {
 			$aMessage = array();
 
 			if($oPost->form_edit == "profile") {
-				$aMessage = $this->updateProfile($this->iUserId);
+				$aMessage = $this->updateProfile($this->oUser->id);
 			}
 			elseif($oPost->form_edit == "password") {
 				$this->form_validation->set_rules('password', 'Пароль', 'trim|required|md5');
@@ -134,7 +129,7 @@ class Users extends CommonAdminController {
 			$this->session->set_flashdata('message', $aMessage);
 		}
 
-		$data_body['user']  = $this->users_model->getUserById($this->iUserId);
+		$data_body['user']  = $this->users_model->getUserById($this->oUser->id);
 		$data_body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
 		$this->header_vars = $data_header;

@@ -20,6 +20,8 @@ class CommonAdminController extends CI_Controller
 	protected $body_vars = array();
 	/** @var array  */
 	protected $footer_vars = array();
+	/** @var object */
+	protected $oUser;
 
 	public function __construct($bLogin = true) {
 		parent::__construct();
@@ -30,6 +32,9 @@ class CommonAdminController extends CI_Controller
 		$this->load->helper('url');
 		$this->load->helper('language');
 		$this->lang->load('content');
+		$this->load->model('users_model');
+
+		$this->oUser = $this->users_model->getUserById($this->ion_auth->get_user_id());
 
 		if(!$this->ion_auth->logged_in() AND $bLogin) {
 			redirect('admin', 'refresh');

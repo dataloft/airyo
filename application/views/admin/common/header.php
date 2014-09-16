@@ -57,7 +57,6 @@ if (!empty($styles))
 						<li><a href="/admin/gallery">Галереи</a></li>
 						<li><a href="/admin/">Слайдеры</a></li>
 						<li><a href="/admin/">Каталог товаров</a></li>
-						<li><a href="/admin/">Пользователи</a></li>
 						<li><a href="/admin/">Заказы</a></li>
 						<li><a href="/admin/">Формы и запросы</a></li>
 						<li><a href="/admin/">Комментарии</a></li>
