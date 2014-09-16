@@ -12,25 +12,11 @@ class Users extends CommonAdminController {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->library('ion_auth');
-		$this->load->library('form_validation');
-		$this->load->library('pagination');
-		$this->load->helper('url');
-		$this->load->helper('language');
 		$this->load->model('users_model');
-		$this->lang->load('content');
 		$this->iUserId = $this->ion_auth->get_user_id();
-
-		if(!$this->ion_auth->logged_in()) {
-			show_404();
-		}
 	}
 
 	public function index() {
-		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
-			redirect('auth', 'refresh');
-		}
-
 		$data_header['main_menu'] = 'users';
 		$data_header['menu'] = array();
 		$data_header['usermenu'] = array();
@@ -82,9 +68,6 @@ class Users extends CommonAdminController {
 	 * @return edit view
 	 */
 	public function edit($iId) {
-		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
-			redirect('auth', 'refresh');
-		}
 		$iId = intval($iId);
 		if($iId == $this->iUserId) {
 			redirect("admin/users/profile", 'refresh');
@@ -117,10 +100,6 @@ class Users extends CommonAdminController {
 	 * @author N.Zakharenko
 	 */
 	public function profile() {
-		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
-			redirect('auth', 'refresh');
-		}
-
 		$data_header['main_menu'] = 'users';
 		$data_header['menu'] = array();
 		$data_header['usermenu'] = array();

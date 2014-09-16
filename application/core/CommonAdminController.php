@@ -30,7 +30,6 @@ class CommonAdminController extends CI_Controller
 		$this->load->helper('url');
 		$this->load->helper('language');
 		$this->lang->load('content');
-		$this->iUserId = $this->ion_auth->get_user_id();
 
 		if(!$this->ion_auth->logged_in() AND $bLogin) {
 			redirect('admin', 'refresh');
