@@ -41,6 +41,24 @@ class CommonAdminController extends CI_Controller
 		}
 	}
 
+	protected function index() {
+		$aData['header']['main_menu'] = '';
+		$aData['header']['menu'] = array();
+		$aData['header']['usermenu'] = array();
+		$aData['header']['user_data'] = $this->oUser;
+
+		return $aData;
+	}
+
+	protected function edit() {
+		$aData['header']['main_menu'] = '';
+		$aData['header']['menu'] = array();
+		$aData['header']['usermenu'] = array();
+		$aData['header']['user_data'] = $this->oUser;
+
+		return $aData;
+	}
+
 	/**
 	 * Формирование отображения
 	 *
@@ -65,5 +83,40 @@ class CommonAdminController extends CI_Controller
 			return $result;
 		}
 		show_404();
+	}
+
+	/**
+	 * Получение конфигурации для пагинации
+	 *
+	 * @return array
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	protected function getPaginationConfig(){
+		$config = array(
+			'full_tag_open'     => '<ul class="pagination pagination-sm">',
+			'full_tag_close'    => '</ul>',
+			'first_link'        => '&laquo;',
+			'first_tag_open'    => '<li>',
+			'first_tag_close'   => '</li>',
+			'last_link'         => '&raquo;',
+			'last_tag_open'     => '<li>',
+			'last_tag_close'    => '</li>',
+			'next_link'         => '&raquo',
+			'next_tag_open'     => '<li>',
+			'next_tag_close'    => '</li>',
+			'prev_link'         => '&laquo',
+			'prev_tag_open'     => '<li>',
+			'prev_tag_close'    => '</li>',
+			'cur_tag_open'      => '<li class="active"><span>',
+			'cur_tag_close'     => '<span class="sr-only">(current)</span></span></li>',
+			'num_tag_open'      => '<li>',
+			'num_tag_close'     => '</li>',
+			'base_url'          => '',
+			'total_rows'        => '',
+			'per_page'          => '20'
+		);
+
+		return $config;
 	}
 }

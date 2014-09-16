@@ -68,9 +68,6 @@ $route['admin/users/edit'] = 'admin/users/edit';
 $route['admin/users/edit/(:num)'] = 'admin/users/edit/$1';
 $route['admin/users/delete'] = 'admin/users/delete';
 
-//admin test
-$route['admin/test'] = 'admin/test';
-
 //admin menu
 $route['admin/menu'] = 'admin/menu';
 $route['admin/menu/add'] = 'admin/menu/add';

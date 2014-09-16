@@ -11,46 +11,30 @@ class Users extends CommonAdminController {
 		parent::__construct();
 	}
 
+	/**
+	 * Получение списка пользователей
+	 *
+	 * @author N.Kulchinskiy
+	 */
 	public function index() {
-		$data_header['main_menu'] = 'users';
-		$data_header['menu'] = array();
-		$data_header['usermenu'] = array();
+		$aParams = parent::index();
+		$aParams['header']['main_menu'] = 'users';
 
-		$config = array(
-				'full_tag_open'     => '<ul class="pagination pagination-sm">',
-				'full_tag_close'    => '</ul>',
-				'first_link'        => '&laquo;',
-				'first_tag_open'    => '<li>',
-				'first_tag_close'   => '</li>',
-				'last_link'         => '&raquo;',
-				'last_tag_open'     => '<li>',
-				'last_tag_close'    => '</li>',
-				'next_link'         => '&raquo',
-				'next_tag_open'     => '<li>',
-				'next_tag_close'    => '</li>',
-				'prev_link'         => '&laquo',
-				'prev_tag_open'     => '<li>',
-				'prev_tag_close'    => '</li>',
-				'cur_tag_open'      => '<li class="active"><span>',
-				'cur_tag_close'     => '<span class="sr-only">(current)</span></span></li>',
-				'num_tag_open'      => '<li>',
-				'num_tag_close'     => '</li>',
-				'base_url'          => '/admin/users/',
-				'total_rows'        => $this->users_model->record_count(),
-				'per_page'          => '20'
-		);
+		$aPaginationConfig = $this->getPaginationConfig();
+		$aPaginationConfig['base_url'] = '/admin/users/';
+		$aPaginationConfig['total_rows'] = $this->users_model->record_count();
 
-		$this->pagination->initialize($config);
+		$this->pagination->initialize($aPaginationConfig);
 
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$data_body["users"] = $this->users_model->fetch_countries($config["per_page"], $page);
+		$data_body["users"] = $this->users_model->fetch_countries($aPaginationConfig["per_page"], $page);
 
 		$data_body['profile_id'] = $this->oUser->id;
 		$data_body['pagination'] = $this->pagination;
 
-		$data_body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		$data_body['message'] =  $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
 
-		$this->header_vars = $data_header;
+		$this->header_vars = $aParams['header'];
 		$this->body_vars = $data_body;
 		$this->body_file = 'admin/users/list';
 	}
@@ -61,15 +45,17 @@ class Users extends CommonAdminController {
 	 * @param $iId
 	 *
 	 * @return edit view
+	 *
+	 * @author N.Kulchinskiy
 	 */
 	public function edit($iId) {
+		$aParams = parent::index();
+
 		$iId = intval($iId);
 		if($iId == $this->oUser->id) {
 			redirect("admin/users/profile", 'refresh');
 		} else {
-			$data_header['main_menu'] = 'users';
-			$data_header['menu'] = array();
-			$data_header['usermenu'] = array();
+			$aParams['header']['main_menu'] = 'users';
 
 			$oPost = (object) $this->input->post();
 
@@ -83,7 +69,7 @@ class Users extends CommonAdminController {
 			$data_body['user']  = $this->users_model->getUserById($iId);
 			$data_body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
-			$this->header_vars = $data_header;
+			$this->header_vars = $aParams['header'];
 			$this->body_vars = $data_body;
 			$this->body_file = 'admin/users/edit';
 		}
@@ -95,9 +81,8 @@ class Users extends CommonAdminController {
 	 * @author N.Zakharenko
 	 */
 	public function profile() {
-		$data_header['main_menu'] = 'users';
-		$data_header['menu'] = array();
-		$data_header['usermenu'] = array();
+		$aParams = parent::index();
+		$aParams['header']['main_menu'] = 'users';
 
 		$oPost = (object) $this->input->post();
 
@@ -132,7 +117,7 @@ class Users extends CommonAdminController {
 		$data_body['user']  = $this->users_model->getUserById($this->oUser->id);
 		$data_body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
-		$this->header_vars = $data_header;
+		$this->header_vars = $aParams['header'];
 		$this->body_vars = $data_body;
 		$this->body_file = 'admin/users/profile';
 	}
@@ -142,6 +127,8 @@ class Users extends CommonAdminController {
 	 *
 	 * @param $iId
 	 * @return array
+	 *
+	 * @author N.Kulchinskiy
 	 */
 	private function updateProfile($iId){
 		$aMessage = array();
