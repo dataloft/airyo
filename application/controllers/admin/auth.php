@@ -60,7 +60,7 @@ class Auth extends CommonAdminController {
 				//if the login is successful
 				//redirect them back to the home page
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect('admin/content', 'refresh');
+				redirect('admin/main', 'refresh');
 			}
 			else
 			{
@@ -76,7 +76,7 @@ class Auth extends CommonAdminController {
 		} else {
 			if ($this->ion_auth->logged_in()) {
 				//redirect them to the login page
-               redirect('admin/content', 'refresh');
+               redirect('admin/main', 'refresh');
 			}
             //$this->validation->set_message('Имя функц.', 'Ваше сообщение об ошибке');
 			//the user is not logging in so display the login page
@@ -96,6 +96,7 @@ class Auth extends CommonAdminController {
 
 			$this->body_file = 'admin/user/login';
 			$this->body_vars = $this->data;
+			//$this->_render_page('admin/auth/login', $this->data);
 		}
 	}
 
