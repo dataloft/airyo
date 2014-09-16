@@ -62,15 +62,9 @@
 			<div class="tab-pane" id="password">
 				<?php echo form_open("", 'class="form-horizontal" method="POST"');?>
 					<div class="form-group <?php if(form_error('password')) echo 'has-error"'; ?>">
-						<label for="inputPassword" class="control-label col-xs-2">Пароль:</label>
+						<label for="inputPassword" class="control-label col-xs-2">Старый пароль:</label>
 						<div class="col-xs-3">
-							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Пароль">
-						</div>
-					</div>
-					<div class="form-group <?php if(form_error('passconf')) echo 'has-error"'; ?>">
-						<label for="inputConfirmPassword" class="control-label col-xs-2">Подтверждение пароля:</label>
-						<div class="col-xs-3">
-							<input type="password" class="form-control" name="passconf" id="inputConfirmPassword" placeholder="Подтверждение пароля">
+							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Старый пароль">
 						</div>
 					</div>
 					<div class="form-group <?php if(form_error('newpass')) echo 'has-error"'; ?>">
@@ -78,7 +72,13 @@
 						<div class="col-xs-3">
 							<input type="password" class="form-control" name="newpass" id="inputNewPassword" placeholder="Новый пароль">
 						</div>
-				</div>
+					</div>
+					<div class="form-group <?php if(form_error('passconf')) echo 'has-error"'; ?>">
+						<label for="inputConfirmPassword" class="control-label col-xs-2">Подтвердите пароль:</label>
+						<div class="col-xs-3">
+							<input type="password" class="form-control" name="passconf" id="inputConfirmPassword" placeholder="Подтверждение пароля">
+						</div>
+					</div>
 					<div class="form-group">
 						<div class="col-xs-offset-2 col-xs-10">
 							<button type="submit" class="btn btn-primary">Сохранить</button>

@@ -68,9 +68,10 @@ class Auth extends CommonAdminController {
 				//redirect them back to the login page
                 $this->session->set_flashdata('message', $this->ion_auth->errors());
                 $this->data['message'] = ($this->session->flashdata('message')) ? $this->session->flashdata('message') : $this->ion_auth->errors();
-				$this->load->view('admin/header');
-				$this->load->view('admin/user/login',$this->data);
-				$this->load->view('admin/footer');
+
+				$this->body_file = 'admin/user/login';
+				$this->body_vars = $this->data;
+
 				//redirect('admin/auth/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
 			}
 		} else {
