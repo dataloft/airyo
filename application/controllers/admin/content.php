@@ -12,19 +12,19 @@ class Content extends CommonAdminController {
 	    $aParams = parent::index();
 	    $aParams['header']['main_menu'] = 'content';
 
-	    $data_body['type'] = '';
-	    $data_body['search'] = '';
-	    $data_body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+	    $aParams['body']['type'] = '';
+	    $aParams['body']['search'] = '';
+	    $aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
         if ($this->input->post('typeSelect'))
-	        $data_body['type'] = $this->input->post('typeSelect');
+	        $aParams['body']['type'] = $this->input->post('typeSelect');
         if ($this->input->post('search'))
-	        $data_body['search'] = $this->input->post('search');
+	        $aParams['body']['search'] = $this->input->post('search');
 
-	    $data_body['content']  = $this->content_model->getList($data_body['type'], $data_body['search']);
-	    $data_body['type_list']  = $this->content_model->getType();
+	    $aParams['body']['content']  = $this->content_model->getList($aParams['body']['type'], $aParams['body']['search']);
+	    $aParams['body']['type_list']  = $this->content_model->getType();
 
 	    $this->header_vars = $aParams['header'];
-	    $this->body_vars = $data_body;
+	    $this->body_vars = $aParams['body'];
 	    $this->body_file = 'admin/content/list';
     }
 
@@ -41,7 +41,7 @@ class Content extends CommonAdminController {
             redirect('auth', 'refresh');
         }
 
-        $data['type_list']  = $this->content_model->getType();
+	    $aParams['body']['type_list']  = $this->content_model->getType();
         $this->form_validation->set_rules('h1', '', 'required');
         $this->form_validation->set_rules('alias', '', 'is_unique[content.alias]');
         $page->content = $this->input->post('content');
@@ -87,7 +87,7 @@ class Content extends CommonAdminController {
         }
 
         $alias = 'edit';
-        foreach ($data['type_list'] as $item) {
+        foreach ($aParams['body']['type_list'] as $item) {
             if ($page->type == $item->id) {
 	            $alias = $item->alias;
             } else {

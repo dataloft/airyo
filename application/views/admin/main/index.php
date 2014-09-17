@@ -31,5 +31,10 @@
 			<p>Файловый менеджер. </p>
 			<p><a class="btn btn-default" href="/admin/files" role="button">Редактировать »</a></p>
 		</div><!--/span-->
+		<div class="col-6 col-sm-6 col-lg-4">
+			<h2>Счётчики</h2>
+			<p>Редактирование счётчиков. </p>
+			<p><a class="btn btn-default" href="/admin/counters" role="button">Редактировать »</a></p>
+		</div><!--/span-->
 	</div><!--/row-->
 </div>

@@ -202,4 +202,4 @@ class Users extends CommonAdminController {
 }
 
 /* End of file users.php */
-/* Location: ./application/controllers/users.php */
+/* Location: ./application/controllers/admin/users.php */

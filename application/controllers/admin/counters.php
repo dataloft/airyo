@@ -26,8 +26,7 @@ class Counters extends CommonAdminController {
         if (empty($aParams['body']['counters']))
             show_404();
 
-        if ($this->input->post('save'))
-        {
+        if ($this->input->post('save')) {
             $counters->text = $this->input->post('text');
             $counters->ip = $this->input->post('ip');
             $counters->domain = $this->input->post('domain');

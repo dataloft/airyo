@@ -22,7 +22,7 @@ class Files extends CommonAdminController {
 
 		$aParams['body']['result'] = array();
 		$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-		$footer_data['scripts'] = array(
+		$aParams['footer']['scripts'] = array(
             '/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',
             '/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js',
             '/themes/airyo/js/FileUpload/js/jquery.fileupload.js',
@@ -138,24 +138,20 @@ class Files extends CommonAdminController {
 
 		$this->header_vars = $aParams['header'];
 		$this->body_vars = $aParams['body'];
-		$this->footer_vars = $footer_data;
+		$this->footer_vars = $aParams['footer'];
 		$this->body_file = 'admin/files/list';
 	}
 
 	public function edit($id = '') {
-		
-		
+
 	}
 
     public function delete() {
-		if ($_POST['selected'])
-        {
-            foreach ($_POST['selected'] as $item)
-            {
-                if (is_dir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$item))
-                    $this->removeDir($this->start_folder.DIRECTORY_SEPARATOR.$item);
-                else
-                {
+		if ($_POST['selected']) {
+            foreach ($_POST['selected'] as $item) {
+                if (is_dir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$item)) {
+	                $this->removeDir($this->start_folder.DIRECTORY_SEPARATOR.$item);
+                } else {
                    @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$item);
                 }
             }
@@ -163,47 +159,39 @@ class Files extends CommonAdminController {
         redirect($_SERVER['HTTP_REFERER'], 'refresh');
 	}
 
-    public function createFolder ()
-    {
-        if (!empty($_POST['fname']))
-        {
-            if(preg_match("/^(?:[a-z0-9_-]|\.(?!\.))+$/iD", iconv('UTF-8', 'windows-1251', $_POST['fname'])))
-            {
+    public function createFolder () {
+        if (!empty($_POST['fname'])) {
+            if(preg_match("/^(?:[a-z0-9_-]|\.(?!\.))+$/iD", iconv('UTF-8', 'windows-1251', $_POST['fname']))) {
                 $path = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder;
-                if (!empty($_POST['path']))
-                    $path .=DIRECTORY_SEPARATOR.$_POST['path'];
-                if (!is_dir($path.DIRECTORY_SEPARATOR.(iconv("UTF-8", "cp1251", $_POST['fname']))))
-                {
+                if (!empty($_POST['path'])) {
+	                $path .=DIRECTORY_SEPARATOR.$_POST['path'];
+                }
+
+                if (!is_dir($path.DIRECTORY_SEPARATOR.(iconv("UTF-8", "cp1251", $_POST['fname'])))) {
                     mkdir($path.DIRECTORY_SEPARATOR.(iconv("UTF-8", "cp1251", $_POST['fname'])));
 
-                }
-                else
-                {
+                } else {
                     $this->session->set_flashdata('message',  array(
                             'msg_type' => 'danger',
                             'text' => 'Папка с таким именем уже есть'
                         )
                     );
                 }
-            }
-            else
-            {
+            } else {
                 $this->session->set_flashdata('message',  array(
                         'msg_type' => 'danger',
                         'text' => 'Недопустимое имя папки'
                     )
                 );
             }
-
-        }
-        else
-        {
+        } else {
             $this->session->set_flashdata('message',  array(
                     'msg_type' => 'danger',
                     'text' => 'Недопустимое имя папки'
                 )
             );
         }
+
         redirect($_SERVER['HTTP_REFERER'], 'refresh');
     }
 
@@ -261,30 +249,24 @@ class Files extends CommonAdminController {
 
     protected function removeDir($directory) {
         $dir = opendir($directory);
-        while(($file = readdir($dir)))
-        {
-            if ( is_file ($directory."/".$file))
-            {
+        while(($file = readdir($dir))) {
+            if ( is_file ($directory."/".$file)) {
                 unlink ($directory."/".$file);
             }
-            else if ( is_dir ($directory."/".$file) &&
-                ($file != ".") && ($file != ".."))
-            {
+            else if ( is_dir ($directory."/".$file) AND ($file != ".") && ($file != "..")) {
                 $this->removeDir ($directory."/".$file);
             }
         }
         closedir ($dir);
         rmdir ($directory);
     }
-    protected function getCurrentDir($folder = '')
-    {
+
+    protected function getCurrentDir($folder = '') {
        return ($this->uri->segment(3)) ? $this->start_folder.DIRECTORY_SEPARATOR.$folder : $this->start_folder;
     }
 
-    public static function readdir($dir, $onlyDirs = false)
-    {
-        if (!is_dir($dir))
-        {
+    public static function readdir($dir, $onlyDirs = false) {
+        if (!is_dir($dir)) {
              $data['message'] = array(
                 'msg_type' => 'danger',
                 'text' => 'Каталог не найден'
@@ -325,8 +307,7 @@ class Files extends CommonAdminController {
         }
     }
 
-    public function upload ()
-    {
+    public function upload () {
         $upload = isset($_FILES['file']) ?
             $_FILES['file'] : null;
         $error = '';
@@ -340,8 +321,7 @@ class Files extends CommonAdminController {
 
             $this->upload->initialize($config);
             // print_r( $this->config->item('not_allowed_mimes'));
-            if (in_array($upload['type'],$this->config->item('not_allowed_mimes')))
-            {
+            if (in_array($upload['type'],$this->config->item('not_allowed_mimes'))) {
                 $this->session->set_flashdata('message',  array(
                         'msg_type' => 'danger',
                         'text' => $upload['type'].' not allowed mime'
@@ -360,13 +340,10 @@ class Files extends CommonAdminController {
                 'tmp_name'=> $upload['tmp_name'],
                 'error'=> $upload['error'],
                 'size'=> $upload['size']);
-            if ($this->upload->do_upload('file'))
-            {
+            if ($this->upload->do_upload('file')) {
                 $tmp_data = $this->upload->data();
                 $files_data[] = $tmp_data['full_path'];
-            }
-            else
-            {
+            } else {
                 $files_data[] = $this->upload->display_errors();
             }
 
