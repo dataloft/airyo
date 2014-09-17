@@ -15,11 +15,10 @@ class Admin extends CommonAdminController {
 	}
 
 	public function index(){
-		$data_header['main_menu'] = 'admin';
-		$data_header['menu'] = array();
-		$data_header['usermenu'] = array();
+		$aParams = parent::index();
+		$aParams['header']['main_menu'] = 'admin';
 
-		$this->header_vars = $data_header;
+		$this->header_vars = $aParams['header'];
 		$this->body_file = 'admin/main/index';
 	}
 }

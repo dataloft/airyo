@@ -17,9 +17,8 @@ class Files extends CommonAdminController {
 	}
 
 	public function index() {
-		$header_data['menu'] = array();
-		$header_data['main_menu'] = 'files';
-		$header_data['usermenu'] = array();
+		$aParams = parent::index();
+		$aParams['header']['main_menu'] = 'files';
 
 		$body_data['result'] = array();
 		$body_data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
@@ -29,7 +28,7 @@ class Files extends CommonAdminController {
             '/themes/airyo/js/FileUpload/js/jquery.fileupload.js',
             '/themes/airyo/js/FileUpload/js/main.js'
         );
-		$header_data['styles'] = array(
+		$aParams['header']['styles'] = array(
             '/themes/airyo/js/FileUpload/css/jquery.fileupload.css',
             '/themes/airyo/js/FileUpload/css/jquery.fileupload-ui.css',
             '/themes/airyo/js/FileUpload/css/style.css'
@@ -137,7 +136,7 @@ class Files extends CommonAdminController {
 	        $body_data['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
         }
 
-		$this->header_vars = $header_data;
+		$this->header_vars = $aParams['header'];
 		$this->body_vars = $body_data;
 		$this->footer_vars = $footer_data;
 		$this->body_file = 'admin/files/list';

@@ -9,11 +9,10 @@ class Menu extends CommonAdminController {
 	}
 
 	public function index() {
-		$header_data['main_menu'] = 'menu';
-		$header_data['menu'] = array();
-		$header_data['usermenu'] = array();
-		$header_data['menu_group'] = '';
+		$aParams = parent::index();
+		$aParams['header']['main_menu'] = 'menu';
 
+		$body_data['menu_group'] = '';
 		$body_data['menu_list'] =  $this->menu_model->getMenuGroup();
 		$body_data['menu_group'] = $body_data['menu_list'][0]['id'];
 
@@ -28,7 +27,7 @@ class Menu extends CommonAdminController {
 		}
 		$body_data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
-		$this->header_vars = $header_data;
+		$this->header_vars = $aParams['header'];
 		$this->body_vars = $body_data;
 		$this->body_file = 'admin/menu/list';
 	}
