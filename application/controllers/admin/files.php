@@ -20,8 +20,8 @@ class Files extends CommonAdminController {
 		$aParams = parent::index();
 		$aParams['header']['main_menu'] = 'files';
 
-		$body_data['result'] = array();
-		$body_data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		$aParams['body']['result'] = array();
+		$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 		$footer_data['scripts'] = array(
             '/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',
             '/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js',
@@ -45,7 +45,7 @@ class Files extends CommonAdminController {
         $dir = $this->getCurrentDir($this->path);
 
         if (!is_dir($dir)) {
-	        $body_data['message'] = array(
+	        $aParams['body']['message'] = array(
 			        'msg_type' => 'danger',
 			        'text' => 'Каталог не найден'
 	        );
@@ -54,7 +54,7 @@ class Files extends CommonAdminController {
             $arr = $this->readdir($dir);
         } catch (Exception $e) {
             $arr = array();
-	        $body_data['message'] = array(
+	        $aParams['body']['message'] = array(
                 'msg_type' => 'danger',
                 'text' => 'Не удалось прочитать каталог'
             );
@@ -69,7 +69,7 @@ class Files extends CommonAdminController {
 	            $path =  preg_replace("/".$this->start_folder."\//", '', (ltrim($item,'/')),1);
 	            $isLink = is_link($path);
 	            if (is_dir($item)) {
-		            $body_data['result'][] = array(
+		            $aParams['body']['result'][] = array(
 	                    'type' => 'dir',
 	                    'isLink' => $isLink,
 	                    'path' => $path,
@@ -91,7 +91,7 @@ class Files extends CommonAdminController {
 	                }
 	                $extension = pathinfo($path, PATHINFO_EXTENSION);
 	                if (empty($extension)) $extension = '-';
-		            $body_data['result'][] = array(
+		            $aParams['body']['result'][] = array(
 	                    'type' => 'file',
 	                    'isLink' => $isLink,
 	                    'path' => $path,
@@ -103,9 +103,9 @@ class Files extends CommonAdminController {
 	            }
 	        }
         } else {
-	        $body_data['result']=array();
-            if(empty($body_data['message'])) {
-	            $body_data['message'] = array(
+	        $aParams['body']['result']=array();
+            if(empty($aParams['body']['message'])) {
+	            $aParams['body']['message'] = array(
 			            'msg_type' => 'warning',
 			            'text' => 'Каталог пуст'
 	            );
@@ -114,9 +114,9 @@ class Files extends CommonAdminController {
 
         $upDir = ltrim(ltrim(dirname($dir),$this->start_folder),"/");
         if ($upDir == '' || $upDir == '.') {
-	        array_unshift($body_data['result'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/admin/files'));
+	        array_unshift($aParams['body']['result'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/admin/files'));
         } else {
-	        array_unshift($body_data['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/admin/files/'.$upDir));
+	        array_unshift($aParams['body']['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/admin/files/'.$upDir));
         }
 
         // Создаем путь (хлебные крошки)
@@ -124,7 +124,7 @@ class Files extends CommonAdminController {
 
         $currExplodedDir = preg_split('#\\\\|/#', $currDir);
         if (isset($currExplodedDir[0]) && $currExplodedDir[0] == '') $currExplodedDir[0] = DIRECTORY_SEPARATOR; //FIX для UNIX
-		$body_data['path'] = array();
+		$aParams['body']['path'] = array();
         $url = '';
         foreach ($currExplodedDir as $value) {
             if ($value != DIRECTORY_SEPARATOR) {
@@ -133,11 +133,11 @@ class Files extends CommonAdminController {
                 $url = DIRECTORY_SEPARATOR;
                 $value = 'Files';
             }
-	        $body_data['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
+	        $aParams['body']['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
         }
 
 		$this->header_vars = $aParams['header'];
-		$this->body_vars = $body_data;
+		$this->body_vars = $aParams['body'];
 		$this->footer_vars = $footer_data;
 		$this->body_file = 'admin/files/list';
 	}
@@ -207,20 +207,15 @@ class Files extends CommonAdminController {
         redirect($_SERVER['HTTP_REFERER'], 'refresh');
     }
 
-    public function renameFolder ()
-    {
+    public function renameFolder () {
         $redirect = $_SERVER['HTTP_REFERER'];
-        if (!empty($_POST['fname']))
-        {
+        if (!empty($_POST['fname'])) {
             $redirect = '/admin/files/'.$_POST['path'].$_POST['oldfname'];
-            if (($_POST['oldfname']!=$_POST['fname']) and preg_match("/(^[a-zA-Z0-9]+([a-zA-Z\_0-9\.-]*))$/" , iconv('UTF-8', 'windows-1251', $_POST['fname'])) )
-            {
+            if (($_POST['oldfname']!=$_POST['fname']) and preg_match("/(^[a-zA-Z0-9]+([a-zA-Z\_0-9\.-]*))$/" , iconv('UTF-8', 'windows-1251', $_POST['fname']))) {
                 $arr = $this->readdir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path']);
-                if (!empty($arr))
-                    foreach ($arr as $item)
-                    {
-                        if (basename($item) == $_POST['fname'])
-                        {
+                if (!empty($arr)) {
+                    foreach ($arr as $item) {
+                        if (basename($item) == $_POST['fname']) {
                             $this->session->set_flashdata('message',  array(
                                     'msg_type' => 'danger',
                                     'text' => 'Папка с таким именем уже существует'
@@ -228,14 +223,11 @@ class Files extends CommonAdminController {
                             );
                             redirect($redirect, 'refresh');
                         }
-
                     }
+                }
 
-                if (is_dir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path'].$_POST['oldfname']))
-                {
-
-                    if (rename ($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path'].$_POST['oldfname'], $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path'].$_POST['fname']))
-                    {
+                if (is_dir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path'].$_POST['oldfname'])) {
+                    if (rename ($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path'].$_POST['oldfname'], $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path'].$_POST['fname'])) {
                         $this->session->set_flashdata('message',  array(
                                 'msg_type' => 'success',
                                 'text' => 'Папка переименована'
@@ -243,37 +235,27 @@ class Files extends CommonAdminController {
                         );
                         $redirect = '/admin/files/'.$_POST['path'].$_POST['fname'];
                     }
-                }
-                else
-                {
-
+                } else {
                     $this->session->set_flashdata('message',  array(
                             'msg_type' => 'danger',
                             'text' => 'Папка ненайдена'
                         )
                     );
                 }
-
+            } else {
+                $this->session->set_flashdata('message',  array(
+                        'msg_type' => 'danger',
+                        'text' => 'Недопустимое имя папки'
+                    )
+                );
             }
-            else
-            {
-                    $this->session->set_flashdata('message',  array(
-                            'msg_type' => 'danger',
-                            'text' => 'Недопустимое имя папки'
-                        )
-                    );
-            }
-
-        }
-        else
-        {
+        } else {
             $this->session->set_flashdata('message',  array(
                     'msg_type' => 'danger',
                     'text' => 'Недопустимое имя папки'
                 )
             );
         }
-
         redirect($redirect, 'refresh');
     }
 
@@ -342,6 +324,7 @@ class Files extends CommonAdminController {
             return false;
         }
     }
+
     public function upload ()
     {
         $upload = isset($_FILES['file']) ?
@@ -403,8 +386,7 @@ class Files extends CommonAdminController {
         echo json_encode(array('path'=>'/admin/files/'.$_POST['pth'], 'err' =>$error, 'res' =>  implode('/n',$files_data)));
     }
 
-    function translitIt($str)
-    {
+    function translitIt($str) {
         $tr = array(
             "А"=>"A","Б"=>"B","В"=>"V","Г"=>"G",
             "Д"=>"D","Е"=>"E","Ж"=>"J","З"=>"Z","И"=>"I",
@@ -422,10 +404,7 @@ class Files extends CommonAdminController {
         );
         return strtr($str,$tr);
     }
-
-
-
 }
 
-/* End of file page.php */
-/* Location: ./application/controllers/page.php */
+/* End of file files.php */
+/* Location: ./application/controllers/admin/files.php */

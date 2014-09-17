@@ -9,18 +9,21 @@ class Counters extends CommonAdminController {
     }
 
     public function index() {
-	    $header_data['main_menu'][0] = 'modules';
-	    $header_data['main_menu'][1] = 'counters';
-	    $header_data['menu'] = array();
-	    $header_data['usermenu'] = array();
+	    $aParams = parent::index();
+	    $aParams['header']['main_menu'] = 'admin';
 
-	    $body_data['type'] = '';
-	    $body_data['search'] = '';
+	    $aParams['header']['main_menu'][0] = 'modules';
+	    $aParams['header']['main_menu'][1] = 'counters';
+	    $aParams['header']['menu'] = array();
+	    $aParams['header']['usermenu'] = array();
+
+	    $aParams['body']['type'] = '';
+	    $aParams['body']['search'] = '';
         $counters = new ArrayObject;
-	    $body_data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-	    $body_data['counters'] = $this->counters_model->getCounters();
+	    $aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+	    $aParams['body']['counters'] = $this->counters_model->getCounters();
 
-        if (empty($body_data['counters']))
+        if (empty($aParams['body']['counters']))
             show_404();
 
         if ($this->input->post('save'))
@@ -28,8 +31,8 @@ class Counters extends CommonAdminController {
             $counters->text = $this->input->post('text');
             $counters->ip = $this->input->post('ip');
             $counters->domain = $this->input->post('domain');
-            $counters->id = $body_data['counters']->id;
-	        $body_data['counters'] = $counters;
+            $counters->id = $aParams['body']['counters']->id;
+	        $aParams['body']['counters'] = $counters;
             $additional_data = array(
                 'text' => $counters->text,
                 'ip' => $counters->ip,
@@ -37,7 +40,7 @@ class Counters extends CommonAdminController {
             );
 
             if ($this->counters_model->Update($counters->id, $additional_data)) {
-	            $body_data['message'] = array(
+	            $aParams['body']['message'] = array(
                     'type' => 'success',
                     'text' => 'Запись обновлена'
                 );
@@ -45,19 +48,18 @@ class Counters extends CommonAdminController {
                 $counters->text = $this->input->post('text');
                 $counters->ip = $this->input->post('ip');
                 $counters->domain = $this->input->post('domain');
-                $counters->id = $body_data['counters']->id;
-	            $body_data['counters'] = $counters;
-	            $body_data['message'] = array(
+                $counters->id = $aParams['body']['counters']->id;
+	            $aParams['body']['counters'] = $counters;
+	            $aParams['body']['message'] = array(
                     'type' => 'danger',
                     'text' => validation_errors()
                 );
             }
         }
 
-	    $this->header_vars = $header_data;
-	    $this->body_vars = $body_data;
+	    $this->header_vars = $aParams['header'];
+	    $this->body_vars = $aParams['body'];
 	    $this->body_file = 'admin/counters/counters';
-
     }
 }
 

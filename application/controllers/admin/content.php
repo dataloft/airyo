@@ -29,22 +29,19 @@ class Content extends CommonAdminController {
     }
 
     public function add() {
-        $data = array();
-        $data['id'] = '';
-        $data['message'] = '';
-        $data['main_menu'] = 'content';
-        $data['menu'] = array();
-        $data['usermenu'] = array();
+	    $aParams = parent::add();
+	    $aParams['header']['main_menu'] = 'content';
 
+	    $aParams['body']['id'] = '';
+	    $aParams['body']['message'] = '';
 
-        $page = new ArrayObject;
-        $data['title'] = "Добавить/редактировать страницу";
-        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
-        {
+        $page = new stdClass();
+	    $aParams['body']['title'] = "Добавить/редактировать страницу";
+        if (!$this->ion_auth->is_admin()) {
             redirect('auth', 'refresh');
         }
+
         $data['type_list']  = $this->content_model->getType();
-        /*$this->form_validation->set_rules('content', '', 'required');*/
         $this->form_validation->set_rules('h1', '', 'required');
         $this->form_validation->set_rules('alias', '', 'is_unique[content.alias]');
         $page->content = $this->input->post('content');
@@ -55,7 +52,7 @@ class Content extends CommonAdminController {
         $page->meta_keywords = $this->input->post('meta_keywords');
         $page->type = $this->input->get('type')?$this->input->get('type'):$this->input->post('type');
         $page->enabled = $this->input->post('enabled');
-        $data['page'] = $page;
+	    $aParams['body']['page'] = $page;
 
         if ($this->form_validation->run() == true) {
             $additional_data = array(
@@ -76,20 +73,19 @@ class Content extends CommonAdminController {
                 );
                 redirect("admin/content/edit/$id", 'refresh');
             } else {
-                $data['message'] = array(
+	            $aParams['body']['message'] = array(
                     'type' => 'danger',
                     'text' => 'Произошла ошибка при сохранении записи.'
                 );
             }
         }
         elseif ($this->input->post('action') == 'add') {
-            $data['message'] = array(
+	        $aParams['body']['message'] = array(
                 'type' => 'danger',
                 'text' =>  validation_errors()
             );
         }
 
-        $this->load->view('admin/header', $data);
         $alias = 'edit';
         foreach ($data['type_list'] as $item) {
             if ($page->type == $item->id) {
@@ -98,37 +94,37 @@ class Content extends CommonAdminController {
                 continue;
             }
         }
-        $this->load->view('admin/content/'.$alias, $data);
 
-        $this->load->view('admin/footer', $data);
+	    $this->header_vars = $aParams['header'];
+	    $this->body_vars = $aParams['body'];
+	    $this->body_file = 'admin/content/'.$alias;
     }
 
 	public function edit($id = '') {
-		$data = array();
-		$data['id'] = '';
-		$data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-		$data['main_menu'] = 'content';
-		$data['menu'] = array();
-		$data['usermenu'] = array();
+		$aParams = parent::edit();
+		$aParams['header']['main_menu'] = 'content';
+
+		$aParams['body']['id'] = '';
+		$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
 		$page = new stdClass();
-		$data['title'] = "Добавить/редактировать страницу";
+		$aParams['body']['title'] = "Добавить/редактировать страницу";
 
 		if (!$this->ion_auth->is_admin()) {
 			redirect('auth', 'refresh');
 		}
 
-		$data['type_list']  = $this->content_model->getType();
+		$aParams['body']['type_list']  = $this->content_model->getType();
 		/* $this->form_validation->set_rules('content', '', 'required');*/
 		$this->form_validation->set_rules('h1', '', 'required');
 		$this->form_validation->set_rules('alias', '', 'callback_check_alias');
 		// Если передан Ид ищем содержание стр в БД
 		if (!empty($id)) {
-			$data['page'] = $this->content_model->getToId($id);
-			if (empty($data['page'])) {
+			$aParams['body']['page'] = $this->content_model->getToId($id);
+			if (empty($aParams['body']['page'])) {
 				show_404();
 			}
-			$data['id'] = $id;
+			$aParams['body']['id'] = $id;
 
 			if ($this->form_validation->run() == true) {
 				$page->content = $this->input->post('content');
@@ -139,7 +135,7 @@ class Content extends CommonAdminController {
 				$page->meta_keywords = $this->input->post('meta_keywords',TRUE);
 				$page->type = $this->input->post('type',TRUE);
 				$page->enabled = $this->input->post('enabled',TRUE);
-				$data['page'] = $page;
+				$aParams['body']['page'] = $page;
 
 				$additional_data = array(
 					'content' => $page->content,
@@ -152,13 +148,13 @@ class Content extends CommonAdminController {
 					'enabled' =>  $page->enabled
 				);
 
-				if($this->content_model->Update($data['id'],$additional_data)) {
-					$data['message'] = array(
+				if($this->content_model->Update($aParams['body']['id'],$additional_data)) {
+					$aParams['body']['message'] = array(
 						'type' => 'success',
 						'text' => 'Запись обновлена'
 					);
 				} else {
-					$data['message'] = array(
+					$aParams['body']['message'] = array(
 						'type' => 'danger',
 						'text' => 'Произошла ошибка при обновлении записи.'
 					);
@@ -174,8 +170,8 @@ class Content extends CommonAdminController {
 				$page->type = $this->input->post('type',TRUE);
 				$page->enabled = $this->input->post('enabled',TRUE);
 
-				$data['page'] = $page;
-				$data['message'] = array(
+				$aParams['body']['page'] = $page;
+				$aParams['body']['message'] = array(
 					'type' => 'danger',
 					'text' => validation_errors()
 				);
@@ -186,14 +182,16 @@ class Content extends CommonAdminController {
 
 		$alias = 'edit';
 
-		foreach($data['type_list'] as $item) {
-			if ( $data['page']->type == $item->id) {
+		foreach($aParams['body']['type_list'] as $item) {
+			if ( $aParams['body']['page']->type == $item->id) {
 				$alias = $item->alias;
 			}else {
 				continue;
 			}
 		}
 
+		$this->header_vars = $aParams['header'];
+		$this->body_vars = $aParams['body'];
 		$this->body_file = 'admin/content/'.$alias;
 	}
 

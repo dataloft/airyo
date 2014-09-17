@@ -27,15 +27,15 @@ class Users extends CommonAdminController {
 		$this->pagination->initialize($aPaginationConfig);
 
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$data_body["users"] = $this->users_model->fetch_countries($aPaginationConfig["per_page"], $page);
+		$aParams['body']["users"] = $this->users_model->fetch_countries($aPaginationConfig["per_page"], $page);
 
-		$data_body['profile_id'] = $this->oUser->id;
-		$data_body['pagination'] = $this->pagination;
+		$aParams['body']['profile_id'] = $this->oUser->id;
+		$aParams['body']['pagination'] = $this->pagination;
 
-		$data_body['message'] =  $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
+		$aParams['body']['message'] =  $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
 
 		$this->header_vars = $aParams['header'];
-		$this->body_vars = $data_body;
+		$this->body_vars = $aParams['body'];
 		$this->body_file = 'admin/users/list';
 	}
 
@@ -49,7 +49,7 @@ class Users extends CommonAdminController {
 	 * @author N.Kulchinskiy
 	 */
 	public function edit($iId) {
-		$aParams = parent::index();
+		$aParams = parent::edit();
 
 		$iId = intval($iId);
 		if($iId == $this->oUser->id) {
@@ -66,11 +66,11 @@ class Users extends CommonAdminController {
 				$this->session->set_flashdata('message', $aMessage);
 			}
 
-			$data_body['user']  = $this->users_model->getUserById($iId);
-			$data_body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+			$aParams['body']['user']  = $this->users_model->getUserById($iId);
+			$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
 			$this->header_vars = $aParams['header'];
-			$this->body_vars = $data_body;
+			$this->body_vars = $aParams['body'];
 			$this->body_file = 'admin/users/edit';
 		}
 	}
@@ -114,11 +114,11 @@ class Users extends CommonAdminController {
 			$this->session->set_flashdata('message', $aMessage);
 		}
 
-		$data_body['user']  = $this->users_model->getUserById($this->oUser->id);
-		$data_body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		$aParams['body']['user']  = $this->users_model->getUserById($this->oUser->id);
+		$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
 		$this->header_vars = $aParams['header'];
-		$this->body_vars = $data_body;
+		$this->body_vars = $aParams['body'];
 		$this->body_file = 'admin/users/profile';
 	}
 
