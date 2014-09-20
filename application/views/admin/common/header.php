@@ -48,12 +48,12 @@ if (!empty($styles))
 		<?if(isset($menu)):?>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li <? if ($main_menu == 'users') echo 'class="active"';?> ><a href="/admin/users">Пользователи</a></li>
 				<li <? if ($main_menu == 'content') echo 'class="active"';?> ><a href="/admin/content">Материалы</a></li>
 				<li <? if ($main_menu == 'menu') echo 'class="active"';?> ><a href="/admin/menu">Меню</a></li>
 				<li <? if ($main_menu == 'files') echo 'class="active"';?>><a href="/admin/files">Файлы</a></li>
 				<li class="dropdown <?  if ($main_menu[0] == 'modules') echo 'active';?>"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>
 					<ul class="dropdown-menu">
+						<li <? if ($main_menu == 'users') echo 'class="active"';?> ><a href="/admin/users">Пользователи</a></li>
 						<li><a href="/admin/gallery">Галереи</a></li>
 						<li><a href="/admin/">Слайдеры</a></li>
 						<li><a href="/admin/">Каталог товаров</a></li>
