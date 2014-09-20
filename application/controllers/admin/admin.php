@@ -19,6 +19,7 @@ class Admin extends CommonAdminController {
 		$aParams['header']['main_menu'] = 'admin';
 
 		$this->header_vars = $aParams['header'];
+		$this->body_vars = $aParams['body'];
 		$this->body_file = 'admin/main/index';
 	}
 }

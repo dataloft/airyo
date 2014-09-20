@@ -12,23 +12,23 @@ class Menu extends CommonAdminController {
 		$aParams = parent::index();
 		$aParams['header']['main_menu'] = 'menu';
 
-		$body_data['menu_group'] = '';
-		$body_data['menu_list'] =  $this->menu_model->getMenuGroup();
-		$body_data['menu_group'] = $body_data['menu_list'][0]['id'];
+		$aParams['body']['menu_group'] = '';
+		$aParams['body']['menu_list'] =  $this->menu_model->getMenuGroup();
+		$aParams['body']['menu_group'] = $aParams['body']['menu_list'][0]['id'];
 
 		if ($this->input->post('typeSelect')) {
-			$body_data['menu_group'] = $this->input->post('typeSelect');
+			$aParams['body']['menu_group'] = $this->input->post('typeSelect');
 		}
 
-		if ($list = $this->menu_model->getList($body_data['menu_group'])) {
-			$body_data['content']  = $this->printTreeList($this->buildTree($list));
+		if ($list = $this->menu_model->getList($aParams['body']['menu_group'])) {
+			$aParams['body']['content']  = $this->printTreeList($this->buildTree($list));
 		} else {
-			$body_data['content'] = '';
+			$aParams['body']['content'] = '';
 		}
-		$body_data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
 		$this->header_vars = $aParams['header'];
-		$this->body_vars = $body_data;
+		$this->body_vars = $aParams['body'];
 		$this->body_file = 'admin/menu/list';
 	}
 
