@@ -12,7 +12,7 @@
 		</div>
 		<?php if(isset($usermenu)): ?>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
+				<li class="dropup">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?=$user_data->first_name; ?> <?=$user_data->last_name; ?> <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li>

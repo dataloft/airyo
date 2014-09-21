@@ -25,7 +25,6 @@ class Menu_model extends CI_Model {
             return  $result;
         }
         return false;
-
 	}
 
     public function getOrderList($menu_group) {

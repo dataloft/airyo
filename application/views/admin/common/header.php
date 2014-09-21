@@ -54,6 +54,7 @@ if (!empty($styles))
 				<li class="dropdown <?  if ($main_menu[0] == 'modules') echo 'active';?>"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li <? if ($main_menu == 'users') echo 'class="active"';?> ><a href="/admin/users">Пользователи</a></li>
+						<li <? if ($main_menu == 'groups') echo 'class="active"';?> ><a href="/admin/groups">Группы</a></li>
 						<li><a href="/admin/gallery">Галереи</a></li>
 						<li><a href="/admin/">Слайдеры</a></li>
 						<li><a href="/admin/">Каталог товаров</a></li>
