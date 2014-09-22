@@ -9,7 +9,7 @@ class Menu extends CommonAdminController {
 	}
 
 	public function index() {
-		$aParams = parent::index();
+	$aParams = parent::index();
 		$aParams['header']['main_menu'] = 'menu';
 
 		$body_data['menu_group'] = '';
