@@ -21,6 +21,10 @@ class Groups extends CommonAdminController {
 		$aParams = parent::index();
 		$aParams['header']['main_menu'] = 'groups';
 
+		$aParams['header']['styles'] = array(
+			'/themes/airyo/css/typeahead.css',
+		);
+
 		$aParams['footer']['scripts'] = array(
 			'/themes/airyo/js/typeahead.bundle.js',
 			'/themes/airyo/groups/js/groups.js'

@@ -99,6 +99,7 @@ function addUserToGroup(oElement, iGroupId, iUserId) {
 			url: "/admin/groups/edit/" + iGroupId,
 			data: {id: iGroupId, user_id: iUserId, name: sNewName, type: 'add_user'}
 		}).done(function (msg) {
+			$('input[name$="add-user-' + iGroupId + '"]').val('');
 			$(oElement).parents('td').find('ul').append('<li class="list-group-item">' +
 			'(<a href="/admin/users/edit/">' + sNewName + '</a>)' +
 			'<a href="#" onclick="removeUserFromGroup(this, ' + iGroupId + ', ' + iUserId + '); return false;" class="badge pull-right"><i class="glyphicon glyphicon-remove"></i></a>' +
@@ -132,7 +133,7 @@ var substringMatcher = function(strs) {
 	};
 };
 
-var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+var users = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
 	'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
 	'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
 	'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
@@ -143,15 +144,16 @@ var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
 	'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
 ];
 
-$('.type').typeahead({
+$('.typeahead').typeahead(
+	{
 		hint: true,
 		highlight: true,
 		minLength: 1
 	},
 	{
-		name: 'states',
+		name: 'users',
 		displayKey: 'value',
-		source: substringMatcher(states)
+		source: substringMatcher(users)
 	});
 
 /**

@@ -60,7 +60,7 @@
 					        <div class="row">
 						        <div class="col-lg-9 pull-right">
 							        <div class="input-group">
-								        <input type="text" class="form-control type tt-query" autocomplete="off" name="add-user-<?=$group['id']; ?>">
+								        <input type="text" class="typeahead" autocomplete="off" name="add-user-<?=$group['id']; ?>">
 									      <span class="input-group-btn">
 									        <button class="btn btn-default" onclick="addUserToGroup(this, <?=$group['id']; ?>,
 										      <?=$user['id']; ?>); return false;" type="button"><i class="glyphicon glyphicon-plus"></i> Добавить</button>
