@@ -22,6 +22,7 @@ class Groups extends CommonAdminController {
 		$aParams['header']['main_menu'] = 'groups';
 
 		$aParams['footer']['scripts'] = array(
+			'/themes/airyo/js/typeahead.bundle.js',
 			'/themes/airyo/groups/js/groups.js'
 		);
 

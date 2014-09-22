@@ -29,7 +29,7 @@
 							    <button class="btn btn-info" onclick="saveNameGroup(<?=$group['id']; ?>); return false;"><i class="glyphicon glyphicon-floppy-disk"></i></button>
 							    <button class="btn btn-warning" onclick="editNameGroup(<?=$group['id']; ?>, false); return false;"><i class="glyphicon glyphicon-remove"></i></button>
 							    <div class="col-sm-5">
-							        <input type="text" class="form-control" value="<?=$group['name']; ?>" />
+							        <input type="text" class="form-control" name="name-<?=$group['id']; ?>" value="<?=$group['name']; ?>" />
 						        </div>
 					        </div>
 				        </td>
@@ -41,7 +41,7 @@
 						        <button class="btn btn-info" onclick="saveDescriptionGroup(<?=$group['id']; ?>); return false;"><i class="glyphicon glyphicon-floppy-disk"></i></button>
 						        <button class="btn btn-warning" onclick="editDescriptionGroup(<?=$group['id']; ?>, false); return false;"><i class="glyphicon glyphicon-remove"></i></button>
 						        <div class="col-sm-5">
-							        <input type="text" class="form-control" value="<?=$group['description']; ?>" />
+							        <input type="text" class="form-control" name="description-<?=$group['id']; ?>" value="<?=$group['description']; ?>" />
 						        </div>
 					        </div></td>
 				        <td>
@@ -52,7 +52,7 @@
 										    <?=$user['first_name']; ?>
 										    <?=$user['last_name']; ?>
 										    (<a href="/admin/users/edit/<?=$user['id']; ?>"><?=$user['username']; ?></a>)
-										    <a href="#" onclick="removeUserFromGroup(this, <?=$user['id']; ?>); return false;" class="badge pull-right"><i class="glyphicon glyphicon-remove"></i></a>
+										    <a href="#" onclick="removeUserFromGroup(this, <?=$group['id']; ?>, <?=$user['id']; ?>); return false;" class="badge pull-right"><i class="glyphicon glyphicon-remove"></i></a>
 							            </li>
 							        <?php endforeach; ?>
 						        </ul>
@@ -60,9 +60,10 @@
 					        <div class="row">
 						        <div class="col-lg-9 pull-right">
 							        <div class="input-group">
-								        <input type="text" class="form-control">
+								        <input type="text" class="form-control type tt-query" autocomplete="off" name="add-user-<?=$group['id']; ?>">
 									      <span class="input-group-btn">
-									        <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-plus"></i> Добавить</button>
+									        <button class="btn btn-default" onclick="addUserToGroup(this, <?=$group['id']; ?>,
+										      <?=$user['id']; ?>); return false;" type="button"><i class="glyphicon glyphicon-plus"></i> Добавить</button>
 									      </span>
 							        </div><!-- /input-group -->
 						        </div><!-- /.col-lg-4 -->
