@@ -48,12 +48,13 @@ if (!empty($styles))
 		<?if(isset($menu)):?>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li <? if ($main_menu == 'users') echo 'class="active"';?> ><a href="/admin/users">Пользователи</a></li>
 				<li <? if ($main_menu == 'content') echo 'class="active"';?> ><a href="/admin/content">Материалы</a></li>
 				<li <? if ($main_menu == 'menu') echo 'class="active"';?> ><a href="/admin/menu">Меню</a></li>
 				<li <? if ($main_menu == 'files') echo 'class="active"';?>><a href="/admin/files">Файлы</a></li>
 				<li class="dropdown <?  if ($main_menu[0] == 'modules') echo 'active';?>"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>
 					<ul class="dropdown-menu">
+						<li <? if ($main_menu == 'users') echo 'class="active"';?> ><a href="/admin/users">Пользователи</a></li>
+						<li <? if ($main_menu == 'groups') echo 'class="active"';?> ><a href="/admin/groups">Группы</a></li>
 						<li><a href="/admin/gallery">Галереи</a></li>
 						<li><a href="/admin/">Слайдеры</a></li>
 						<li><a href="/admin/">Каталог товаров</a></li>
@@ -70,23 +71,6 @@ if (!empty($styles))
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="#"><span class="glyphicon glyphicon-trash"></span> Корзина</a></li>
-				<?php if(isset($usermenu)): ?>
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?=$user_data->first_name; ?> <?=$user_data->last_name; ?> <span class="caret"></span></a>
-					<ul class="dropdown-menu" role="menu">
-						<li>
-							<a href="/admin/users/profile">
-							<span class="glyphicon glyphicon-edit"></span>
-							Редактировать</a>
-						</li>
-						<li>
-							<a href="/admin/logout">
-							<span class="glyphicon glyphicon-log-out"></span>
-							Выйти</a>
-						</li>
-					</ul>
-				</li>
-				<?php endif; ?>
 			</ul>
 		</div>
 		<?php endif; ?>

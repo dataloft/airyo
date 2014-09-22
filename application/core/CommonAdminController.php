@@ -45,7 +45,8 @@ class CommonAdminController extends CI_Controller
 		$aData['header']['main_menu'] = '';
 		$aData['header']['menu'] = array();
 		$aData['header']['usermenu'] = array();
-		$aData['header']['user_data'] = $this->oUser;
+
+		$aData['body']['user_data'] = $this->oUser;
 
 		return $aData;
 	}
@@ -54,7 +55,8 @@ class CommonAdminController extends CI_Controller
 		$aData['header']['main_menu'] = '';
 		$aData['header']['menu'] = array();
 		$aData['header']['usermenu'] = array();
-		$aData['header']['user_data'] = $this->oUser;
+
+		$aData['body']['user_data'] = $this->oUser;
 
 		return $aData;
 	}
@@ -63,7 +65,8 @@ class CommonAdminController extends CI_Controller
 		$aData['header']['main_menu'] = '';
 		$aData['header']['menu'] = array();
 		$aData['header']['usermenu'] = array();
-		$aData['header']['user_data'] = $this->oUser;
+
+		$aData['body']['user_data'] = $this->oUser;
 
 		return $aData;
 	}
