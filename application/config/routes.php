@@ -70,8 +70,11 @@ $route['admin/users/delete'] = 'admin/users/delete';
 
 //admin users groups
 $route['admin/groups'] = 'admin/groups';
+$route['admin/groups/add'] = 'admin/groups/add';
 $route['admin/groups/add/(:num)'] = 'admin/groups/add/$1';
+$route['admin/groups/edit'] = 'admin/groups/edit';
 $route['admin/groups/edit/(:num)'] = 'admin/groups/edit/$1';
+$route['admin/groups/delete'] = 'admin/groups/delete';
 
 //admin menu
 $route['admin/menu'] = 'admin/menu';
