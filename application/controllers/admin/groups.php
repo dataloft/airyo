@@ -22,13 +22,10 @@ class Groups extends CommonAdminController {
 		$aParams['header']['main_menu'] = 'groups';
 
 		$aParams['footer']['scripts'] = array(
-			'/themes/airyo/groups/js/groups.js'
+			'/themes/airyo/js/groups.js'
 		);
 
 		$aGroups = $this->ion_auth->groups()->result_array();
-		foreach ($aGroups as $iKey => $aGroup) {
-			$aGroups[$iKey]['users'] = $this->ion_auth->users($aGroup['id'])->result_array();
-		}
 
 		$aParams['body']["groups"] = $aGroups;
 		$aParams['body']['message'] =  $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
@@ -39,51 +36,35 @@ class Groups extends CommonAdminController {
 		$this->body_file = 'admin/groups/index';
 	}
 
-	public function add($mid=0) {
+	public function add() {
 		$aParams = parent::add();
 		$aParams['header']['main_menu'] = 'groups';
 
 		$aParams['body']['id'] = '';
 		$aParams['body']['message'] = '';
 
-		$menu = new ArrayObject;
+		$oGroups = new stdClass();
 		$aParams['body']['title'] = "Добавить/редактировать группу";
 
 		if (!$this->ion_auth->is_admin()) {
 			redirect('auth', 'refresh');
 		}
 
-		$aParams['body']['menu_group'] = $mid;
-
 		$this->form_validation->set_rules('name', '', 'required');
-		$this->form_validation->set_rules('url', '', 'required');
-		$menu->name = $this->input->post('name');
-		$menu->url = $this->input->post('url');
-		$menu->order = $this->input->post('order',TRUE);
-		$menu->menu_group = $this->input->post('menu_group');
-		$aParams['body']['menu'] = $menu;
+		$this->form_validation->set_rules('description', '', 'required');
+
+		$oGroups->name = $this->input->post('name');
+		$oGroups->description = $this->input->post('description');
+
+		$aParams['body']['group'] = $oGroups;
 		if ($this->form_validation->run() == true) {
-			if ($check = $this->menu_model->ckeckUniqueOrder($this->input->post('level_menu',TRUE), $this->input->post('order',TRUE))) {
-				$check_order = $this->menu_model->getMaxOrder($this->input->post('level_menu',TRUE))+1;
-				$this->menu_model->Update($check, array('order' => $check_order));
-				$menu->order = $this->input->post('order',TRUE);
-			} else {
-				$menu->order = $this->input->post('order',TRUE);
-			}
-			$additional_data = array(
-				'name' => $menu->name,
-				'url' => $menu->url,
-				'menu_group' =>  $mid,
-				'parent_id' =>  $this->input->post('level_menu'),
-				'order' =>  $menu->order
-			);
-			if ($id = $this->menu_model->Add($additional_data)) {
+			if ($iId = $this->ion_auth->create_group($oGroups->name, $oGroups->description)) {
 				$this->session->set_flashdata('message',  array(
 						'type' => 'success',
-						'text' => 'Пункт меню создан'
+						'text' => 'Группа создана'
 					)
 				);
-				redirect("admin/groups/edit/$id", 'refresh');
+				redirect("admin/groups/edit/$iId", 'refresh');
 			} else {
 				$aParams['body']['message'] = array(
 					'type' => 'danger',
@@ -111,11 +92,13 @@ class Groups extends CommonAdminController {
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function edit($iId = '') {
+	public function edit($iId = 0) {
 		$aParams = parent::edit();
 		$aParams['header']['main_menu'] = 'groups';
 
-		$aParams['body']['id'] = '';
+		$aParams['footer']['scripts'] = array(
+			'/themes/airyo/js/groups.js'
+		);
 
 		$aParams['body']['id'] = '';
 		$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
@@ -130,54 +113,30 @@ class Groups extends CommonAdminController {
 		$this->form_validation->set_rules('name', '', 'required');
 		$this->form_validation->set_rules('description', '', 'required');
 
-		// Если передан Ид ищем содержание стр в БД
-		if (!empty($iId)) {
+		// Если передан ID, сохраняем группу
+		if (!empty($iId) AND $iId = intval($iId) AND $iId > 0) {
 			$aParams['body']['group'] = $this->ion_auth->group($iId)->row();
 
 			$aParams['body']['id'] = $iId;
 
 			if ($this->form_validation->run() == true) {
-
 				$oGroup->name = $this->input->post('name',TRUE);
-				$oGroup->url = $this->input->post('url',TRUE);
-				//Если сменился родитель добавляем пункт к новому родитель в конец списка
-				if ($check = $this->menu_model->ckeckUniqueOrder($this->input->post('level_menu',TRUE), $this->input->post('order',TRUE), $id))
-				{
-					$check_order = $this->menu_model->getMaxOrder($this->input->post('level_menu',TRUE))+1;
-					$this->menu_model->Update($check, array('order' => $check_order));
-					$oGroup->order = $this->input->post('order',TRUE);
-
-				}
-				else
-				{
-					$oGroup->order = $this->input->post('order',TRUE);
-				}
-
-				$oGroup->menu_group = $aParams['body']['menu']->menu_group;
+				$oGroup->description = $this->input->post('description',TRUE);
 
 				$aParams['body']['group'] = $oGroup;
-				$additional_data = array(
-					'name' => $oGroup->name,
-					'url' => $oGroup->url,
-					'order' => $oGroup->order
-				);
-				if ($this->groups_model->Update($aParams['body']['id'],$additional_data))
-				{
+				if ($this->ion_auth->update_group($iId, $oGroup->name, $oGroup->description)) {
 					$aParams['body']['message'] = array(
 						'type' => 'success',
 						'text' => 'Запись обновлена'
 					);
-				}
-				else
-				{
+				} else {
 					$aParams['body']['message'] = array(
 						'type' => 'danger',
 						'text' => 'Произошла ошибка при обновлении записи.'
 					);
 				}
 			}
-			elseif($this->input->post('id')== $iId)
-			{
+			elseif($this->input->post('id') == $iId) {
 				$oGroup->name = $this->input->post('name',TRUE);
 				$oGroup->description = $this->input->post('description',TRUE);
 
@@ -186,7 +145,6 @@ class Groups extends CommonAdminController {
 					'type' => 'danger',
 					'text' => validation_errors()
 				);
-
 			}
 		} else { //Вставляем новую запись
 			redirect("admin/groups/add", 'refresh');
@@ -194,7 +152,44 @@ class Groups extends CommonAdminController {
 
 		$this->header_vars = $aParams['header'];
 		$this->body_vars = $aParams['body'];
+		$this->footer_vars = $aParams['footer'];
 		$this->body_file = 'admin/groups/edit';
+	}
+
+	/**
+	 * @author N.Kulchinskiy
+	 */
+	public function delete () {
+		print json_encode($_POST);
+		die();
+		if (isset($_POST)) {
+			$id = $this->input->post('id');
+			if ($id) {
+				$data['menu'] = $this->menu_model->getToId($id);
+				if (!empty($data['menu'])) {
+					$additional_data = array(
+						'deleted_id' => $id,
+						'type' =>  'menu',
+						'data' =>     serialize($data['menu'])
+					);
+					if ($this->trash_model->Add($additional_data)) {
+						if ($this->menu_model->delete($id)) {
+							$output['success']='success';
+							$this->session->set_flashdata('message',  array(
+									'type' => 'success',
+									'text' => 'Запись удалена'
+								)
+							);
+						} else {
+							$output['error']='error';
+						}
+					} else {
+						$output['error']='error';
+					}
+					echo json_encode($output);
+				}
+			}
+		}
 	}
 }
 

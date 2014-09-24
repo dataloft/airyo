@@ -82,9 +82,11 @@ class CommonAdminController extends CI_Controller
 	 * @author N.Kulchinskiy
 	 */
 	public function _remap($method, $params = array()) {
+
 		// you can set default variables to send to the template here
 		$this->header_vars['title'] = 'Airyo project';
 		$this->body_file = strtolower(get_class($this)).'/'.$method;
+
 		if(method_exists($this, $method)) {
 			$result = call_user_func_array(array($this, $method), $params);
 			$this->load->view($this->header_file, $this->header_vars);
