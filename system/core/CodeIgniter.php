@@ -319,8 +319,10 @@
  *  Call the requested method
  * ------------------------------------------------------
  */
+	// Is ajax request?
+	$bAjax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') ? true : false;
 	// Is there a "remap" function? If so, we call it instead
-	if (method_exists($CI, '_remap'))
+	if (method_exists($CI, '_remap') AND !$bAjax)
 	{
 		$CI->_remap($method, array_slice($URI->rsegments, 2));
 	}

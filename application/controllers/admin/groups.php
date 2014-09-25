@@ -160,8 +160,8 @@ class Groups extends CommonAdminController {
 	 * @author N.Kulchinskiy
 	 */
 	public function delete () {
-		print json_encode($_POST);
-		die();
+		echo json_encode($_POST);
+		return true;
 		if (isset($_POST)) {
 			$id = $this->input->post('id');
 			if ($id) {
