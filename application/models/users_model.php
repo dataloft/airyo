@@ -30,19 +30,37 @@ class Users_model extends CI_Model {
 	 * @param $aParams
 	 * @return object
 	 *
-	 * @author N.Zakharenko
+	 * @author N.Kulchinskiy
 	 */
 	public function getUsers(array $aParams = array()){
-		$aParams = self::validateUserData($aParams);
+		$aParams = self::validateData($aParams);
+
+		$this->db->select('*');
+
+		if (isset($aParams['iUserId'])) {
+			$this->db->where($this->db->dbprefix('users').'.id', $aParams['iUserId']);
+		}
+
+		$this->db->order_by($this->db->dbprefix('users').'.id','asc');
+
+		$aQuery = $this->db->get($this->db->dbprefix('users'));
+		if($aRecord = $aQuery->result()) {
+			return $aRecord;
+		}
+	}
+
+	public function getGroups(array $aParams = array()){
+		$aParams = self::validateData($aParams);
 
 		$this->db->select('*');
 
 		if (isset($aParams['iId'])) {
-			$this->db->where('id',$aParams['iId']);
+			$this->db->where($this->db->dbprefix('groups').'.id',$aParams['iId']);
 		}
-		$this->db->order_by('id','asc');
 
-		$aQuery = $this->db->get($this->db->dbprefix('users'));
+		$this->db->order_by($this->db->dbprefix('groups').'.id','asc');
+
+		$aQuery = $this->db->get($this->db->dbprefix('groups'));
 		if($aRecord = $aQuery->result()) {
 			return $aRecord;
 		}
@@ -54,10 +72,10 @@ class Users_model extends CI_Model {
 	 * @param int $iUserId
 	 * @return object $oUser
 	 *
-	 * @author N.Zakharenko
+	 * @author N.Kulchinskiy
 	 */
 	public function getUserById($iUserId) {
-		if($iId = intval($iUserId) and $iUserId > 0 and $aUser = $this->getUsers(array('iId' => $iId))) {
+		if($iId = intval($iUserId) and $iUserId > 0 and $aUser = $this->getUsers(array('iUserId' => $iId))) {
 			if(count($aUser) > 0) {
 				return array_pop($aUser);
 			}
@@ -78,14 +96,14 @@ class Users_model extends CI_Model {
 	 * @param $aParams
 	 * @return array
 	 *
-	 * @autor N.Zakharenko
+	 * @autor N.Kulchinskiy
 	 */
-	private static function validateUserData($aParams){
+	private static function validateData($aParams){
 		$aValidParams = array();
 
 		// Проверка id пользователя
-		if(isset($aParams['iId']) AND $iId = intval($aParams['iId']) AND $iId > 0) {
-			$aValidParams['iId'] = $iId;
+		if(isset($aParams['iUserId']) AND $iId = intval($aParams['iUserId']) AND $iId > 0) {
+			$aValidParams['iUserId'] = $iId;
 		}
 
 		return $aValidParams;

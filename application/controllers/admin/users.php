@@ -29,6 +29,10 @@ class Users extends CommonAdminController {
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 		$aParams['body']["users"] = $this->users_model->fetch_countries($aPaginationConfig["per_page"], $page);
 
+		foreach ($aParams['body']["users"] as $iKey => $aUser) {
+			$aParams['body']["users"][$iKey]->groups = $this->ion_auth->get_users_groups($aUser->id);
+		}
+
 		$aParams['body']['profile_id'] = $this->oUser->id;
 		$aParams['body']['pagination'] = $this->pagination;
 
@@ -67,6 +71,7 @@ class Users extends CommonAdminController {
 			}
 
 			$aParams['body']['user']  = $this->users_model->getUserById($iId);
+			$aParams['body']['groups']  = $this->ion_auth->groups()->result_array();
 			$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
 			$this->header_vars = $aParams['header'];
@@ -115,6 +120,8 @@ class Users extends CommonAdminController {
 		}
 
 		$aParams['body']['user']  = $this->users_model->getUserById($this->oUser->id);
+		$aParams['body']['user_groups']  = $this->users_model->getGroupByUserId($this->oUser->id);
+		$aParams['body']['groups']  = $this->ion_auth->groups()->result_array();
 		$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
 		$this->header_vars = $aParams['header'];

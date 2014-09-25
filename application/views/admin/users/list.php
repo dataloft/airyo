@@ -4,26 +4,6 @@
     <? } ?>
     <h1 class="page-header">Пользователи</h1>
     <div class="row">
-        <div class="col-md-3" style="margin-bottom: 10px">
-            <form class="content-search" action="" method="post">
-                <!--<select class="form-control" name="typeSelect" id="typeSelect" onchange="this.form.submit();">
-
-                    <?/*
-                    foreach ($menu_list as $row)
-                    {
-                        */?>
-                        <option value="<?/*=$row['id']*/?>"  <?/* if ($menu_group==$row['id']) echo 'selected'; */?>><?/*=$row['name']*/?></option>
-                    <?/*}*/?>
-                </select>-->
-            </form>
-        </div>
-    </div>
-    <div class="row">
-        <!--<div class="col-md-12" style="margin-top: 20px">
-            <p class="pull-right"><span class="glyphicon glyphicon-plus" style="color: #777"></span> <a href="/admin/menu/add/<?/*=$menu_group*/?>" class="add">Добавить новый раздел</a></p>
-        </div>-->
-    </div>
-    <div class="row">
         <div class="col-md-12">
 	        <table class="table table-responsive">
 		        <thead>
@@ -35,20 +15,27 @@
 				        <th>Фамилия</th>
 				        <th>Компания</th>
 				        <th>Номер телефона</th>
+				        <th>Группы</th>
 			        </tr>
 		        </thead>
 		        <tbody>
 			        <?php foreach ($users as $user) : ?>
-			        <tr>
-				        <td><?=$user->id; ?></td>
-				        <td><a href="<?=($profile_id == $user->id) ? 'users/profile' : 'users/edit/'.$user->id; ?>"><?=$user->username; ?></a></td>
-				        <td><?=$user->email; ?></td>
-				        <td><?=$user->first_name; ?></td>
-				        <td><?=$user->last_name; ?></td>
-				        <td><?=$user->company; ?></td>
-				        <td><?=$user->phone; ?></td>
-
-			        </tr>
+				        <tr>
+					        <td><?=$user->id; ?></td>
+					        <td><a href="<?=($profile_id == $user->id) ? 'users/profile' : 'users/edit/'.$user->id; ?>"><?=$user->username; ?></a></td>
+					        <td><?=$user->email; ?></td>
+					        <td><?=$user->first_name; ?></td>
+					        <td><?=$user->last_name; ?></td>
+					        <td><?=$user->company; ?></td>
+					        <td><?=$user->phone; ?></td>
+					        <td>
+						        <ul>
+							        <?php foreach ($user->groups as $group) : ?>
+								        <li><a href="/admin/groups/edit/<?=$group['id']; ?>"><?=$group['name']; ?></a></li>
+							        <?php endforeach; ?>
+						        </ul>
+					        </td>
+				        </tr>
 			        <?php endforeach; ?>
 		        </tbody>
 	        </table>

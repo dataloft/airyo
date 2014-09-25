@@ -9,7 +9,7 @@ class Groups extends CommonAdminController {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('groups_model');
+		$this->load->model('trash_model');
 	}
 
 	/**
@@ -160,24 +160,25 @@ class Groups extends CommonAdminController {
 	 * @author N.Kulchinskiy
 	 */
 	public function delete () {
-		echo json_encode($_POST);
-		return true;
+		if(!$this->ion_auth->logged_in() AND!$this->ion_auth->is_admin()) {
+			redirect('admin', 'refresh');
+		}
+
 		if (isset($_POST)) {
-			$id = $this->input->post('id');
-			if ($id) {
-				$data['menu'] = $this->menu_model->getToId($id);
-				if (!empty($data['menu'])) {
+			if ($iId = $this->input->post('id')) {
+				$data['group'] = $this->ion_auth->get_users_groups($iId);
+				if (!empty($data['group'])) {
 					$additional_data = array(
-						'deleted_id' => $id,
-						'type' =>  'menu',
-						'data' =>     serialize($data['menu'])
+						'deleted_id'    => $iId,
+						'type'          => 'group',
+						'data'          => serialize($data['group'])
 					);
 					if ($this->trash_model->Add($additional_data)) {
-						if ($this->menu_model->delete($id)) {
+						if ($this->ion_auth->delete_group($iId)) {
 							$output['success']='success';
 							$this->session->set_flashdata('message',  array(
 									'type' => 'success',
-									'text' => 'Запись удалена'
+									'text' => 'Группа удалена'
 								)
 							);
 						} else {

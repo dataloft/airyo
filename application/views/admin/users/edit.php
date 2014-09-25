@@ -29,6 +29,16 @@
 				<input type="email" class="form-control" name="email" id="inputEmail" placeholder="E-mail" value="<?=$user->email; ?>">
 			</div>
 		</div>
+		<div class="form-group <?php if(form_error('groups')) echo 'has-error"'; ?>">
+			<label for="inputGroup" class="control-label col-xs-2">Группа:</label>
+			<div class="col-xs-3">
+				<select multiple class="form-control" name="groups" id="inputGroup">
+					<?php foreach ($groups as $group) : ?>
+						<option value="<?=$group['id']; ?>"><?=$group['name']; ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+		</div>
 		<div class="form-group <?php if(form_error('company')) echo 'has-error"'; ?>">
 			<label for="inputCompany" class="control-label col-xs-2">Компания:</label>
 			<div class="col-xs-3">
