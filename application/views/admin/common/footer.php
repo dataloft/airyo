@@ -11,23 +11,17 @@
 			<p class="navbar-brand text-muted"><small>&copy; Airyo 2014</small></p>
 		</div>
 		<?php if(isset($usermenu)): ?>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropup">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?=$user_data->first_name; ?> <?=$user_data->last_name; ?> <span class="caret"></span></a>
-					<ul class="dropdown-menu" role="menu">
-						<li>
-							<a href="/admin/users/profile">
-								<span class="glyphicon glyphicon-edit"></span>
-								Редактировать</a>
-						</li>
-						<li>
-							<a href="/admin/logout">
-								<span class="glyphicon glyphicon-log-out"></span>
-								Выйти</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
+			<div class="nav collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+				<p class="navbar-text navbar-right">
+					<a href="/admin/users/profile">
+						<span class="glyphicon glyphicon-edit"></span>
+						<?=$user_data->first_name; ?> <?=$user_data->last_name; ?></a>
+					<a href="/admin/logout">
+						<span class="glyphicon glyphicon-log-out"></span>
+						Выйти</a>
+				</p>
+			</div>
+
 		<?php endif; ?>
 	</div>
 </div>

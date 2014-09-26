@@ -2,7 +2,7 @@
 	<?php if ($message) : ?>
 		<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
 	<?php endif; ?>
-	<h1 class="page-header">Профиль</h1>
+	<h1 class="page-header">Пользователь <small> / редактирование</small></h1>
 
 	<?php echo form_open("", 'class="form-horizontal" method="POST"');?>
 		<div class="form-group  <?php if(form_error('username')) echo 'has-error"'; ?>">
@@ -32,9 +32,9 @@
 		<div class="form-group <?php if(form_error('groups')) echo 'has-error"'; ?>">
 			<label for="inputGroup" class="control-label col-xs-2">Группа:</label>
 			<div class="col-xs-3">
-				<select multiple class="form-control" name="groups" id="inputGroup">
+				<select multiple class="form-control" name="groups[]" id="inputGroup">
 					<?php foreach ($groups as $group) : ?>
-						<option value="<?=$group['id']; ?>"><?=$group['name']; ?></option>
+						<option <?=in_array($group['id'], $user_groups) ? 'selected' : ''; ?> value="<?=$group['id']; ?>"><?=$group['name']; ?></option>
 					<?php endforeach; ?>
 				</select>
 			</div>
@@ -54,6 +54,7 @@
 		<div class="form-group">
 			<div class="col-xs-offset-2 col-xs-10">
 				<button type="submit" class="btn btn-primary">Сохранить</button>
+				<a href="/admin/users" class="btn btn-default">Отмена</a>
 			</div>
 		</div>
 	<input type="hidden" name="form_edit" value="edit" />

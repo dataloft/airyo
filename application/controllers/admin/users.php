@@ -9,6 +9,8 @@ class Users extends CommonAdminController {
 
 	public function __construct() {
 		parent::__construct();
+
+		$this->load->model('groups_model');
 	}
 
 	/**
@@ -30,7 +32,7 @@ class Users extends CommonAdminController {
 		$aParams['body']["users"] = $this->users_model->fetch_countries($aPaginationConfig["per_page"], $page);
 
 		foreach ($aParams['body']["users"] as $iKey => $aUser) {
-			$aParams['body']["users"][$iKey]->groups = $this->ion_auth->get_users_groups($aUser->id);
+			$aParams['body']["users"][$iKey]->groups = $this->ion_auth->get_users_groups($aUser->id)->result_array();
 		}
 
 		$aParams['body']['profile_id'] = $this->oUser->id;
@@ -72,6 +74,14 @@ class Users extends CommonAdminController {
 
 			$aParams['body']['user']  = $this->users_model->getUserById($iId);
 			$aParams['body']['groups']  = $this->ion_auth->groups()->result_array();
+			$aUserGroups = $this->groups_model->getUsersGroups(array('iUserId' => $iId));
+
+			$aGroups = array();
+			foreach ($aUserGroups as $aGroup) {
+				array_push($aGroups, $aGroup->group_id);
+			}
+
+			$aParams['body']['user_groups'] = $aGroups;
 			$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
 			$this->header_vars = $aParams['header'];
@@ -119,8 +129,14 @@ class Users extends CommonAdminController {
 			$this->session->set_flashdata('message', $aMessage);
 		}
 
+		$aUserGroups = $this->groups_model->getUsersGroups(array('iUserId' => $this->oUser->id));
+		$aGroups = array();
+		foreach ($aUserGroups as $aGroup) {
+			array_push($aGroups, $aGroup->group_id);
+		}
+
 		$aParams['body']['user']  = $this->users_model->getUserById($this->oUser->id);
-		$aParams['body']['user_groups']  = $this->users_model->getGroupByUserId($this->oUser->id);
+		$aParams['body']['user_groups']  = $aGroups;
 		$aParams['body']['groups']  = $this->ion_auth->groups()->result_array();
 		$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
@@ -148,6 +164,7 @@ class Users extends CommonAdminController {
 			$this->form_validation->set_rules('email', 'Почтовый адрес', 'trim|required|valid_email|xss_clean');
 			$this->form_validation->set_rules('company', 'Название компании', 'trim|min_length[3]|xss_clean');
 			$this->form_validation->set_rules('phone', 'Телефонный номер', 'trim|alpha_dash');
+			$this->form_validation->set_rules('groups', 'Группа', 'required');
 
 			if ($this->form_validation->run() == true) {
 				$aProfileData = array(
@@ -156,10 +173,21 @@ class Users extends CommonAdminController {
 					'last_name'     => $this->input->post('last_name',TRUE),
 					'email'         => $this->input->post('email',TRUE),
 					'company'       => $this->input->post('company',TRUE),
-					'phone'         => $this->input->post('phone',TRUE),
+					'phone'         => $this->input->post('phone',TRUE)
 				);
-
+				$aGroups = $this->input->post('groups',TRUE);
 				if ($this->users_model->Update($iId, $aProfileData)) {
+					if($this->ion_auth->remove_from_group(false, $iId)) {
+						foreach ($aGroups as $iGroupId) {
+							if(!$this->ion_auth->add_to_group($iGroupId, $iId)) {
+								return $aMessage = array(
+									'type' => 'warning',
+									'text' => 'Ошибка при добавлении в группу'
+								);
+							}
+						}
+					}
+
 					$aMessage = array(
 						'type' => 'success',
 						'text' => 'Успешное сохранение профиля'

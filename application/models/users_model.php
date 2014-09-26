@@ -49,23 +49,6 @@ class Users_model extends CI_Model {
 		}
 	}
 
-	public function getGroups(array $aParams = array()){
-		$aParams = self::validateData($aParams);
-
-		$this->db->select('*');
-
-		if (isset($aParams['iId'])) {
-			$this->db->where($this->db->dbprefix('groups').'.id',$aParams['iId']);
-		}
-
-		$this->db->order_by($this->db->dbprefix('groups').'.id','asc');
-
-		$aQuery = $this->db->get($this->db->dbprefix('groups'));
-		if($aRecord = $aQuery->result()) {
-			return $aRecord;
-		}
-	}
-
 	/**
 	 * Получение пользователя по ID
 	 *
