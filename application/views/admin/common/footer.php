@@ -4,25 +4,21 @@
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
-				<span class="icon-bar"></span> 
-				<span class="icon-bar"></span> 
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
 			</button>
-
 			<p class="navbar-brand text-muted"><small>&copy; Airyo 2014</small></p>
 		</div>
-		<?php if(isset($usermenu)): ?>
+		<?if(isset($usermenu)):?>
 			<div class="nav collapse navbar-collapse" id="bs-example-navbar-collapse-2">
 				<p class="navbar-text navbar-right">
-					<a href="/admin/users/profile">
-						<span class="glyphicon glyphicon-edit"></span>
-						<?=$user_data->first_name; ?> <?=$user_data->last_name; ?></a>
-					<a href="/admin/logout">
-						<span class="glyphicon glyphicon-log-out"></span>
-						Выйти</a>
+					<span class="glyphicon glyphicon-user"></span>
+					<a href="/admin/users/profile" style="margin-right: 20px;"><?=$user_data->first_name; ?> <?=$user_data->last_name; ?></a>
+					<span class="glyphicon glyphicon-log-out"></span>
+					<a href="/admin/logout">Выйти</a>
 				</p>
 			</div>
-
-		<?php endif; ?>
+		<?endif?>
 	</div>
 </div>
 
