@@ -28,7 +28,6 @@ class Groups extends CommonAdminController {
 		$aGroups = $this->ion_auth->groups()->result_array();
 
 		$aParams['body']["groups"] = $aGroups;
-		$aParams['body']['message'] =  $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
 
 		$this->header_vars = $aParams['header'];
 		$this->body_vars = $aParams['body'];
@@ -59,10 +58,9 @@ class Groups extends CommonAdminController {
 		$aParams['body']['group'] = $oGroups;
 		if ($this->form_validation->run() == true) {
 			if ($iId = $this->ion_auth->create_group($oGroups->name, $oGroups->description)) {
-				$this->session->set_flashdata('message',  array(
-						'type' => 'success',
-						'text' => 'Группа создана'
-					)
+				$aParams['body']['message'] = array(
+					'type' => 'success',
+					'text' => 'Группа создана'
 				);
 				redirect("admin/groups/edit/$iId", 'refresh');
 			} else {
@@ -100,11 +98,9 @@ class Groups extends CommonAdminController {
 			'/themes/airyo/js/groups.js'
 		);
 
-		$aParams['body']['id'] = '';
-		$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-
 		$oGroup = new stdClass();
 		$aParams['body']['title'] = "Добавить/редактировать группу";
+		$aParams['body']['id'] = '';
 
 		if (!$this->ion_auth->is_admin()) {
 			redirect('auth', 'refresh');

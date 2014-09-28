@@ -38,8 +38,6 @@ class Users extends CommonAdminController {
 		$aParams['body']['profile_id'] = $this->oUser->id;
 		$aParams['body']['pagination'] = $this->pagination;
 
-		$aParams['body']['message'] =  $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
-
 		$this->header_vars = $aParams['header'];
 		$this->body_vars = $aParams['body'];
 		$this->body_file = 'admin/users/list';
@@ -66,10 +64,8 @@ class Users extends CommonAdminController {
 			$oPost = (object) $this->input->post();
 
 			if(!empty($oPost->form_edit)) {
-				$aMessage = $this->updateProfile($iId);
-
 				/** Оповещение */
-				$this->session->set_flashdata('message', $aMessage);
+				$aParams['body']['message'] = $this->updateProfile($iId);
 			}
 
 			$aParams['body']['user']  = $this->users_model->getUserById($iId);
@@ -82,7 +78,6 @@ class Users extends CommonAdminController {
 			}
 
 			$aParams['body']['user_groups'] = $aGroups;
-			$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
 			$this->header_vars = $aParams['header'];
 			$this->body_vars = $aParams['body'];
@@ -126,7 +121,7 @@ class Users extends CommonAdminController {
 				}
 			}
 			/** Оповещение */
-			$this->session->set_flashdata('message', $aMessage);
+			$aParams['body']['message'] =  $aMessage;
 		}
 
 		$aUserGroups = $this->groups_model->getUsersGroups(array('iUserId' => $this->oUser->id));
@@ -138,7 +133,6 @@ class Users extends CommonAdminController {
 		$aParams['body']['user']  = $this->users_model->getUserById($this->oUser->id);
 		$aParams['body']['user_groups']  = $aGroups;
 		$aParams['body']['groups']  = $this->ion_auth->groups()->result_array();
-		$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
 		$this->header_vars = $aParams['header'];
 		$this->body_vars = $aParams['body'];

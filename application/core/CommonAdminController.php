@@ -46,6 +46,7 @@ class CommonAdminController extends CI_Controller
 		$aData['header']['menu'] = array();
 		$aData['header']['usermenu'] = array();
 
+		$aData['body']['message'] = '';
 		$aData['body']['user_data'] = $this->oUser;
 
 		return $aData;
@@ -56,6 +57,7 @@ class CommonAdminController extends CI_Controller
 		$aData['header']['menu'] = array();
 		$aData['header']['usermenu'] = array();
 
+		$aData['body']['message'] = '';
 		$aData['body']['user_data'] = $this->oUser;
 
 		return $aData;
@@ -66,6 +68,7 @@ class CommonAdminController extends CI_Controller
 		$aData['header']['menu'] = array();
 		$aData['header']['usermenu'] = array();
 
+		$aData['body']['message'] = '';
 		$aData['body']['user_data'] = $this->oUser;
 
 		return $aData;

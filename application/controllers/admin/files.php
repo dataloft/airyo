@@ -46,7 +46,7 @@ class Files extends CommonAdminController {
 
         if (!is_dir($dir)) {
 	        $aParams['body']['message'] = array(
-			        'msg_type' => 'danger',
+			        'type' => 'danger',
 			        'text' => 'Каталог не найден'
 	        );
         }
@@ -55,7 +55,7 @@ class Files extends CommonAdminController {
         } catch (Exception $e) {
             $arr = array();
 	        $aParams['body']['message'] = array(
-                'msg_type' => 'danger',
+                'type' => 'danger',
                 'text' => 'Не удалось прочитать каталог'
             );
         }
@@ -106,7 +106,7 @@ class Files extends CommonAdminController {
 	        $aParams['body']['result']=array();
             if(empty($aParams['body']['message'])) {
 	            $aParams['body']['message'] = array(
-			            'msg_type' => 'warning',
+			            'type' => 'warning',
 			            'text' => 'Каталог пуст'
 	            );
             }
@@ -172,21 +172,21 @@ class Files extends CommonAdminController {
 
                 } else {
                     $this->session->set_flashdata('message',  array(
-                            'msg_type' => 'danger',
+                            'type' => 'danger',
                             'text' => 'Папка с таким именем уже есть'
                         )
                     );
                 }
             } else {
                 $this->session->set_flashdata('message',  array(
-                        'msg_type' => 'danger',
+                        'type' => 'danger',
                         'text' => 'Недопустимое имя папки'
                     )
                 );
             }
         } else {
             $this->session->set_flashdata('message',  array(
-                    'msg_type' => 'danger',
+                    'type' => 'danger',
                     'text' => 'Недопустимое имя папки'
                 )
             );
@@ -205,7 +205,7 @@ class Files extends CommonAdminController {
                     foreach ($arr as $item) {
                         if (basename($item) == $_POST['fname']) {
                             $this->session->set_flashdata('message',  array(
-                                    'msg_type' => 'danger',
+                                    'type' => 'danger',
                                     'text' => 'Папка с таким именем уже существует'
                                 )
                             );
@@ -217,7 +217,7 @@ class Files extends CommonAdminController {
                 if (is_dir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path'].$_POST['oldfname'])) {
                     if (rename ($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path'].$_POST['oldfname'], $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$_POST['path'].$_POST['fname'])) {
                         $this->session->set_flashdata('message',  array(
-                                'msg_type' => 'success',
+                                'type' => 'success',
                                 'text' => 'Папка переименована'
                             )
                         );
@@ -225,21 +225,21 @@ class Files extends CommonAdminController {
                     }
                 } else {
                     $this->session->set_flashdata('message',  array(
-                            'msg_type' => 'danger',
+                            'type' => 'danger',
                             'text' => 'Папка ненайдена'
                         )
                     );
                 }
             } else {
                 $this->session->set_flashdata('message',  array(
-                        'msg_type' => 'danger',
+                        'type' => 'danger',
                         'text' => 'Недопустимое имя папки'
                     )
                 );
             }
         } else {
             $this->session->set_flashdata('message',  array(
-                    'msg_type' => 'danger',
+                    'type' => 'danger',
                     'text' => 'Недопустимое имя папки'
                 )
             );
@@ -268,7 +268,7 @@ class Files extends CommonAdminController {
     public static function readdir($dir, $onlyDirs = false) {
         if (!is_dir($dir)) {
              $data['message'] = array(
-                'msg_type' => 'danger',
+                'type' => 'danger',
                 'text' => 'Каталог не найден'
             );
             return false;
@@ -300,7 +300,7 @@ class Files extends CommonAdminController {
             }
         } else {
          $data['message'] = array(
-                'msg_type' => 'danger',
+                'type' => 'danger',
                 'text' => 'Не удалось открыть каталог'
             ); //TODO: Сообщение об ошибке.
             return false;
@@ -323,7 +323,7 @@ class Files extends CommonAdminController {
             // print_r( $this->config->item('not_allowed_mimes'));
             if (in_array($upload['type'],$this->config->item('not_allowed_mimes'))) {
                 $this->session->set_flashdata('message',  array(
-                        'msg_type' => 'danger',
+                        'type' => 'danger',
                         'text' => $upload['type'].' not allowed mime'
                     )
                 );
@@ -348,14 +348,14 @@ class Files extends CommonAdminController {
             }
 
             $this->session->set_flashdata('message',  array(
-                    'msg_type' => 'success',
-                    'text' => 'Files uploaded'
+                    'type' => 'success',
+                    'text' => 'Файлы загружены'
                 )
             );
 
         } else
             $this->session->set_flashdata('message',  array(
-                    'msg_type' => 'danger',
+                    'type' => 'danger',
                     'text' => 'Not files'
                 )
             );
