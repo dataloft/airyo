@@ -7,13 +7,13 @@
 	<div class="bs-tabs">
 		<!-- Tabs -->
 		<ul class="nav nav-tabs" role="tablist">
-			<li class="active"><a href="#profile" role="tab" data-toggle="tab">Настройки пользователя</a></li>
-			<li><a href="#password" role="tab" data-toggle="tab">Изменение пароля</a></li>
+			<li <?=(!isset($message['form'])) ? 'class="active"' : ''; ?>><a href="#profile" role="tab" data-toggle="tab">Настройки пользователя</a></li>
+			<li <?=(isset($message['form']) AND $message['form'] == 'password') ? 'class="active"' : ''; ?>><a href="#password" role="tab" data-toggle="tab">Изменение пароля</a></li>
 		</ul>
 
 		<!-- Tab panes -->
 		<div class="tab-content">
-			<div class="tab-pane active" id="profile">
+			<div class="tab-pane <?=(!isset($message['form'])) ? 'active' : ''; ?>" id="profile">
 				<?php echo form_open("", 'class="form-horizontal" method="POST"');?>
 					<div class="form-group  <?php if(form_error('username')) echo 'has-error"'; ?>">
 						<label for="inputlogin" class="control-label col-xs-2">Логин:</label>
@@ -70,7 +70,7 @@
 				<input type="hidden" name="form_edit" value="profile" />
 				<?php echo form_close();?>
 			</div>
-			<div class="tab-pane" id="password">
+			<div class="tab-pane <?=(isset($message['form']) AND $message['form'] == 'password') ? 'active' : ''; ?>" id="password">
 				<?php echo form_open("", 'class="form-horizontal" method="POST"');?>
 					<div class="form-group <?php if(form_error('password')) echo 'has-error"'; ?>">
 						<label for="inputPassword" class="control-label col-xs-2">Старый пароль:</label>

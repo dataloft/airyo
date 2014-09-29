@@ -66,6 +66,7 @@ class Users extends CommonAdminController {
 			if(!empty($oPost->form_edit)) {
 				/** Оповещение */
 				$aParams['body']['message'] = $this->updateProfile($iId);
+				$aParams['body']['message']['form'] = "profile";
 			}
 
 			$aParams['body']['user']  = $this->users_model->getUserById($iId);
@@ -119,6 +120,7 @@ class Users extends CommonAdminController {
 						'text' =>  validation_errors()
 					);
 				}
+				$aMessage['form'] = 'password';
 			}
 			/** Оповещение */
 			$aParams['body']['message'] =  $aMessage;
