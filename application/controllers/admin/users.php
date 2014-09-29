@@ -128,8 +128,10 @@ class Users extends CommonAdminController {
 
 		$aUserGroups = $this->groups_model->getUsersGroups(array('iUserId' => $this->oUser->id));
 		$aGroups = array();
-		foreach ($aUserGroups as $aGroup) {
-			array_push($aGroups, $aGroup->group_id);
+		if($aUserGroups) {
+			foreach ($aUserGroups as $aGroup) {
+				array_push($aGroups, $aGroup->group_id);
+			}
 		}
 
 		$aParams['body']['user']  = $this->users_model->getUserById($this->oUser->id);
@@ -154,7 +156,7 @@ class Users extends CommonAdminController {
 
 		$iId = intval($iId);
 		if($iId > 0) {
-			$this->form_validation->set_rules('username', 'Пользователь', 'trim|required|min_length[5]|max_length[25]|alpha_numeric');
+			$this->form_validation->set_rules('username', 'Пользователь', 'trim|required|min_length[3]|max_length[25]|alpha_numeric');
 			$this->form_validation->set_rules('first_name', 'Имя', 'trim|min_length[2]|xss_clean');
 			$this->form_validation->set_rules('last_name', 'Фамилия', 'trim|min_length[2]|xss_clean');
 			$this->form_validation->set_rules('email', 'Почтовый адрес', 'trim|required|valid_email|xss_clean');

@@ -39,6 +39,18 @@ class CommonAdminController extends CI_Controller
 		if(!$this->ion_auth->logged_in() AND $bLogin) {
 			redirect('admin', 'refresh');
 		}
+
+		$aNotUpdate = array(
+			'admin', 'admin/logout'
+		);
+		if(!in_array($this->uri->uri_string, $aNotUpdate)) {
+			$this->updateLogs(array(
+				'id_user'       => $this->ion_auth->get_user_id(),
+				'type'          => 'redirect',
+				'description'   => $this->uri->uri_string
+			));
+		}
+
 	}
 
 	protected function index() {
@@ -100,6 +112,71 @@ class CommonAdminController extends CI_Controller
 		show_404();
 	}
 
+	/**
+	 * Ведение лога действий
+	 *
+	 * @param array $aParams
+	 * @return mixed
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	protected function updateLogs(array $aParams = array()){
+		$this->db->insert($this->db->dbprefix('logs'), $aParams);
+
+		return $this->db->insert_id();
+	}
+
+	/**
+	 * Получение логов пользователей
+	 *
+	 * @param array $aParams
+	 *
+	 * @return mixed
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	protected function getlogs(array $aParams = array()){
+
+		$this->db->select('*');
+
+		if (isset($aParams['iId']) AND $iId = intval($aParams['iId']) AND $iId > 0) {
+			$this->db->where($this->db->dbprefix('logs').'.id', $iId);
+		}
+		if (isset($aParams['iUserId']) AND $iUserId = intval($aParams['iUserId']) AND $iUserId > 0) {
+			$this->db->where($this->db->dbprefix('logs').'.user_id', $iUserId);
+		}
+
+		$this->db->order_by($this->db->dbprefix('logs').'.id','asc');
+
+		$aQuery = $this->db->get($this->db->dbprefix('logs'));
+		if($aRecord = $aQuery->result()) {
+			return $aRecord;
+		}
+	}
+
+	/**
+	 * Получение последнего лога по условию
+	 *
+	 * @param array $aParams
+	 * @return mixed
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	protected function getLastLog(array $aParams = array()){
+		$this->db->select('MAX(id)');
+
+		if (isset($aParams['iUserId']) AND $iUserId = intval($aParams['iUserId']) AND $iUserId > 0) {
+			$this->db->where($this->db->dbprefix('logs').'.user_id', $iUserId);
+		}
+
+		$aQuery = $this->db->get($this->db->dbprefix('logs'));
+		if($aRecord = $aQuery->result()) {
+			if($aRequest = $this->getlogs(array('iId' => $aRecord))) {
+				return $aRequest;
+			}
+		}
+	}
+	
 	/**
 	 * Получение конфигурации для пагинации
 	 *

@@ -44,7 +44,6 @@ $route['default_controller'] = 'startbootstrap/pages';
 
 // admin
 $route['admin'] = 'admin';
-$route['admin/main'] = 'admin/admin';
 //$route['admin'] = 'admin/auth/login';
 $route[$this->config->item('auth')] = 'admin/auth/login';
 //$route['admin/login'] = 'admin/auth/login';
