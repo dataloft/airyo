@@ -207,25 +207,20 @@ class Content extends CI_Controller {
                 foreach ($data['fields'] as $key => $param)
                 {
                    $data['page'][$param['field_name']] = $this->input->post($param['field_name']);
+
                    $content[$param['field_name']] = $this->input->post($param['field_name']);
                    if ($param['type'] == 'file')
                    {
-
-                       $upload = isset($_FILES[$param['field_name']]) ?
+                       $upload = !empty($_FILES[$param['field_name']]) ?
                            $_FILES[$param['field_name']] : null;
+
+                       $pth = 'public'.DIRECTORY_SEPARATOR.'content';
+                       $config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$pth;
+                       $config['allowed_types'] = '*';
+
                        if ($upload ) {
-                           // param_name is an array identifier like "files[]",
-                           // $_FILES is a multi-dimensional array:
-                           echo '2';
-                           $pth = 'public'.DIRECTORY_SEPARATOR.'content';
-                           $config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$pth;
-                           $config['allowed_types'] = '*';
                            $this->load->library('upload', $config);
-
                            $this->upload->initialize($config);
-                           // print_r( $this->config->item('not_allowed_mimes'));
-
-
                            $_FILES[$param['field_name']] = array (
                                'name'=> $upload['name'],
                                'type'=> $upload['type'],
@@ -235,14 +230,34 @@ class Content extends CI_Controller {
                            if ($this->upload->do_upload($param['field_name']))
                            {
                                $tmp_data = $this->upload->data();
-                              // print_r($tmp_data);
                                $content[$param['field_name']] = $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
-
+                               $data['page'][$param['field_name']] =  $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
                            }
                            else
                            {
+                               if ($this->input->post($param['field_name'].'_delete'))
+                               {
+                                   @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
+                                   $data['page'][$param['field_name']] = '';
+                               }
+                               elseif($this->input->post($param['field_name'].'_hidden'))
+                                   $data['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                               else
+                                   $data['page'][$param['field_name']] = '';
+                           }
+                       }
+                       else
+                       {
+                           if ($this->input->post($param['field_name'].'_delete'))
+                           {
+                               @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
                                $data['page'][$param['field_name']] = '';
                            }
+
+                           elseif($this->input->post($param['field_name'].'_hidden'))
+                               $data['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                           else
+                               $data['page'][$param['field_name']] = '';
                        }
                    }
                 }

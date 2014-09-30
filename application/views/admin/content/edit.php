@@ -24,6 +24,15 @@
         ?>
                     <input type="<?=$param['type']?>" class="form-control" name="<?=$param['field_name']?>" >
         <?
+                    if (!empty($page[$param['field_name']]))
+                    {
+        ?>
+                        <input type="hidden" class="form-control" name="<?=$param['field_name']?>_hidden" value="<?=$page[$param['field_name']]?>" >
+                        <img src="/<?=$page[$param['field_name']]?>">
+                        <input type="checkbox" name="<?=$param['field_name']?>_delete" value="1"> Удалить файл
+        <?
+                    }
+
                 }
 
                 else
