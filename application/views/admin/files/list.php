@@ -1,9 +1,15 @@
 <div class="container">
 
 	<h1 class="page-header">Файлы</h1>
-    <? if ($message) {?>
-        <div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
-    <? } ?>
+    <?php if ($message) : ?>
+        <div class="alert alert-<?=$message['type']?>">
+	        <a class="close" data-dismiss="alert" href="#">&times;</a>
+	        <?php if ($message['type']=='success') : ?>
+	            <span class="glyphicon glyphicon-ok"></span>
+	        <?php endif; ?>
+	        <?=$message['text']?>
+        </div>
+    <? endif; ?>
 	<ol class="breadcrumb">
        <?
             $pathSize = count($path);

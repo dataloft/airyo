@@ -87,17 +87,17 @@ class Groups_model extends CI_Model {
 	}
 
 	/**
-	 * Получение пользователя по ID
+	 * Получение группы пользователя по ID
 	 *
-	 * @param int $iUserId
+	 * @param int $iGroupId
 	 * @return object $oUser
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function getGroupById($iUserId) {
-		if($iId = intval($iUserId) and $iUserId > 0 and $aGroup = $this->getUsers(array('iGroupId' => $iId))) {
+	public function getGroupById($iGroupId) {
+		if($iId = intval($iGroupId) and $iGroupId > 0 and $aGroup = $this->getGroups(array('iGroupId' => $iId))) {
 			if(count($aGroup) > 0) {
-				return array_pop($aUser);
+				return array_pop($aGroup);
 			}
 		}
 	}

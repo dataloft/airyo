@@ -45,7 +45,7 @@ class CommonAdminController extends CI_Controller
 		);
 		if(!in_array($this->uri->uri_string, $aNotUpdate)) {
 			$this->updateLogs(array(
-				'id_user'       => $this->ion_auth->get_user_id(),
+				'user_id'       => $this->ion_auth->get_user_id(),
 				'type'          => 'redirect',
 				'description'   => $this->uri->uri_string
 			));
@@ -163,16 +163,24 @@ class CommonAdminController extends CI_Controller
 	 * @author N.Kulchinskiy
 	 */
 	protected function getLastLog(array $aParams = array()){
-		$this->db->select('MAX(id)');
+		$this->db->select('MAX(id) AS max_id');
 
+		/** Проверка ID пользователя */
 		if (isset($aParams['iUserId']) AND $iUserId = intval($aParams['iUserId']) AND $iUserId > 0) {
 			$this->db->where($this->db->dbprefix('logs').'.user_id', $iUserId);
 		}
+		/** Проверка типа лога */
+		if (isset($aParams['sType'])) {
+			$this->db->where($this->db->dbprefix('logs').'.type', $aParams['sType']);
+		}
 
 		$aQuery = $this->db->get($this->db->dbprefix('logs'));
-		if($aRecord = $aQuery->result()) {
-			if($aRequest = $this->getlogs(array('iId' => $aRecord))) {
-				return $aRequest;
+
+		if($aRecord = $aQuery->row()) {
+			if($aLogs = $this->getlogs(array('iId' => $aRecord->max_id))) {
+				if(count($aLogs) > 0) {
+					return array_pop($aLogs);
+				}
 			}
 		}
 	}
