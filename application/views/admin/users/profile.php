@@ -75,19 +75,19 @@
 					<div class="form-group <?php if(form_error('oldpassword')) echo 'has-error"'; ?>">
 						<label for="inputOldPassword" class="control-label col-xs-2">Старый пароль:</label>
 						<div class="col-xs-3">
-							<input type="password" class="form-control" name="oldpassword" id="inputOldPassword" placeholder="Старый пароль">
+							<input type="password" autocomplete="off" class="form-control" name="oldpassword" id="inputOldPassword" placeholder="Старый пароль">
 						</div>
 					</div>
 					<div class="form-group <?php if(form_error('newpass')) echo 'has-error"'; ?>">
 						<label for="inputNewPassword" class="control-label col-xs-2">Новый пароль:</label>
 						<div class="col-xs-3">
-							<input type="password" class="form-control" name="newpass" id="inputNewPassword" placeholder="Новый пароль">
+							<input type="password" autocomplete="off" class="form-control" name="newpass" id="inputNewPassword" placeholder="Новый пароль">
 						</div>
 					</div>
 					<div class="form-group <?php if(form_error('passconf')) echo 'has-error"'; ?>">
 						<label for="inputConfirmPassword" class="control-label col-xs-2">Подтвердите пароль:</label>
 						<div class="col-xs-3">
-							<input type="password" class="form-control" name="passconf" id="inputConfirmPassword" placeholder="Подтверждение пароля">
+							<input type="password" autocomplete="off" class="form-control" name="passconf" id="inputConfirmPassword" placeholder="Подтверждение пароля">
 						</div>
 					</div>
 					<div class="form-group">
