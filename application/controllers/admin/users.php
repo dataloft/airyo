@@ -104,13 +104,13 @@ class Users extends CommonAdminController {
 				$aMessage = $this->updateProfile($this->oUser->id);
 			}
 			elseif($oPost->form_edit == "password") {
-				$this->form_validation->set_rules('password', 'Пароль', 'trim|required|md5');
+				$this->form_validation->set_rules('oldpassword', 'Пароль', 'trim|required|md5');
 				$this->form_validation->set_rules('newpass', 'Новый пароль', 'trim|required');
 				$this->form_validation->set_rules('passconf', 'Подтверждение пароля', 'trim|required|matches[newpass]');
 
 				if ($this->form_validation->run() == true) {
 					$identity = $this->session->userdata($this->config->item('identity', 'ion_auth'));
-					$OldPassword = $oPost->password;
+					$OldPassword = $oPost->oldpassword;
 					$NewPassword = $oPost->newpass;
 
 					$aMessage = $this->changePassword($identity, $OldPassword, $NewPassword);

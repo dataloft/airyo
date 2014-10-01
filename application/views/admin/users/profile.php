@@ -72,10 +72,10 @@
 			</div>
 			<div class="tab-pane <?=(isset($message['form']) AND $message['form'] == 'password') ? 'active' : ''; ?>" id="password">
 				<?php echo form_open("", 'class="form-horizontal" method="POST"');?>
-					<div class="form-group <?php if(form_error('password')) echo 'has-error"'; ?>">
-						<label for="inputPassword" class="control-label col-xs-2">Старый пароль:</label>
+					<div class="form-group <?php if(form_error('oldpassword')) echo 'has-error"'; ?>">
+						<label for="inputOldPassword" class="control-label col-xs-2">Старый пароль:</label>
 						<div class="col-xs-3">
-							<input type="password" class="form-control" name="password" id="inputPassword" placeholder="Старый пароль">
+							<input type="password" class="form-control" name="oldpassword" id="inputOldPassword" placeholder="Старый пароль">
 						</div>
 					</div>
 					<div class="form-group <?php if(form_error('newpass')) echo 'has-error"'; ?>">
