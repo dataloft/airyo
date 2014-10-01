@@ -71,7 +71,7 @@
 				<?php echo form_close();?>
 			</div>
 			<div class="tab-pane <?=(isset($message['form']) AND $message['form'] == 'password') ? 'active' : ''; ?>" id="password">
-				<?php echo form_open("", 'class="form-horizontal" method="POST"');?>
+				<?php echo form_open("", 'class="form-horizontal" autocomplete="off" method="POST"');?>
 					<div class="form-group <?php if(form_error('oldpassword')) echo 'has-error"'; ?>">
 						<label for="inputOldPassword" class="control-label col-xs-2">Старый пароль:</label>
 						<div class="col-xs-3">
