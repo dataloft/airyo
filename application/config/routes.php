@@ -50,12 +50,30 @@ $route[$this->config->item('auth')] = 'admin/auth/login';
 $route['admin/registration'] = 'admin/auth/create_user';
 $route['admin/logout'] = 'admin/auth/logout';
 
+
 //admin content
 $route['admin/content'] = 'admin/content';
 $route['admin/content/add'] = 'admin/content/add';
 $route['admin/content/edit'] = 'admin/content/edit';
 $route['admin/content/edit/(:num)'] = 'admin/content/edit/$1';
 $route['admin/content/delete'] = 'admin/content/delete';
+
+//admin users (profile)
+$route['admin/users'] = 'admin/users';
+$route['admin/users/(:num)'] = 'admin/users';
+$route['admin/users/profile'] = 'admin/users/profile';
+$route['admin/users/add'] = 'admin/users/add';
+$route['admin/users/edit'] = 'admin/users/edit';
+$route['admin/users/edit/(:num)'] = 'admin/users/edit/$1';
+$route['admin/users/delete'] = 'admin/users/delete';
+
+//admin users groups
+$route['admin/groups'] = 'admin/groups';
+$route['admin/groups/add'] = 'admin/groups/add';
+$route['admin/groups/add/(:num)'] = 'admin/groups/add/$1';
+$route['admin/groups/edit'] = 'admin/groups/edit';
+$route['admin/groups/edit/(:num)'] = 'admin/groups/edit/$1';
+$route['admin/groups/delete'] = 'admin/groups/delete';
 
 //admin menu
 $route['admin/menu'] = 'admin/menu';

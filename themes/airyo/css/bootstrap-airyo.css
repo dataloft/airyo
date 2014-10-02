@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -24,11 +16,17 @@ body {
   height: 60px;
   background-color: #f5f5f5;
 }
-
 #footer .navbar-left p {
 	padding-left: 0;
 }
+.list-group-item:hover, a.list-group-item:focus {
+	text-decoration: none;
+	background-color: rgb(245, 245, 245);
+}
 
-
-.list-group-item:hover, a.list-group-item:focus {text-decoration: none;background-color: rgb(245, 245, 245);}
+/** Tabs style */
+.bs-tabs .nav-tabs {
+	margin-bottom: 15px;
+}
+/** Tabs style */
 

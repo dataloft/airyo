@@ -34,29 +34,30 @@ if (!empty($styles))
 <div class="navbar navbar-default" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
-			<?if(isset($menu)):?>
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> 
-				<span class="sr-only">Toggle navigation</span> 
-				<span class="icon-bar"></span> 
-				<span class="icon-bar"></span> 
-				<span class="icon-bar"></span> 
-			</button>
-			<?endif?>
+			<?php if(isset($menu)) : ?>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			<?php endif; ?>
 
 			<a class="navbar-brand" href="/" target="_blank" style="margin-right: 20px"><span class="glyphicon glyphicon-edit"></span> <?=ltrim($_SERVER['HTTP_HOST'],'www.');?></a>
 		</div>
 		<?if(isset($menu)):?>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li <? if ($main_menu == 'content') echo 'class="active"';?> ><a href="/admin/content">Наполнение</a></li>
+				<li <? if ($main_menu == 'content') echo 'class="active"';?> ><a href="/admin/content">Материалы</a></li>
 				<li <? if ($main_menu == 'menu') echo 'class="active"';?> ><a href="/admin/menu">Меню</a></li>
 				<li <? if ($main_menu == 'files') echo 'class="active"';?>><a href="/admin/files">Файлы</a></li>
 				<li class="dropdown <?  if ($main_menu[0] == 'modules') echo 'active';?>"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>
 					<ul class="dropdown-menu">
+						<li <? if ($main_menu == 'users') echo 'class="active"';?> ><a href="/admin/users">Пользователи</a></li>
+						<li <? if ($main_menu == 'groups') echo 'class="active"';?> ><a href="/admin/groups">Группы</a></li>
 						<li><a href="/admin/gallery">Галереи</a></li>
 						<li><a href="/admin/">Слайдеры</a></li>
 						<li><a href="/admin/">Каталог товаров</a></li>
-						<li><a href="/admin/">Пользователи</a></li>
 						<li><a href="/admin/">Заказы</a></li>
 						<li><a href="/admin/">Формы и запросы</a></li>
 						<li><a href="/admin/">Комментарии</a></li>
@@ -72,7 +73,7 @@ if (!empty($styles))
 				<li><a href="#"><span class="glyphicon glyphicon-trash"></span> Корзина</a></li>
 			</ul>
 		</div>
-		<?endif?>
+		<?php endif; ?>
 	</div>
 </div>
 <script>
