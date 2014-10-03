@@ -12,22 +12,18 @@ class Pages extends CI_Controller {
 
 	public function index($page = '') {
         $page = $this->uri->uri_string();
-		$data['page'] = $this->content_model->get($page);
+		$data['content'] = $this->content_model->get($page);
         $data['menu'] = $this->menu_model->getList(1,true);
         
-		if($data['page']) {
-			$this->load->view('startbootstrap/header', $data);
-			$this->load->view('startbootstrap/nav', $data);
+		if($data['content']) {
+			$this->load->view('startbootstrap/common/header', $data);
+			$this->load->view('startbootstrap/common/nav', $data);
 			
-			if ($this->uri->uri_string != '') {
-				$this->load->view('startbootstrap/pages_inner', $data);
-			}
-			else {
-				$this->load->view('startbootstrap/pages_home', $data);
-			}
+			$this->load->view('startbootstrap/pages/pages_default', $data);
+
             if($counters = $this->counters_model->getCounters($this->input->ip_address(), $_SERVER['HTTP_HOST'])) $data['counters'] = $counters; else $data['counters'] = '';
 
-			$this->load->view('startbootstrap/footer', $data);
+			$this->load->view('startbootstrap/common/footer', $data);
 		} else {
 			show_404();
 		}
