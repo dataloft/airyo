@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Small Business Template with Logo for Bootstrap 3</title>
+    <title><?=$page->title?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="/themes/startbootstrap/css/bootstrap.css" rel="stylesheet">

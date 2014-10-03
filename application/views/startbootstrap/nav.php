@@ -22,7 +22,6 @@
 			    <?
 			    }
 			    ?>
-			    	<li class="active"><a href="">Активный пункт</a></li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
