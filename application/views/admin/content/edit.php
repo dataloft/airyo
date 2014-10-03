@@ -6,6 +6,7 @@
     <?php echo form_open_multipart("", 'name="edit" method="POST"');?>
         <?
         if (!empty($fields))
+        {
             foreach ($fields as $param)
             {
         ?>
@@ -47,7 +48,12 @@
             </div>
         <?
             }
+        }
+        else
+        {
         ?>
+            <textarea name="content"  class="form-control" placeholder=""><?php echo $page['content']; ?></textarea>
+        <?}?>
 		<div class="form-group <?php if (form_error('h1')) echo 'has-error"'; ?>">
 			<label for="h1" class="control-label">Название</label>
 
