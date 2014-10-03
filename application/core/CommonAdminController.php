@@ -8,18 +8,9 @@ if( ! defined('BASEPATH')) exit('No direct script access allowed');
  */
 class CommonAdminController extends CI_Controller
 {
-	/** @var string  */
-	protected $header_file = 'admin/common/header';
-	/** @var string  */
-	protected $body_file;
-	/** @var string  */
-	protected $footer_file = 'admin/common/footer';
-	/** @var array  */
-	protected $header_vars = array();
-	/** @var array  */
-	protected $body_vars = array();
-	/** @var array  */
-	protected $footer_vars = array();
+	protected $header = array();
+	protected $body = array();
+	protected $footer = array();
 	/** @var object */
 	protected $oUser;
 
@@ -34,7 +25,15 @@ class CommonAdminController extends CI_Controller
 		$this->lang->load('content');
 		$this->load->model('users_model');
 
-		$this->oUser = $this->users_model->getUserById($this->ion_auth->get_user_id());
+		$this->header['main_menu'] = '';
+		$this->header['menu'] = array();
+		$this->header['usermenu'] = array();
+		$this->header['view'] = 'admin/common/header';
+
+		$this->body['message'] = '';
+		$this->body['user_data'] = $this->users_model->getUserById($this->ion_auth->get_user_id());
+
+		$this->footer['view'] = 'admin/common/footer';
 
 		if(!$this->ion_auth->logged_in() AND $bLogin) {
 			redirect('admin', 'refresh');
@@ -53,39 +52,6 @@ class CommonAdminController extends CI_Controller
 
 	}
 
-	protected function index() {
-		$aData['header']['main_menu'] = '';
-		$aData['header']['menu'] = array();
-		$aData['header']['usermenu'] = array();
-
-		$aData['body']['message'] = '';
-		$aData['body']['user_data'] = $this->oUser;
-
-		return $aData;
-	}
-
-	protected function edit() {
-		$aData['header']['main_menu'] = '';
-		$aData['header']['menu'] = array();
-		$aData['header']['usermenu'] = array();
-
-		$aData['body']['message'] = '';
-		$aData['body']['user_data'] = $this->oUser;
-
-		return $aData;
-	}
-
-	protected function add() {
-		$aData['header']['main_menu'] = '';
-		$aData['header']['menu'] = array();
-		$aData['header']['usermenu'] = array();
-
-		$aData['body']['message'] = '';
-		$aData['body']['user_data'] = $this->oUser;
-
-		return $aData;
-	}
-
 	/**
 	 * Формирование отображения
 	 *
@@ -99,14 +65,14 @@ class CommonAdminController extends CI_Controller
 	public function _remap($method, $params = array()) {
 
 		// you can set default variables to send to the template here
-		$this->header_vars['title'] = 'Airyo project';
-		$this->body_file = strtolower(get_class($this)).'/'.$method;
+		$this->header['title'] = 'Airyo project';
+		$this->body['view'] = strtolower(get_class($this)).'/'.$method;
 
 		if(method_exists($this, $method)) {
 			$result = call_user_func_array(array($this, $method), $params);
-			$this->load->view($this->header_file, $this->header_vars);
-			$this->load->view($this->body_file, $this->body_vars);
-			$this->load->view($this->footer_file, $this->footer_vars);
+			$this->load->view($this->header['view'], $this->header);
+			$this->load->view($this->body['view'], $this->body);
+			$this->load->view($this->footer['view'], $this->footer);
 			return $result;
 		}
 		show_404();

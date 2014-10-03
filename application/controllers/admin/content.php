@@ -9,23 +9,20 @@ class Content extends CommonAdminController {
     }
 
     public function index($page = '') {
-	    $aParams = parent::index();
-	    $aParams['header']['main_menu'] = 'content';
+	    $this->header['main_menu'] = 'content';
 
-	    $aParams['body']['type'] = '';
-	    $aParams['body']['search'] = '';
-	    $aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-        if ($this->input->post('typeSelect'))
-	        $aParams['body']['type'] = $this->input->post('typeSelect');
-        if ($this->input->post('search'))
-	        $aParams['body']['search'] = $this->input->post('search');
+	    $this->body['type'] = '';
+	    $this->body['search'] = '';
+	    $this->body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+	    if ($this->input->post('typeSelect'))
+	        $this->body['type'] = $this->input->post('typeSelect');
+	    if ($this->input->post('search'))
+	        $this->body['search'] = $this->input->post('search');
 
-	    $aParams['body']['content']  = $this->content_model->getList($aParams['body']['type'], $aParams['body']['search']);
-	    $aParams['body']['type_list']  = $this->content_model->getType();
+	    $this->body['content']  = $this->content_model->getList($this->body['type'], $this->body['search']);
+	    $this->body['type_list']  = $this->content_model->getType();
 
-	    $this->header_vars = $aParams['header'];
-	    $this->body_vars = $aParams['body'];
-	    $this->body_file = 'admin/content/list';
+	    $this->body['view'] = 'admin/content/list';
     }
 
     public function add() {
