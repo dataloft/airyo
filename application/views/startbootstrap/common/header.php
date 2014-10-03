@@ -14,6 +14,8 @@
 
     <!-- Add custom CSS here -->
     <link href="/themes/startbootstrap/css/custom.css" rel="stylesheet">
+    <link href="/themes/startbootstrap/css/all/one-page-wonder.css" rel="stylesheet">
+    <link href="/themes/startbootstrap/css/all/business-frontpage.css" rel="stylesheet">
 
 </head>
 
