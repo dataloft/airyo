@@ -8,9 +8,7 @@ if( ! defined('BASEPATH')) exit('No direct script access allowed');
  */
 class CommonAdminController extends CI_Controller
 {
-	protected $header = array();
-	protected $body = array();
-	protected $footer = array();
+	protected $data = array();
 	/** @var object */
 	protected $oUser;
 
@@ -25,15 +23,12 @@ class CommonAdminController extends CI_Controller
 		$this->lang->load('content');
 		$this->load->model('users_model');
 
-		$this->header['main_menu'] = '';
-		$this->header['menu'] = array();
-		$this->header['usermenu'] = array();
-		$this->header['view'] = 'admin/common/header';
+		$this->data['main_menu'] = '';
+		$this->data['menu'] = array();
+		$this->data['usermenu'] = array();
 
-		$this->body['message'] = '';
-		$this->body['user_data'] = $this->users_model->getUserById($this->ion_auth->get_user_id());
-
-		$this->footer['view'] = 'admin/common/footer';
+		$this->data['message'] = '';
+		$this->data['user_data'] = $this->users_model->getUserById($this->ion_auth->get_user_id());
 
 		if(!$this->ion_auth->logged_in() AND $bLogin) {
 			redirect('admin', 'refresh');
@@ -66,13 +61,13 @@ class CommonAdminController extends CI_Controller
 
 		// you can set default variables to send to the template here
 		$this->header['title'] = 'Airyo project';
-		$this->body['view'] = strtolower(get_class($this)).'/'.$method;
+		//$this->body['view'] = strtolower(get_class($this)).'/'.$method;
 
 		if(method_exists($this, $method)) {
 			$result = call_user_func_array(array($this, $method), $params);
-			$this->load->view($this->header['view'], $this->header);
-			$this->load->view($this->body['view'], $this->body);
-			$this->load->view($this->footer['view'], $this->footer);
+			$this->load->view('admin/common/header', $this->data);
+			$this->load->view($this->data['view'], $this->data);
+			$this->load->view('admin/common/footer', $this->data);
 			return $result;
 		}
 		show_404();

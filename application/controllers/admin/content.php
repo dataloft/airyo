@@ -9,20 +9,20 @@ class Content extends CommonAdminController {
     }
 
     public function index($page = '') {
-	    $this->header['main_menu'] = 'content';
+	    $this->data['main_menu'] = 'content';
 
-	    $this->body['type'] = '';
-	    $this->body['search'] = '';
-	    $this->body['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+	    $this->data['type'] = '';
+	    $this->data['search'] = '';
+	    $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 	    if ($this->input->post('typeSelect'))
-	        $this->body['type'] = $this->input->post('typeSelect');
+	        $this->data['type'] = $this->input->post('typeSelect');
 	    if ($this->input->post('search'))
-	        $this->body['search'] = $this->input->post('search');
+	        $this->data['search'] = $this->input->post('search');
 
-	    $this->body['content']  = $this->content_model->getList($this->body['type'], $this->body['search']);
-	    $this->body['type_list']  = $this->content_model->getType();
+	    $this->data['content']  = $this->content_model->getList($this->data['type'], $this->data['search']);
+	    $this->data['type_list']  = $this->content_model->getType();
 
-	    $this->body['view'] = 'admin/content/list';
+	    $this->data['view'] = 'admin/content/list';
     }
 
     public function add() {
