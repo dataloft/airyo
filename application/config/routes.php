@@ -50,7 +50,6 @@ $route[$this->config->item('auth')] = 'admin/auth/login';
 $route['admin/registration'] = 'admin/auth/create_user';
 $route['admin/logout'] = 'admin/auth/logout';
 
-
 //admin content
 $route['admin/content'] = 'admin/content';
 $route['admin/content/add'] = 'admin/content/add';
