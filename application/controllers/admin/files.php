@@ -17,18 +17,17 @@ class Files extends CommonAdminController {
 	}
 
 	public function index() {
-		$aParams = parent::index();
-		$aParams['header']['main_menu'] = 'files';
+		$this->oData['main_menu'] = 'files';
 
-		$aParams['body']['result'] = array();
-		$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-		$aParams['footer']['scripts'] = array(
+		$this->oData['result'] = array();
+		$this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		$this->oData['scripts'] = array(
             '/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',
             '/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js',
             '/themes/airyo/js/FileUpload/js/jquery.fileupload.js',
             '/themes/airyo/js/FileUpload/js/main.js'
         );
-		$aParams['header']['styles'] = array(
+		$this->oData['styles'] = array(
             '/themes/airyo/js/FileUpload/css/jquery.fileupload.css',
             '/themes/airyo/js/FileUpload/css/jquery.fileupload-ui.css',
             '/themes/airyo/js/FileUpload/css/style.css'
@@ -45,7 +44,7 @@ class Files extends CommonAdminController {
         $dir = $this->getCurrentDir($this->path);
 
         if (!is_dir($dir)) {
-	        $aParams['body']['message'] = array(
+	        $this->oData['message'] = array(
 			        'type' => 'danger',
 			        'text' => 'Каталог не найден'
 	        );
@@ -54,7 +53,7 @@ class Files extends CommonAdminController {
             $arr = $this->readdir($dir);
         } catch (Exception $e) {
             $arr = array();
-	        $aParams['body']['message'] = array(
+	        $this->oData['message'] = array(
                 'type' => 'danger',
                 'text' => 'Не удалось прочитать каталог'
             );
@@ -69,7 +68,7 @@ class Files extends CommonAdminController {
 	            $path =  preg_replace("/".$this->start_folder."\//", '', (ltrim($item,'/')),1);
 	            $isLink = is_link($path);
 	            if (is_dir($item)) {
-		            $aParams['body']['result'][] = array(
+		            $this->oData['result'][] = array(
 	                    'type' => 'dir',
 	                    'isLink' => $isLink,
 	                    'path' => $path,
@@ -91,7 +90,7 @@ class Files extends CommonAdminController {
 	                }
 	                $extension = pathinfo($path, PATHINFO_EXTENSION);
 	                if (empty($extension)) $extension = '-';
-		            $aParams['body']['result'][] = array(
+		            $this->oData['result'][] = array(
 	                    'type' => 'file',
 	                    'isLink' => $isLink,
 	                    'path' => $path,
@@ -103,9 +102,9 @@ class Files extends CommonAdminController {
 	            }
 	        }
         } else {
-	        $aParams['body']['result']=array();
-            if(empty($aParams['body']['message'])) {
-	            $aParams['body']['message'] = array(
+	        $this->oData['result']=array();
+            if(empty($this->oData['message'])) {
+	            $this->oData['message'] = array(
 			            'type' => 'warning',
 			            'text' => 'Каталог пуст'
 	            );
@@ -114,9 +113,9 @@ class Files extends CommonAdminController {
 
         $upDir = ltrim(ltrim(dirname($dir),$this->start_folder),"/");
         if ($upDir == '' || $upDir == '.') {
-	        array_unshift($aParams['body']['result'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/admin/files'));
+	        array_unshift($this->oData['result'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/admin/files'));
         } else {
-	        array_unshift($aParams['body']['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/admin/files/'.$upDir));
+	        array_unshift($this->oData['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/admin/files/'.$upDir));
         }
 
         // Создаем путь (хлебные крошки)
@@ -124,7 +123,7 @@ class Files extends CommonAdminController {
 
         $currExplodedDir = preg_split('#\\\\|/#', $currDir);
         if (isset($currExplodedDir[0]) && $currExplodedDir[0] == '') $currExplodedDir[0] = DIRECTORY_SEPARATOR; //FIX для UNIX
-		$aParams['body']['path'] = array();
+		$this->oData['path'] = array();
         $url = '';
         foreach ($currExplodedDir as $value) {
             if ($value != DIRECTORY_SEPARATOR) {
@@ -133,13 +132,10 @@ class Files extends CommonAdminController {
                 $url = DIRECTORY_SEPARATOR;
                 $value = 'Files';
             }
-	        $aParams['body']['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
+	        $this->oData['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
         }
 
-		$this->header_vars = $aParams['header'];
-		$this->body_vars = $aParams['body'];
-		$this->footer_vars = $aParams['footer'];
-		$this->body_file = 'admin/files/list';
+		$this->oData['view'] = 'admin/files/list';
 	}
 
 	public function edit($id = '') {

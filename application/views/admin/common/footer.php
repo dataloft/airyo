@@ -9,7 +9,7 @@
 			</button>
 			<p class="navbar-brand text-muted"><small>&copy; Airyo 2014</small></p>
 		</div>
-		<?if(isset($usermenu)):?>
+		<?if(isset($user_data) AND !empty($user_data)):?>
 			<div class="nav collapse navbar-collapse" id="bs-example-navbar-collapse-2">
 				<p class="navbar-text navbar-right">
 					<span class="glyphicon glyphicon-user"></span>

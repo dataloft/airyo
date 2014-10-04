@@ -19,8 +19,7 @@ class Users extends CommonAdminController {
 	 * @author N.Kulchinskiy
 	 */
 	public function index() {
-		$aParams = parent::index();
-		$aParams['header']['main_menu'] = 'users';
+		$this->oData['main_menu'] = 'users';
 
 		$aPaginationConfig = $this->getPaginationConfig();
 		$aPaginationConfig['base_url'] = '/admin/users/';
@@ -29,18 +28,16 @@ class Users extends CommonAdminController {
 		$this->pagination->initialize($aPaginationConfig);
 
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$aParams['body']["users"] = $this->users_model->fetch_countries($aPaginationConfig["per_page"], $page);
+		$this->oData["users"] = $this->users_model->fetch_countries($aPaginationConfig["per_page"], $page);
 
-		foreach ($aParams['body']["users"] as $iKey => $aUser) {
-			$aParams['body']["users"][$iKey]->groups = $this->ion_auth->get_users_groups($aUser->id)->result_array();
+		foreach ($this->oData["users"] as $iKey => $aUser) {
+			$this->oData["users"][$iKey]->groups = $this->ion_auth->get_users_groups($aUser->id)->result_array();
 		}
 
-		$aParams['body']['profile_id'] = $this->oUser->id;
-		$aParams['body']['pagination'] = $this->pagination;
+		$this->oData['profile_id'] = $this->oUser->id;
+		$this->oData['pagination'] = $this->pagination;
 
-		$this->header_vars = $aParams['header'];
-		$this->body_vars = $aParams['body'];
-		$this->body_file = 'admin/users/list';
+		$this->oData['view'] = 'admin/users/list';
 	}
 
 	/**
@@ -53,24 +50,22 @@ class Users extends CommonAdminController {
 	 * @author N.Kulchinskiy
 	 */
 	public function edit($iId) {
-		$aParams = parent::edit();
-
 		$iId = intval($iId);
 		if($iId == $this->oUser->id) {
 			redirect("admin/users/profile", 'refresh');
 		} else {
-			$aParams['header']['main_menu'] = 'users';
+			$this->oData['main_menu'] = 'users';
 
 			$oPost = (object) $this->input->post();
 
 			if(!empty($oPost->form_edit)) {
 				/** Оповещение */
-				$aParams['body']['message'] = $this->updateProfile($iId);
-				$aParams['body']['message']['form'] = "profile";
+				$this->oData['message'] = $this->updateProfile($iId);
+				$this->oData['message']['form'] = "profile";
 			}
 
-			$aParams['body']['user']  = $this->users_model->getUserById($iId);
-			$aParams['body']['groups']  = $this->ion_auth->groups()->result_array();
+			$this->oData['user']  = $this->users_model->getUserById($iId);
+			$this->oData['groups']  = $this->ion_auth->groups()->result_array();
 			$aUserGroups = $this->groups_model->getUsersGroups(array('iUserId' => $iId));
 
 			$aGroups = array();
@@ -78,11 +73,9 @@ class Users extends CommonAdminController {
 				array_push($aGroups, $aGroup->group_id);
 			}
 
-			$aParams['body']['user_groups'] = $aGroups;
+			$this->oData['user_groups'] = $aGroups;
 
-			$this->header_vars = $aParams['header'];
-			$this->body_vars = $aParams['body'];
-			$this->body_file = 'admin/users/edit';
+			$this->oData['view'] = 'admin/users/edit';
 		}
 	}
 
@@ -92,8 +85,7 @@ class Users extends CommonAdminController {
 	 * @author N.Zakharenko
 	 */
 	public function profile() {
-		$aParams = parent::index();
-		$aParams['header']['main_menu'] = 'users';
+		$this->oData['main_menu'] = 'users';
 
 		$oPost = (object) $this->input->post();
 
@@ -123,7 +115,7 @@ class Users extends CommonAdminController {
 				$aMessage['form'] = 'password';
 			}
 			/** Оповещение */
-			$aParams['body']['message'] =  $aMessage;
+			$this->oData['message'] =  $aMessage;
 		}
 
 		$aUserGroups = $this->groups_model->getUsersGroups(array('iUserId' => $this->oUser->id));
@@ -134,13 +126,11 @@ class Users extends CommonAdminController {
 			}
 		}
 
-		$aParams['body']['user']  = $this->users_model->getUserById($this->oUser->id);
-		$aParams['body']['user_groups']  = $aGroups;
-		$aParams['body']['groups']  = $this->ion_auth->groups()->result_array();
+		$this->oData['user']  = $this->users_model->getUserById($this->oUser->id);
+		$this->oData['user_groups']  = $aGroups;
+		$this->oData['groups']  = $this->ion_auth->groups()->result_array();
 
-		$this->header_vars = $aParams['header'];
-		$this->body_vars = $aParams['body'];
-		$this->body_file = 'admin/users/profile';
+		$this->oData['view'] = 'admin/users/profile';
 	}
 
 	/**
