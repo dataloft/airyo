@@ -35,7 +35,6 @@ class Content_model extends CI_Model {
 	}
 
     public function next_id(){
-
         $sql = "SELECT `AUTO_INCREMENT` inc FROM `information_schema`.`TABLES` WHERE (`TABLE_NAME`='".$this->db->dbprefix('content')."')";
         return $this->db->query($sql)->row()->inc;
     }

@@ -7,9 +7,9 @@
         <div class="form-group <?php if (form_error('template')) echo 'has-error"'; ?>">
             <label for="template" class="control-label">Шаблон записи</label>
             <select class="form-control" id="tpl" name="template">
-                <option value="0" <? if ($page['template'] == 0) echo 'selected'; ?>>По умолчанию</option>
-                <? foreach ($template_list as $item) { ?>
-                    <option value="<?=$item['id']?>" <? if ($page['template'] == $item['id']) echo 'selected'; ?>><?=$item['description']?></option>
+                <option value="default" <? if ($page['template'] == 'default') echo 'selected'; ?>>По умолчанию</option>
+                <? foreach ($template_list as $i => $item) { ?>
+                    <option value="<?=$i?>" <? if ($page['template'] == $i) echo 'selected'; ?>><?=$item['name']?></option>
                 <?}?>
             </select>
         </div>
@@ -40,7 +40,7 @@
         {
 
             ?>
-            <input type="<?=$param['type']?>" class="form-control" name="<?=$param['field_name']?>" value="<?=$page[$param['field_name']]; ?>" >
+            <input type="<?=$param['type']?>" class="form-control" name="<?=$param['field_name']?>" value="<?=$page[$param['field_name']]; ?>" <? if (!empty($param['attributes'])) echo $param['attributes'];?>>
         <?
         }
 

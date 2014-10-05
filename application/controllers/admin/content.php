@@ -2,6 +2,8 @@
 
 class Content extends CI_Controller {
 
+    protected $default = 'default';
+
     public function __construct() {
         parent::__construct();
         $this->load->library('ion_auth');
@@ -12,6 +14,7 @@ class Content extends CI_Controller {
         $this->load->model('trash_model');
         $this->load->helper('file');
         $this->lang->load('content');
+        $this->config->load('templates');
         $this->load->helper('language');
         if(!$this->ion_auth->logged_in()) {
            show_404();
@@ -50,9 +53,8 @@ class Content extends CI_Controller {
         $data['main_menu'] = 'content';
         $data['menu'] = array();
         $data['usermenu'] = array();
-
-        $data['template_list'] = $this->template_model->getList();
-
+        $data['template_list'] = $this->config->item('templates');
+        $data['page']['template'] = $this->default;
         $page = new ArrayObject;
         $data['title'] = "Добавить/редактировать страницу";
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
@@ -63,28 +65,26 @@ class Content extends CI_Controller {
         $this->form_validation->set_rules('h1', '', 'required');
         $this->form_validation->set_rules('template', '', 'required');
         $this->form_validation->set_rules('alias', '', 'is_unique[content.alias]');
-        //$page->content = $this->input->post('content');
 
         $data['page']['template'] = $this->input->post('template');
+
         if (!empty($_POST['change']))
             $_POST = array();
-       $data['page']['h1'] = $this->input->post('h1');
-       $data['page']['alias'] = $this->input->post('alias');
-       $data['page']['title'] = $this->input->post('title');
-       $data['page']['meta_description'] = $this->input->post('meta_description');
-       $data['page']['meta_keywords'] = $this->input->post('meta_keywords');
-       $data['page']['type'] = $this->input->get('type')?$this->input->get('type'):$this->input->post('type');
-       $data['page']['enabled'] = $this->input->post('enabled');
+        $data['page']['h1'] = $this->input->post('h1');
+        $data['page']['alias'] = $this->input->post('alias');
+        $data['page']['title'] = $this->input->post('title');
+        $data['page']['meta_description'] = $this->input->post('meta_description');
+        $data['page']['meta_keywords'] = $this->input->post('meta_keywords');
+        $data['page']['type'] = $this->input->get('type')?$this->input->get('type'):$this->input->post('type');
+        $data['page']['enabled'] = $this->input->post('enabled');
 
-        if ($data['page']['template'])
+        if ($data['page']['template'] != '' and $data['page']['template'] != $this->default)
         {
-            $fields = $this->template_model->getTemplatesConfig($data['page']['template']);
-
-
-            foreach ($fields as $i => $field)
-            {
-                $data['fields'][$i]['field_name'] = $field['field_name'];
-                $params = unserialize($field['field_param']);
+           $fields = $data['template_list'][$data['page']['template']]['fields'];
+           foreach ($fields as $i => $field)
+           {
+                $data['fields'][$i]['field_name'] = $i;
+                $params = $field;
                 foreach ($params as $key => $param)
                 {
                     if ($key == 'attributes'){
@@ -99,30 +99,27 @@ class Content extends CI_Controller {
 
 
                 }
-                if (!empty($data['fields'][$i]['required']))
-                {
+                if ($data['fields'][$i]['type'] != 'file' and !empty($data['fields'][$i]['required']))
                     $this->form_validation->set_rules($data['fields'][$i]['field_name']  , '', 'required');
+                if ($data['fields'][$i]['type'] == 'file' and !empty($data['fields'][$i]['required']))
+                {
+                    if(empty($_FILES) or $_FILES[$data['fields'][$i]['field_name']]['error'] == 4)
+                        $this->form_validation->set_rules($data['fields'][$i]['field_name']  , '', 'required');
                 }
+
                 $data['page'][$data['fields'][$i]['field_name']] = $this->input->post($data['fields'][$i]['field_name']);
 
-            }
+           }
 
-            /*if (!empty($data['page']['content']))
-            {
-                $content = unserialize($data['page']['content']);
-                foreach ($content as $i => $item)
-                {
-                    $data['page'][$i] = $item;
-                }
-            }*/
         }
         else
         {
             $data['page']['content'] = $this->input->post('content',TRUE);
         }
+
         if ($this->form_validation->run() == true)
         {
-           $additional_data = array(
+            $additional_data = array(
 
                     'template' => $this->input->post('template',TRUE),
                     'h1' => $this->input->post('h1',TRUE),
@@ -134,7 +131,7 @@ class Content extends CI_Controller {
                     'enabled' =>  $this->input->post('enabled',TRUE)
                 );
 
-            if ($data['page']['template'])
+            if ($data['page']['template'] != '' and $data['page']['template'] != $this->default)
             {
                 foreach ($data['fields'] as $key => $param)
                 {
@@ -249,6 +246,7 @@ class Content extends CI_Controller {
         $data['main_menu'] = 'content';
         $data['menu'] = array();
         $data['usermenu'] = array();
+        $data['template_list'] = $this->config->item('templates');
         //$page = new ArrayObject;
         $data['title'] = "Добавить/редактировать страницу";
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
@@ -262,20 +260,18 @@ class Content extends CI_Controller {
         if (!empty($id))
         {
             $data['page'] = $this->content_model->getToId($id);
-            $template = $data['page']['template'];
+            ($data['page']['template'] != $this->default) ? $template = $data['page']['template'] : $template = 0;
             if (empty($data['page']))
                 show_404();
                         //echo (serialize(array('type'=>'textarea','label'=>'H1', 'required'=>'1','attributes'=>array('rows'=>20, 'cols'=>10))));
             if ($template)
             {
-                $fields = $this->template_model->getTemplatesConfig($template);
-
-
+                $fields = $data['template_list'][$data['page']['template']]['fields'];
                 foreach ($fields as $i => $field)
                 {
-                    $data['fields'][$i]['field_name'] = $field['field_name'];
-                    $params = unserialize($field['field_param']);
-                    foreach ($params as $key => $param)
+                    $data['fields'][$i]['field_name'] = $i;
+
+                    foreach ($field as $key => $param)
                     {
                         if ($key == 'attributes'){
                             $attributes='';
@@ -289,9 +285,13 @@ class Content extends CI_Controller {
 
 
                     }
-                    if (!empty($data['fields'][$i]['required']))
-                    {
+                    if ($data['fields'][$i]['type'] != 'file' and !empty($data['fields'][$i]['required']))
                         $this->form_validation->set_rules($data['fields'][$i]['field_name']  , '', 'required');
+                    if ($data['fields'][$i]['type'] == 'file' and !empty($data['fields'][$i]['required']))
+                    {
+                        if(!$this->input->post($data['fields'][$i]['field_name'].'_hidden') and (empty($_FILES) or $_FILES[$data['fields'][$i]['field_name']]['error'] == 4))
+                            $this->form_validation->set_rules($data['fields'][$i]['field_name']  , '', 'required');
+
                     }
                     $data['page'][$data['fields'][$i]['field_name']] = '';
 
@@ -324,7 +324,7 @@ class Content extends CI_Controller {
                     'meta_description' =>   $this->input->post('meta_description',TRUE),
                     'meta_keywords' =>  $this->input->post('meta_keywords',TRUE),
                     'enabled' =>  $this->input->post('enabled',TRUE)
-                    
+
                 );
                 $save_data = $data['page'];
                 if ($template)
