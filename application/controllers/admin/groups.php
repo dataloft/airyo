@@ -18,32 +18,27 @@ class Groups extends CommonAdminController {
 	 * @author N.Kulchinskiy
 	 */
 	public function index() {
-		$aParams = parent::index();
-		$aParams['header']['main_menu'] = 'groups';
+		$this->oData['main_menu'] = 'groups';
 
-		$aParams['footer']['scripts'] = array(
+		$this->oData['scripts'] = array(
 			'/themes/airyo/js/groups.js'
 		);
 
 		$aGroups = $this->ion_auth->groups()->result_array();
 
-		$aParams['body']["groups"] = $aGroups;
+		$this->oData["groups"] = $aGroups;
 
-		$this->header_vars = $aParams['header'];
-		$this->body_vars = $aParams['body'];
-		$this->footer_vars = $aParams['footer'];
-		$this->body_file = 'admin/groups/index';
+		$this->oData['view'] = 'admin/groups/index';
 	}
 
 	public function add() {
-		$aParams = parent::add();
-		$aParams['header']['main_menu'] = 'groups';
+		$this->oData['main_menu'] = 'groups';
 
-		$aParams['body']['id'] = '';
-		$aParams['body']['message'] = '';
+		$this->oData['id'] = '';
+		$this->oData['message'] = '';
 
 		$oGroups = new stdClass();
-		$aParams['body']['title'] = "Добавить/редактировать группу";
+		$this->oData['title'] = "Добавить/редактировать группу";
 
 		if (!$this->ion_auth->is_admin()) {
 			redirect('auth', 'refresh');
@@ -55,30 +50,29 @@ class Groups extends CommonAdminController {
 		$oGroups->name = $this->input->post('name');
 		$oGroups->description = $this->input->post('description');
 
-		$aParams['body']['group'] = $oGroups;
+		$this->oData['group'] = $oGroups;
 		if ($this->form_validation->run() == true) {
 			if ($iId = $this->ion_auth->create_group($oGroups->name, $oGroups->description)) {
-				$aParams['body']['message'] = array(
+				$this->oData['message'] = array(
 					'type' => 'success',
 					'text' => 'Группа создана'
 				);
 				redirect("admin/groups/edit/$iId", 'refresh');
 			} else {
-				$aParams['body']['message'] = array(
+				$this->oData['message'] = array(
 					'type' => 'danger',
 					'text' => 'Произошла ошибка при сохранении записи.'
 				);
 			}
 		}
 		elseif ($this->input->post('action') == 'add') {
-			$aParams['body']['message'] = array(
+			$this->oData['message'] = array(
 				'type' => 'danger',
 				'text' =>  validation_errors()
 			);
 		}
 
-		$this->body_vars = $aParams['body'];
-		$this->body_file = 'admin/groups/edit';
+		$this->oData['view'] = 'admin/groups/edit';
 	}
 
 	/**
@@ -91,16 +85,15 @@ class Groups extends CommonAdminController {
 	 * @author N.Kulchinskiy
 	 */
 	public function edit($iId = 0) {
-		$aParams = parent::edit();
-		$aParams['header']['main_menu'] = 'groups';
+		$this->oData['main_menu'] = 'groups';
 
-		$aParams['footer']['scripts'] = array(
+		$this->oData['scripts'] = array(
 			'/themes/airyo/js/groups.js'
 		);
 
 		$oGroup = new stdClass();
-		$aParams['body']['title'] = "Добавить/редактировать группу";
-		$aParams['body']['id'] = '';
+		$this->oData['title'] = "Добавить/редактировать группу";
+		$this->oData['id'] = '';
 
 		if (!$this->ion_auth->is_admin()) {
 			redirect('auth', 'refresh');
@@ -111,22 +104,22 @@ class Groups extends CommonAdminController {
 
 		// Если передан ID, сохраняем группу
 		if (!empty($iId) AND $iId = intval($iId) AND $iId > 0) {
-			$aParams['body']['group'] = $this->ion_auth->group($iId)->row();
+			$this->oData['group'] = $this->ion_auth->group($iId)->row();
 
-			$aParams['body']['id'] = $iId;
+			$this->oData['id'] = $iId;
 
 			if ($this->form_validation->run() == true) {
 				$oGroup->name = $this->input->post('name',TRUE);
 				$oGroup->description = $this->input->post('description',TRUE);
 
-				$aParams['body']['group'] = $oGroup;
+				$this->oData['group'] = $oGroup;
 				if ($this->ion_auth->update_group($iId, $oGroup->name, $oGroup->description)) {
-					$aParams['body']['message'] = array(
+					$this->oData['message'] = array(
 						'type' => 'success',
 						'text' => 'Запись обновлена'
 					);
 				} else {
-					$aParams['body']['message'] = array(
+					$this->oData['message'] = array(
 						'type' => 'danger',
 						'text' => 'Произошла ошибка при обновлении записи.'
 					);
@@ -136,8 +129,8 @@ class Groups extends CommonAdminController {
 				$oGroup->name = $this->input->post('name',TRUE);
 				$oGroup->description = $this->input->post('description',TRUE);
 
-				$aParams['body']['group'] = $oGroup;
-				$aParams['body']['message'] = array(
+				$this->oData['group'] = $oGroup;
+				$this->oData['message'] = array(
 					'type' => 'danger',
 					'text' => validation_errors()
 				);
@@ -146,13 +139,12 @@ class Groups extends CommonAdminController {
 			redirect("admin/groups/add", 'refresh');
 		}
 
-		$this->header_vars = $aParams['header'];
-		$this->body_vars = $aParams['body'];
-		$this->footer_vars = $aParams['footer'];
-		$this->body_file = 'admin/groups/edit';
+		$this->oData['view'] = 'admin/groups/edit';
 	}
 
 	/**
+	 * Удаление группы пользователя
+	 *
 	 * @author N.Kulchinskiy
 	 */
 	public function delete () {

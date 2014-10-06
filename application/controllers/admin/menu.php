@@ -9,27 +9,24 @@ class Menu extends CommonAdminController {
 	}
 
 	public function index() {
-	$aParams = parent::index();
-		$aParams['header']['main_menu'] = 'menu';
+		$this->oData['main_menu'] = 'menu';
 
-		$aParams['body']['menu_group'] = '';
-		$aParams['body']['menu_list'] =  $this->menu_model->getMenuGroup();
-		$aParams['body']['menu_group'] = $aParams['body']['menu_list'][0]['id'];
+		$this->oData['menu_group'] = '';
+		$this->oData['menu_list'] =  $this->menu_model->getMenuGroup();
+		$this->oData['menu_group'] = $this->oData['menu_list'][0]['id'];
 
 		if ($this->input->post('typeSelect')) {
-			$aParams['body']['menu_group'] = $this->input->post('typeSelect');
+			$this->oData['menu_group'] = $this->input->post('typeSelect');
 		}
 
-		if ($list = $this->menu_model->getList($aParams['body']['menu_group'])) {
-			$aParams['body']['content']  = $this->printTreeList($this->buildTree($list));
+		if ($list = $this->menu_model->getList($this->oData['menu_group'])) {
+			$this->oData['content']  = $this->printTreeList($this->buildTree($list));
 		} else {
-			$aParams['body']['content'] = '';
+			$this->oData['content'] = '';
 		}
-		$aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		$this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
-		$this->header_vars = $aParams['header'];
-		$this->body_vars = $aParams['body'];
-		$this->body_file = 'admin/menu/list';
+		$this->oData['view'] = 'admin/menu/list';
 	}
 
 	/**
@@ -144,24 +141,23 @@ class Menu extends CommonAdminController {
     }
 
     public function add($mid=0) {
-	    $aParams = parent::add();
-	    $aParams['header']['main_menu'] = 'menu';
+	    $this->oData['main_menu'] = 'menu';
 
-	    $aParams['body']['id'] = '';
-	    $aParams['body']['message'] = '';
+	    $this->oData['id'] = '';
+	    $this->oData['message'] = '';
 
         $menu = new ArrayObject;
-	    $aParams['body']['title'] = "Добавить/редактировать пункт меню";
+	    $this->oData['title'] = "Добавить/редактировать пункт меню";
 
         if (!$this->ion_auth->is_admin()) {
             redirect('auth', 'refresh');
         }
 
-	    $aParams['body']['menu_group'] = $mid;
-        if ($list = $this->menu_model->getList($aParams['body']['menu_group'])) {
-	        $aParams['body']['lvl_menu']  = $this->printSelectList($this->buildTree($list));
+	    $this->oData['menu_group'] = $mid;
+        if ($list = $this->menu_model->getList($this->oData['menu_group'])) {
+	        $this->oData['lvl_menu']  = $this->printSelectList($this->buildTree($list));
         } else {
-	        $aParams['body']['lvl_menu'] = '';
+	        $this->oData['lvl_menu'] = '';
         }
 
         $this->form_validation->set_rules('name', '', 'required');
@@ -170,7 +166,7 @@ class Menu extends CommonAdminController {
         $menu->url = $this->input->post('url');
         $menu->order = $this->input->post('order',TRUE);
         $menu->menu_group = $this->input->post('menu_group');
-	    $aParams['body']['menu'] = $menu;
+	    $this->oData['menu'] = $menu;
         if ($this->form_validation->run() == true) {
             if ($check = $this->menu_model->ckeckUniqueOrder($this->input->post('level_menu',TRUE), $this->input->post('order',TRUE))) {
                 $check_order = $this->menu_model->getMaxOrder($this->input->post('level_menu',TRUE))+1;
@@ -194,34 +190,30 @@ class Menu extends CommonAdminController {
                 );
                 redirect("admin/menu/edit/$id", 'refresh');
             } else {
-	            $aParams['body']['message'] = array(
+	            $this->oData['message'] = array(
                     'type' => 'danger',
                     'text' => 'Произошла ошибка при сохранении записи.'
                 );
             }
         }
         elseif ($this->input->post('action') == 'add') {
-	        $aParams['body']['message'] = array(
+	        $this->oData['message'] = array(
                 'type' => 'danger',
                 'text' =>  validation_errors()
             );
         }
 
-	    $this->body_vars = $aParams['body'];
-	    $this->body_file = 'admin/menu/edit';
+	    $this->oData['view'] = 'admin/menu/edit';
     }
 
     public function edit($id = '') {
-	    $aParams = parent::edit();
-	    $aParams['header']['main_menu'] = 'menu';
+	    $this->oData['main_menu'] = 'menu';
 
-	    $aParams['body']['id'] = '';
-
-	    $aParams['body']['id'] = '';
-	    $aParams['body']['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+	    $this->oData['id'] = '';
+	    $this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
         $menu = new stdClass();
-	    $aParams['body']['title'] = "Добавить/редактировать пункт меню";
+	    $this->oData['title'] = "Добавить/редактировать пункт меню";
 
         if (!$this->ion_auth->is_admin()) {
             redirect('auth', 'refresh');
@@ -231,20 +223,21 @@ class Menu extends CommonAdminController {
         $this->form_validation->set_rules('url', '', 'required');
         // Если передан Ид ищем содержание стр в БД
         if (!empty($id)) {
-	        $aParams['body']['menu'] = $this->menu_model->getToId($id);
+	        $this->oData['menu'] = $this->menu_model->getToId($id);
 
-            if (empty($aParams['body']['menu']))
+            if (empty($this->oData['menu']))
                 show_404();
-	        $aParams['body']['id'] = $id;
-            $old_parent_id = $aParams['body']['menu']->parent_id;
+	        $this->oData['id'] = $id;
+            $old_parent_id = $this->oData['menu']->parent_id;
             if ($this->input->post('level_menu',TRUE))
                 $menu->level_menu = $this->input->post('level_menu',TRUE);
             else
-                $menu->level_menu = $aParams['body']['menu']->parent_id;
-            if ($list = $this->menu_model->getList($aParams['body']['menu']->menu_group))
-	            $aParams['body']['lvl_menu']  = $this->printSelectList($this->buildTree($list),$menu->level_menu, 0, $id);
-            else
-	            $aParams['body']['lvl_menu'] = '';
+                $menu->level_menu = $this->oData['menu']->parent_id;
+            if ($list = $this->menu_model->getList($this->oData['menu']->menu_group)) {
+	            $this->oData['lvl_menu']  = $this->printSelectList($this->buildTree($list),$menu->level_menu, 0, $id);
+            } else {
+	            $this->oData['lvl_menu'] = '';
+            }
             if ($this->form_validation->run() == true) {
 
                 $menu->name = $this->input->post('name',TRUE);
@@ -264,27 +257,25 @@ class Menu extends CommonAdminController {
                     $menu->order = $this->input->post('order',TRUE);
                 }
 
-                $menu->menu_group = $aParams['body']['menu']->menu_group;
+                $menu->menu_group = $this->oData['menu']->menu_group;
 
-	            $aParams['body']['menu'] = $menu;
+	            $this->oData['menu'] = $menu;
                 $additional_data = array(
                     'name' => $menu->name,
                     'url' => $menu->url,
                     'order' => $menu->order,
-                    'menu_group' =>   $aParams['body']['menu']->menu_group,
+                    'menu_group' =>   $this->oData['menu']->menu_group,
                     'parent_id' =>   $this->input->post('level_menu',TRUE),
                 );
-                if ($this->menu_model->Update($aParams['body']['id'],$additional_data))
+                if ($this->menu_model->Update($this->oData['id'],$additional_data))
                 {
-                    $this->reOrder($aParams['body']['menu']->menu_group);
-	                $aParams['body']['message'] = array(
+                    $this->reOrder($this->oData['menu']->menu_group);
+	                $this->oData['message'] = array(
                         'type' => 'success',
                         'text' => 'Запись обновлена'
                     );
-                }
-                else
-                {
-	                $aParams['body']['message'] = array(
+                } else {
+	                $this->oData['message'] = array(
                         'type' => 'danger',
                         'text' => 'Произошла ошибка при обновлении записи.'
                     );
@@ -297,8 +288,8 @@ class Menu extends CommonAdminController {
                 $menu->order = $this->input->post('order',TRUE);
                 $menu->menu_group = $this->input->post('menu_group',TRUE);
 
-	            $aParams['body']['menu'] = $menu;
-	            $aParams['body']['message'] = array(
+	            $this->oData['menu'] = $menu;
+	            $this->oData['message'] = array(
                     'type' => 'danger',
                     'text' => validation_errors()
                 );
@@ -308,9 +299,7 @@ class Menu extends CommonAdminController {
             redirect("admin/menu/add", 'refresh');
         }
 
-	    $this->header_vars = $aParams['header'];
-	    $this->body_vars = $aParams['body'];
-	    $this->body_file = 'admin/menu/edit';
+	    $this->oData['view'] = 'admin/menu/edit';
     }
 
     // Пресортировка пунктов меню
