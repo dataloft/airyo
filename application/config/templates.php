@@ -9,7 +9,7 @@
 */
 
 $config['templates'] = array(
-                'blog' => array(
+                'pages_1block' => array(
                     'name' => 'Текст и текст',
                     'fields' => array(
                         'content1' => array(

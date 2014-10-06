@@ -60,14 +60,17 @@ class Content_model extends CI_Model {
         return false;
     }
 
-    public function getToAlias($alias) {
+    public function getToAlias($alias, $array = false) {
         $q = $this->db;
         $this->sql = "
 			SELECT * FROM ".$this->db->dbprefix('content')." WHERE alias = '".$alias."'
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
-            return $q->row();
+            if (!$array)
+                return $q->row();
+            else
+                return $q->row_array();
 
         return false;
     }

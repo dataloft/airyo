@@ -12,7 +12,8 @@ class Pages extends CI_Controller {
 
 	public function index($page = '') {
         $page = $this->uri->uri_string();
-		$data['page'] = $this->content_model->get($page);
+		$data['page'] = $this->content_model->getToAlias($page,true);
+
         $data['menu'] = $this->menu_model->getList(1,true);
         
 		if($data['page']) {
@@ -20,7 +21,18 @@ class Pages extends CI_Controller {
 			$this->load->view('startbootstrap/nav', $data);
 
 			if ($this->uri->uri_string != '') {
-				$this->load->view('startbootstrap/pages_inner', $data);
+                if ($data['page']['template'] == 'default')
+				    $this->load->view('startbootstrap/pages_inner', $data);
+                else
+                {
+                    $content = unserialize($data['page']['content']);
+                    foreach ($content as $i => $item)
+                    {
+                        $data['page'][$i] = $item;
+                    }
+
+                    $this->load->view('startbootstrap/templates/'.$data['page']['template'], $data);
+                }
 			}
 			else {
 				$this->load->view('startbootstrap/pages_home', $data);
