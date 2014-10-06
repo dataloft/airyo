@@ -2,7 +2,7 @@
 
 class Content extends CI_Controller {
 
-    protected $default = 'default';
+    protected $default;
 
     public function __construct() {
         parent::__construct();
@@ -15,6 +15,7 @@ class Content extends CI_Controller {
         $this->load->helper('file');
         $this->lang->load('content');
         $this->config->load('templates');
+        $this->default = $this->config->item('default_template');
         $this->load->helper('language');
         if(!$this->ion_auth->logged_in()) {
            show_404();
@@ -54,7 +55,7 @@ class Content extends CI_Controller {
         $data['menu'] = array();
         $data['usermenu'] = array();
         $data['template_list'] = $this->config->item('templates');
-        $data['page']['template'] = $this->default;
+
         $page = new ArrayObject;
         $data['title'] = "Добавить/редактировать страницу";
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
@@ -66,7 +67,7 @@ class Content extends CI_Controller {
         $this->form_validation->set_rules('template', '', 'required');
         $this->form_validation->set_rules('alias', '', 'is_unique[content.alias]');
 
-        $data['page']['template'] = $this->input->post('template');
+        $data['page']['template'] = $this->input->post('template')?$this->input->post('template'):$this->default;
 
         if (!empty($_POST['change']))
             $_POST = array();
@@ -78,7 +79,7 @@ class Content extends CI_Controller {
         $data['page']['type'] = $this->input->get('type')?$this->input->get('type'):$this->input->post('type');
         $data['page']['enabled'] = $this->input->post('enabled');
 
-        if ($data['page']['template'] != '' and $data['page']['template'] != $this->default)
+        if (!empty($data['template_list'][$data['page']['template']]['fields']))
         {
            $fields = $data['template_list'][$data['page']['template']]['fields'];
            foreach ($fields as $i => $field)
@@ -131,7 +132,7 @@ class Content extends CI_Controller {
                     'enabled' =>  $this->input->post('enabled',TRUE)
                 );
 
-            if ($data['page']['template'] != '' and $data['page']['template'] != $this->default)
+            if (!empty($data['template_list'][$data['page']['template']]['fields']))
             {
                 foreach ($data['fields'] as $key => $param)
                 {
@@ -254,19 +255,18 @@ class Content extends CI_Controller {
             redirect('auth', 'refresh');
         }
         $data['type_list']  = $this->content_model->getType();
-        /* $this->form_validation->set_rules('content', '', 'required');*/
 
         // Если передан Ид ищем содержание стр в БД
         if (!empty($id))
         {
             $data['page'] = $this->content_model->getToId($id);
-            ($data['page']['template'] != $this->default) ? $template = $data['page']['template'] : $template = 0;
+            //($data['page']['template'] != $this->default) ? $template = $data['page']['template'] : $template = 0;
+            $template = $data['page']['template'];
             if (empty($data['page']))
                 show_404();
-                        //echo (serialize(array('type'=>'textarea','label'=>'H1', 'required'=>'1','attributes'=>array('rows'=>20, 'cols'=>10))));
-            if ($template)
+              if (!empty($data['template_list'][$template]['fields']))
             {
-                $fields = $data['template_list'][$data['page']['template']]['fields'];
+                $fields = $data['template_list'][$template]['fields'];
                 foreach ($fields as $i => $field)
                 {
                     $data['fields'][$i]['field_name'] = $i;
@@ -313,8 +313,6 @@ class Content extends CI_Controller {
 
             if ($this->form_validation->run() == true)
             {
-
-
                 $data['page'] = array(
 
                     'h1' => $this->input->post('h1',TRUE),
@@ -327,7 +325,7 @@ class Content extends CI_Controller {
 
                 );
                 $save_data = $data['page'];
-                if ($template)
+                if (!empty($data['template_list'][$template]['fields']))
                 {
                     foreach ($data['fields'] as $key => $param)
                     {
@@ -394,7 +392,6 @@ class Content extends CI_Controller {
                     $data['page']['content'] = $this->input->post('content',TRUE);
                 }
 
-
                 if ($this->content_model->Update($data['id'],$save_data))
                 {
                     $data['message'] = array(
@@ -422,7 +419,7 @@ class Content extends CI_Controller {
                     'enabled' =>  $this->input->post('enabled',TRUE),
                     'template' =>  $this->input->post('template',TRUE)
                 );
-                if ($template)
+                if (!empty($data['template_list'][$template]['fields']))
                 {
                     foreach ($data['fields'] as $key => $param)
                     {

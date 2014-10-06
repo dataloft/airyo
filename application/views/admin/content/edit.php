@@ -51,8 +51,11 @@
         }
         else
         {
-        ?>
-            <textarea name="content"  class="form-control" placeholder=""><?php echo $page['content']; ?></textarea>
+            ?>
+            <div class="form-group <?php if (form_error('content')) echo 'has-error"'; ?>">
+                <label for="description" class="control-label">Html-код страницы</label>
+                <textarea rows="20" id="content" name="content" class="form-control" placeholder=""><? echo $page['content']; ?></textarea>
+            </div>
         <?}?>
 		<div class="form-group <?php if (form_error('h1')) echo 'has-error"'; ?>">
 			<label for="h1" class="control-label">Название</label>

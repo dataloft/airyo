@@ -7,7 +7,6 @@
         <div class="form-group <?php if (form_error('template')) echo 'has-error"'; ?>">
             <label for="template" class="control-label">Шаблон записи</label>
             <select class="form-control" id="tpl" name="template">
-                <option value="default" <? if ($page['template'] == 'default') echo 'selected'; ?>>По умолчанию</option>
                 <? foreach ($template_list as $i => $item) { ?>
                     <option value="<?=$i?>" <? if ($page['template'] == $i) echo 'selected'; ?>><?=$item['name']?></option>
                 <?}?>

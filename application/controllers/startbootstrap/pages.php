@@ -8,12 +8,13 @@ class Pages extends CI_Controller {
 		$this->load->model('counters_model');
 		$this->load->model('menu_model');
         $this->load->helper('url');
+        $this->config->load('templates');
 	}
 
 	public function index($page = '') {
         $page = $this->uri->uri_string();
 		$data['page'] = $this->content_model->getToAlias($page,true);
-
+        $data['template_list'] = $this->config->item('templates');
         $data['menu'] = $this->menu_model->getList(1,true);
         
 		if($data['page']) {
@@ -21,21 +22,18 @@ class Pages extends CI_Controller {
 			$this->load->view('startbootstrap/nav', $data);
 
 			if ($this->uri->uri_string != '') {
-                if ($data['page']['template'] == 'default')
-				    $this->load->view('startbootstrap/pages_inner', $data);
-                else
+                if (!empty($data['template_list'][$data['page']['template']]['fields']))
                 {
                     $content = unserialize($data['page']['content']);
                     foreach ($content as $i => $item)
                     {
                         $data['page'][$i] = $item;
                     }
-
-                    $this->load->view('startbootstrap/templates/'.$data['page']['template'], $data);
                 }
+                $this->load->view('startbootstrap/pages/'.$data['page']['template'], $data);
 			}
 			else {
-				$this->load->view('startbootstrap/pages_home', $data);
+				$this->load->view('startbootstrap/pages/pages_home', $data);
 			}
             if($counters = $this->counters_model->getCounters($this->input->ip_address(), $_SERVER['HTTP_HOST'])) $data['counters'] = $counters; else $data['counters'] = '';
 
