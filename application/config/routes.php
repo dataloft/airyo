@@ -89,8 +89,16 @@ $route['admin/files/delete'] = 'admin/files/delete';
 $route['admin/files/createfolder'] = 'admin/files/createfolder';
 $route['admin/files/renamefolder'] = 'admin/files/renamefolder';
 $route['admin/files/upload'] = 'admin/files/upload';
-
 $route['admin/files/(:any)'] = 'admin/files/index/$1';
+
+//admin gallery manager
+$route['admin/gallery'] = 'admin/gallery';
+$route['admin/gallery/album'] = 'admin/gallery';
+$route['admin/gallery/delete'] = 'admin/gallery/delete';
+$route['admin/gallery/createalbum'] = 'admin/gallery/createalbum';
+$route['admin/gallery/renamealbum'] = 'admin/gallery/renamealbum';
+$route['admin/gallery/upload'] = 'admin/gallery/upload';
+$route['admin/gallery/(:any)'] = 'admin/gallery/index/$1';
 
 //admin modules
 $route['admin/counters'] = 'admin/counters';
