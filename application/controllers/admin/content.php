@@ -7,17 +7,9 @@ class Content extends CommonAdminController {
     public function __construct() {
         parent::__construct();
         $this->load->model('content_model');
-        $this->load->model('template_model');
         $this->load->model('trash_model');
-        $this->load->helper('file');
-        $this->lang->load('content');
         $this->config->load('templates');
         $this->default = $this->config->item('default_template');
-        $this->load->helper('language');
-        if(!$this->ion_auth->logged_in()) {
-           show_404();
-        }
-
     }
 
     public function index($page = '') {
@@ -38,53 +30,154 @@ class Content extends CommonAdminController {
 
     public function add() {
 	    $this->oData['main_menu'] = 'content';
-
 	    $this->oData['id'] = '';
 	    $this->oData['message'] = '';
-
-        $page = new stdClass();
 	    $this->oData['title'] = "Добавить/редактировать страницу";
-        if (!$this->ion_auth->is_admin()) {
-        $data = array();
-        $data['id'] = '';
-        $data['message'] = '';
-        $data['main_menu'] = 'content';
-        $data['menu'] = array();
-        $data['usermenu'] = array();
-        $data['template_list'] = $this->config->item('templates');
-
-        $page = new ArrayObject;
-        $data['title'] = "Добавить/редактировать страницу";
+        $this->oData['id'] = '';
+        $this->oData['message'] = '';
+        $this->oData['template_list'] = $this->config->item('templates');
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
         {
             redirect('auth', 'refresh');
         }
-        $data['type_list']  = $this->content_model->getType();
-        /*$this->form_validation->set_rules('content', '', 'required');*/
+        $this->oData['type_list']  = $this->content_model->getType();
         $this->form_validation->set_rules('h1', '', 'required');
         $this->form_validation->set_rules('template', '', 'required');
         $this->form_validation->set_rules('alias', '', 'is_unique[content.alias]');
-        $page->content = $this->input->post('content');
-        $page->h1 = $this->input->post('h1');
-        $page->alias = $this->input->post('alias');
-        $page->title = $this->input->post('title');
-        $page->meta_description = $this->input->post('meta_description');
-        $page->meta_keywords = $this->input->post('meta_keywords');
-        $page->type = $this->input->get('type')?$this->input->get('type'):$this->input->post('type');
-        $page->enabled = $this->input->post('enabled');
-        $data['page'] = $page;
+        $this->oData['page']['template'] = $this->input->post('template')?$this->input->post('template'):$this->default;
+
+        if (!empty($_POST['change']))
+            $_POST = array();
+        $this->oData['page']['h1'] = $this->input->post('h1');
+        $this->oData['page']['alias'] = $this->input->post('alias');
+        $this->oData['page']['title'] = $this->input->post('title');
+        $this->oData['page']['meta_description'] = $this->input->post('meta_description');
+        $this->oData['page']['meta_keywords'] = $this->input->post('meta_keywords');
+        $this->oData['page']['type'] = $this->input->get('type')?$this->input->get('type'):$this->input->post('type');
+        $this->oData['page']['enabled'] = $this->input->post('enabled');
+
+        if (!empty($this->oData['template_list'][$this->oData['page']['template']]['fields']))
+        {
+            $fields = $this->oData['template_list'][$this->oData['page']['template']]['fields'];
+            foreach ($fields as $i => $field)
+            {
+                $this->oData['fields'][$i]['field_name'] = $i;
+                $params = $field;
+                foreach ($params as $key => $param)
+                {
+                    if ($key == 'attributes'){
+                        $attributes='';
+                        foreach ($param as $k => $attr)
+                        {
+                            $attributes .= $k.'="'.$attr.'" ';
+                        }
+                        $this->oData['fields'][$i][$key] = $attributes;
+                    } else
+                        $this->oData['fields'][$i][$key] = $param;
+
+
+                }
+                if ($this->oData['fields'][$i]['type'] != 'file' and !empty($this->oData['fields'][$i]['required']))
+                    $this->form_validation->set_rules($this->oData['fields'][$i]['field_name']  , '', 'required');
+                if ($this->oData['fields'][$i]['type'] == 'file' and !empty($this->oData['fields'][$i]['required']))
+                {
+                    if(empty($_FILES) or $_FILES[$this->oData['fields'][$i]['field_name']]['error'] == 4)
+                        $this->form_validation->set_rules($this->oData['fields'][$i]['field_name']  , '', 'required');
+                }
+
+                $this->oData['page'][$this->oData['fields'][$i]['field_name']] = $this->input->post($this->oData['fields'][$i]['field_name']);
+
+            }
+
+        }
+        else
+        {
+            $this->oData['page']['content'] = $this->input->post('content',TRUE);
+        }
+
         if ($this->form_validation->run() == true)
         {
             $additional_data = array(
-                'content' => $page->content,
-                'h1' => $page->h1,
-                'alias' =>  $page->alias,
-                'type' =>  $page->type,
-                'title' =>  $page->title,
-                'meta_description' =>  $page->meta_description,
-                'meta_keywords' =>  $page->meta_keywords,
-                'enabled' =>    $page->enabled
+
+                'template' => $this->input->post('template',TRUE),
+                'h1' => $this->input->post('h1',TRUE),
+                'alias' =>  $this->input->post('alias',TRUE),
+                'type' =>  $this->input->post('type',TRUE),
+                'title' =>  $this->input->post('title',TRUE),
+                'meta_description' =>   $this->input->post('meta_description',TRUE),
+                'meta_keywords' =>  $this->input->post('meta_keywords',TRUE),
+                'enabled' =>  $this->input->post('enabled',TRUE)
             );
+
+            if (!empty($this->oData['template_list'][$this->oData['page']['template']]['fields']))
+            {
+                foreach ($this->oData['fields'] as $key => $param)
+                {
+                    $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name']);
+
+                    $content[$param['field_name']] = $this->input->post($param['field_name']);
+                    if ($param['type'] == 'file')
+                    {
+                        $upload = !empty($_FILES[$param['field_name']]) ?
+                            $_FILES[$param['field_name']] : null;
+
+                        $next_id = $this->content_model->next_id();
+                        $pth = 'public'.DIRECTORY_SEPARATOR.'content'.DIRECTORY_SEPARATOR.$next_id;
+                        $config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$pth;
+                        if (!is_dir($config['upload_path']))
+                        {
+                            mkdir($config['upload_path']);
+                        }
+                        $config['allowed_types'] = '*';
+
+                        if ($upload ) {
+                            $this->load->library('upload', $config);
+                            $this->upload->initialize($config);
+                            $_FILES[$param['field_name']] = array (
+                                'name'=> $upload['name'],
+                                'type'=> $upload['type'],
+                                'tmp_name'=> $upload['tmp_name'],
+                                'error'=> $upload['error'],
+                                'size'=> $upload['size']);
+                            if ($this->upload->do_upload($param['field_name']))
+                            {
+                                $tmp_data = $this->upload->data();
+                                $content[$param['field_name']] = $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
+                                $this->oData['page'][$param['field_name']] =  $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
+                            }
+                            else
+                            {
+                                if ($this->input->post($param['field_name'].'_delete'))
+                                {
+                                    @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
+                                    $this->oData['page'][$param['field_name']] = '';
+                                }
+                                elseif($this->input->post($param['field_name'].'_hidden'))
+                                    $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                                else
+                                    $this->oData['page'][$param['field_name']] = '';
+                            }
+                        }
+                        else
+                        {
+                            if ($this->input->post($param['field_name'].'_delete'))
+                            {
+                                @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
+                                $this->oData['page'][$param['field_name']] = '';
+                            }
+
+                            elseif($this->input->post($param['field_name'].'_hidden'))
+                                $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                            else
+                                $this->oData['page'][$param['field_name']] = '';
+                        }
+                    }
+                }
+                $additional_data['content'] = serialize($content);
+            }
+            else
+                $additional_data['content'] = $this->input->post('content',TRUE);
+
             if ($id = $this->content_model->Add($additional_data))
             {
                 $this->session->set_flashdata('message',  array(
@@ -96,7 +189,7 @@ class Content extends CommonAdminController {
             }
             else
             {
-                $data['message'] = array(
+                $this->oData['message'] = array(
                     'type' => 'danger',
                     'text' => 'Произошла ошибка при сохранении записи.'
                 );
@@ -104,56 +197,43 @@ class Content extends CommonAdminController {
         }
         elseif ($this->input->post('action') == 'add')
         {
-            $data['message'] = array(
+            $this->oData['message'] = array(
                 'type' => 'danger',
                 'text' =>  validation_errors()
             );
         }
-        $this->load->view('admin/header', $data);
         $alias = 'add';
-        /*foreach ($data['type_list'] as $item) {
-            if ($page->type == $item->id)
-                $alias = $item->alias;
-            else
-                continue;
-        }*/
-        $this->load->view('admin/content/'.$alias, $data);
-        $data['scripts'] = array(
+        $this->oData['view'] = 'admin/content/'.$alias;
+        $this->oData['scripts'] = array(
             '/themes/airyo/js/content.js',
         );
-        $this->load->view('admin/footer', $data);
     }
 
     public function edit($id = '') {
-        $data = array();
-        $data['id'] = '';
-        $data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-        $data['main_menu'] = 'content';
-        $data['menu'] = array();
-        $data['usermenu'] = array();
-        $data['template_list'] = $this->config->item('templates');
-        //$page = new ArrayObject;
-        $data['title'] = "Добавить/редактировать страницу";
+        $this->oData['id'] = '';
+        $this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+        $this->oData['main_menu'] = 'content';
+        $this->oData['template_list'] = $this->config->item('templates');
+        $this->oData['title'] = "Добавить/редактировать страницу";
         if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
         {
             redirect('auth', 'refresh');
         }
-        $data['type_list']  = $this->content_model->getType();
+        $this->oData['type_list']  = $this->content_model->getType();
 
         // Если передан Ид ищем содержание стр в БД
         if (!empty($id))
         {
-            $data['page'] = $this->content_model->getToId($id);
-            //($data['page']['template'] != $this->default) ? $template = $data['page']['template'] : $template = 0;
-            $template = $data['page']['template'];
-            if (empty($data['page']))
+            $this->oData['page'] = $this->content_model->getToId($id);
+            $template = $this->oData['page']['template'];
+            if (empty($this->oData['page']))
                 show_404();
-              if (!empty($data['template_list'][$template]['fields']))
+            if (!empty($this->oData['template_list'][$template]['fields']))
             {
-                $fields = $data['template_list'][$template]['fields'];
+                $fields = $this->oData['template_list'][$template]['fields'];
                 foreach ($fields as $i => $field)
                 {
-                    $data['fields'][$i]['field_name'] = $i;
+                    $this->oData['fields'][$i]['field_name'] = $i;
 
                     foreach ($field as $key => $param)
                     {
@@ -163,41 +243,41 @@ class Content extends CommonAdminController {
                             {
                                 $attributes .= $k.'="'.$attr.'" ';
                             }
-                            $data['fields'][$i][$key] = $attributes;
+                            $this->oData['fields'][$i][$key] = $attributes;
                         } else
-                            $data['fields'][$i][$key] = $param;
+                            $this->oData['fields'][$i][$key] = $param;
 
 
                     }
-                    if ($data['fields'][$i]['type'] != 'file' and !empty($data['fields'][$i]['required']))
-                        $this->form_validation->set_rules($data['fields'][$i]['field_name']  , '', 'required');
-                    if ($data['fields'][$i]['type'] == 'file' and !empty($data['fields'][$i]['required']))
+                    if ($this->oData['fields'][$i]['type'] != 'file' and !empty($this->oData['fields'][$i]['required']))
+                        $this->form_validation->set_rules($this->oData['fields'][$i]['field_name']  , '', 'required');
+                    if ($this->oData['fields'][$i]['type'] == 'file' and !empty($this->oData['fields'][$i]['required']))
                     {
-                        if(!$this->input->post($data['fields'][$i]['field_name'].'_hidden') and (empty($_FILES) or $_FILES[$data['fields'][$i]['field_name']]['error'] == 4))
-                            $this->form_validation->set_rules($data['fields'][$i]['field_name']  , '', 'required');
+                        if(!$this->input->post($this->oData['fields'][$i]['field_name'].'_hidden') and (empty($_FILES) or $_FILES[$this->oData['fields'][$i]['field_name']]['error'] == 4))
+                            $this->form_validation->set_rules($this->oData['fields'][$i]['field_name']  , '', 'required');
 
                     }
-                    $data['page'][$data['fields'][$i]['field_name']] = '';
+                    $this->oData['page'][$this->oData['fields'][$i]['field_name']] = '';
 
                 }
 
-                if (!empty($data['page']['content']))
+                if (!empty($this->oData['page']['content']))
                 {
-                   $content = unserialize($data['page']['content']);
-                      foreach ($content as $i => $item)
-                        {
-                            $data['page'][$i] = $item;
-                        }
+                    $content = unserialize($this->oData['page']['content']);
+                    foreach ($content as $i => $item)
+                    {
+                        $this->oData['page'][$i] = $item;
+                    }
                 }
             }
-            $data['id'] = $id;
+            $this->oData['id'] = $id;
             $this->form_validation->set_rules('h1', '', 'required');
             $this->form_validation->set_rules('alias', '', 'callback_check_alias');
 
 
             if ($this->form_validation->run() == true)
             {
-                $data['page'] = array(
+                $this->oData['page'] = array(
 
                     'h1' => $this->input->post('h1',TRUE),
                     'alias' =>  $this->input->post('alias',TRUE),
@@ -208,84 +288,84 @@ class Content extends CommonAdminController {
                     'enabled' =>  $this->input->post('enabled',TRUE)
 
                 );
-                $save_data = $data['page'];
-                if (!empty($data['template_list'][$template]['fields']))
+                $save_data = $this->oData['page'];
+                if (!empty($this->oData['template_list'][$template]['fields']))
                 {
-                    foreach ($data['fields'] as $key => $param)
+                    foreach ($this->oData['fields'] as $key => $param)
                     {
-                       $data['page'][$param['field_name']] = $this->input->post($param['field_name']);
+                        $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name']);
 
-                       $content[$param['field_name']] = $this->input->post($param['field_name']);
-                       if ($param['type'] == 'file')
-                       {
-                           $upload = !empty($_FILES[$param['field_name']]) ?
-                               $_FILES[$param['field_name']] : null;
+                        $content[$param['field_name']] = $this->input->post($param['field_name']);
+                        if ($param['type'] == 'file')
+                        {
+                            $upload = !empty($_FILES[$param['field_name']]) ?
+                                $_FILES[$param['field_name']] : null;
 
-                           $pth = 'public'.DIRECTORY_SEPARATOR.'content';
-                           $config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$pth;
-                           $config['allowed_types'] = '*';
+                            $pth = 'public'.DIRECTORY_SEPARATOR.'content';
+                            $config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$pth;
+                            $config['allowed_types'] = '*';
 
-                           if ($upload ) {
-                               $this->load->library('upload', $config);
-                               $this->upload->initialize($config);
-                               $_FILES[$param['field_name']] = array (
-                                   'name'=> $upload['name'],
-                                   'type'=> $upload['type'],
-                                   'tmp_name'=> $upload['tmp_name'],
-                                   'error'=> $upload['error'],
-                                   'size'=> $upload['size']);
-                               if ($this->upload->do_upload($param['field_name']))
-                               {
-                                   $tmp_data = $this->upload->data();
-                                   $content[$param['field_name']] = $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
-                                   $data['page'][$param['field_name']] =  $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
-                               }
-                               else
-                               {
-                                   if ($this->input->post($param['field_name'].'_delete'))
-                                   {
-                                       @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
-                                       $data['page'][$param['field_name']] = '';
-                                   }
-                                   elseif($this->input->post($param['field_name'].'_hidden'))
-                                       $data['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
-                                   else
-                                       $data['page'][$param['field_name']] = '';
-                               }
-                           }
-                           else
-                           {
-                               if ($this->input->post($param['field_name'].'_delete'))
-                               {
-                                   @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
-                                   $data['page'][$param['field_name']] = '';
-                               }
+                            if ($upload ) {
+                                $this->load->library('upload', $config);
+                                $this->upload->initialize($config);
+                                $_FILES[$param['field_name']] = array (
+                                    'name'=> $upload['name'],
+                                    'type'=> $upload['type'],
+                                    'tmp_name'=> $upload['tmp_name'],
+                                    'error'=> $upload['error'],
+                                    'size'=> $upload['size']);
+                                if ($this->upload->do_upload($param['field_name']))
+                                {
+                                    $tmp_data = $this->upload->data();
+                                    $content[$param['field_name']] = $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
+                                    $this->oData['page'][$param['field_name']] =  $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
+                                }
+                                else
+                                {
+                                    if ($this->input->post($param['field_name'].'_delete'))
+                                    {
+                                        @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
+                                        $this->oData['page'][$param['field_name']] = '';
+                                    }
+                                    elseif($this->input->post($param['field_name'].'_hidden'))
+                                        $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                                    else
+                                        $this->oData['page'][$param['field_name']] = '';
+                                }
+                            }
+                            else
+                            {
+                                if ($this->input->post($param['field_name'].'_delete'))
+                                {
+                                    @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
+                                    $this->oData['page'][$param['field_name']] = '';
+                                }
 
-                               elseif($this->input->post($param['field_name'].'_hidden'))
-                                   $data['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
-                               else
-                                   $data['page'][$param['field_name']] = '';
-                           }
-                       }
+                                elseif($this->input->post($param['field_name'].'_hidden'))
+                                    $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                                else
+                                    $this->oData['page'][$param['field_name']] = '';
+                            }
+                        }
                     }
                     $save_data['content'] = serialize($content);
                 }
                 else
                 {
                     $save_data['content'] = $this->input->post('content',TRUE);
-                    $data['page']['content'] = $this->input->post('content',TRUE);
+                    $this->oData['page']['content'] = $this->input->post('content',TRUE);
                 }
 
-                if ($this->content_model->Update($data['id'],$save_data))
+                if ($this->content_model->Update($this->oData['id'],$save_data))
                 {
-                    $data['message'] = array(
+                    $this->oData['message'] = array(
                         'type' => 'success',
                         'text' => 'Запись обновлена'
                     );
                 }
                 else
                 {
-                    $data['message'] = array(
+                    $this->oData['message'] = array(
                         'type' => 'danger',
                         'text' => 'Произошла ошибка при обновлении записи.'
                     );
@@ -293,7 +373,7 @@ class Content extends CommonAdminController {
             }
             elseif($this->input->post('id') == $id)
             {
-                $data['page'] = array(
+                $this->oData['page'] = array(
                     'h1' => $this->input->post('h1',TRUE),
                     'alias' =>  $this->input->post('alias',TRUE),
                     'type' =>  $this->input->post('type',TRUE),
@@ -303,21 +383,21 @@ class Content extends CommonAdminController {
                     'enabled' =>  $this->input->post('enabled',TRUE),
                     'template' =>  $this->input->post('template',TRUE)
                 );
-                if (!empty($data['template_list'][$template]['fields']))
+                if (!empty($this->oData['template_list'][$template]['fields']))
                 {
-                    foreach ($data['fields'] as $key => $param)
+                    foreach ($this->oData['fields'] as $key => $param)
                     {
-                        $this->input->post($param['field_name'])?$data['page'][$param['field_name']] = $this->input->post($param['field_name']):$data['page'][$param['field_name']] = '';
+                        $this->input->post($param['field_name'])?$this->oData['page'][$param['field_name']] = $this->input->post($param['field_name']):$this->oData['page'][$param['field_name']] = '';
                         //$content[$param['field_name']] = $this->input->post($param['field_name']);
 
                     }
                 }
                 else
                 {
-                    $data['page']['content'] = $this->input->post('content',TRUE);
+                    $this->oData['page']['content'] = $this->input->post('content',TRUE);
                 }
 
-                $data['message'] = array(
+                $this->oData['message'] = array(
                     'type' => 'danger',
                     'text' => validation_errors()
                 );
@@ -327,20 +407,11 @@ class Content extends CommonAdminController {
         //Вставляем новую запись
         else
         {
-            redirect("admin/content/add?type=".$this->input->get('type'), 'refresh');
+            redirect("admin/content/add", 'refresh');
         }
-        $this->load->view('admin/header', $data);
+
         $alias = 'edit';
-        /*foreach ($data['type_list'] as $item) {
-            if ( $data['page']->type == $item->id)
-                $alias = $item->alias;
-            else
-                continue;
-        }*/
-        //if (empty($data['page']->content))
-        //print_r(unserialize($data['page']->content));
-        $this->load->view('admin/content/'.$alias, $data);
-        $this->load->view('admin/footer', $data);
+        $this->oData['view'] = 'admin/content/'.$alias;
 
     }
 
@@ -356,33 +427,28 @@ class Content extends CommonAdminController {
             return false;
     }
 
-    public function delete ()
-    {
+    public function delete () {
         if (isset($_POST)) {
             $id = $this->input->post('id');
-            if ($id)
-            {
+            if ($id) {
                 $data['page'] = $this->content_model->getToId($id);
-                if (!empty($data['page']))
-                {
-                    $additional_data = array(
+
+                if (!empty($data['page'])) {
+                    $aAdditionalData = array(
                         'deleted_id' => $id,
                         'type' =>  'page',
                         'data' =>     serialize($data['page'])
                     );
-                    if ($this->trash_model->Add($additional_data))
-                    {
-                        if ($this->content_model->delete($id))
-                        {
+
+                    if ($this->trash_model->Add($aAdditionalData)) {
+                        if ($this->content_model->delete($id)) {
                             $output['success']='success';
                             $this->session->set_flashdata('message',  array(
                                     'type' => 'success',
                                     'text' => 'Запись удалена'
                                 )
                             );
-                        }
-                        else
-                        {
+                        } else {
                             $output['error']='error';
                         }
                     }
@@ -390,9 +456,7 @@ class Content extends CommonAdminController {
                         $output['error']='error';
                     }
                     echo json_encode($output);
-
                 }
-
             }
         }
     }

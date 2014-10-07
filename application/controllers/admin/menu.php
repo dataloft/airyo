@@ -140,6 +140,37 @@ class Menu extends CommonAdminController {
         return $echo;
     }
 
+    /**
+     * Получаем id всех наследуемых пунктов
+     * @param $items
+     * @param int $current
+     * @param int $level
+     * @param int $id
+     * @param $mem_lvl
+     * @return string
+     */
+    function ChildList($items, $current=0, $level=0, $id=0, $mem_lvl = -1)
+    {
+        $arr ='';
+        foreach ($items as $item)
+        {
+            if ($mem_lvl>=$level)
+                $mem_lvl = -1;
+            if ($id && $id == $item->id)
+                $mem_lvl = $level;
+            if (($id && $id == $item->id) or ($mem_lvl>-1 && $level>$mem_lvl))
+                $arr.= $item->id.' ';
+            if ($item->child !== false)
+            {
+                $level++;
+                $arr.= $this->ChildList($item->child, $current, $level, $id, $mem_lvl);
+                $level--;
+            }
+        }
+        if(!empty($arr))
+            return $arr;
+    }
+
     public function add($mid=0) {
 	    $this->oData['main_menu'] = 'menu';
 
@@ -327,13 +358,16 @@ class Menu extends CommonAdminController {
             if ($id) {
                 $data['menu'] = $this->menu_model->getToId($id);
                 if (!empty($data['menu'])) {
-                    $additional_data = array(
-                        'deleted_id' => $id,
-                        'type' =>  'menu',
-                        'data' =>     serialize($data['menu'])
-                    );
-                    if ($this->trash_model->Add($additional_data)) {
-                        if ($this->menu_model->delete($id)) {
+                    $list = $this->menu_model->getList($data['menu']->menu_group);
+                    $arr = explode(' ',trim($this->ChildList($this->buildTree($list),$id, 0, $id)));
+                    foreach($arr as $item)
+                        $additional_data[] = array(
+                            'deleted_id' => $item,
+                            'type' =>  'menu',
+                            'data' =>     serialize($this->menu_model->getToId($item))
+                        );
+                    if ($this->trash_model->batchAdd($additional_data)) {
+                        if ($this->menu_model->batchDelete($arr)) {
                             $output['success']='success';
                             $this->session->set_flashdata('message',  array(
                                     'type' => 'success',

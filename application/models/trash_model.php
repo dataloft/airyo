@@ -13,6 +13,14 @@ class Trash_model extends CI_Model {
         return $return;
     }
 
+    public function batchAdd ($data)
+    {
+        $this->db->insert_batch($this->db->dbprefix('trash'), $data);
+        if ($this->db->affected_rows())
+            return true;
+        else
+            return false;
+    }
 }
 
 /* End of file page.php */

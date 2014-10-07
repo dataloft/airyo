@@ -124,6 +124,17 @@ class Menu_model extends CI_Model {
             return false;
     }
 
+    public function batchDelete($data)
+    {
+        $this->db->where_in('id',implode(',',$data));//
+        $this->db->delete($this->db->dbprefix('menu'));
+        if ($this->db->affected_rows())
+            //$return = $this->db->affected_rows() == 1;
+            return true;
+        else
+            return false;
+    }
+
 }
 
 /* End of file page.php */
