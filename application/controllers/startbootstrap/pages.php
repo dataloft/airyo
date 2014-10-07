@@ -8,22 +8,36 @@ class Pages extends CI_Controller {
 		$this->load->model('counters_model');
 		$this->load->model('menu_model');
         $this->load->helper('url');
+        $this->config->load('templates');
 	}
 
 	public function index($page = '') {
         $page = $this->uri->uri_string();
-		$data['content'] = $this->content_model->get($page);
+		$data['page'] = $this->content_model->getToAlias($page,true);
+        $data['template_list'] = $this->config->item('templates');
         $data['menu'] = $this->menu_model->getList(1,true);
         
-		if($data['content']) {
-			$this->load->view('startbootstrap/common/header', $data);
-			$this->load->view('startbootstrap/common/nav', $data);
-			
-			$this->load->view('startbootstrap/pages/pages_default', $data);
+		if($data['page']) {
+			$this->load->view('startbootstrap/header', $data);
+			$this->load->view('startbootstrap/nav', $data);
 
+			if ($this->uri->uri_string != '') {
+                if (!empty($data['template_list'][$data['page']['template']]['fields']))
+                {
+                    $content = unserialize($data['page']['content']);
+                    foreach ($content as $i => $item)
+                    {
+                        $data['page'][$i] = $item;
+                    }
+                }
+                $this->load->view('startbootstrap/pages/'.$data['page']['template'], $data);
+			}
+			else {
+				$this->load->view('startbootstrap/pages/pages_home', $data);
+			}
             if($counters = $this->counters_model->getCounters($this->input->ip_address(), $_SERVER['HTTP_HOST'])) $data['counters'] = $counters; else $data['counters'] = '';
 
-			$this->load->view('startbootstrap/common/footer', $data);
+			$this->load->view('startbootstrap/footer', $data);
 		} else {
 			show_404();
 		}

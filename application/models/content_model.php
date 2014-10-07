@@ -34,6 +34,11 @@ class Content_model extends CI_Model {
 		return $q->result();
 	}
 
+    public function next_id(){
+        $sql = "SELECT `AUTO_INCREMENT` inc FROM `information_schema`.`TABLES` WHERE (`TABLE_NAME`='".$this->db->dbprefix('content')."')";
+        return $this->db->query($sql)->row()->inc;
+    }
+
     public function get($page) {
 		$q = $this->db;
 		$this->sql = "
@@ -50,19 +55,22 @@ class Content_model extends CI_Model {
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
-            return $q->row();
+            return $q->row_array();
 
         return false;
     }
 
-    public function getToAlias($alias) {
+    public function getToAlias($alias, $array = false) {
         $q = $this->db;
         $this->sql = "
 			SELECT * FROM ".$this->db->dbprefix('content')." WHERE alias = '".$alias."'
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
-            return $q->row();
+            if (!$array)
+                return $q->row();
+            else
+                return $q->row_array();
 
         return false;
     }
