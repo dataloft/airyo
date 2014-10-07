@@ -18,8 +18,8 @@ class Pages extends CI_Controller {
         $data['menu'] = $this->menu_model->getList(1,true);
         
 		if($data['page']) {
-			$this->load->view('startbootstrap/header', $data);
-			$this->load->view('startbootstrap/nav', $data);
+			$this->load->view('startbootstrap/common/header', $data);
+			$this->load->view('startbootstrap/common/nav', $data);
 
 			if ($this->uri->uri_string != '') {
                 if (!empty($data['template_list'][$data['page']['template']]['fields']))
@@ -37,7 +37,7 @@ class Pages extends CI_Controller {
 			}
             if($counters = $this->counters_model->getCounters($this->input->ip_address(), $_SERVER['HTTP_HOST'])) $data['counters'] = $counters; else $data['counters'] = '';
 
-			$this->load->view('startbootstrap/footer', $data);
+			$this->load->view('startbootstrap/common/footer', $data);
 		} else {
 			show_404();
 		}
