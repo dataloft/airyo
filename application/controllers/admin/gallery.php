@@ -34,7 +34,8 @@ class Gallery extends CommonAdminController {
 			'/themes/airyo/js/FileUpload/css/jquery.fileupload-ui.css',
 			'/themes/airyo/js/FileUpload/css/style.css',
 			'/themes/airyo/js/Gallery/css/blueimp-gallery.css',
-			'/themes/airyo/js/Gallery/css/bootstrap-image-gallery.css'
+			'/themes/airyo/js/Gallery/css/bootstrap-image-gallery.css',
+			'/themes/airyo/css/gallery.css'
 		);
 
 		$this->oData['view'] = 'admin/gallery/album';

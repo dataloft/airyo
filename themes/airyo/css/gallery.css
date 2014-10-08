@@ -1,0 +1,27 @@
+h1 {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif;
+}
+.modal {
+	overflow: auto;
+	color: #333;
+}
+.breadcrumb > li+li.un-styled:before {
+	content: ''
+}
+
+.photo-album-title {
+	background: rgba(0, 0, 0, 0.5);
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#7f000000', endColorstr='#7f000000')";
+	color: white;
+	position: absolute;
+	top: 3px;
+	width: 251px;
+	margin-top: 168px;
+	text-align: left;
+	padding: 2px;
+	line-height: 14px;
+}
+
+.photo-album-title .photo-title {
+	margin: 2px;
+}
