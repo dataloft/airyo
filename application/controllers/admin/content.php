@@ -43,7 +43,7 @@ class Content extends CommonAdminController {
         $this->oData['type_list']  = $this->content_model->getType();
         $this->form_validation->set_rules('h1', '', 'required');
         $this->form_validation->set_rules('template', '', 'required');
-        $this->form_validation->set_rules('alias', '', 'is_unique[content.alias]');
+        $this->form_validation->set_rules('alias', '', 'callback_check_alias');
         $this->oData['page']['template'] = $this->input->post('template')?$this->input->post('template'):$this->default;
 
         if (!empty($_POST['change']))

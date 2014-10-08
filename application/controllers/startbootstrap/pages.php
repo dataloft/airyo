@@ -21,20 +21,16 @@ class Pages extends CI_Controller {
 			$this->load->view('startbootstrap/common/header', $data);
 			$this->load->view('startbootstrap/common/nav', $data);
 
-			if ($this->uri->uri_string != '') {
-                if (!empty($data['template_list'][$data['page']['template']]['fields']))
+            if (!empty($data['template_list'][$data['page']['template']]['fields']))
+            {
+                $content = unserialize($data['page']['content']);
+                foreach ($content as $i => $item)
                 {
-                    $content = unserialize($data['page']['content']);
-                    foreach ($content as $i => $item)
-                    {
-                        $data['page'][$i] = $item;
-                    }
+                    $data['page'][$i] = $item;
                 }
-                $this->load->view('startbootstrap/pages/'.$data['page']['template'], $data);
-			}
-			else {
-				$this->load->view('startbootstrap/pages/pages_home', $data);
-			}
+            }
+            $this->load->view('startbootstrap/pages/'.$data['page']['template'], $data);
+
             if($counters = $this->counters_model->getCounters($this->input->ip_address(), $_SERVER['HTTP_HOST'])) $data['counters'] = $counters; else $data['counters'] = '';
 
 			$this->load->view('startbootstrap/common/footer', $data);

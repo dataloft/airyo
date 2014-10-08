@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><?=$content->title?></title>
+    <title><?=$page['title']?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="/themes/startbootstrap/css/bootstrap.css" rel="stylesheet">
