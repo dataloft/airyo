@@ -14,6 +14,7 @@ class Gallery extends CommonAdminController {
 		parent::__construct();
 		$this->load->helper('file');
 		$this->config->load('not_allowed_mimes');
+		$this->load->model('gallery_model');
 	}
 
 	public function index() {
@@ -37,30 +38,32 @@ class Gallery extends CommonAdminController {
 			'/themes/airyo/js/Gallery/css/bootstrap-image-gallery.css',
 			'/themes/airyo/css/gallery.css'
 		);
+		$aPaginationConfig = $this->getPaginationConfig();
+		$this->pagination->initialize($aPaginationConfig);
+
+		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		$this->oData["albums"] = $this->gallery_model->fetch_countries_albums($aPaginationConfig["per_page"], $page);
+
+		if(!empty($this->oData["albums"])) {
+			foreach ($this->oData["albums"] as $iKey => $aUser) {
+				$this->oData["albums"][$iKey]->groups = $this->ion_auth->get_users_groups($aUser->id)->result_array();
+			}
+		}
+
+		$this->oData['profile_id'] = $this->oUser->id;
+		$this->oData['pagination'] = $this->pagination;
 
 		$this->oData['view'] = 'admin/gallery/album';
 	}
 
+	public function createAlbum() {
+		
+	}
 
-    function translitIt($str) {
-        $tr = array(
-            "А"=>"A","Б"=>"B","В"=>"V","Г"=>"G",
-            "Д"=>"D","Е"=>"E","Ж"=>"J","З"=>"Z","И"=>"I",
-            "Й"=>"Y","К"=>"K","Л"=>"L","М"=>"M","Н"=>"N",
-            "О"=>"O","П"=>"P","Р"=>"R","С"=>"S","Т"=>"T",
-            "У"=>"U","Ф"=>"F","Х"=>"H","Ц"=>"TS","Ч"=>"CH",
-            "Ш"=>"SH","Щ"=>"SCH","Ъ"=>"","Ы"=>"YI","Ь"=>"",
-            "Э"=>"E","Ю"=>"YU","Я"=>"YA","а"=>"a","б"=>"b",
-            "в"=>"v","г"=>"g","д"=>"d","е"=>"e","ж"=>"j",
-            "з"=>"z","и"=>"i","й"=>"y","к"=>"k","л"=>"l",
-            "м"=>"m","н"=>"n","о"=>"o","п"=>"p","р"=>"r",
-            "с"=>"s","т"=>"t","у"=>"u","ф"=>"f","х"=>"h",
-            "ц"=>"ts","ч"=>"ch","ш"=>"sh","щ"=>"sch","ъ"=>"y",
-            "ы"=>"yi","ь"=>"","э"=>"e","ю"=>"yu","я"=>"ya"
-        );
-        return strtr($str,$tr);
-    }
+	public function createImage(){
+		
+	}
 }
 
-/* End of file files.php */
-/* Location: ./application/controllers/admin/files.php */
+/* End of file gallery.php */
+/* Location: ./application/controllers/admin/gallery.php */

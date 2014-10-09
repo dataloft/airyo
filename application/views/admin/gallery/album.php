@@ -86,6 +86,9 @@
 			</a>
 		</div>
 	</div>
+	<div class="text-center">
+		<?=$pagination->create_links(); ?>
+	</div>
 </div>
 <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
 <div id="blueimp-gallery" class="blueimp-gallery">
@@ -125,17 +128,26 @@
 <!-- Modal -->
 <div class="modal fade" id="createAlbumModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title" id="myModalLabel">Создать альбом</h4>
+		<?php echo form_open("", 'role="form" method="POST"');?>
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="myModalLabel">Создать альбом</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="inputTitle">Название</label>
+						<input type="text" class="form-control" id="inputTitle" placeholder="Название">
+					</div>
+					<div class="form-group">
+						<label for="inputDescription">Описание</label>
+						<textarea class="form-control" name="" id="inputDescription" cols="30" rows="6"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">Создать альбом</button>
+				</div>
 			</div>
-			<div class="modal-body">
-				...
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary">Создать альбом</button>
-			</div>
-		</div>
+		<?php echo form_close();?>
 	</div>
 </div>

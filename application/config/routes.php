@@ -93,12 +93,12 @@ $route['admin/files/(:any)'] = 'admin/files/index/$1';
 
 //admin gallery manager
 $route['admin/gallery'] = 'admin/gallery';
-$route['admin/gallery/album'] = 'admin/gallery';
-$route['admin/gallery/delete'] = 'admin/gallery/delete';
 $route['admin/gallery/createalbum'] = 'admin/gallery/createalbum';
-$route['admin/gallery/renamealbum'] = 'admin/gallery/renamealbum';
-$route['admin/gallery/upload'] = 'admin/gallery/upload';
-$route['admin/gallery/(:any)'] = 'admin/gallery/index/$1';
+$route['admin/gallery/editalbum'] = 'admin/gallery/editalbum';
+$route['admin/gallery/removealbum'] = 'admin/gallery/removealbum';
+$route['admin/gallery/createimage'] = 'admin/gallery/createimage';
+$route['admin/gallery/editimage'] = 'admin/gallery/editimage';
+$route['admin/gallery/removeimage'] = 'admin/gallery/removeimage';
 
 //admin modules
 $route['admin/counters'] = 'admin/counters';
