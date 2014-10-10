@@ -11,9 +11,35 @@ class Gallery_model extends CI_Model {
 		return $this->db->count_all("albums");
 	}
 
-	public function fetch_countries_albums($limit, $start) {
-		$this->db->limit($limit, $start);
-		$query = $this->db->get("albums");
+	public function fetch_countries_albums($iLimit, $iStart) {
+		$this->db->select('
+				album.*,
+				image.label AS images_label,
+				(SELECT alb.label FROM airyo_albums AS alb WHERE alb.id = image.album_id) AS images_path,
+				(SELECT COUNT(img.id) FROM airyo_images AS img WHERE img.album_id = image.album_id) AS images_count
+			');
+		$this->db->from('albums AS album');
+		$this->db->join('images AS image', 'album.image_id = image.id');
+		$this->db->limit($iLimit, $iStart);
+
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			foreach ($query->result() as $row) {
+				$data[] = $row;
+			}
+			return $data;
+		}
+		return false;
+	}
+
+	public function fetch_countries_images($iAlbumId, $iLimit, $iStart){
+		$this->db->select('*');
+		$this->db->from('images');
+		$this->db->where('album_id' . ' = ' . $iAlbumId);
+		$this->db->limit($iLimit, $iStart);
+
+		$query = $this->db->get();
 
 		if ($query->num_rows() > 0) {
 			foreach ($query->result() as $row) {
@@ -37,8 +63,8 @@ class Gallery_model extends CI_Model {
 
 		$this->db->select('*');
 
-		if (isset($aParams['iUserId'])) {
-			$this->db->where($this->db->dbprefix('albums').'.id', $aParams['iUserId']);
+		if (isset($aParams['iAlbumId'])) {
+			$this->db->where($this->db->dbprefix('albums').'.id', $aParams['iAlbumId']);
 		}
 
 		$this->db->order_by($this->db->dbprefix('albums').'.id','asc');
@@ -52,36 +78,31 @@ class Gallery_model extends CI_Model {
 	/**
 	 * Получение пользователя по ID
 	 *
-	 * @param int $iUserId
+	 * @param int $iAlbumId
 	 * @return object $oUser
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function getAlbumById($iUserId) {
-		if($iId = intval($iUserId) and $iUserId > 0 and $aUser = $this->getAlbums(array('iUserId' => $iId))) {
-			if(count($aUser) > 0) {
-				return array_pop($aUser);
+	public function getAlbumById($iAlbumId) {
+		if($iId = intval($iAlbumId) and $iId > 0 and $aAlbum = $this->getAlbums(array('iAlbumId' => $iId))) {
+			if(count($aAlbum) > 0) {
+				return array_pop($aAlbum);
 			}
 		}
 	}
 
 	/**
-	 * Валидация данных пользователя
+	 * Создание альбома
 	 *
-	 * @param $aParams
-	 * @return array
+	 * @param $aData
+	 * @return mixed
 	 *
-	 * @autor N.Kulchinskiy
+	 * @author N.Kulchinskiy
 	 */
-	private static function validateData($aParams){
-		$aValidParams = array();
-
-		// Проверка id пользователя
-		if(isset($aParams['iUserId']) AND $iId = intval($aParams['iUserId']) AND $iId > 0) {
-			$aValidParams['iUserId'] = $iId;
-		}
-
-		return $aValidParams;
+	public function addAlbum($aData) {
+		$this->db->insert($this->db->dbprefix('albums'), $aData);
+		$return = $this->db->insert_id();
+		return $return;
 	}
 }
 
