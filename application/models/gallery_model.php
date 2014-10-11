@@ -15,8 +15,8 @@ class Gallery_model extends CI_Model {
 		$this->db->select('
 				album.*,
 				image.label AS images_label,
-				(SELECT alb.label FROM airyo_albums AS alb WHERE alb.id = image.album_id) AS images_path,
-				(SELECT COUNT(img.id) FROM airyo_images AS img WHERE img.album_id = image.album_id) AS images_count
+				(SELECT alb.label FROM ' . $this->db->dbprefix('albums') . ' AS alb WHERE alb.id = image.album_id) AS images_path,
+				(SELECT COUNT(img.id) FROM ' . $this->db->dbprefix('images') . ' AS img WHERE img.album_id = image.album_id) AS images_count
 			');
 		$this->db->from('albums AS album');
 		$this->db->join('images AS image', 'album.image_id = image.id');
@@ -36,7 +36,7 @@ class Gallery_model extends CI_Model {
 	public function fetch_countries_images($iAlbumId, $iLimit, $iStart){
 		$this->db->select('*');
 		$this->db->from('images');
-		$this->db->where('album_id' . ' = ' . $iAlbumId);
+		$this->db->where('album_id' . ' = (SELECT id FROM ' . $this->db->dbprefix('albums') . ' WHERE label = "' . $iAlbumId .'")');
 		$this->db->limit($iLimit, $iStart);
 
 		$query = $this->db->get();
@@ -59,12 +59,14 @@ class Gallery_model extends CI_Model {
 	 * @author N.Kulchinskiy
 	 */
 	public function getAlbums(array $aParams = array()){
-		$aParams = self::validateData($aParams);
-
 		$this->db->select('*');
 
 		if (isset($aParams['iAlbumId'])) {
 			$this->db->where($this->db->dbprefix('albums').'.id', $aParams['iAlbumId']);
+		}
+
+		if (isset($aParams['sAlbumLabel'])) {
+			$this->db->where($this->db->dbprefix('albums').'.label', $aParams['sAlbumLabel']);
 		}
 
 		$this->db->order_by($this->db->dbprefix('albums').'.id','asc');
@@ -92,6 +94,23 @@ class Gallery_model extends CI_Model {
 	}
 
 	/**
+	 * Получение альбома по параметру label
+	 *
+	 * @param int $sAlbumLabel
+	 * @return object $oUser
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function getAlbumByLabel($sAlbumLabel) {
+		$sAlbumLabel = strip_tags(htmlspecialchars($sAlbumLabel));
+		if($aAlbum = $this->getAlbums(array('sAlbumLabel' => $sAlbumLabel))) {
+			if(count($aAlbum) > 0) {
+				return array_pop($aAlbum);
+			}
+		}
+	}
+
+	/**
 	 * Создание альбома
 	 *
 	 * @param $aData
@@ -101,8 +120,20 @@ class Gallery_model extends CI_Model {
 	 */
 	public function addAlbum($aData) {
 		$this->db->insert($this->db->dbprefix('albums'), $aData);
-		$return = $this->db->insert_id();
-		return $return;
+		return $this->db->insert_id();
+	}
+
+	/**
+	 * Добавление изображения в альбом
+	 *
+	 * @param $aData
+	 * @return mixed
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function addImage($aData) {
+		$this->db->insert($this->db->dbprefix('images'), $aData);
+		return $this->db->insert_id();
 	}
 }
 

@@ -97,7 +97,7 @@ $route['admin/gallery/(:any)'] = 'admin/gallery/index/$1';
 $route['admin/gallery/createalbum'] = 'admin/gallery/createalbum';
 $route['admin/gallery/editalbum'] = 'admin/gallery/editalbum';
 $route['admin/gallery/removealbum'] = 'admin/gallery/removealbum';
-$route['admin/gallery/createimage'] = 'admin/gallery/createimage';
+$route['admin/gallery/uploadimages'] = 'admin/gallery/uploadimages';
 $route['admin/gallery/editimage'] = 'admin/gallery/editimage';
 $route['admin/gallery/removeimage'] = 'admin/gallery/removeimage';
 

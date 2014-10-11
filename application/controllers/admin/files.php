@@ -25,7 +25,7 @@ class Files extends CommonAdminController {
             '/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',
             '/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js',
             '/themes/airyo/js/FileUpload/js/jquery.fileupload.js',
-            '/themes/airyo/js/FileUpload/js/main.js'
+            '/themes/airyo/js/files.js'
         );
 		$this->oData['styles'] = array(
             '/themes/airyo/js/FileUpload/css/jquery.fileupload.css',
