@@ -25,7 +25,7 @@ License: https://github.com/ashleydw/lightbox/blob/master/LICENSE
     this.modal_id = this.options.modal_id ? this.options.modal_id : 'ekkoLightbox-' + Math.floor((Math.random() * 1000) + 1);
     header = '<div class="modal-header"' + (this.options.title || this.options.always_show_close ? '' : ' style="display:none"') + '><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">' + (this.options.title || "&nbsp;") + '</h4></div>';
     footer = '<div class="modal-footer"' + (this.options.footer ? '' : ' style="display:none"') + '>' + this.options.footer + '</div>';
-    $(document.body).append('<div id="' + this.modal_id + '" class="ekko-lightbox modal fade" tabindex="-1"><div class="modal-dialog"><div class="modal-content">' + header + '<div class="modal-body"><div class="ekko-lightbox-container"><div></div></div></div>' + footer + '</div></div></div>');
+    $(document.body).append('<div id="' + this.modal_id + '" class="ekko-lightbox modal fade" tabindex="-1"><div class="modal-dialog"><div class="modal-content">' + header + '<div class="modal-body"><div class="ekko-lightbox-container"><div class="image-gallery-modal"></div></div></div>' + footer + '</div></div></div>');
     this.modal = $('#' + this.modal_id);
     this.modal_dialog = this.modal.find('.modal-dialog').first();
     this.modal_content = this.modal.find('.modal-content').first();
@@ -279,7 +279,7 @@ License: https://github.com/ashleydw/lightbox/blob/master/LICENSE
           var image;
           image = $('<img />');
           image.attr('src', img.src);
-          image.addClass('img-responsive');
+          image.addClass('img-responsive-gallery');
           _this.lightbox_body.html(image);
           if (_this.modal_arrows) {
             _this.modal_arrows.css('display', 'block');
@@ -296,7 +296,17 @@ License: https://github.com/ashleydw/lightbox/blob/master/LICENSE
     resize: function(width) {
       var width_total;
       width_total = width + this.border.left + this.padding.left + this.padding.right + this.border.right;
-      this.modal_dialog.css('width', 'auto').css('max-width', width_total);
+	    var iWidth;
+	    if(width_total > 800) {
+		    iWidth = 800;
+	    }
+	    else if(width_total < 100) {
+		    iWidth = 250;
+	    } else {
+		    iWidth = width_total;
+	    }
+
+      this.modal_dialog.css('width', 'auto').css('max-width', iWidth);
       this.lightbox_container.find('a').css('padding-top', function() {
         return $(this).parent().height() / 2;
       });

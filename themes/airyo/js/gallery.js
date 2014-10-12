@@ -6,10 +6,16 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 $(function () {
 	$('#fileupload').fileupload({
 		dataType: 'json',
+		formData: {album: $('#album_label').val()},
 		done: function (e, data) {
-			$.each(data.result.files, function (index, file) {
-				$('<p/>').text(file.name).appendTo(document.body);
-			});
+			$("#links").prepend('' +
+			'<div class="col-lg-3 col-md-4 col-xs-6 thumb">' +
+				'<a class="thumbnail next" href="/gallery/' + $('#album_label').val() + '/' + data.result.label + '" data-toggle="lightbox" data-parent data-gallery="multiimages" data-title="' + data.result.title + '">' +
+					'<img class="img-responsive image-gallery" src="/gallery/' + $('#album_label').val() + '/' + data.result.label + '" alt="" />' +
+				'</a>' +
+			'</div>');
+
+			$('#progress').addClass('hidden');
 		},
 		progressall: function (e, data) {
 			var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -17,6 +23,9 @@ $(function () {
 				'width',
 				progress + '%'
 			);
+		},
+		start: function () {
+			$('#progress').removeClass('hidden');
 		}
 	});
 });

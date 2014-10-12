@@ -20,6 +20,7 @@ class Gallery_model extends CI_Model {
 			');
 		$this->db->from('albums AS album');
 		$this->db->join('images AS image', 'album.image_id = image.id');
+		$this->db->order_by("create_date", "desc");
 		$this->db->limit($iLimit, $iStart);
 
 		$query = $this->db->get();
@@ -37,6 +38,7 @@ class Gallery_model extends CI_Model {
 		$this->db->select('*');
 		$this->db->from('images');
 		$this->db->where('album_id' . ' = (SELECT id FROM ' . $this->db->dbprefix('albums') . ' WHERE label = "' . $iAlbumId .'")');
+		$this->db->order_by("create_date", "desc");
 		$this->db->limit($iLimit, $iStart);
 
 		$query = $this->db->get();

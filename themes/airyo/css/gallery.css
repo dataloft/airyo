@@ -27,3 +27,21 @@
 	right: -2em;
 	margin: -1.3em;
 }
+
+.image-gallery {
+	width: 260px;
+	height: 170px !important;
+}
+
+.img-responsive-gallery {
+	max-width: 100%;
+	height: auto;
+}
+
+.image-gallery-modal {
+	text-align: center;
+}
+
+.modal-body {
+	min-height: 100px;
+}

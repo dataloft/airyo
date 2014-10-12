@@ -25,6 +25,7 @@
 		<li class="un-styled pull-right">
 			<a href='#' id="upload_mage" class="pull-right">Добавить изображения</a>
 			<input id="fileupload" class="file-upload-link" type="file" name="files[]" data-url="/admin/gallery/uploadimages" multiple />
+			<input type="hidden" name="album_label" id="album_label" value="<?=$album->label; ?>" />
 		</li>
 	</ol>
 	<div class="col-md-12">
@@ -39,8 +40,8 @@
 		<?php if(!empty($images)) : ?>
 			<?php foreach($images as $image) : ?>
 				<div class="col-lg-3 col-md-4 col-xs-6 thumb">
-					<a class="thumbnail next" href="/gallery/<?=$album->label; ?>/<?=$image->label; ?>" data-toggle="lightbox" data-gallery="multiimages" data-footer="<?=$image->description; ?>" data-title="<?=$image->title; ?>">
-						<img class="img-responsive" src="/gallery/<?=$album->label; ?>/<?=$image->label; ?>" alt="" class="img-responsive" />
+					<a class="thumbnail next" href="/gallery/<?=$album->label; ?>/<?=$image->label; ?>" data-toggle="lightbox" data-gallery="multiimages" data-parent data-footer="<?=$image->description; ?>" data-title="<?=$image->title; ?>">
+						<img src="/gallery/<?=$album->label; ?>/<?=$image->label; ?>" alt="" class="img-responsive image-gallery" />
 					</a>
 				</div>
 			<?php endforeach; ?>
