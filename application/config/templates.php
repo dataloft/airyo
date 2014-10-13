@@ -54,6 +54,18 @@ $config['templates'] = array(
                         ),
                     )
                 ),
+                'pages_menu' => array(
+                    'name' => 'Меню',
+                    'modules' => array(
+                        'menu' => array(
+                            'model' => 'menu_model',
+                            'method' => array(
+                                'name' => 'getList',
+                                'params' => '1, true'
+                            )
+                        )
+                    )
+                ),
 			);
 
 

@@ -20,6 +20,14 @@ class Pages extends CI_Controller {
 		if($data['page']) {
 			$this->load->view('startbootstrap/common/header', $data);
 			$this->load->view('startbootstrap/common/nav', $data);
+            if (!empty($data['template_list'][$data['page']['template']]['modules']))
+            {
+                foreach ($data['template_list'][$data['page']['template']]['modules'] as $name => $value)
+                {
+                   $this->load->model($value['model']);
+                   $data['modules'][$name] = $this->$value['model']->$value['method']['name']($value['method']['params']);
+                }
+            }
 
             if (!empty($data['template_list'][$data['page']['template']]['fields']))
             {
