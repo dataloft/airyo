@@ -103,7 +103,8 @@ class CommonAdminController extends CI_Controller
 			'num_tag_close'     => '</li>',
 			'base_url'          => '',
 			'total_rows'        => '',
-			'per_page'          => '20'
+			'uri_segment'       => 3,
+			'per_page'          => 20
 		);
 
 		return $config;
