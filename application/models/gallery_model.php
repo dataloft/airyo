@@ -17,14 +17,10 @@ class Gallery_model extends CI_Model {
 	 */
 	public function getFetchCountriesAlbums($aParams) {
 		$this->db->select('album.*');
-		$this->db->select('image.label AS images_label');
-		$this->db->select('(SELECT FLOOR( MAX( im.id ) * RAND( ) ) FROM ' . $this->db->dbprefix('images') . ' AS im WHERE im.album_id = album.id) AS random_image_id');
-		$this->db->select('(SELECT label FROM ' . $this->db->dbprefix('images') . ' AS i WHERE i.id = random_image_id) AS random_image_label');
-		$this->db->select('(SELECT alb.label FROM ' . $this->db->dbprefix('albums') . ' AS alb WHERE alb.id = image.album_id) AS images_path');
+		$this->db->select('(SELECT i.label FROM ' . $this->db->dbprefix('images') . ' AS i WHERE i.album_id = album.id ORDER BY id DESC LIMIT 1) AS random_image_label');
 		$this->db->select('(SELECT COUNT(img.id) FROM ' . $this->db->dbprefix('images') . ' AS img WHERE img.album_id = album.id) AS images_count');
 
 		$this->db->from('albums AS album');
-		$this->db->join('images AS image', 'album.image_id = image.id');
 
 		if (isset($aParams['iAlbumId'])) {
 			$this->db->where('album.id', $aParams['iAlbumId']);
@@ -33,7 +29,7 @@ class Gallery_model extends CI_Model {
 			$this->db->where('album.label', $aParams['sAlbumLabel']);
 		}
 
-		$this->db->order_by("create_date", "asc");
+		$this->db->order_by("create_date", "DESC");
 
 		if(isset($aParams['iLimit']) AND isset($aParams['iStart'])) {
 			$this->db->limit($aParams['iLimit'], $aParams['iStart']);
@@ -59,8 +55,6 @@ class Gallery_model extends CI_Model {
 	 * @author N.Kulchinskiy
 	 */
 	public function getFetchCountriesImages($aParams){
-
-		var_dump($aParams);
 		$this->db->select('*');
 		$this->db->from('images');
 
@@ -71,7 +65,7 @@ class Gallery_model extends CI_Model {
 			$this->db->where($this->db->dbprefix('images') . '.id', $aParams['iImageId']);
 		}
 
-		$this->db->order_by("create_date", "asc");
+		$this->db->order_by("id", "DESC");
 		if (isset($aParams['iLimit']) AND isset($aParams['iStart'])) {
 			$this->db->limit($aParams['iLimit'], $aParams['iStart']);
 		}
