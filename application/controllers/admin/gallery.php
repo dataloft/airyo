@@ -9,13 +9,7 @@ class Gallery extends CommonAdminController {
 		$this->load->helper('file');
 		$this->config->load('not_allowed_mimes');
 		$this->load->model('gallery_model');
-	}
 
-	public function index($sAlbumLabel = '') {
-		$this->oData['main_menu'] = 'gallery';
-
-		$this->oData['result'] = array();
-		$this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 		$this->oData['scripts'] = array(
 			'/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',
 			'/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js',
@@ -30,39 +24,53 @@ class Gallery extends CommonAdminController {
 			'/themes/airyo/js/Gallery/css/ekko-lightbox.css',
 			'/themes/airyo/css/gallery.css'
 		);
-		$aPaginationConfig = $this->getPaginationConfig();
-
-		if(empty($sAlbumLabel)) {
-			$aPaginationConfig['base_url'] = '/admin/gallery';
-			$this->pagination->initialize($aPaginationConfig);
-
-			$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-			$this->oData["albums"] = $this->gallery_model->getFetchCountriesAlbums(array('iLimit' => $aPaginationConfig["per_page"], 'iStart' => $page));
-
-			$this->oData['profile_id'] = $this->oUser->id;
-			$this->oData['pagination'] = $this->pagination;
-
-			$this->oData['view'] = 'admin/gallery/albums';
-		} else {
-			$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
-
-			$aPaginationConfig['base_url'] = '/admin/gallery/' . $sAlbumLabel;
-			$aPaginationConfig['total_rows'] = $this->oData["album"]->images_count;
-			$aPaginationConfig['uri_segment'] = 4;
-
-			$this->pagination->initialize($aPaginationConfig);
-
-			$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
-			$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
-
-			$this->oData['profile_id'] = $this->oUser->id;
-
-			$this->oData['pagination'] = $this->pagination;
-
-			$this->oData['view'] = 'admin/gallery/album';
-		}
 	}
 
+	public function index() {
+		$this->oData['main_menu'] = 'gallery';
+
+		$this->oData['result'] = array();
+		$this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+
+		$aPaginationConfig = $this->getPaginationConfig();
+		$aPaginationConfig['base_url'] = '/admin/gallery';
+		$this->pagination->initialize($aPaginationConfig);
+
+		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		$this->oData["albums"] = $this->gallery_model->getFetchCountriesAlbums(array('iLimit' => $aPaginationConfig["per_page"], 'iStart' => $page));
+
+		$this->oData['profile_id'] = $this->oUser->id;
+		$this->oData['pagination'] = $this->pagination;
+
+		$this->oData['view'] = 'admin/gallery/albums';
+	}
+
+	public function getAlbum($sAlbumLabel){
+		$this->oData['main_menu'] = 'gallery';
+
+		$this->oData['result'] = array();
+		$this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+
+		$aPaginationConfig = $this->getPaginationConfig();
+
+		$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+
+		$aPaginationConfig['base_url'] = '/admin/gallery/' . $sAlbumLabel;
+		$aPaginationConfig['total_rows'] = $this->oData["album"]->images_count;
+		$aPaginationConfig['uri_segment'] = 4;
+
+		$this->pagination->initialize($aPaginationConfig);
+
+		$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
+		$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
+
+		$this->oData['profile_id'] = $this->oUser->id;
+
+		$this->oData['pagination'] = $this->pagination;
+
+		$this->oData['view'] = 'admin/gallery/album';
+	}
+	
 	/**
 	 * Создание нового альбома
 	 *
@@ -194,7 +202,16 @@ class Gallery extends CommonAdminController {
 			);
 		}
 
-		//echo json_encode($aImageData);
+		echo json_encode($aImageData);
+	}
+
+	public function editAlbum($sAlbumLabel){
+		$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+
+		$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
+
+		$this->oData['profile_id'] = $this->oUser->id;
+		$this->oData['view'] = 'admin/gallery/editAlbum';
 	}
 
 	/**
