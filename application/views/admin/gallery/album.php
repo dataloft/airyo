@@ -7,7 +7,7 @@
  */
 ?>
 <div class="container">
-	<h1 class="page-header">Галерея<small> / <a href="/admin/gallery/edit/<?=$album->label; ?>">редактировать</a></small></h1>
+	<h1 class="page-header">Галерея<small> / <a href="/admin/gallery/<?=$album->label; ?>?action=edit">редактирование</a></small></h1>
 
 	<?php if ($message) : ?>
 		<div class="alert alert-<?=$message['type']?>">

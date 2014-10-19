@@ -49,3 +49,10 @@
 .image-gallery-albums {
 	height: 198px;
 }
+
+.album-gallery-edit {
+	height: 200px;
+	width: 242px;
+	margin: 30px;
+	display: block;
+}

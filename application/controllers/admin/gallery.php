@@ -45,30 +45,41 @@ class Gallery extends CommonAdminController {
 		$this->oData['view'] = 'admin/gallery/albums';
 	}
 
-	public function getAlbum($sAlbumLabel){
+	public function getAlbum($sAlbumLabel)
+	{
+		$aGet = $this->input->get();
 		$this->oData['main_menu'] = 'gallery';
 
-		$this->oData['result'] = array();
-		$this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		if(isset($aGet['action']) AND $aGet['action'] == 'edit') {
+			$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
 
-		$aPaginationConfig = $this->getPaginationConfig();
+			$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
 
-		$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+			$this->oData['profile_id'] = $this->oUser->id;
+			$this->oData['view'] = 'admin/gallery/editAlbum';
+		} else {
+			$this->oData['result'] = array();
+			$this->oData['message'] = $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
 
-		$aPaginationConfig['base_url'] = '/admin/gallery/' . $sAlbumLabel;
-		$aPaginationConfig['total_rows'] = $this->oData["album"]->images_count;
-		$aPaginationConfig['uri_segment'] = 4;
+			$aPaginationConfig = $this->getPaginationConfig();
 
-		$this->pagination->initialize($aPaginationConfig);
+			$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
 
-		$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
-		$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
+			$aPaginationConfig['base_url'] = '/admin/gallery/' . $sAlbumLabel;
+			$aPaginationConfig['total_rows'] = $this->oData["album"]->images_count;
+			$aPaginationConfig['uri_segment'] = 4;
 
-		$this->oData['profile_id'] = $this->oUser->id;
+			$this->pagination->initialize($aPaginationConfig);
 
-		$this->oData['pagination'] = $this->pagination;
+			$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
+			$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
 
-		$this->oData['view'] = 'admin/gallery/album';
+			$this->oData['profile_id'] = $this->oUser->id;
+
+			$this->oData['pagination'] = $this->pagination;
+
+			$this->oData['view'] = 'admin/gallery/album';
+		}
 	}
 	
 	/**
@@ -206,6 +217,7 @@ class Gallery extends CommonAdminController {
 	}
 
 	public function editAlbum($sAlbumLabel){
+		die('sd');
 		$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
 
 		$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
