@@ -10,24 +10,24 @@ class Files extends CommonAdminController {
     protected $path_url_img_thumb_upload_folder;
     protected $delete_img_url;
 
-	public function __construct() {
-		parent::__construct();
+    public function __construct() {
+        parent::__construct();
         $this->load->helper('file');
         $this->config->load('not_allowed_mimes');
-	}
+    }
 
-	public function index() {
-		$this->oData['main_menu'] = 'files';
+    public function index() {
+        $this->oData['main_menu'] = 'files';
 
-		$this->oData['result'] = array();
-		$this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-		$this->oData['scripts'] = array(
+        $this->oData['result'] = array();
+        $this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+        $this->oData['scripts'] = array(
             '/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',
             '/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js',
             '/themes/airyo/js/FileUpload/js/jquery.fileupload.js',
             '/themes/airyo/js/FileUpload/js/main.js'
         );
-		$this->oData['styles'] = array(
+        $this->oData['styles'] = array(
             '/themes/airyo/js/FileUpload/css/jquery.fileupload.css',
             '/themes/airyo/js/FileUpload/css/jquery.fileupload-ui.css',
             '/themes/airyo/js/FileUpload/css/style.css'
@@ -42,88 +42,115 @@ class Files extends CommonAdminController {
         }
 
         $dir = $this->getCurrentDir($this->path);
-
-        if (!is_dir($dir)) {
-	        $this->oData['message'] = array(
-			        'type' => 'danger',
-			        'text' => 'Каталог не найден'
-	        );
-        }
-        try {
-            $arr = $this->readdir($dir);
-        } catch (Exception $e) {
-            $arr = array();
-	        $this->oData['message'] = array(
-                'type' => 'danger',
-                'text' => 'Не удалось прочитать каталог'
+        if (is_file(rtrim($dir,'/'))) {
+            $file = rtrim($dir,'/');
+            $img = array(
+                'bmp'	=>	'image/bmp',
+                'bmp1'	=>	'image/x-windows-bmp',
+                'gif'	=>	'image/gif',
+                'jpeg'	=>	'image/jpeg',
+                'jpg'	=>	'image/pjpeg',
+                'png'	=>	'image/png',
+                'png2'	=>	'image/x-png',
+                'tiff'	=>	'image/tiff',
+                'tif'	=>	'image/tiff'
             );
+            $this->oData['file']['name'] = basename($file);
+            if (in_array(mime_content_type($file),$img))
+                $this->oData['file']['type'] = 'img';
+            $this->oData['file']['path'] = $file;
+            $this->oData['file']['url'] = site_url($file);
+
+            $this->oData['view'] = 'admin/files/show';
         }
-        if (!empty($arr)) {
-	        foreach ($arr as $item) {
+        else {
 
-	            if ($item === "." || $item === "..") continue;
-
-	            $label = basename($item);
-	            //echo $item;
-	            $path =  preg_replace("/".$this->start_folder."\//", '', (ltrim($item,'/')),1);
-	            $isLink = is_link($path);
-	            if (is_dir($item)) {
-		            $this->oData['result'][] = array(
-	                    'type' => 'dir',
-	                    'isLink' => $isLink,
-	                    'path' => $path,
-	                    'label' => $label,
-	                    'extension' => '-',
-	                    'url' => '/admin/files/'.$path
-	                );
-	            } else {
-	                $size = @filesize($item);
-	                if ($size === false) {
-	                    $intsize = 0;
-	                    $size = 'N/A';
-	                } else if ($size < 0) {
-	                    $intsize = 0;
-	                    $size = '> 1Гb';
-	                } else {
-	                    $intsize = $size;
-	                    $size = number_format($size, 0, ' ', ' ');
-	                }
-	                $extension = pathinfo($path, PATHINFO_EXTENSION);
-	                if (empty($extension)) $extension = '-';
-		            $this->oData['result'][] = array(
-	                    'type' => 'file',
-	                    'isLink' => $isLink,
-	                    'path' => $path,
-	                    'label' => $label,
-	                    'size' => $size,
-	                    'intsize' => $intsize,
-	                    'extension' => $extension,
-	                );
-	            }
-	        }
-        } else {
-	        $this->oData['result']=array();
-            if(empty($this->oData['message'])) {
-	            $this->oData['message'] = array(
-			            'type' => 'warning',
-			            'text' => 'Каталог пуст'
-	            );
+            if (!is_dir($dir)) {
+                $this->oData['message'] = array(
+                    'type' => 'danger',
+                    'text' => 'Каталог не найден'
+                );
             }
-        }
+            try {
+                $arr = $this->readdir($dir);
+            } catch (Exception $e) {
+                $arr = array();
+                $this->oData['message'] = array(
+                    'type' => 'danger',
+                    'text' => 'Не удалось прочитать каталог'
+                );
+            }
+            if (!empty($arr)) {
+                foreach ($arr as $item) {
 
-        $upDir = ltrim(ltrim(dirname($dir),$this->start_folder),"/");
-        if ($upDir == '' || $upDir == '.') {
-	        array_unshift($this->oData['result'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/admin/files'));
-        } else {
-	        array_unshift($this->oData['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/admin/files/'.$upDir));
-        }
+                    if ($item === "." || $item === "..") continue;
 
+                    $label = basename($item);
+                    //echo $item;
+                    $path =  preg_replace("/".$this->start_folder."\//", '', (ltrim($item,'/')),1);
+                    $isLink = is_link($path);
+                    if (is_dir($item)) {
+                        $this->oData['result'][] = array(
+                            'type' => 'dir',
+                            'isLink' => $isLink,
+                            'path' => $path,
+                            'label' => $label,
+                            'extension' => '-',
+                            'url' => '/admin/files/'.$path
+                        );
+                    } else {
+                        $size = @filesize($item);
+                        if ($size === false) {
+                            $intsize = 0;
+                            $size = 'N/A';
+                        } else if ($size < 0) {
+                            $intsize = 0;
+                            $size = '> 1Гb';
+                        } else {
+                            $intsize = $size;
+                            $size = number_format($size, 0, ' ', ' ');
+                        }
+                        $extension = pathinfo($path, PATHINFO_EXTENSION);
+                        if (empty($extension)) $extension = '-';
+                        $this->oData['result'][] = array(
+                            'type' => 'file',
+                            'isLink' => $isLink,
+                            'path' => $path,
+                            'label' => $label,
+                            'size' => $size,
+                            'intsize' => $intsize,
+                            'extension' => $extension,
+                            'url' => '/admin/files/'.$path
+                        );
+                    }
+                }
+            } else {
+                $this->oData['result']=array();
+                if(empty($this->oData['message'])) {
+                    $this->oData['message'] = array(
+                        'type' => 'warning',
+                        'text' => 'Каталог пуст'
+                    );
+                }
+            }
+
+            $upDir = ltrim(ltrim(dirname($dir),$this->start_folder),"/");
+            if ($upDir == '' || $upDir == '.') {
+                array_unshift($this->oData['result'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/admin/files'));
+            } else {
+                array_unshift($this->oData['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/admin/files/'.$upDir));
+            }
+
+
+
+            $this->oData['view'] = 'admin/files/list';
+        }
         // Создаем путь (хлебные крошки)
         $currDir = preg_replace("/".$this->start_folder."/",'',rtrim($this->getCurrentDir($this->path), '\\/'),1);
 
         $currExplodedDir = preg_split('#\\\\|/#', $currDir);
         if (isset($currExplodedDir[0]) && $currExplodedDir[0] == '') $currExplodedDir[0] = DIRECTORY_SEPARATOR; //FIX для UNIX
-		$this->oData['path'] = array();
+        $this->oData['path'] = array();
         $url = '';
         foreach ($currExplodedDir as $value) {
             if ($value != DIRECTORY_SEPARATOR) {
@@ -132,35 +159,33 @@ class Files extends CommonAdminController {
                 $url = DIRECTORY_SEPARATOR;
                 $value = 'Files';
             }
-	        $this->oData['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
+            $this->oData['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
         }
+    }
 
-		$this->oData['view'] = 'admin/files/list';
-	}
+    public function edit($id = '') {
 
-	public function edit($id = '') {
-
-	}
+    }
 
     public function delete() {
-		if ($_POST['selected']) {
+        if ($_POST['selected']) {
             foreach ($_POST['selected'] as $item) {
                 if (is_dir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$item)) {
-	                $this->removeDir($this->start_folder.DIRECTORY_SEPARATOR.$item);
+                    $this->removeDir($this->start_folder.DIRECTORY_SEPARATOR.$item);
                 } else {
-                   @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$item);
+                    @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$item);
                 }
             }
         }
         redirect($_SERVER['HTTP_REFERER'], 'refresh');
-	}
+    }
 
     public function createFolder () {
         if (!empty($_POST['fname'])) {
             if(preg_match("/^(?:[a-z0-9_-]|\.(?!\.))+$/iD", iconv('UTF-8', 'windows-1251', $_POST['fname']))) {
                 $path = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder;
                 if (!empty($_POST['path'])) {
-	                $path .=DIRECTORY_SEPARATOR.$_POST['path'];
+                    $path .=DIRECTORY_SEPARATOR.$_POST['path'];
                 }
 
                 if (!is_dir($path.DIRECTORY_SEPARATOR.(iconv("UTF-8", "cp1251", $_POST['fname'])))) {
@@ -258,12 +283,16 @@ class Files extends CommonAdminController {
     }
 
     protected function getCurrentDir($folder = '') {
-       return ($this->uri->segment(3)) ? $this->start_folder.DIRECTORY_SEPARATOR.$folder : $this->start_folder;
+        return ($this->uri->segment(3)) ? $this->start_folder.DIRECTORY_SEPARATOR.$folder : $this->start_folder;
     }
 
     public static function readdir($dir, $onlyDirs = false) {
+        if (is_file($dir)) {
+            echo 1;
+            echo stat($dir);
+        }
         if (!is_dir($dir)) {
-             $data['message'] = array(
+            $data['message'] = array(
                 'type' => 'danger',
                 'text' => 'Каталог не найден'
             );
@@ -295,7 +324,7 @@ class Files extends CommonAdminController {
                 return array_merge($dirs, $files);
             }
         } else {
-         $data['message'] = array(
+            $data['message'] = array(
                 'type' => 'danger',
                 'text' => 'Не удалось открыть каталог'
             ); //TODO: Сообщение об ошибке.
