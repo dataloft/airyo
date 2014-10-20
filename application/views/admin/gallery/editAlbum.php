@@ -22,35 +22,32 @@
 	<ol class="breadcrumb">
 		<li><a href="/admin/gallery">Галерея</a></li>
 		<li><?=$album->title; ?></li>
-		<li class="un-styled pull-right">
-			<a href='#' id="upload_mage" class="pull-right">Добавить изображения</a>
-			<input id="fileupload" class="file-upload-link" type="file" name="files[]" data-url="/admin/gallery/uploadimages" multiple />
-			<input type="hidden" name="album_label" id="album_label" value="<?=$album->label; ?>" />
-		</li>
 	</ol>
-	<div class="jumbotron">
-		<form role="form">
-			<table>
-				<tbody>
-				<tr>
-					<td>
-						<img src="/gallery/<?=$album->label; ?>/<?=$album->random_image_label; ?>" class="album-gallery-edit">
-					</td>
-					<td>
-						<div class="form-group">
-							<label for="inputName">Название</label>
-							<input type="text" value="<?=$album->title; ?>" class="form-control" name="title" id="inputName" placeholder="Название">
-						</div>
-						<div class="form-group">
-							<label for="inputDescription">Описание</label>
-							<textarea class="form-control" name="description" id="inputDescription" cols="60" rows="5"><?=$album->description; ?></textarea>
-						</div>
-						<button type="submit" class="btn btn-info">Сохранить изменения</button>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-		</form>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<form role="form">
+				<table>
+					<tbody>
+					<tr>
+						<td>
+							<img src="/gallery/<?=$album->label; ?>/<?=$album->random_image_label; ?>" class="img-thumbnail album-gallery-edit">
+						</td>
+						<td>
+							<div class="form-group">
+								<label for="inputName">Название</label>
+								<input type="text" value="<?=$album->title; ?>" class="form-control" name="title" id="inputName" placeholder="Название">
+							</div>
+							<div class="form-group">
+								<label for="inputDescription">Описание</label>
+								<textarea class="form-control" name="description" id="inputDescription" cols="60" rows="5"><?=$album->description; ?></textarea>
+							</div>
+							<button type="submit" class="btn btn-info">Сохранить изменения</button>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
 	</div>
 	<div class="col-md-12">
 		<br>
@@ -61,12 +58,36 @@
 		</div>
 	</div>
 	<div class="row" id="links">
+		<h3>Редактирование изображений</h3>
+
 		<?php if(!empty($images)) : ?>
-			<?php foreach($images as $image) : ?>
-				<div>
-					<img class="media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIi8+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" style="width: 64px; height: 64px;">
+			<form action="">
+				<table class="table">
+					<?php foreach($images as $image) : ?>
+						<tr>
+							<td class="gallery-table-edit" style="padding: 20px;">
+								<img src="/gallery/<?=$album->label; ?>/<?=$image->label; ?>" alt="" class="img-responsive image-gallery" />
+							</td>
+							<td>
+								<div class="form-group input-group-sm">
+									<label for="inputName">Название</label>
+									<input type="text" value="<?=$image->title; ?>" class="form-control" name="title" id="inputName" placeholder="Название">
+								</div>
+								<div class="form-group">
+									<label for="inputDescription">Описание</label>
+									<textarea class="form-control" name="description" id="inputDescription" cols="60" rows="5"><?=$image->description; ?></textarea>
+								</div>
+								<a href="#" class="pull-right">Удалить</a>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</table>
+				<div class="text-center">
+					<button type="submit" class="btn btn-info">Сохранить изменения</button>
 				</div>
-			<?php endforeach; ?>
+			</form>
+		<?php else : ?>
+			<div>Изображений нет</div>
 		<?php endif ?>
 	</div>
 </div>
