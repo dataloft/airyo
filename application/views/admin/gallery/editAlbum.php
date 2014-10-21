@@ -61,7 +61,7 @@
 		<h3>Редактирование изображений</h3>
 
 		<?php if(!empty($images)) : ?>
-			<form action="">
+			<form method="POST" action="/admin/gallery/editalbum" id="edit-album">
 				<table class="table">
 					<?php foreach($images as $image) : ?>
 						<tr>
@@ -71,13 +71,14 @@
 							<td>
 								<div class="form-group input-group-sm">
 									<label for="inputName">Название</label>
-									<input type="text" value="<?=$image->title; ?>" class="form-control" name="title" id="inputName" placeholder="Название">
+									<input type="text" value="<?=$image->title; ?>" class="form-control" name="album[title][]" id="inputName" placeholder="Название">
 								</div>
 								<div class="form-group">
 									<label for="inputDescription">Описание</label>
-									<textarea class="form-control" name="description" id="inputDescription" cols="60" rows="5"><?=$image->description; ?></textarea>
+									<textarea class="form-control" name="album[description][]" id="inputDescription" cols="60" rows="5"><?=$image->description; ?></textarea>
 								</div>
 								<a href="#" class="pull-right">Удалить</a>
+								<input type="hidden" name="album[id][]" value="<?=$image->id; ?>" />
 							</td>
 						</tr>
 					<?php endforeach; ?>

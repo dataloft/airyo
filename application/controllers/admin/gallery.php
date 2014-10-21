@@ -216,14 +216,34 @@ class Gallery extends CommonAdminController {
 		echo json_encode($aImageData);
 	}
 
-	public function editAlbum($sAlbumLabel){
-		die('sd');
-		$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+	/**
+	 * Обновление альбома
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function editAlbum(){
+		$aPost = $this->input->post();
 
-		$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
+		if(!empty($aPost)) {
+			$aAlbum = $aPost['album'];
+			$aImages = array();
+			for($i = 0; $i < count($aAlbum['id']); $i++) {
+				$aImages[] = array(
+					'id' => $aAlbum['id'][$i],
+					'title' => $aAlbum['title'][$i],
+					'description' => $aAlbum['description'][$i]
+				);
+			}
 
-		$this->oData['profile_id'] = $this->oUser->id;
-		$this->oData['view'] = 'admin/gallery/editAlbum';
+			var_dump($aImages);
+			die();
+			$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+
+			$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
+
+			$this->oData['profile_id'] = $this->oUser->id;
+			$this->oData['view'] = 'admin/gallery/editAlbum';
+		}
 	}
 
 	/**
