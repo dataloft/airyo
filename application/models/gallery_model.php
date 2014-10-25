@@ -144,6 +144,40 @@ class Gallery_model extends CI_Model {
 	}
 
 	/**
+	 * Обновление альбома
+	 *
+	 * @param $iId
+	 * @param $aData
+	 * @return mixed
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function updateAlbum($iId, $aData) {
+		if ($this->db->update($this->db->dbprefix('albums'), $aData, array('id' => $iId))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Обновление изображения
+	 *
+	 * @param $iId
+	 * @param $aData
+	 * @return mixed
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function updateImage($iId, $aData) {
+		if ($this->db->update($this->db->dbprefix('images'), $aData, array('id' => $iId))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Добавление изображения в альбом
 	 *
 	 * @param $aData

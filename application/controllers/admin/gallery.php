@@ -217,7 +217,29 @@ class Gallery extends CommonAdminController {
 	}
 
 	/**
-	 * Обновление альбома
+	 * Обновление описания альбома
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function ajaxEditDescriptionAlbum(){
+		$aPost = $this->input->post();
+
+		if(!empty($aPost)) {
+			$sValidData = $this->validateData($aPost['album']);
+			if(isset($sValidData['iAlbumId'])) {
+				$iId = $sValidData['iAlbumId'];
+				unset($sValidData['iAlbumId']);
+				if($this->gallery_model->updateAlbum($iId, $sValidData)) {
+					echo json_encode('done');
+				} else {
+					echo json_encode('error');
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Обновление содержимого альбома
 	 *
 	 * @author N.Kulchinskiy
 	 */
@@ -237,13 +259,25 @@ class Gallery extends CommonAdminController {
 
 			var_dump($aImages);
 			die();
-			$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
-
-			$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
-
-			$this->oData['profile_id'] = $this->oUser->id;
-			$this->oData['view'] = 'admin/gallery/editAlbum';
 		}
+	}
+
+	/**
+	 * Удаление директорий и файлов
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function deleteAction() {
+		if ($_POST['selected']) {
+			foreach ($_POST['selected'] as $item) {
+				if (is_dir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$item)) {
+					rmdir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$item);
+				} else {
+					@unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$item);
+				}
+			}
+		}
+		redirect($_SERVER['HTTP_REFERER'], 'refresh');
 	}
 
 	/**
@@ -272,6 +306,33 @@ class Gallery extends CommonAdminController {
 			" " => "_"
 		);
 		return strtr($sString, $aTranslit);
+	}
+
+	/**
+	 * Валидация данных альбома
+	 *
+	 * @param $aParams
+	 * @return array
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	private static function validateData($aParams){
+		$aValidParams = array();
+
+		// Проверка id альбома
+		if(isset($aParams['album_id']) AND $iId = intval($aParams['album_id']) AND $iId > 0) {
+			$aValidParams['iAlbumId'] = $iId;
+		}
+		// Проверка названи группы
+		if(isset($aParams['title'])) {
+			$aValidParams['title'] = htmlspecialchars(strip_tags($aParams['title']));
+		}
+		// Проверка описания группы
+		if(isset($aParams['description'])) {
+			$aValidParams['description'] = htmlspecialchars(strip_tags($aParams['description']));
+		}
+
+		return $aValidParams;
 	}
 }
 

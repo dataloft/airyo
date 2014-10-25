@@ -34,9 +34,21 @@ $(function () {
 	var frm = $('#edit-album');
 	frm.submit(function (ev) {
 		$.ajax({
-			url: "/admin/gallery/editalbum",
+			url: "/admin/gallery/ajaxEditAlbum",
 			method: 'POST',
 			data: $('#edit-album').serialize()
+		}).done(function() {
+			$( this ).addClass( "done" );
+		});
+		ev.preventDefault();
+	});
+
+	var formEditDescriptionAlbum = $('#edit-description-album');
+	formEditDescriptionAlbum.submit(function (ev) {
+		$.ajax({
+			url: "/admin/gallery/ajaxEditDescriptionAlbum",
+			method: 'POST',
+			data: $('#edit-description-album').serialize()
 		}).done(function() {
 			$( this ).addClass( "done" );
 		});

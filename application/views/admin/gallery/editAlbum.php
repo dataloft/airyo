@@ -25,7 +25,7 @@
 	</ol>
 	<div class="panel panel-default">
 		<div class="panel-body">
-			<form role="form">
+			<form method="POST" action="/admin/gallery/ajaxEditDescriptionAlbum" id="edit-description-album" role="form">
 				<table>
 					<tbody>
 					<tr>
@@ -35,17 +35,18 @@
 						<td>
 							<div class="form-group">
 								<label for="inputName">Название</label>
-								<input type="text" value="<?=$album->title; ?>" class="form-control" name="title" id="inputName" placeholder="Название">
+								<input type="text" value="<?=$album->title; ?>" class="form-control" name="album[title]" id="inputName" placeholder="Название">
 							</div>
 							<div class="form-group">
 								<label for="inputDescription">Описание</label>
-								<textarea class="form-control" name="description" id="inputDescription" cols="60" rows="5"><?=$album->description; ?></textarea>
+								<textarea class="form-control" name="album[description]" id="inputDescription" cols="60" rows="5"><?=$album->description; ?></textarea>
 							</div>
 							<button type="submit" class="btn btn-info">Сохранить изменения</button>
 						</td>
 					</tr>
 					</tbody>
 				</table>
+				<input type="hidden" value="<?=$album->id; ?>" name="album[album_id]" />
 			</form>
 		</div>
 	</div>
@@ -61,7 +62,7 @@
 		<h3>Редактирование изображений</h3>
 
 		<?php if(!empty($images)) : ?>
-			<form method="POST" action="/admin/gallery/editalbum" id="edit-album">
+			<form method="POST" action="/admin/gallery/ajaxEditAlbum" id="edit-album">
 				<table class="table">
 					<?php foreach($images as $image) : ?>
 						<tr>
