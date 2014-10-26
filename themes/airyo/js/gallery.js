@@ -80,7 +80,7 @@ $(function () {
 		}
 	});
 
-	/** Удаление изображения */
+	/** Удаление альбома */
 	var albumRemoveLink = $('.link-album-remove');
 	albumRemoveLink.click(function (ev) {
 		ev.preventDefault();
@@ -95,7 +95,7 @@ $(function () {
 				}
 			}).done(function(response) {
 				var oResponse = $.parseJSON(response);
-
+				location.reload();
 				updateMessageBlock(oResponse);
 			});
 		}

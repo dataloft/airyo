@@ -140,6 +140,19 @@ class Gallery_model extends CI_Model {
 	}
 
 	/**
+	 * Добавление изображения в альбом
+	 *
+	 * @param $aData
+	 * @return mixed
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function addImage($aData) {
+		$this->db->insert($this->db->dbprefix('images'), $aData);
+		return $this->db->insert_id();
+	}
+
+	/**
 	 * Создание альбома
 	 *
 	 * @param $aData

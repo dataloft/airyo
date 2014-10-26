@@ -192,9 +192,6 @@ class Gallery extends CommonAdminController {
 							'text' => 'Файлы загружены'
 						)
 					);
-
-					echo json_encode($aImageData);
-
 				} else {
 					$this->oData['message'] = $this->session->set_flashdata('message',  array(
 							'type' => 'danger',
