@@ -56,3 +56,7 @@
 	margin: 30px;
 	display: block;
 }
+
+#alert-message {
+	display: none;
+}

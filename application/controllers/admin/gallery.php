@@ -223,6 +223,7 @@ class Gallery extends CommonAdminController {
 	 */
 	public function ajaxEditDescriptionAlbum(){
 		$aPost = $this->input->post();
+		$aMessage = array();
 
 		if(!empty($aPost)) {
 			$sValidData = $this->validateData($aPost['album']);
@@ -230,12 +231,25 @@ class Gallery extends CommonAdminController {
 				$iId = $sValidData['iAlbumId'];
 				unset($sValidData['iAlbumId']);
 				if($this->gallery_model->updateAlbum($iId, $sValidData)) {
-					echo json_encode('done');
+					$aMessage = array(
+						'type' => 'success',
+						'text' => 'Альбом обновлён'
+					);
 				} else {
-					echo json_encode('error');
+					$aMessage = array(
+						'type' => 'danger',
+						'text' => 'Ошибка при обновлении альбома'
+					);
 				}
 			}
+		} else {
+			$aMessage = array(
+				'type' => 'danger',
+				'text' => 'Неизвестная ошибка'
+			);
 		}
+
+		echo json_encode($aMessage);
 	}
 	
 	/**
@@ -243,41 +257,140 @@ class Gallery extends CommonAdminController {
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function editAlbum(){
+	public function ajaxEditAlbum(){
 		$aPost = $this->input->post();
-
+		$aMessage = array();
 		if(!empty($aPost)) {
 			$aAlbum = $aPost['album'];
-			$aImages = array();
 			for($i = 0; $i < count($aAlbum['id']); $i++) {
-				$aImages[] = array(
-					'id' => $aAlbum['id'][$i],
+				$aImages = array(
+					'image_id' => $aAlbum['id'][$i],
 					'title' => $aAlbum['title'][$i],
 					'description' => $aAlbum['description'][$i]
 				);
-			}
+				$aValidateData = $this->validateData($aImages);
 
-			var_dump($aImages);
-			die();
+				if(isset($aValidateData['iImageId'])) {
+					$iId = $aValidateData['iImageId'];
+					unset($aValidateData['iImageId']);
+					if($this->gallery_model->updateImage($iId, $aValidateData)) {
+						$aMessage = array(
+							'type' => 'success',
+							'text' => 'Альбом обновлён'
+						);
+					} else {
+						$aMessage = array(
+							'type' => 'danger',
+							'text' => 'Ошибка при обновлении альбома'
+						);
+					}
+				}
+			}
+		} else {
+			$aMessage = array(
+				'type' => 'danger',
+				'text' => 'Неизвестная ошибка'
+			);
 		}
+
+		echo json_encode($aMessage);
 	}
 
 	/**
-	 * Удаление директорий и файлов
+	 * Удаление изображения
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function deleteAction() {
-		if ($_POST['selected']) {
-			foreach ($_POST['selected'] as $item) {
-				if (is_dir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$item)) {
-					rmdir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$item);
+	public function ajaxRemoveImage(){
+		$aPost = $this->input->post();
+		if(!empty($aPost)) {
+			$iImageId = $aPost['iImageId'];
+
+			$oImage = $this->gallery_model->getImageById($iImageId);
+
+			if($this->deleteAction($oImage->label_album, $oImage->label)) {
+				if($this->gallery_model->deleteImage($iImageId)) {
+					$aMessage = array(
+						'type' => 'success',
+						'text' => 'Изображение удалено'
+					);
+				}
+			} else {
+				$aMessage = array(
+					'type' => 'danger',
+					'text' => 'Ошибка при удалении'
+				);
+			}
+		} else {
+			$aMessage = array(
+				'type' => 'danger',
+				'text' => 'Неизвестная ошибка'
+			);
+		}
+
+		echo json_encode($aMessage);
+	}
+
+	/**
+	 * Удаление альбома
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function ajaxRemoveAlbum(){
+		$aPost = $this->input->post();
+		$aMessage = array();
+
+		if(!empty($aPost)) {
+			$iAlbumId = $aPost['iAlbumId'];
+			if($oAlbum = $this->gallery_model->getAlbumById($iAlbumId)) {
+				if(!$this->gallery_model->getFetchCountriesImages(array('iAlbumId' => $iAlbumId))) {
+					if($this->deleteAction($oAlbum->label)) {
+						if($this->gallery_model->deleteAlbum($iAlbumId)) {
+							$aMessage = array(
+								'type' => 'success',
+								'text' => 'Альбом удалён'
+							);
+						}
+					} else {
+						$aMessage = array(
+							'type' => 'danger',
+							'text' => 'Ошибка при удалении'
+						);
+					}
 				} else {
-					@unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$item);
+					$aMessage = array(
+						'type' => 'danger',
+						'text' => 'Удалите все изображения из альбома'
+					);
 				}
 			}
+		} else {
+			$aMessage = array(
+				'type' => 'danger',
+				'text' => 'Неизвестная ошибка'
+			);
 		}
-		redirect($_SERVER['HTTP_REFERER'], 'refresh');
+
+		echo json_encode($aMessage);
+	}
+	
+	/**
+	 * Удаление директорий и файлов
+	 *
+	 * @param $sAlbum
+	 * @param null $sImage
+	 *
+	 * @return bool
+	 * @author N.Kulchinskiy
+	 */
+	private function deleteAction($sAlbum, $sImage = null) {
+		if (empty($sImage)) {
+			@rmdir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$sAlbum);
+		} else {
+			@unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$sAlbum.DIRECTORY_SEPARATOR.$sImage);
+		}
+
+		return true;
 	}
 
 	/**
@@ -323,7 +436,11 @@ class Gallery extends CommonAdminController {
 		if(isset($aParams['album_id']) AND $iId = intval($aParams['album_id']) AND $iId > 0) {
 			$aValidParams['iAlbumId'] = $iId;
 		}
-		// Проверка названи группы
+		// Проверка id изобраежния
+		if(isset($aParams['image_id']) AND $iId = intval($aParams['image_id']) AND $iId > 0) {
+			$aValidParams['iImageId'] = $iId;
+		}
+		// Проверка названия группы
 		if(isset($aParams['title'])) {
 			$aValidParams['title'] = htmlspecialchars(strip_tags($aParams['title']));
 		}

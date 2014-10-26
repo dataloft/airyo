@@ -95,12 +95,11 @@ $route['admin/files/(:any)'] = 'admin/files/index/$1';
 $route['admin/gallery'] = 'admin/gallery';
 $route['admin/gallery/(album:any)'] = 'admin/gallery/getalbum/$1';
 $route['admin/gallery/createalbum'] = 'admin/gallery/createalbum';
-$route['admin/gallery/ajaxEditDescriptionAlbum'] = 'admin/gallery/ajaxEditDescriptionAlbum';
-$route['admin/gallery/ajaxEditAlbum'] = 'admin/gallery/ajaxEditAlbum';
-$route['admin/gallery/removealbum'] = 'admin/gallery/removealbum';
 $route['admin/gallery/uploadimages/(:any)'] = 'admin/gallery/uploadimages';
-$route['admin/gallery/editimage'] = 'admin/gallery/editimage/$1';
-$route['admin/gallery/removeimage'] = 'admin/gallery/removeimage';
+$route['admin/gallery/ajaxEditAlbum'] = 'admin/gallery/ajaxEditAlbum';
+$route['admin/gallery/ajaxRemoveImage'] = 'admin/gallery/ajaxRemoveImage';
+$route['admin/gallery/ajaxRemoveAlbum'] = 'admin/gallery/ajaxRemoveAlbum';
+$route['admin/gallery/ajaxEditDescriptionAlbum'] = 'admin/gallery/ajaxEditDescriptionAlbum';
 
 //admin modules
 $route['admin/counters'] = 'admin/counters';

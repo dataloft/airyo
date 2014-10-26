@@ -55,17 +55,26 @@ class Gallery_model extends CI_Model {
 	 * @author N.Kulchinskiy
 	 */
 	public function getFetchCountriesImages($aParams){
-		$this->db->select('*');
-		$this->db->from('images');
+		$this->db->select($this->db->dbprefix('images').'.*');
+		$this->db->select(
+			$this->db->dbprefix('albums').'.label AS label_album');
+
+
+		$this->db->from($this->db->dbprefix('images'));
 
 		if(isset($aParams['sAlbumLabel'])) {
 			$this->db->where('album_id' . ' = (SELECT id FROM ' . $this->db->dbprefix('albums') . ' WHERE label = "' . $aParams['sAlbumLabel'] . '")');
+		}
+		if(isset($aParams['iAlbumId'])) {
+			$this->db->where('album_id' . ' = ' . $aParams['iAlbumId']);
 		}
 		if (isset($aParams['iImageId'])) {
 			$this->db->where($this->db->dbprefix('images') . '.id', $aParams['iImageId']);
 		}
 
-		$this->db->order_by("id", "DESC");
+		$this->db->join($this->db->dbprefix('albums'), $this->db->dbprefix('albums').'.id'. '=' .$this->db->dbprefix('images').'.album_id');
+
+		$this->db->order_by($this->db->dbprefix('images').'.id', "DESC");
 		if (isset($aParams['iLimit']) AND isset($aParams['iStart'])) {
 			$this->db->limit($aParams['iLimit'], $aParams['iStart']);
 		}
@@ -178,16 +187,41 @@ class Gallery_model extends CI_Model {
 	}
 
 	/**
-	 * Добавление изображения в альбом
+	 * Удаление изображения
 	 *
-	 * @param $aData
-	 * @return mixed
+	 * @param $iId
+	 * @return bool
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function addImage($aData) {
-		$this->db->insert($this->db->dbprefix('images'), $aData);
-		return $this->db->insert_id();
+	public function deleteImage($iId)
+	{
+		if($iId = intval($iId) AND $iId > 0) {
+			if ($this->db->delete($this->db->dbprefix('images'), array('id' => $iId))){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Удаление альбома
+	 *
+	 * @param $iId
+	 * @return bool
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function deleteAlbum($iId)
+	{
+		if($iId = intval($iId) AND $iId > 0) {
+			if ($this->db->delete($this->db->dbprefix('albums'), array('id' => $iId))){
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 

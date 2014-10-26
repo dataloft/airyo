@@ -9,15 +9,10 @@
 <div class="container">
 	<h1 class="page-header">Галерея<small> / <a href="/admin/gallery/<?=$album->label; ?>">просмотр</a></small></h1>
 
-	<?php if ($message) : ?>
-		<div class="alert alert-<?=$message['type']?>">
-			<a class="close" data-dismiss="alert" href="#">&times;</a>
-			<?php if ($message['type']=='success') : ?>
-				<span class="glyphicon glyphicon-ok"></span>
-			<?php endif; ?>
-			<?=$message['text']?>
-		</div>
-	<? endif; ?>
+	<div id="alert-message" class="alert">
+		<span id="icon-message-success" class="glyphicon"></span>
+		<span id="text-message"></span>
+	</div>
 
 	<ol class="breadcrumb">
 		<li><a href="/admin/gallery">Галерея</a></li>
@@ -31,6 +26,9 @@
 					<tr>
 						<td>
 							<img src="/gallery/<?=$album->label; ?>/<?=$album->random_image_label; ?>" class="img-thumbnail album-gallery-edit">
+							<div class="center-block" style="text-align: center;">
+								<a href="" class="link-album-remove" data-album="<?=$album->id; ?>">Удалить альбом</a>
+							</div>
 						</td>
 						<td>
 							<div class="form-group">
@@ -65,7 +63,7 @@
 			<form method="POST" action="/admin/gallery/ajaxEditAlbum" id="edit-album">
 				<table class="table">
 					<?php foreach($images as $image) : ?>
-						<tr>
+						<tr class="image-edit-block">
 							<td class="gallery-table-edit" style="padding: 20px;">
 								<img src="/gallery/<?=$album->label; ?>/<?=$image->label; ?>" alt="" class="img-responsive image-gallery" />
 							</td>
@@ -78,7 +76,7 @@
 									<label for="inputDescription">Описание</label>
 									<textarea class="form-control" name="album[description][]" id="inputDescription" cols="60" rows="5"><?=$image->description; ?></textarea>
 								</div>
-								<a href="#" class="pull-right">Удалить</a>
+								<a href="" class="pull-right link-image-remove" data-image="<?=$image->id; ?>">Удалить</a>
 								<input type="hidden" name="album[id][]" value="<?=$image->id; ?>" />
 							</td>
 						</tr>
