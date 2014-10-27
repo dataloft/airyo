@@ -48,7 +48,7 @@
 			<?php endforeach; ?>
 		<?php else : ?>
 			<div id="album-empty">
-				<p>Альбом пуст</p>
+				<p>В этом альбоме ещё нет фотографий</p>
 			</div>
 		<?php endif ?>
 	</div>

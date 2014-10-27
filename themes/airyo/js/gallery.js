@@ -26,7 +26,21 @@ $(function () {
 				progress + '%'
 			);
 		},
-		start: function () {
+		beforeSend : function(xhr, opts){
+			$.each(opts.originalFiles, function( key, value ) {
+				var ext = value.name.split('.').pop().toLowerCase();
+
+				if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+					var oResponse = {
+						type: 'danger',
+						text: 'Доступные форматы для загрузки: gif, png, jpeg'
+					}
+					updateMessageBlock(oResponse);
+					xhr.abort();
+					return false;
+				}
+			});
+
 			$('#progress').removeClass('hidden');
 		}
 	});

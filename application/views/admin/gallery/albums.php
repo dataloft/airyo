@@ -39,9 +39,6 @@
 			</div>
 		<?php endforeach; ?>
 	</div>
-	<div class="text-center">
-		<?=$pagination->create_links(); ?>
-	</div>
 </div>
 
 <!-- Modal -->

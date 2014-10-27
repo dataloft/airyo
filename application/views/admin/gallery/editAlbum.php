@@ -91,7 +91,7 @@
 			</form>
 
 			<div class="center-block" id="block-empty-album" style="display: <?=(empty($images)) ? 'block' : 'none'; ?>">
-				<p>Изображений нет</p>
+				<p>В этом альбоме ещё нет фотографий</p>
 			</div>
 	</div>
 </div>
