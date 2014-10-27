@@ -27,11 +27,11 @@
 
 		<?php foreach($albums as $album) : ?>
 			<div class="col-lg-3 col-md-4 col-xs-6 thumb">
-				<a class="thumbnail" href="/admin/gallery/<?=$album->label; ?>" title="<?=$album->title; ?>">
-					<img src="/gallery/<?=$album->images_path; ?>/<?=$album->images_label; ?>">
+				<a class="thumbnail image-gallery-albums" href="/admin/gallery/<?=$album->label; ?>" title="<?=$album->title; ?>">
+					<img src="/gallery/<?=$album->label; ?>/<?=$album->random_image_label; ?>">
 					<div class="photo-album-title">
 						<p class="photo-title pull-left"><?=$album->title; ?></p>
-						<span class="pull-right"><i class="glyphicon glyphicon-camera"></i> <?=$album->images_count; ?></span>
+						<span class="pull-right" style="margin-right: 3px;"><i class="glyphicon glyphicon-camera"></i> <?=$album->images_count; ?></span>
 					</div>
 				</a>
 			</div>

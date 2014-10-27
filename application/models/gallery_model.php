@@ -17,14 +17,10 @@ class Gallery_model extends CI_Model {
 	 */
 	public function getFetchCountriesAlbums($aParams) {
 		$this->db->select('album.*');
-		$this->db->select('image.label AS images_label');
-		$this->db->select('(SELECT FLOOR( MAX( im.id ) * RAND( ) ) FROM ' . $this->db->dbprefix('images') . ' AS im WHERE im.album_id = album.id) AS random_image_id');
-		$this->db->select('(SELECT label FROM ' . $this->db->dbprefix('images') . ' AS i WHERE i.id = random_image_id) AS random_image_label');
-		$this->db->select('(SELECT alb.label FROM ' . $this->db->dbprefix('albums') . ' AS alb WHERE alb.id = image.album_id) AS images_path');
+		$this->db->select('(SELECT i.label FROM ' . $this->db->dbprefix('images') . ' AS i WHERE i.album_id = album.id ORDER BY id DESC LIMIT 1) AS random_image_label');
 		$this->db->select('(SELECT COUNT(img.id) FROM ' . $this->db->dbprefix('images') . ' AS img WHERE img.album_id = album.id) AS images_count');
 
 		$this->db->from('albums AS album');
-		$this->db->join('images AS image', 'album.image_id = image.id');
 
 		if (isset($aParams['iAlbumId'])) {
 			$this->db->where('album.id', $aParams['iAlbumId']);
@@ -33,7 +29,7 @@ class Gallery_model extends CI_Model {
 			$this->db->where('album.label', $aParams['sAlbumLabel']);
 		}
 
-		$this->db->order_by("create_date", "asc");
+		$this->db->order_by("create_date", "DESC");
 
 		if(isset($aParams['iLimit']) AND isset($aParams['iStart'])) {
 			$this->db->limit($aParams['iLimit'], $aParams['iStart']);
@@ -59,17 +55,26 @@ class Gallery_model extends CI_Model {
 	 * @author N.Kulchinskiy
 	 */
 	public function getFetchCountriesImages($aParams){
-		$this->db->select('*');
-		$this->db->from('images');
+		$this->db->select($this->db->dbprefix('images').'.*');
+		$this->db->select(
+			$this->db->dbprefix('albums').'.label AS label_album'
+        );
+
+		$this->db->from($this->db->dbprefix('images'));
 
 		if(isset($aParams['sAlbumLabel'])) {
 			$this->db->where('album_id' . ' = (SELECT id FROM ' . $this->db->dbprefix('albums') . ' WHERE label = "' . $aParams['sAlbumLabel'] . '")');
+		}
+		if(isset($aParams['iAlbumId'])) {
+			$this->db->where('album_id' . ' = ' . $aParams['iAlbumId']);
 		}
 		if (isset($aParams['iImageId'])) {
 			$this->db->where($this->db->dbprefix('images') . '.id', $aParams['iImageId']);
 		}
 
-		$this->db->order_by("create_date", "asc");
+		$this->db->join($this->db->dbprefix('albums'), $this->db->dbprefix('albums').'.id'. '=' .$this->db->dbprefix('images').'.album_id');
+
+		$this->db->order_by($this->db->dbprefix('images').'.id', "DESC");
 		if (isset($aParams['iLimit']) AND isset($aParams['iStart'])) {
 			$this->db->limit($aParams['iLimit'], $aParams['iStart']);
 		}
@@ -135,6 +140,19 @@ class Gallery_model extends CI_Model {
 	}
 
 	/**
+	 * Добавление изображения в альбом
+	 *
+	 * @param $aData
+	 * @return mixed
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function addImage($aData) {
+		$this->db->insert($this->db->dbprefix('images'), $aData);
+		return $this->db->insert_id();
+	}
+
+	/**
 	 * Создание альбома
 	 *
 	 * @param $aData
@@ -148,16 +166,75 @@ class Gallery_model extends CI_Model {
 	}
 
 	/**
-	 * Добавление изображения в альбом
+	 * Обновление альбома
 	 *
+	 * @param $iId
 	 * @param $aData
 	 * @return mixed
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function addImage($aData) {
-		$this->db->insert($this->db->dbprefix('images'), $aData);
-		return $this->db->insert_id();
+	public function updateAlbum($iId, $aData) {
+		if ($this->db->update($this->db->dbprefix('albums'), $aData, array('id' => $iId))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Обновление изображения
+	 *
+	 * @param $iId
+	 * @param $aData
+	 * @return mixed
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function updateImage($iId, $aData) {
+		if ($this->db->update($this->db->dbprefix('images'), $aData, array('id' => $iId))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Удаление изображения
+	 *
+	 * @param $iId
+	 * @return bool
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function deleteImage($iId)
+	{
+		if($iId = intval($iId) AND $iId > 0) {
+			if ($this->db->delete($this->db->dbprefix('images'), array('id' => $iId))){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Удаление альбома
+	 *
+	 * @param $iId
+	 * @return bool
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function deleteAlbum($iId)
+	{
+		if($iId = intval($iId) AND $iId > 0) {
+			if ($this->db->delete($this->db->dbprefix('albums'), array('id' => $iId))){
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 

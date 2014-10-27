@@ -8,7 +8,7 @@
 	color: white;
 	position: absolute;
 	top: 3px;
-	width: 251px;
+	width: 253px;
 	margin-top: 168px;
 	text-align: left;
 	padding: 2px;
@@ -44,4 +44,19 @@
 
 .modal-body {
 	min-height: 100px;
+}
+
+.image-gallery-albums {
+	height: 198px;
+}
+
+.album-gallery-edit {
+	height: 200px;
+	width: 242px;
+	margin: 30px;
+	display: block;
+}
+
+#alert-message {
+	display: none;
 }

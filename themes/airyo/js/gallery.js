@@ -28,80 +28,109 @@ $(function () {
 			$('#progress').removeClass('hidden');
 		}
 	});
-});
 
-/*$(function () {
-	*//*
-	 *//*
-	'use strict';
-	// Change this to the location of your server-side upload handler:
-	var url = '/admin/gallery/uploadimages';
-	$('#fileupload').fileupload({
-		url: url,
-		dataType: 'json',
-		dropZone: $('#dropzone'),
-		done: function (e, data) {
-			*//*  $.each(data.result.files, function (index, file) {
-			 $('<p/>').text(file.name).appendTo('#files');
-			 });*//*
-			//window.location.replace(data.result.path);
+	/** Обновление описания альбома */
+	var formEditDescriptionAlbum = $('#edit-description-album');
+	formEditDescriptionAlbum.submit(function (ev) {
+		$.ajax({
+			url: "/admin/gallery/ajaxEditDescriptionAlbum",
+			method: 'POST',
+			data: $('#edit-description-album').serialize()
+		}).done(function(response) {
+			var oResponse = $.parseJSON(response);
+			updateMessageBlock(oResponse);
+		});
+		ev.preventDefault();
+	});
 
-		},
-		progressall: function (e, data) {
-			var progress = parseInt(data.loaded / data.total * 100, 10);
-			$('#progress .progress-bar').css(
-				'width',
-				progress + '%'
-			);
+	/** Обновление содержания альбома */
+	var frm = $('#edit-album');
+	frm.submit(function (ev) {
+		$.ajax({
+			url: "/admin/gallery/ajaxEditAlbum",
+			method: 'POST',
+			data: $('#edit-album').serialize()
+		}).done(function(response) {
+			var oResponse = $.parseJSON(response);
+			updateMessageBlock(oResponse);
+			$('html, body').animate({ scrollTop: 0 }, 'fast');
+		});
+		ev.preventDefault();
+	});
 
-		},
-		start: function () {
-			$('#progress').removeClass('hidden');
+	/** Удаление изображения */
+	var imageLink = $('.link-image-remove');
+	imageLink.click(function (ev) {
+		ev.preventDefault();
+		$(this).parents('.image-edit-block').hide(200);
+
+		var iImageId = $(this).attr('data-image');
+		if(iImageId > 0) {
+			$.ajax({
+				url: "/admin/gallery/ajaxRemoveImage",
+				method: 'POST',
+				data: {
+					iImageId: iImageId
+				}
+			}).done(function(response) {
+				var oResponse = $.parseJSON(response);
+
+				updateMessageBlock(oResponse);
+			});
 		}
-	}).prop('disabled', !$.support.fileInput)
-		.parent().addClass($.support.fileInput ? undefined : 'disabled');
-});
-$('#fileupload').bind('fileuploadstop', function (e) { window.location.replace(''); });
-$(document).bind('drop dragover', function (e) {
-	e.stopPropagation();
-	e.preventDefault();
-});
-$('.dropzone').bind('dragleave', function (e) {
-	$('.dropzone').removeClass('in hover');
-});*/
+	});
 
-/*
-$(document).bind('dragover', function (e) {
-	var dropZone = $('.dropzone'),
-		foundDropzone,
-		timeout = window.dropZoneTimeout;
-	dropZone.addClass('in');
-	if (!timeout) {
+	/** Удаление альбома */
+	var albumRemoveLink = $('.link-album-remove');
+	albumRemoveLink.click(function (ev) {
+		ev.preventDefault();
 
-	} else {
-		clearTimeout(timeout);
-	}
-	var found = false,
-		node = e.target;
-
-	do {
-		if ($(node).hasClass('dropzone')) {
-			found = true;
-			foundDropzone = $(node);
-			break;
+		var iAlbumId = $(this).attr('data-album');
+		if(iAlbumId > 0) {
+			$.ajax({
+				url: "/admin/gallery/ajaxRemoveAlbum",
+				method: 'POST',
+				data: {
+					iAlbumId: iAlbumId
+				}
+			}).done(function(response) {
+				var oResponse = $.parseJSON(response);
+				location.reload();
+				updateMessageBlock(oResponse);
+			});
 		}
-		node = node.parentNode;
+	});
 
-	} while (node != null);
+	/**
+	 * Установка сообщения
+	 *
+	 * @param oData
+	 */
+	function updateMessageBlock(oData) {
+		var oAlertMessage = $('#alert-message');
+		var oIconMessageSucces = $('#icon-message-success');
+		var oTextMessage = $('#text-message');
 
-	dropZone.removeClass('in hover');
+		$(oAlertMessage).show(200);
 
-	if (found) {
-		foundDropzone.addClass('hover');
+		oAlertMessage.addClass('alert-' + oData.type);
+		oTextMessage.text(oData.text);
+
+		if(oData.type == 'success') {
+			oIconMessageSucces.addClass('glyphicon-ok')
+		} else {
+			oIconMessageSucces.addClass('glyphicon-remove')
+		}
+
+		setTimeout(function() {
+			$(oAlertMessage).hide(200);
+
+			oAlertMessage.removeClass('alert-' + oData.type);
+			if(oData.type == 'success') {
+				oIconMessageSucces.removeClass('glyphicon-ok')
+			} else {
+				oIconMessageSucces.removeClass('glyphicon-remove')
+			}
+		}, 3500)
 	}
-
-	window.dropZoneTimeout = setTimeout(function () {
-		window.dropZoneTimeout = null;
-		dropZone.removeClass('in hover');
-	}, 1000);
-});*/
+});
