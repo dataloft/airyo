@@ -32,12 +32,7 @@ class Gallery extends CommonAdminController {
 		$this->oData['result'] = array();
 		$this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
-		$aPaginationConfig = $this->getPaginationConfig();
-		$aPaginationConfig['base_url'] = '/admin/gallery';
-		$this->pagination->initialize($aPaginationConfig);
-
-		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$this->oData["albums"] = $this->gallery_model->getFetchCountriesAlbums(array('iLimit' => $aPaginationConfig["per_page"], 'iStart' => $page));
+		$this->oData["albums"] = $this->gallery_model->getFetchCountriesAlbums();
 
 		$this->oData['profile_id'] = $this->oUser->id;
 		$this->oData['pagination'] = $this->pagination;

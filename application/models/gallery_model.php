@@ -7,6 +7,10 @@ class Gallery_model extends CI_Model {
 		parent::__construct();
 	}
 
+	public function record_count() {
+		return $this->db->count_all("albums");
+	}
+
 	/**
 	 * Метод получения альбомов
 	 *
@@ -15,7 +19,7 @@ class Gallery_model extends CI_Model {
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function getFetchCountriesAlbums($aParams) {
+	public function getFetchCountriesAlbums(array $aParams = array()) {
 		$this->db->select('album.*');
 		$this->db->select('(SELECT i.label FROM ' . $this->db->dbprefix('images') . ' AS i WHERE i.album_id = album.id ORDER BY id DESC LIMIT 1) AS random_image_label');
 		$this->db->select('(SELECT COUNT(img.id) FROM ' . $this->db->dbprefix('images') . ' AS img WHERE img.album_id = album.id) AS images_count');
@@ -59,6 +63,8 @@ class Gallery_model extends CI_Model {
 		$this->db->select(
 			$this->db->dbprefix('albums').'.label AS label_album'
         );
+		$this->db->select($this->db->dbprefix('users').'.first_name AS first_name');
+		$this->db->select($this->db->dbprefix('users').'.last_name AS last_name');
 
 		$this->db->from($this->db->dbprefix('images'));
 
@@ -73,6 +79,8 @@ class Gallery_model extends CI_Model {
 		}
 
 		$this->db->join($this->db->dbprefix('albums'), $this->db->dbprefix('albums').'.id'. '=' .$this->db->dbprefix('images').'.album_id');
+
+		$this->db->join($this->db->dbprefix('users'), $this->db->dbprefix('users').'.id'. '=' .$this->db->dbprefix('images').'.user_id');
 
 		$this->db->order_by($this->db->dbprefix('images').'.id', "DESC");
 		if (isset($aParams['iLimit']) AND isset($aParams['iStart'])) {
