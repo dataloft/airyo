@@ -59,8 +59,6 @@ class Gallery_model extends CI_Model {
 	 * @author N.Kulchinskiy
 	 */
 	public function getFetchCountriesImages($aParams){
-
-		var_dump($aParams);
 		$this->db->select('*');
 		$this->db->from('images');
 
