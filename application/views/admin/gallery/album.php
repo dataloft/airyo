@@ -9,15 +9,10 @@
 <div class="container">
 	<h1 class="page-header">Галерея<small> / <a href="/admin/gallery/<?=$album->label; ?>?action=edit">редактирование</a></small></h1>
 
-	<?php if ($message) : ?>
-		<div class="alert alert-<?=$message['type']?>">
-			<a class="close" data-dismiss="alert" href="#">&times;</a>
-			<?php if ($message['type']=='success') : ?>
-				<span class="glyphicon glyphicon-ok"></span>
-			<?php endif; ?>
-			<?=$message['text']?>
-		</div>
-	<? endif; ?>
+	<div id="alert-message" class="alert">
+		<span id="icon-message-success" class="glyphicon"></span>
+		<span id="text-message"></span>
+	</div>
 
 	<ol class="breadcrumb">
 		<li><a href="/admin/gallery">Галерея</a></li>
@@ -36,6 +31,11 @@
 			<div class="progress-bar progress-bar-success"></div>
 		</div>
 	</div>
+	<?php if(!empty($album->description)) : ?>
+		<div class="starter-template">
+			<p class="lead"><?=$album->description; ?></p>
+		</div>
+	<?php endif; ?>
 	<div class="row" id="links">
 		<?php if(!empty($images)) : ?>
 			<?php foreach($images as $image) : ?>
@@ -45,6 +45,10 @@
 					</a>
 				</div>
 			<?php endforeach; ?>
+		<?php else : ?>
+			<div id="album-empty">
+				<p>Альбом пуст</p>
+			</div>
 		<?php endif ?>
 	</div>
 	<div class="text-center">

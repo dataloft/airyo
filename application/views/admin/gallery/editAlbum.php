@@ -25,9 +25,13 @@
 					<tbody>
 					<tr>
 						<td>
-							<img src="/gallery/<?=$album->label; ?>/<?=$album->random_image_label; ?>" class="img-thumbnail album-gallery-edit">
+							<?php if(!empty($album->random_image_label)) : ?>
+								<img src="/gallery/<?=$album->label; ?>/<?=$album->random_image_label; ?>" class="img-thumbnail album-gallery-edit">
+							<?php else : ?>
+								<img class="img-thumbnail album-gallery-edit">
+							<?php endif; ?>
 							<div class="center-block" style="text-align: center;">
-								<a href="" class="link-album-remove" data-album="<?=$album->id; ?>">Удалить альбом</a>
+								<a href="#" class="link-album-remove" data-album="<?=$album->id; ?>">Удалить альбом</a>
 							</div>
 						</td>
 						<td>
@@ -59,9 +63,8 @@
 	<div class="row" id="links">
 		<h3>Редактирование изображений</h3>
 
-		<?php if(!empty($images)) : ?>
-			<form method="POST" action="/admin/gallery/ajaxEditAlbum" id="edit-album">
-				<table class="table">
+			<form method="POST" action="/admin/gallery/ajaxEditAlbum" id="form-edit-album" style="display: <?=(!empty($images)) ? 'block' : 'none'; ?>">
+				<table class="table table-responsive" id="table-edit-album">
 					<?php foreach($images as $image) : ?>
 						<tr class="image-edit-block">
 							<td class="gallery-table-edit" style="padding: 20px;">
@@ -86,8 +89,9 @@
 					<button type="submit" class="btn btn-info">Сохранить изменения</button>
 				</div>
 			</form>
-		<?php else : ?>
-			<div>Изображений нет</div>
-		<?php endif ?>
+
+			<div class="center-block" id="block-empty-album" style="display: <?=(empty($images)) ? 'block' : 'none'; ?>">
+				<p>Изображений нет</p>
+			</div>
 	</div>
 </div>

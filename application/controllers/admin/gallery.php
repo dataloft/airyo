@@ -143,6 +143,7 @@ class Gallery extends CommonAdminController {
 	 */
 	public function uploadImages(){
 		$upload = isset($_FILES['files']) ? $_FILES['files'] : null;
+		$aMessage = array();
 
 		if ($upload ) {
 			$config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$_POST['album'];
@@ -151,10 +152,9 @@ class Gallery extends CommonAdminController {
 
 			$this->upload->initialize($config);
 			if (in_array($upload['type'][0],$this->config->item('not_allowed_mimes'))) {
-				$this->oData['message'] = $this->session->set_flashdata('message',  array(
+				$aMessage =   array(
 						'type' => 'danger',
 						'text' => $upload['type'][0].' not allowed mime'
-					)
 				);
 
 				echo json_encode(array('path'=>'/admin/gallery/'.$_POST['album'], 'err' =>$upload['type'][0].' not allowed mime'));
@@ -187,30 +187,27 @@ class Gallery extends CommonAdminController {
 				if($this->gallery_model->addImage($aImageData)) {
 					$files_data[] = $aTmpData['full_path'];
 
-					$this->oData['message'] = $this->session->set_flashdata('message',  array(
-							'type' => 'success',
-							'text' => 'Файлы загружены'
-						)
+					$aMessage =   array(
+						'type' => 'success',
+						'text' => 'Файлы загружены'
 					);
 				} else {
-					$this->oData['message'] = $this->session->set_flashdata('message',  array(
-							'type' => 'danger',
-							'text' => 'Ошибка при загрузке файла'
-						)
+					$aMessage =   array(
+						'type' => 'danger',
+						'text' => 'Ошибка при загрузке файла'
 					);
 				}
 			} else {
 				$files_data[] = $this->upload->display_errors();
 			}
 		} else {
-			$this->oData['message'] = $this->session->set_flashdata('message',  array(
+			$aMessage =   array(
 					'type' => 'danger',
 					'text' => 'Not files'
-				)
 			);
 		}
 
-		echo json_encode($aImageData);
+		echo json_encode(array('image' => $aImageData, 'message' => $aMessage));
 	}
 
 	/**

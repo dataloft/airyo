@@ -28,7 +28,9 @@
 		<?php foreach($albums as $album) : ?>
 			<div class="col-lg-3 col-md-4 col-xs-6 thumb">
 				<a class="thumbnail image-gallery-albums" href="/admin/gallery/<?=$album->label; ?>" title="<?=$album->title; ?>">
-					<img src="/gallery/<?=$album->label; ?>/<?=$album->random_image_label; ?>">
+                    <?php if(!empty($album->random_image_label)) : ?>
+					    <img src="/gallery/<?=$album->label; ?>/<?=$album->random_image_label; ?>" class="img-responsive image-gallery"  />
+                    <?php endif; ?>
 					<div class="photo-album-title">
 						<p class="photo-title pull-left"><?=$album->title; ?></p>
 						<span class="pull-right" style="margin-right: 3px;"><i class="glyphicon glyphicon-camera"></i> <?=$album->images_count; ?></span>
@@ -54,7 +56,7 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="inputTitle">Название</label>
-						<input type="text" class="form-control" required="required" name="album_title" id="inputTitle" placeholder="Название" />
+						<input type="text" class="form-control" required="required" name="album_title" id="inputTitle" autocomplete="off" placeholder="Название" />
 					</div>
 					<div class="form-group">
 						<label for="inputDescription">Описание</label>

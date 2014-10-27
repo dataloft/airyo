@@ -19,12 +19,16 @@
 	margin: 2px;
 }
 
+#upload_mage {
+    text-decoration: none;
+}
+
 .file-upload-link {
 	cursor: pointer;
 	opacity: 0.01;
-	position: relative;
+	position: absolute;
 	z-index: 200;
-	right: -2em;
+    padding: 10px;
 	margin: -1.3em;
 }
 
@@ -47,6 +51,7 @@
 }
 
 .image-gallery-albums {
+	display: block;
 	height: 198px;
 }
 

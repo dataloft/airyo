@@ -10,12 +10,14 @@ $(function () {
 		done: function (e, data) {
 			$("#links").prepend('' +
 			'<div class="col-lg-3 col-md-4 col-xs-6 thumb">' +
-				'<a class="thumbnail next" href="/gallery/' + $('#album_label').val() + '/' + data.result.label + '" data-toggle="lightbox" data-parent data-gallery="multiimages" data-title="' + data.result.title + '">' +
-					'<img class="img-responsive image-gallery" src="/gallery/' + $('#album_label').val() + '/' + data.result.label + '" alt="" />' +
+				'<a class="thumbnail next" href="/gallery/' + $('#album_label').val() + '/' + data.result.image.label + '" data-toggle="lightbox" data-parent data-gallery="multiimages" data-title="' + data.result.image.title + '">' +
+					'<img class="img-responsive image-gallery" src="/gallery/' + $('#album_label').val() + '/' + data.result.image.label + '" alt="" />' +
 				'</a>' +
 			'</div>');
 
-			$('#progress').addClass('hidden');
+            updateMessageBlock(data.result.message);
+            $('#progress').addClass('hidden');
+            $('#album-empty').hide();
 		},
 		progressall: function (e, data) {
 			var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -44,12 +46,12 @@ $(function () {
 	});
 
 	/** Обновление содержания альбома */
-	var frm = $('#edit-album');
+	var frm = $('#form-edit-album');
 	frm.submit(function (ev) {
 		$.ajax({
 			url: "/admin/gallery/ajaxEditAlbum",
 			method: 'POST',
-			data: $('#edit-album').serialize()
+			data: $('#form-edit-album').serialize()
 		}).done(function(response) {
 			var oResponse = $.parseJSON(response);
 			updateMessageBlock(oResponse);
@@ -62,7 +64,7 @@ $(function () {
 	var imageLink = $('.link-image-remove');
 	imageLink.click(function (ev) {
 		ev.preventDefault();
-		$(this).parents('.image-edit-block').hide(200);
+        $(this).parents('.image-edit-block').fadeOut(1200).empty();
 
 		var iImageId = $(this).attr('data-image');
 		if(iImageId > 0) {
@@ -74,7 +76,12 @@ $(function () {
 				}
 			}).done(function(response) {
 				var oResponse = $.parseJSON(response);
-
+                var iCount = $('#table-edit-album td').length;
+                if(iCount < 1) {
+                    $('#form-edit-album').hide(1200);
+                    $('#block-empty-album').show(1200);
+                    $('.album-gallery-edit').attr('src', '');
+                }
 				updateMessageBlock(oResponse);
 			});
 		}
@@ -95,9 +102,11 @@ $(function () {
 				}
 			}).done(function(response) {
 				var oResponse = $.parseJSON(response);
-				location.reload();
-				updateMessageBlock(oResponse);
-			});
+                updateMessageBlock(oResponse);
+                setTimeout(function() {
+                    window.location = "/admin/gallery";
+                }, 2000);
+            });
 		}
 	});
 
