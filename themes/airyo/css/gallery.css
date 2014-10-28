@@ -33,7 +33,7 @@
 }
 
 .image-gallery {
-	width: 260px;
+    width: auto;
 	height: 170px !important;
 }
 
