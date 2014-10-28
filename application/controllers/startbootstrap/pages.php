@@ -16,7 +16,6 @@ class Pages extends CI_Controller {
 		$data['page'] = $this->content_model->getToAlias($page,true);
         $data['template_list'] = $this->config->item('templates');
         $data['menu'] = $this->menu_model->getList(1,true);
-        
 		if($data['page']) {
 			$this->load->view('startbootstrap/common/header', $data);
 			$this->load->view('startbootstrap/common/nav', $data);
@@ -26,6 +25,8 @@ class Pages extends CI_Controller {
                 $content = unserialize($data['page']['content']);
                 foreach ($content as $i => $item)
                 {
+                    $this->load->library('SmartCodes');
+                    $item = $this->smartcodes->parseString($item);
                     $data['page'][$i] = $item;
                 }
             }
