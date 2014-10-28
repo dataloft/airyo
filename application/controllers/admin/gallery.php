@@ -181,6 +181,7 @@ class Gallery extends CommonAdminController {
 
 				if($this->gallery_model->addImage($aImageData)) {
 					$files_data[] = $aTmpData['full_path'];
+                    $aImageData['create_date'] = date('H:i:s d.m.Y', strtotime($aImageData['create_date']));
 
 					$aMessage =   array(
 						'type' => 'success',
@@ -202,7 +203,7 @@ class Gallery extends CommonAdminController {
 			);
 		}
 
-		echo json_encode(array('image' => $aImageData, 'message' => $aMessage));
+		echo json_encode(array('image' => $aImageData, 'user' => $this->oUser, 'message' => $aMessage));
 	}
 
 	/**
