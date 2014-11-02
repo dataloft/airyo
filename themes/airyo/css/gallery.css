@@ -1,0 +1,67 @@
+.breadcrumb > li+li.un-styled:before {
+	content: ''
+}
+
+.photo-album-title {
+	background: rgba(0, 0, 0, 0.5);
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#7f000000', endColorstr='#7f000000')";
+	color: white;
+	position: absolute;
+	top: 3px;
+	width: 253px;
+	margin-top: 168px;
+	text-align: left;
+	padding: 2px;
+	line-height: 14px;
+}
+
+.photo-album-title .photo-title {
+	margin: 2px;
+}
+
+#upload_mage {
+    text-decoration: none;
+}
+
+.file-upload-link {
+	cursor: pointer;
+	opacity: 0.01;
+	position: absolute;
+	z-index: 200;
+    padding: 10px;
+	margin: -1.3em;
+}
+
+.image-gallery {
+    width: auto;
+	height: 170px !important;
+}
+
+.img-responsive-gallery {
+	max-width: 100%;
+	height: auto;
+}
+
+.image-gallery-modal {
+	text-align: center;
+}
+
+.modal-body {
+	min-height: 100px;
+}
+
+.image-gallery-albums {
+	display: block;
+	height: 198px;
+}
+
+.album-gallery-edit {
+	height: 200px;
+	width: 242px;
+	margin: 30px;
+	display: block;
+}
+
+#alert-message {
+	display: none;
+}
