@@ -2,9 +2,9 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="list-group">
-                    <a href="#" class="list-group-item">Printable</a>
-                    <a href="#" class="list-group-item">Cupcake Wrappers</a>
-                    <a href="#" class="list-group-item">Authentic Dragon Bones</a>
+                    <? foreach($modules['menu'] as $item ) {?>
+                        <a href="<?php echo $item->url;?>" class="list-group-item"><?php echo $item->name;?></a>
+                    <?}?>
                 </div>
             </div>
             <div class="col-md-9">
