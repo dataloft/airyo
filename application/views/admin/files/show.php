@@ -23,7 +23,7 @@
 	<div class="row">
         <h1><?=$file['name'];?></h1>
         <?php
-            if ($file['type'] == 'img'):
+            if (isset($file['type']) && $file['type'] == 'img'):
         ?>
             <img src="/<?=$file['path'];?>">
         <?
