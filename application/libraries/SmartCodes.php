@@ -3,13 +3,13 @@
 class SmartCodes
 {
 
-	public function __construct()
-	{
+    public function __construct()
+    {
         $this->load->helper('url');
         $this->config->load('templates');
 
 
-	}
+    }
 
     public function __call($method, $arguments)
     {
@@ -37,7 +37,7 @@ class SmartCodes
         return get_instance()->$var;
     }
 
-	public function parseString ($str)
+    public function parseString ($str)
     {
         preg_match_all('/\[\[[^\[\]]*\]\]/i',$str,$matches);
         if (!empty($matches[0]))
@@ -47,25 +47,27 @@ class SmartCodes
                 $data_arr = explode(':',$string);
                 if (!empty($data_arr))
                 {
-                    echo $data_arr[1];
-                        if (method_exists($this, $data_arr[0]))
+                    if (method_exists($this, $data_arr[0]))
+                    {
+                        if (count($data_arr) > 1)
                         {
-                            if (count($data_arr) > 1)
-                                $params = explode(';',$data_arr[1]);
-                            else
-                                $params = '';
+                            $params = explode(';',$data_arr[1]);
                             $new_str =  call_user_func_array(array($this, $data_arr[0]), $params);
-                            $str = str_replace($match, $new_str, $str);
                         }
+                        else
+                            $new_str =  $this->{$data_arr[0]}();
+                        $str = str_replace($match, $new_str, $str);
+
+                    }
                 }
             }
         return $str;
     }
-	public function counters($p1='', $p2='')    //changed $email to $identity
-	{
+    public function counters($p1='', $p2='')    //changed $email to $identity
+    {
         $this->load->model('counters_model');
         $data['counters'] = $this->counters_model->getCounters($p1, $p2);
-        return $this->load->view('startbootstrap/counters/counters', $data);
+        return $this->load->view('startbootstrap/counters/counters', $data, TRUE);
     }
 
 
