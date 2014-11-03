@@ -64,7 +64,7 @@ if (!empty($styles))
 						<li><a href="/admin/">Подписки и рассылки</a></li>
 						<li><a href="/admin/">Журнал действий</a></li>
 						<li><a href="/admin/">Настройки сайта</a></li>
-						<li <? if ($main_menu == 'templates') echo 'class="active"';?> ><a href="/admin/templates">Шаблоны</a></li>
+						<li><a href="/admin/">Коллекция стилей</a></li>
 						<li><a href="/admin/">Пакетные операции</a></li>
 						<li  <? if ($main_menu[1] == 'counters') echo 'class="active"';?>><a href="/admin/counters">Счетчики</a></li>
 					</ul>
