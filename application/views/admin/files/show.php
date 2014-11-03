@@ -19,17 +19,36 @@
        <?}?>
         <li><?=$end_element['text'];?></li>
 	</ol>
+	
+	<div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-pills pull-right">
+                <li>
+                    <a class="dropdown-toggle" href="<?=$file['url'];?>" download>
+                        <span class="glyphicon glyphicon-download-alt" style="color: #777"></span>&nbsp;&nbsp;Скачать файл
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" href="#" onclick="$('#delete').submit();">
+                        <span class="glyphicon glyphicon glyphicon-trash" style="color: #777"></span>&nbsp;&nbsp;Удалить
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
 	<div class="row">
-        <h1><?=$file['name'];?></h1>
-        <?php
-            if (isset($file['type']) && $file['type'] == 'img'):
-        ?>
-            <img src="/<?=$file['path'];?>">
-        <?
-            endif;
-        ?>
-        <?=$file['url'];?>
-        <a href="<?=$file['url'];?>" download>Скачать файл</a>
+		<div class="col-md-12">
+	        <h3><span class="glyphicon glyphicon-file"></span> <?=$file['name'];?></h3>
+	        <p>URL: <?=$file['url'];?></p>
+	        
+	        <?php
+	            if (isset($file['type']) && $file['type'] == 'img'):
+	        ?>
+	            <div class="clearfix"><img src="/<?=$file['path'];?>" class="img-thumbnail" width="300"></div>
+	        <?
+	            endif;
+	        ?>
+	    </div>
    </div>
 </div>
