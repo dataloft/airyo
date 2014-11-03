@@ -2,13 +2,15 @@
 
 class Gallery extends CommonAdminController {
 	/** @var string  */
-	protected $sHomeFolder = 'gallery';
+	protected $sHomeFolder = 'public/gallery';
 
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper('file');
 		$this->config->load('not_allowed_mimes');
 		$this->load->model('gallery_model');
+
+		$this->oData['home_folder'] = $this->sHomeFolder;
 
 		$this->oData['scripts'] = array(
 			'/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',

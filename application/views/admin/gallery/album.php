@@ -40,9 +40,9 @@
 		<?php if(!empty($images)) : ?>
 			<?php foreach($images as $image) : ?>
 				<div class="col-lg-3 col-md-4 col-xs-6 thumb">
-					<a class="thumbnail next" href="/gallery/<?=$album->label; ?>/<?=$image->label; ?>" data-toggle="lightbox" data-gallery="multiimages" data-parent data-footer="<div class='pull-right'><small>Добавлена
+					<a class="thumbnail next" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" data-toggle="lightbox" data-gallery="multiimages" data-parent data-footer="<div class='pull-right'><small>Добавлена
 					<?=date('H:i:s d.m.Y', strtotime($image->create_date));?><br/><?=$image->first_name; ?> <?=$image->last_name; ?></small></div><br/><?=$image->description; ?>" data-title="<?=$image->title;?>">
-						<img src="/gallery/<?=$album->label; ?>/<?=$image->label; ?>" alt="" class="img-responsive image-gallery" />
+						<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" alt="" class="img-responsive image-gallery" />
 					</a>
 				</div>
 			<?php endforeach; ?>

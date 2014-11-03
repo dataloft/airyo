@@ -13,7 +13,7 @@ $(function () {
 			$("#links").prepend('' +
 			'<div class="col-lg-3 col-md-4 col-xs-6 thumb">' +
 				'<a class="thumbnail next" href="/gallery/' + $('#album_label').val() + '/' + data.result.image.label + '" data-toggle="lightbox" data-parent data-gallery="multiimages" data-footer="' + sFooter + '" data-title="' + data.result.image.title + '">' +
-					'<img class="img-responsive image-gallery" src="/gallery/' + $('#album_label').val() + '/' + data.result.image.label + '" alt="" />' +
+					'<img class="img-responsive image-gallery" src="/public/gallery/' + $('#album_label').val() + '/' + data.result.image.label + '" alt="" />' +
 				'</a>' +
 			'</div>');
 
