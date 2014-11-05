@@ -26,7 +26,7 @@
 					<tr>
 						<td>
 							<?php if(!empty($album->random_image_label)) : ?>
-								<img src="/gallery/<?=$album->label; ?>/<?=$album->random_image_label; ?>" class="img-thumbnail album-gallery-edit">
+								<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$album->random_image_label; ?>" class="img-thumbnail album-gallery-edit">
 							<?php else : ?>
 								<img class="img-thumbnail album-gallery-edit">
 							<?php endif; ?>
@@ -68,7 +68,7 @@
 					<?php foreach($images as $image) : ?>
 						<tr class="image-edit-block">
 							<td class="gallery-table-edit" style="padding: 20px;">
-								<img src="/gallery/<?=$album->label; ?>/<?=$image->label; ?>" alt="" class="img-responsive image-gallery" />
+								<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" alt="" class="img-responsive image-gallery" />
 							</td>
 							<td>
 								<div class="form-group input-group-sm">

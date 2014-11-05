@@ -25,19 +25,24 @@
 			<li class="un-styled pull-right"><a href="" class="pull-right" data-toggle="modal" data-target="#createAlbumModal">Создать альбом</a></li>
 		</ol>
 
-		<?php foreach($albums as $album) : ?>
-			<div class="col-lg-3 col-md-4 col-xs-6 thumb">
-				<a class="thumbnail image-gallery-albums" href="/admin/gallery/<?=$album->label; ?>" title="<?=$album->title; ?>">
-                    <?php if(!empty($album->random_image_label)) : ?>
-					    <img src="/gallery/<?=$album->label; ?>/<?=$album->random_image_label; ?>" class="img-responsive image-gallery"  />
-                    <?php endif; ?>
-					<div class="photo-album-title">
-						<p class="photo-title pull-left"><?=$album->title; ?></p>
-						<span class="pull-right" style="margin-right: 3px;"><i class="glyphicon glyphicon-camera"></i> <?=$album->images_count; ?></span>
-					</div>
-				</a>
-			</div>
-		<?php endforeach; ?>
+		<?php if(!empty($albums)) : ?>
+			<?php foreach($albums as $album) : ?>
+				<div class="col-lg-3 col-md-4 col-xs-6 thumb">
+					<a class="thumbnail image-gallery-albums" href="/admin/gallery/<?=$album->label; ?>" title="<?=$album->title; ?>">
+	                    <?php if(!empty($album->random_image_label)) : ?>
+						    <img src="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$album->random_image_label; ?>" class="img-responsive image-gallery"  />
+	                    <?php endif; ?>
+						<div class="photo-album-title">
+							<p class="photo-title pull-left"><?=$album->title; ?></p>
+							<span class="pull-right" style="margin-right: 3px;"><i class="glyphicon glyphicon-camera"></i> <?=$album->images_count; ?></span>
+						</div>
+					</a>
+				</div>
+			<?php endforeach; ?>
+		<?php else : ?>
+			<div class="clearfix"></div>
+			<div id="album-empty"><p>Альбомов нет</p></div>
+		<?php endif ?>
 	</div>
 </div>
 
