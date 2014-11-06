@@ -2,7 +2,12 @@
 	<?php if ($message) : ?>
 		<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
 	<?php endif; ?>
-	<h1 class="page-header">Пользователь <small> / редактирование</small></h1>
+	<h1 class="page-header">Пользователи</h1>
+	
+	<ol class="breadcrumb">
+       <li><a href="/admin/users/">Пользователи</a></li>
+       <li><?=$user->username; ?></li>
+	</ol>
 
 	<?php echo form_open("", 'class="form-horizontal" method="POST"');?>
 		<div class="form-group  <?php if(form_error('username')) echo 'has-error"'; ?>">
@@ -53,8 +58,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-xs-offset-2 col-xs-10">
-				<button type="submit" class="btn btn-primary">Сохранить</button>
-				<a href="/admin/users" class="btn btn-default">Отмена</a>
+				<button type="submit" class="btn btn-success">Сохранить</button>
 			</div>
 		</div>
 	<input type="hidden" name="form_edit" value="edit" />
