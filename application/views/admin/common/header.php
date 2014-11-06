@@ -42,8 +42,7 @@ if (!empty($styles))
 					<span class="icon-bar"></span>
 				</button>
 			<?php endif; ?>
-
-			<a class="navbar-brand" href="/" target="_blank" style="margin-right: 20px"><span class="glyphicon glyphicon-edit"></span> <?=ltrim($_SERVER['HTTP_HOST'],'www.');?></a>
+			<a class="navbar-brand" href="/" target="_blank" style="margin-right: 20px"><span class="glyphicon glyphicon-dashboard"></span> <?=ltrim($_SERVER['HTTP_HOST'],'www.');?></a>
 		</div>
 		<?php if(isset($main_menu) AND !empty($main_menu)) : ?>
 		<div class="navbar-collapse collapse">
@@ -70,9 +69,12 @@ if (!empty($styles))
 					</ul>
 				</li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-trash"></span> Корзина</a></li>
-			</ul>
+			<form class="navbar-form navbar-right" style="width: 250px" role="search">
+	        	<div class="input-group">
+		        	<input type="text" class="form-control" placeholder="Search">
+		        	<div class="input-group-btn"><button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button></div>
+		        </div>
+	        </form>
 		</div>
 		<?php endif; ?>
 	</div>

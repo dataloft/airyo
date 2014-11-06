@@ -58,7 +58,10 @@
                                     <a href="<?php echo $row['url']; ?>"><?php echo $row['label']; ?></a>
                                 </li>
                             <?php else: ?>
-                                <li class="list-group-item"><input type="checkbox" name="selected[]" value="<?=$row['path'];?>">&nbsp;&nbsp;<a href="<?php echo $row['url']; ?>" style="color: #555"><?php echo $row['label']; ?></a></li>
+                                <li class="list-group-item">
+                                	<input type="checkbox" name="selected[]" value="<?=$row['path'];?>">&nbsp;&nbsp;
+                                	<span class="glyphicon glyphicon-file" style="color: #777; margin-right: 10px;"></span><a href="<?php echo $row['url']; ?>" style="color: #555"><?php echo $row['label']; ?></a>
+                                </li>
                             <?php endif; ?>
                         <?php endif; ?>
                     <?php endforeach; ?>

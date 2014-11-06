@@ -1,4 +1,4 @@
-<div id="footer" class="navbar-default" role="navigation">
+<div id="footer" class="navbar navbar-default navbar-fixed-bottom" role="navigation">
 	<div class="container">
 		<div class="navbar-left">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
@@ -6,8 +6,8 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
-			</button>
-			<p class="navbar-brand text-muted"><small>&copy; Airyo 2014</small></p>
+			</button>	
+			<p class="navbar-text"><span class="glyphicon glyphicon-trash"></span> <a href="#">Корзина</a></p>
 		</div>
 		<?if(isset($user_data) AND !empty($user_data)):?>
 			<div class="nav collapse navbar-collapse" id="bs-example-navbar-collapse-2">
