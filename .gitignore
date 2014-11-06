@@ -18,6 +18,5 @@ application/logs/*
 .idea
 .htaccess
 
-application/config/database.php
+application/config/*
 public/*
-!public/gallery
