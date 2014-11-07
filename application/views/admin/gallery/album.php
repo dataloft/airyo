@@ -7,7 +7,7 @@
  */
 ?>
 <div class="container">
-	<h1 class="page-header">Галерея<small> / <a href="/admin/gallery/<?=$album->label; ?>?action=edit">редактирование</a></small></h1>
+	<h1 class="page-header">Фотоальбомы<small> / <a href="/admin/gallery/<?=$album->label; ?>?action=edit">редактирование</a></small></h1>
 
 	<div id="alert-message" class="alert">
 		<span id="icon-message-success" class="glyphicon"></span>
@@ -15,7 +15,7 @@
 	</div>
 
 	<ol class="breadcrumb">
-		<li><a href="/admin/gallery">Галерея</a></li>
+		<li><a href="/admin/gallery">Фотоальбомы</a></li>
 		<li><?=$album->title; ?></li>
 		<li class="un-styled pull-right">
 			<a href='#' id="upload_mage" class="pull-right">Добавить изображения</a>

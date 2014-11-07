@@ -2,7 +2,7 @@
     <? if ($message) {?>
 	<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
 	<? } ?>
-    <h1 class="page-header"><a href="">Страницы</a><small> / <? echo htmlspecialchars($page['h1']); ?></small></h1>
+    <h1 class="page-header">Страницы</h1>
     <?php echo form_open_multipart("", 'name="edit" method="POST"');?>
         <?
         if (!empty($fields))

@@ -6,7 +6,7 @@
 			<?php endif; ?>
 			<?=$message['text']?></div>
 	<?php endif; ?>
-	<h1 class="page-header">Группы пользователей</h1>
+	<h1 class="page-header">Группы</h1>
 	<div class="row">
 		<div class="col-md-12" style="margin-top: 20px">
 			<p class="pull-right"><span class="glyphicon glyphicon-plus" style="color: #777"></span> <a href="/admin/groups/add" class="add">Создать</a></p>
@@ -19,7 +19,7 @@
 					<?php foreach ($groups as $group) : ?>
 						<li class="list-group-item">
 							<a href="/admin/groups/edit/<?=$group['id']?>"><?=$group['name']; ?></a>
-							<small>(<?=$group['description']; ?>)</small>
+							<!--small>(<?=$group['description']; ?>)</small-->
 						</li>
 					<?php endforeach; ?>
 				<?php endif; ?>
