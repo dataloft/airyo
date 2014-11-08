@@ -8,8 +8,8 @@
         <div class="col-md-12" style="margin: 0 0 20px">
             <ul class="nav nav-pills pull-right">
                 <li>
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="$('#delete').submit();">
-                        <span class="glyphicon glyphicon glyphicon-user" style="color: #777"></span>&nbsp;&nbsp;Добавить пользователя
+                    <a href="/admin/users/add">
+                        <span class="glyphicon glyphicon glyphicon-user" style="color: #777"></span> Добавить пользователя
                     </a>
                 </li>
                 <!--li>
@@ -25,7 +25,7 @@
         <div class="col-md-12">
         	<ul class="list-group">
         		<?php foreach ($users as $user) : ?>
-	        	<li class="list-group-item"><a href="<?=($profile_id == $user->id) ? 'users/profile' : 'users/edit/'.$user->id; ?>"><?=$user->username; ?></a></li>
+	        	<li class="list-group-item"><a href="users/edit/<?=$user->id; ?>"><?=$user->username; ?></a></li>
 	        	<?php endforeach; ?>
 	        </ul>
 	        <div class="text-center">
