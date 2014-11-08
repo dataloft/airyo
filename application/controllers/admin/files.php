@@ -168,7 +168,7 @@ class Files extends CommonAdminController {
     }
 
     public function delete() {
-        if ($_POST['selected']) {
+        if (isset($_POST['selected'])) {
             foreach ($_POST['selected'] as $item) {
                 if (is_dir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->start_folder.DIRECTORY_SEPARATOR.$item)) {
                     $this->removeDir($this->start_folder.DIRECTORY_SEPARATOR.$item);
@@ -177,7 +177,13 @@ class Files extends CommonAdminController {
                 }
             }
         }
-        redirect($_SERVER['HTTP_REFERER'], 'refresh');
+        if (isset($_POST['file']))
+        {
+            @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$_POST['file']);
+            redirect('/admin/files'.DIRECTORY_SEPARATOR.$_POST['redirect'], 'refresh');
+        }
+        else
+           redirect($_SERVER['HTTP_REFERER'], 'refresh');
     }
 
     public function createFolder () {
@@ -386,6 +392,29 @@ class Files extends CommonAdminController {
             );
 
         echo json_encode(array('path'=>'/admin/files/'.$_POST['pth'], 'err' =>$error, 'res' =>  implode('/n',$files_data)));
+    }
+
+    public function download() {
+        $file = $this->input->get('file');
+        if (file_exists($file)) {
+            // сбрасываем буфер вывода PHP, чтобы избежать переполнения памяти выделенной под скрипт
+            // если этого не сделать файл будет читаться в память полностью!
+            if (ob_get_level()) {
+                ob_end_clean();
+            }
+            // заставляем браузер показать окно сохранения файла
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=' . basename($file));
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file));
+            // читаем файл и отправляем его пользователю
+            readfile($file);
+            exit;
+        }
     }
 
     function translitIt($str) {

@@ -24,7 +24,7 @@
         <div class="col-md-12">
             <ul class="nav nav-pills pull-right">
                 <li>
-                    <a class="dropdown-toggle" href="<?=$file['url'];?>" download>
+                    <a class="dropdown-toggle" href="/admin/download?file=<?=$file['path'];?>" download>
                         <span class="glyphicon glyphicon-download-alt" style="color: #777"></span>&nbsp;&nbsp;Скачать файл
                     </a>
                 </li>
@@ -51,4 +51,8 @@
 	        ?>
 	    </div>
    </div>
+    <form action="/admin/files/delete" id="delete" method="post">
+        <input type="hidden" name="file" value="<?=$file['path'];?>">
+        <input type="hidden" name="redirect" value="<? $end_element = array_pop($path); echo $end_element['url']; ?>">
+    </form>
 </div>

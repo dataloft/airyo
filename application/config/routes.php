@@ -90,6 +90,7 @@ $route['admin/files/createfolder'] = 'admin/files/createfolder';
 $route['admin/files/renamefolder'] = 'admin/files/renamefolder';
 $route['admin/files/upload'] = 'admin/files/upload';
 $route['admin/files/(:any)'] = 'admin/files/index/$1';
+$route['admin/download'] = 'admin/files/download';
 
 //admin gallery manager
 $route['admin/gallery'] = 'admin/gallery';
