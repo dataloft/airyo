@@ -13,7 +13,7 @@
 			<div class="nav collapse navbar-collapse" id="bs-example-navbar-collapse-2">
 				<p class="navbar-text navbar-right">
 					<span class="glyphicon glyphicon-user"></span>
-					<a href="/admin/users/profile" style="margin-right: 20px;"><?=$user_data->first_name; ?> <?=$user_data->last_name; ?></a>
+					<a href="/admin/users/edit/<?=$user_data->id; ?>" style="margin-right: 20px;"><?=$user_data->first_name; ?> <?=$user_data->last_name; ?></a>
 					<span class="glyphicon glyphicon-log-out"></span>
 					<a href="/admin/logout">Выйти</a>
 				</p>

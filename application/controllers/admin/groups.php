@@ -148,7 +148,7 @@ class Groups extends CommonAdminController {
 	 * @author N.Kulchinskiy
 	 */
 	public function delete () {
-		if(!$this->ion_auth->logged_in() AND!$this->ion_auth->is_admin()) {
+		if(!$this->ion_auth->logged_in() AND !$this->ion_auth->is_admin()) {
 			redirect('admin', 'refresh');
 		}
 
