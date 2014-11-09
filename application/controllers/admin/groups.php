@@ -40,10 +40,6 @@ class Groups extends CommonAdminController {
 		$oGroups = new stdClass();
 		$this->oData['title'] = "Добавить/редактировать группу";
 
-		if (!$this->ion_auth->is_admin()) {
-			redirect('auth', 'refresh');
-		}
-
 		$this->form_validation->set_rules('name', '', 'required');
 		$this->form_validation->set_rules('description', '', 'required');
 
@@ -95,10 +91,6 @@ class Groups extends CommonAdminController {
 		$this->oData['title'] = "Добавить/редактировать группу";
 		$this->oData['id'] = '';
 
-		if (!$this->ion_auth->is_admin()) {
-			redirect('auth', 'refresh');
-		}
-
 		$this->form_validation->set_rules('name', '', 'required');
 		$this->form_validation->set_rules('description', '', 'required');
 
@@ -148,7 +140,7 @@ class Groups extends CommonAdminController {
 	 * @author N.Kulchinskiy
 	 */
 	public function delete () {
-		if(!$this->ion_auth->logged_in() AND !$this->ion_auth->is_admin()) {
+		if(!$this->ion_auth->logged_in()) {
 			redirect('admin', 'refresh');
 		}
 

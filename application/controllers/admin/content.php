@@ -36,8 +36,7 @@ class Content extends CommonAdminController {
         $this->oData['id'] = '';
         $this->oData['message'] = '';
         $this->oData['template_list'] = $this->config->item('templates');
-        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
-        {
+        if (!$this->ion_auth->logged_in()) {
             redirect('auth', 'refresh');
         }
         $this->oData['type_list']  = $this->content_model->getType();
@@ -215,8 +214,7 @@ class Content extends CommonAdminController {
         $this->oData['main_menu'] = 'content';
         $this->oData['template_list'] = $this->config->item('templates');
         $this->oData['title'] = "Добавить/редактировать страницу";
-        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
-        {
+        if (!$this->ion_auth->logged_in()) {
             redirect('auth', 'refresh');
         }
         $this->oData['type_list']  = $this->content_model->getType();
