@@ -13,19 +13,19 @@
 		<div class="form-group  <?php if(form_error('username')) echo 'has-error'; ?>">
 			<label for="inputlogin" class="control-label col-xs-2">Логин:</label>
 			<div class="col-xs-3">
-				<input type="text" class="form-control" name="username" id="inputlogin" placeholder="Логин">
+				<input type="text" class="form-control" name="username" id="inputlogin" placeholder="Логин" value="<?=!empty($session['username']) ? $session['username'] : ''; ?>" />
 			</div>
 		</div>
 		<div class="form-group <?php if(form_error('first_name')) echo 'has-error'; ?>">
 			<label for="inputFirstName" class="control-label col-xs-2">Имя:</label>
 			<div class="col-xs-3">
-				<input type="text" class="form-control" name="first_name" id="inputFirstName" placeholder="Имя">
+				<input type="text" class="form-control" name="first_name" id="inputFirstName" placeholder="Имя" value="<?=!empty($session['first_name']) ? $session['first_name'] : ''; ?>"/ >
 			</div>
 		</div>
 		<div class="form-group <?php if(form_error('email')) echo 'has-error'; ?>">
 			<label for="inputEmail" class="control-label col-xs-2">E-mail:</label>
 			<div class="col-xs-3">
-				<input type="email" autocomplete="off" class="form-control" name="email" id="inputEmail" placeholder="E-mail">
+				<input type="email" autocomplete="off" class="form-control" name="email" id="inputEmail" placeholder="E-mail" value="<?=!empty($session['email']) ? $session['email'] : ''; ?>" />
 			</div>
 		</div>
 		<div class="form-group <?php if(form_error('newpass')) echo 'has-error'; ?>">
@@ -45,7 +45,11 @@
 			<div class="col-xs-3">
 				<select multiple class="form-control" name="groups[]" id="inputGroup">
 					<?php foreach ($groups as $key => $group) : ?>
-						<option <?=($key == 0) ? 'selected' : ''; ?> value="<?=$group['id']; ?>"><?=$group['name']; ?></option>
+						<?php if(!empty($session['groups'])) : ?>
+							<option <?=in_array($group['id'], $session['groups']) ? 'selected' : ''; ?> value="<?=$group['id']; ?>"><?=$group['name']; ?></option>
+						<?php else : ?>
+							<option <?=($key == 0) ? 'selected' : ''; ?> value="<?=$group['id']; ?>"><?=$group['name']; ?></option>
+						<?php endif; ?>
 					<?php endforeach; ?>
 				</select>
 			</div>

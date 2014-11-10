@@ -46,11 +46,11 @@ class Users extends CommonAdminController {
 	 *
 	 * @author N.Zakharenko
 	 */
-	public function add()
-	{
+	public function add() {
 		$this->oData['main_menu'] = 'users';
 
 		$oPost = (object) $this->input->post();
+		$aSession = array();
 
 		if(!empty($oPost->form_add)) {
 			$this->form_validation->set_rules('username', 'Пользователь', 'trim|required|min_length[3]|max_length[25]|alpha_numeric');
@@ -82,6 +82,11 @@ class Users extends CommonAdminController {
 					);
 				}
 			} else {
+				$aSession['username'] = $this->input->post('username');
+				$aSession['first_name'] = $this->input->post('first_name');
+				$aSession['email'] = $this->input->post('email');
+				$aSession['groups'] = $this->input->post('groups',TRUE);
+
 				$aMessage = array(
 					'type' => 'danger',
 					'text' =>  validation_errors()
@@ -91,6 +96,7 @@ class Users extends CommonAdminController {
 			$this->oData['message'] =  $aMessage;
 		}
 
+		$this->oData['session'] =  $aSession;
 		$this->oData['groups']  = $this->ion_auth->groups()->result_array();
 		$this->oData['view'] = 'admin/users/add';
 	}
