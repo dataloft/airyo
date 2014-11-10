@@ -43,7 +43,7 @@
 								<label for="inputDescription">Описание</label>
 								<textarea class="form-control" name="album[description]" id="inputDescription" cols="60" rows="5"><?=$album->description; ?></textarea>
 							</div>
-							<button type="submit" class="btn btn-info">Сохранить изменения</button>
+							<button type="submit" class="btn btn-success">Сохранить изменения</button>
 						</td>
 					</tr>
 					</tbody>
@@ -51,47 +51,5 @@
 				<input type="hidden" value="<?=$album->id; ?>" name="album[album_id]" />
 			</form>
 		</div>
-	</div>
-	<div class="col-md-12">
-		<br>
-		<br>
-		<!-- The global progress bar -->
-		<div id="progress" class="hidden progress">
-			<div class="progress-bar progress-bar-success"></div>
-		</div>
-	</div>
-	<div class="row" id="links">
-		<h3>Редактирование изображений</h3>
-
-			<form method="POST" action="/admin/gallery/ajaxEditAlbum" id="form-edit-album" style="display: <?=(!empty($images)) ? 'block' : 'none'; ?>">
-				<table class="table table-responsive" id="table-edit-album">
-					<?php foreach($images as $image) : ?>
-						<tr class="image-edit-block">
-							<td class="gallery-table-edit" style="padding: 20px;">
-								<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" alt="" class="img-responsive image-gallery" />
-							</td>
-							<td>
-								<div class="form-group input-group-sm">
-									<label for="inputName">Название</label>
-									<input type="text" value="<?=$image->title; ?>" class="form-control" name="album[title][]" id="inputName" placeholder="Название">
-								</div>
-								<div class="form-group">
-									<label for="inputDescription">Описание</label>
-									<textarea class="form-control" name="album[description][]" id="inputDescription" cols="60" rows="5"><?=$image->description; ?></textarea>
-								</div>
-								<a href="" class="pull-right link-image-remove" data-image="<?=$image->id; ?>">Удалить</a>
-								<input type="hidden" name="album[id][]" value="<?=$image->id; ?>" />
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</table>
-				<div class="text-center">
-					<button type="submit" class="btn btn-info">Сохранить изменения</button>
-				</div>
-			</form>
-
-			<div class="center-block" id="block-empty-album" style="display: <?=(empty($images)) ? 'block' : 'none'; ?>">
-				<p>В этом альбоме ещё нет фотографий</p>
-			</div>
 	</div>
 </div>

@@ -28,8 +28,9 @@
 	opacity: 0.01;
 	position: absolute;
 	z-index: 200;
-    padding: 10px;
+	padding: 26px;
 	margin: -1.3em;
+	width: 230px;
 }
 
 .image-gallery {

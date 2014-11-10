@@ -35,7 +35,7 @@
 				<?php if(!empty($albums)) : ?>
 					<ul class="list-group">
 						<?php foreach($albums as $album) : ?>
-							<li class="list-group-item"><span class="glyphicon glyphicon-camera"></span> <a href="/admin/gallery/<?=$album->label; ?>"><?=$album->title; ?></a></li>
+							<li class="list-group-item"><a href="/admin/gallery/<?=$album->label; ?>"><?=$album->title; ?></a></li>
 						<?php endforeach; ?>
 					</ul>
 					<div class="text-center">
