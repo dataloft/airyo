@@ -35,6 +35,7 @@ class Users extends CommonAdminController {
 			$this->oData["users"][$iKey]->groups = $this->ion_auth->get_users_groups($aUser->id)->result_array();
 		}
 
+		$this->oData['message'] =  $this->session->flashdata('message') ? $this->session->flashdata('message'):'';
 		$this->oData['profile_id'] = $this->oUser->id;
 		$this->oData['pagination'] = $this->pagination;
 
@@ -75,6 +76,8 @@ class Users extends CommonAdminController {
 						'type' => 'success',
 						'text' => 'Успешное создание пользователя'
 					);
+					$this->session->set_flashdata('message', $aMessage);
+					redirect('admin/users', 'refresh');
 				} else {
 					$aMessage = array(
 						'type' => 'danger',
