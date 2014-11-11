@@ -56,7 +56,10 @@
 				<?php foreach($images as $image) : ?>
 					<tr class="image-edit-block">
 						<td class="gallery-table-edit" style="padding: 20px;">
-							<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" alt="" class="img-responsive image-gallery" />
+							<a class="next" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" data-toggle="lightbox" data-gallery="multiimages" data-parent data-footer="<div class='pull-right'><small>Добавлена
+								<?=date('H:i:s d.m.Y', strtotime($image->create_date));?><br/><?=$image->first_name; ?> <?=$image->last_name; ?></small></div><br/><?=$image->description; ?>" data-title="<?=$image->title;?>">
+								<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" alt="" class="img-responsive image-gallery" />
+							</a>
 						</td>
 						<td>
 							<div class="form-group input-group-sm">
@@ -74,7 +77,7 @@
 				<?php endforeach; ?>
 			</table>
 			<div class="text-center">
-				<button type="submit" class="btn btn-info">Сохранить изменения</button>
+				<button type="submit" class="btn btn-success">Сохранить изменения</button>
 			</div>
 		</form>
 

@@ -360,6 +360,10 @@ $config['proxy_ips'] = '';
 
 $config['auth'] = 'admin';
 
+$config['image_preview_size'] = array(
+	array(100, 100),
+	array(200, 200)
+);
 /**
 | -------------------------------------------------------------------
 |  Native Auto-load

@@ -142,6 +142,8 @@ class Gallery extends CommonAdminController {
 		$upload = isset($_FILES['files']) ? $_FILES['files'] : null;
 		$aMessage = array();
 
+		//$aImagePreviewSize = $this->config->item('image_preview_size');
+
 		if ($upload ) {
 			$config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$_POST['album'];
 			$config['allowed_types'] = '*';
@@ -206,6 +208,46 @@ class Gallery extends CommonAdminController {
 		}
 
 		echo json_encode(array('image' => $aImageData, 'user' => $this->oUser, 'message' => $aMessage));
+	}
+
+	/**
+	 * Сжатие изображения
+	 *
+	 * @param $sSrcImage
+	 * @param $oDstImage
+	 * @param string $sOp
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	private function scaleImage($sSrcImage, $oDstImage, $sOp = 'fit') {
+		$iSrcWidth = imagesx($sSrcImage);
+		$iSrcHeight = imagesy($sSrcImage);
+
+		$iDstWidth = imagesx($oDstImage);
+		$iDstHeight = imagesy($oDstImage);
+
+		// Try to match destination image by width
+		$iNewWidth = $iDstWidth;
+		$new_height = round($iNewWidth * ($iSrcHeight / $iSrcWidth));
+		$new_x = 0;
+		$new_y = round(($iDstHeight - $new_height)/2);
+
+		// FILL and FIT mode are mutually exclusive
+		if ($sOp == 'fill')
+			$next = $new_height < $iDstHeight;
+		else
+			$next = $new_height > $iDstHeight;
+
+		// If match by width failed and destination image does not fit, try by height
+		if ($next) {
+			$new_height = $iDstHeight;
+			$iNewWidth = round($new_height*($iSrcWidth/$iSrcHeight));
+			$new_x = round(($iDstWidth - $iNewWidth)/2);
+			$new_y = 0;
+		}
+
+		// Copy image on right place
+		imagecopyresampled($oDstImage, $sSrcImage , $new_x, $new_y, 0, 0, $iNewWidth, $new_height, $iSrcWidth, $iSrcHeight);
 	}
 
 	/**

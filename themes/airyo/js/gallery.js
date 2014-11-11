@@ -8,18 +8,21 @@ $(function () {
 		dataType: 'json',
 		formData: {album: $('#album_label').val()},
 		done: function (e, data) {
-            var sFooter = "<div class='pull-right'><small>Добавлена " + data.result.image.create_date + "<br/>" + data.result.user.first_name + " " + data.result.user.last_name + "</small></div><br/>";
+            /*var sFooter = "<div class='pull-right'><small>Добавлена " + data.result.image.create_date + "<br/>" + data.result.user.first_name + " " + data.result.user.last_name + "</small></div><br/>";
 
 			$("#links").prepend('' +
 			'<div class="col-lg-3 col-md-4 col-xs-6 thumb">' +
 				'<a class="thumbnail next" href="/gallery/' + $('#album_label').val() + '/' + data.result.image.label + '" data-toggle="lightbox" data-parent data-gallery="multiimages" data-footer="' + sFooter + '" data-title="' + data.result.image.title + '">' +
 					'<img class="img-responsive image-gallery" src="/public/gallery/' + $('#album_label').val() + '/' + data.result.image.label + '" alt="" />' +
 				'</a>' +
-			'</div>');
+			'</div>');*/
 
             updateMessageBlock(data.result.message);
             $('#progress').addClass('hidden');
             $('#album-empty').hide();
+			setTimeout(function() {
+				location.reload();
+			}, 1500);
 		},
 		progressall: function (e, data) {
 			var progress = parseInt(data.loaded / data.total * 100, 10);
