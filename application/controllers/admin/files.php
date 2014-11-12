@@ -180,6 +180,11 @@ class Files extends CommonAdminController {
         if (isset($_POST['file']))
         {
             @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$_POST['file']);
+            $this->session->set_flashdata('message',  array(
+                    'type' => 'success',
+                    'text' => 'Файл удален'
+                )
+            );
             redirect('/admin/files'.DIRECTORY_SEPARATOR.$_POST['redirect'], 'refresh');
         }
         else

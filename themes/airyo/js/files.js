@@ -14,6 +14,18 @@ $(document).ready( function() {
 		$('#checkAll').removeClass("hidden");
 		return;
 	});
+
+    $('#delete-link').click(function (ev) {
+        ev.preventDefault();
+        if (!confirm('Удалить файл?')) {
+            return false;
+        }
+        else
+        {
+            $('#delete').submit();
+        }
+	});
+
 });
 
 $(function () {

@@ -29,7 +29,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-toggle" href="#" onclick="$('#delete').submit();">
+                    <a class="dropdown-toggle" href="#" id="delete-link">
                         <span class="glyphicon glyphicon glyphicon-trash" style="color: #777"></span>&nbsp;&nbsp;Удалить
                     </a>
                 </li>
