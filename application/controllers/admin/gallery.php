@@ -69,12 +69,12 @@ class Gallery extends CommonAdminController {
 			$this->pagination->initialize($aPaginationConfig);
 
 			$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
+
 			$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
-
 			$this->oData['profile_id'] = $this->oUser->id;
-
+			$this->oData['preview_size'] = $this->config->item('main_image_preview_size');
+			$this->oData['preview_extension'] = $this->config->item('image_preview_extension');
 			$this->oData['pagination'] = $this->pagination;
-
 			$this->oData['view'] = 'admin/gallery/album';
 		}
 	}
@@ -142,15 +142,13 @@ class Gallery extends CommonAdminController {
 		$upload = isset($_FILES['files']) ? $_FILES['files'] : null;
 		$aMessage = array();
 
-		//$aImagePreviewSize = $this->config->item('image_preview_size');
-
 		if ($upload ) {
 			$config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$_POST['album'];
 			$config['allowed_types'] = '*';
 			$this->load->library('upload', $config);
 
 			$this->upload->initialize($config);
-			if (in_array($upload['type'][0],$this->config->item('not_allowed_mimes'))) {
+			if (in_array($upload['type'][0], $this->config->item('not_allowed_mimes'))) {
 				$aMessage =   array(
 						'type' => 'danger',
 						'text' => $upload['type'][0].' not allowed mime'
@@ -183,9 +181,34 @@ class Gallery extends CommonAdminController {
 					'enable'        => 1
 				);
 
-				if($this->gallery_model->addImage($aImageData)) {
+				if($iId = $this->gallery_model->addImage($aImageData)) {
 					$files_data[] = $aTmpData['full_path'];
                     $aImageData['create_date'] = date('H:i:s d.m.Y', strtotime($aImageData['create_date']));
+
+					/** Создание превьюшек - старт */
+					$aImagePreviewSize = $this->config->item('image_preview_size');
+
+					if(!empty($aImagePreviewSize) AND is_array($aImagePreviewSize)) {
+						foreach ($aImagePreviewSize as $aSize) {
+							// Source image
+							$oSrc = imagecreatefromstring(file_get_contents($config['upload_path'].DIRECTORY_SEPARATOR.$upload['name']));
+							//$oSrc = imagecreatefromjpeg($config['upload_path'].DIRECTORY_SEPARATOR.$upload['name']);
+
+							// Destination image with white background
+							$oDst = imagecreatetruecolor($aSize['width'], $aSize['height']);
+							imagefill($oDst, 0, 0, imagecolorallocate($oDst, 255, 255, 255));
+
+							// All Magic is here
+							$oImage = $this->scaleImage($oSrc, $oDst, 'fit');
+							$sPath = $config['upload_path'].DIRECTORY_SEPARATOR.'thumbs' . intval($aSize['height']) . 'x' . intval($aSize['width']);
+							if (!is_dir($sPath)) {
+								mkdir($sPath);
+							}
+
+							imagejpeg($oImage, $sPath.DIRECTORY_SEPARATOR.'thumbs'.$iId.'.jpg');
+						}
+					}
+					/** Создание превьюшек - финиш */
 
 					$aMessage =   array(
 						'type' => 'success',
@@ -217,6 +240,8 @@ class Gallery extends CommonAdminController {
 	 * @param $oDstImage
 	 * @param string $sOp
 	 *
+	 * @return mixed
+	 *
 	 * @author N.Kulchinskiy
 	 */
 	private function scaleImage($sSrcImage, $oDstImage, $sOp = 'fit') {
@@ -228,26 +253,29 @@ class Gallery extends CommonAdminController {
 
 		// Try to match destination image by width
 		$iNewWidth = $iDstWidth;
-		$new_height = round($iNewWidth * ($iSrcHeight / $iSrcWidth));
-		$new_x = 0;
-		$new_y = round(($iDstHeight - $new_height)/2);
+		$iNewHeight = round($iNewWidth * ($iSrcHeight / $iSrcWidth));
+		$iNewX = 0;
+		$iNewY = round(($iDstHeight - $iNewHeight)/2);
 
 		// FILL and FIT mode are mutually exclusive
-		if ($sOp == 'fill')
-			$next = $new_height < $iDstHeight;
-		else
-			$next = $new_height > $iDstHeight;
+		if ($sOp == 'fill') {
+			$bNext = $iNewHeight < $iDstHeight;
+		} else {
+			$bNext = $iNewHeight > $iDstHeight;
+		}
 
 		// If match by width failed and destination image does not fit, try by height
-		if ($next) {
-			$new_height = $iDstHeight;
-			$iNewWidth = round($new_height*($iSrcWidth/$iSrcHeight));
-			$new_x = round(($iDstWidth - $iNewWidth)/2);
-			$new_y = 0;
+		if ($bNext) {
+			$iNewHeight = $iDstHeight;
+			$iNewWidth = round($iNewHeight*($iSrcWidth/$iSrcHeight));
+			$iNewX = round(($iDstWidth - $iNewWidth)/2);
+			$iNewY = 0;
 		}
 
 		// Copy image on right place
-		imagecopyresampled($oDstImage, $sSrcImage , $new_x, $new_y, 0, 0, $iNewWidth, $new_height, $iSrcWidth, $iSrcHeight);
+		imagecopyresampled($oDstImage, $sSrcImage , $iNewX, $iNewY, 0, 0, $iNewWidth, $iNewHeight, $iSrcWidth, $iSrcHeight);
+
+		return $oDstImage;
 	}
 
 	/**
@@ -342,7 +370,7 @@ class Gallery extends CommonAdminController {
 
 			$oImage = $this->gallery_model->getImageById($iImageId);
 
-			if($this->deleteAction($oImage->label_album, $oImage->label)) {
+			if($this->deleteAction($oImage->label_album, $oImage->label, $iImageId)) {
 				if($this->gallery_model->deleteImage($iImageId)) {
 					$aMessage = array(
 						'type' => 'success',
@@ -413,15 +441,32 @@ class Gallery extends CommonAdminController {
 	 *
 	 * @param $sAlbum
 	 * @param null $sImage
+	 * @param null $iIdImage
 	 *
 	 * @return bool
 	 * @author N.Kulchinskiy
 	 */
-	private function deleteAction($sAlbum, $sImage = null) {
+	private function deleteAction($sAlbum, $sImage = null, $iIdImage = null) {
+		$sPath = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$sAlbum;
+
 		if (empty($sImage)) {
-			@rmdir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$sAlbum);
+			@rmdir($sPath);
 		} else {
-			@unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$sAlbum.DIRECTORY_SEPARATOR.$sImage);
+			$iIdImage = intval($iIdImage);
+			@unlink($sPath.DIRECTORY_SEPARATOR.$sImage);
+
+			/** Удаление превьюшек - старт */
+			$aImagePreviewSize = $this->config->item('image_preview_size');
+			$sImageExtension = $this->config->item('image_preview_extension');
+
+			if(!empty($aImagePreviewSize) AND is_array($aImagePreviewSize)) {
+				foreach ($aImagePreviewSize as $aSize) {
+					if (is_dir($sPath.DIRECTORY_SEPARATOR.'thumbs'.$aSize['height'].'x'.$aSize['width'])) {
+						@unlink($sPath.DIRECTORY_SEPARATOR.'thumbs'.$aSize['height'].'x'.$aSize['width'].DIRECTORY_SEPARATOR.'thumbs'.$iIdImage.$sImageExtension);
+					}
+				}
+			}
+			/** Удаление превьюшек - финиш */
 		}
 
 		return true;
