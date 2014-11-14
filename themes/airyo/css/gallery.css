@@ -2,6 +2,10 @@
 	content: ''
 }
 
+.row-vertical-center {
+	vertical-align: middle !important;
+}
+
 .photo-album-title {
 	background: rgba(0, 0, 0, 0.5);
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#7f000000', endColorstr='#7f000000')";
@@ -35,7 +39,6 @@
 
 .image-gallery {
     width: auto;
-	height: 170px !important;
 }
 
 .img-responsive-gallery {

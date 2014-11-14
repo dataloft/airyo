@@ -70,9 +70,11 @@ class Gallery extends CommonAdminController {
 
 			$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
 
+			$aPreviewSize = $this->config->item('image_preview_size');
+			$this->oData['preview_size'] = $aPreviewSize[1];
+
 			$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
 			$this->oData['profile_id'] = $this->oUser->id;
-			$this->oData['preview_size'] = $this->config->item('main_image_preview_size');
 			$this->oData['preview_extension'] = $this->config->item('image_preview_extension');
 			$this->oData['pagination'] = $this->pagination;
 			$this->oData['view'] = 'admin/gallery/album';
@@ -324,27 +326,40 @@ class Gallery extends CommonAdminController {
 		$aMessage = array();
 		if(!empty($aPost)) {
 			$aAlbum = $aPost['album'];
-			for($i = 0; $i < count($aAlbum['id']); $i++) {
-				$aImages = array(
-					'image_id' => $aAlbum['id'][$i],
-					'title' => $aAlbum['title'][$i],
-					'description' => $aAlbum['description'][$i]
-				);
-				$aValidateData = $this->validateData($aImages);
 
-				if(isset($aValidateData['iImageId'])) {
-					$iId = $aValidateData['iImageId'];
-					unset($aValidateData['iImageId']);
-					if($this->gallery_model->updateImage($iId, $aValidateData)) {
-						$aMessage = array(
-							'type' => 'success',
-							'text' => 'Альбом обновлён'
-						);
-					} else {
-						$aMessage = array(
-							'type' => 'danger',
-							'text' => 'Ошибка при обновлении альбома'
-						);
+			$aSelected = array_flip($aPost['selected']);
+
+			for($i = 0; $i < count($aAlbum['id']); $i++) {
+
+				if (isset($aSelected[$aAlbum['id'][$i]])) {
+					$this->removeImage($aAlbum['id'][$i]);
+
+					$aMessage = array(
+						'type' => 'success',
+						'text' => 'Альбом обновлён'
+					);
+				} else {
+					$aImages = array(
+						'image_id' => $aAlbum['id'][$i],
+						'title' => $aAlbum['title'][$i],
+						'description' => $aAlbum['description'][$i]
+					);
+					$aValidateData = $this->validateData($aImages);
+
+					if(isset($aValidateData['iImageId'])) {
+						$iId = $aValidateData['iImageId'];
+						unset($aValidateData['iImageId']);
+						if($this->gallery_model->updateImage($iId, $aValidateData)) {
+							$aMessage = array(
+								'type' => 'success',
+								'text' => 'Альбом обновлён'
+							);
+						} else {
+							$aMessage = array(
+								'type' => 'danger',
+								'text' => 'Ошибка при обновлении альбома'
+							);
+						}
 					}
 				}
 			}
@@ -361,36 +376,23 @@ class Gallery extends CommonAdminController {
 	/**
 	 * Удаление изображения
 	 *
+	 * @param $iId
+	 * @return bool
+	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function ajaxRemoveImage(){
-		$aPost = $this->input->post();
-		if(!empty($aPost)) {
-			$iImageId = $aPost['iImageId'];
-
+	protected function removeImage($iId){
+		if($iImageId = intval($iId) AND $iImageId > 0) {
 			$oImage = $this->gallery_model->getImageById($iImageId);
 
 			if($this->deleteAction($oImage->label_album, $oImage->label, $iImageId)) {
 				if($this->gallery_model->deleteImage($iImageId)) {
-					$aMessage = array(
-						'type' => 'success',
-						'text' => 'Изображение удалено'
-					);
+					return true;
 				}
-			} else {
-				$aMessage = array(
-					'type' => 'danger',
-					'text' => 'Ошибка при удалении'
-				);
 			}
-		} else {
-			$aMessage = array(
-				'type' => 'danger',
-				'text' => 'Неизвестная ошибка'
-			);
 		}
 
-		echo json_encode($aMessage);
+		return false;
 	}
 
 	/**

@@ -30,8 +30,19 @@
 				<li>
 					<a href="/admin/gallery/<?=$album->label; ?>?action=edit"><span class="glyphicon glyphicon-film" style="color: #777"></span> Редактирование альбома</a>
 				</li>
-
 			</ul>
+			<?php if(!empty($images)) : ?>
+				<ul class="nav nav-pills">
+					<li>
+						<a class="dropdown-toggle checkAll" data-toggle="dropdown" href="#">
+							<span class="glyphicon glyphicon-ok" style="color: #777"></span>&nbsp;&nbsp;Выделить все
+						</a>
+						<a class="dropdown-toggle uncheckAllBtn uncheckAll hidden" data-toggle="dropdown" href="#">
+							<span class="glyphicon glyphicon-ok" style="color: #777"></span>&nbsp;&nbsp;Снять выделение
+						</a>
+					</li>
+				</ul>
+			<?php endif; ?>
 		</div>
 	</div>
 
@@ -55,7 +66,10 @@
 			<table class="table table-responsive" id="table-edit-album">
 				<?php foreach($images as $image) : ?>
 					<tr class="image-edit-block">
-						<td class="gallery-table-edit" style="padding: 20px;">
+						<td class="row-vertical-center">
+							<input type="checkbox" class="check" name="selected[]" value="<?=$image->id; ?>" />
+						</td>
+						<td class="row-vertical-center">
 							<a class="next" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" data-toggle="lightbox" data-gallery="multiimages" data-parent data-footer="<div class='pull-right'><small>Добавлена
 								<?=date('H:i:s d.m.Y', strtotime($image->create_date));?><br/><?=$image->first_name; ?> <?=$image->last_name; ?></small></div><br/><?=$image->description; ?>" data-title="<?=$image->title;?>">
 								<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['height']; ?>x<?=$preview_size['width']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive image-gallery" />
@@ -70,14 +84,16 @@
 								<label for="inputDescription">Описание</label>
 								<textarea class="form-control" name="album[description][]" id="inputDescription" cols="60" rows="5"><?=$image->description; ?></textarea>
 							</div>
-							<a href="" class="pull-right link-image-remove" data-image="<?=$image->id; ?>">Удалить</a>
 							<input type="hidden" name="album[id][]" value="<?=$image->id; ?>" />
 						</td>
 					</tr>
 				<?php endforeach; ?>
 			</table>
 			<div class="text-center">
-				<button type="submit" class="btn btn-success">Сохранить изменения</button>
+				<button type="submit" class="btn btn-success">
+					<span class="checkAll">Сохранить изменения</span>
+					<span class="uncheckAll hidden">Сохранить изменения и удалить выделенное</span>
+				</button>
 			</div>
 		</form>
 

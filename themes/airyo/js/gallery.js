@@ -1,3 +1,40 @@
+$(document).ready( function() {
+	var checkCount = 0;
+
+	// Check All
+	$('.checkAll').click(function () {
+		checkCount = $('.check').length;
+
+		$('input[name*=\'selected\']').prop("checked", true);
+		$('.uncheckAll').removeClass("hidden");
+		$('.checkAll').addClass("hidden");
+	});
+	// Uncheck All
+	$('.uncheckAllBtn').click(function () {
+		checkCount = 0;
+
+		$('input[name*=\'selected\']').prop('checked', false);
+		$('.uncheckAll').addClass("hidden");
+		$('.checkAll').removeClass("hidden");
+	});
+
+	$('.check').click( function() {
+		if(this.checked){
+			checkCount++;
+		} else {
+			checkCount--;
+		}
+		if (checkCount == 0){
+			$('.uncheckAll').addClass("hidden");
+			$('.checkAll').removeClass("hidden");
+		} else {
+			$('.uncheckAll').removeClass("hidden");
+			$('.checkAll').addClass("hidden");
+		}
+	})
+
+});
+
 $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 	event.preventDefault();
 	$(this).ekkoLightbox();
@@ -8,18 +45,9 @@ $(function () {
 		dataType: 'json',
 		formData: {album: $('#album_label').val()},
 		done: function (e, data) {
-            /*var sFooter = "<div class='pull-right'><small>Добавлена " + data.result.image.create_date + "<br/>" + data.result.user.first_name + " " + data.result.user.last_name + "</small></div><br/>";
-
-			$("#links").prepend('' +
-			'<div class="col-lg-3 col-md-4 col-xs-6 thumb">' +
-				'<a class="thumbnail next" href="/gallery/' + $('#album_label').val() + '/' + data.result.image.label + '" data-toggle="lightbox" data-parent data-gallery="multiimages" data-footer="' + sFooter + '" data-title="' + data.result.image.title + '">' +
-					'<img class="img-responsive image-gallery" src="/public/gallery/' + $('#album_label').val() + '/' + data.result.image.label + '" alt="" />' +
-				'</a>' +
-			'</div>');*/
-
-            updateMessageBlock(data.result.message);
-            $('#progress').addClass('hidden');
-            $('#album-empty').hide();
+			updateMessageBlock(data.result.message);
+			$('#progress').addClass('hidden');
+			$('#album-empty').hide();
 			setTimeout(function() {
 				location.reload();
 			}, 1500);
@@ -72,38 +100,26 @@ $(function () {
 			method: 'POST',
 			data: $('#form-edit-album').serialize()
 		}).done(function(response) {
+			var checkCount = $('.check');
+
+			$.each(checkCount, function(key, val) {
+				if(checkCount[key].checked == true) {
+					$(val).parents('.image-edit-block').fadeOut(1200).empty();
+				}
+			});
+			$('.uncheckAllBtn').click();
+
 			var oResponse = $.parseJSON(response);
+			var iCount = $('#table-edit-album td').length;
+			if(iCount < 1) {
+				$('#form-edit-album').hide(1200);
+				$('#block-empty-album').show(1200);
+				$('.album-gallery-edit').attr('src', '');
+			}
 			updateMessageBlock(oResponse);
 			$('html, body').animate({ scrollTop: 0 }, 'fast');
 		});
 		ev.preventDefault();
-	});
-
-	/** Удаление изображения */
-	var imageLink = $('.link-image-remove');
-	imageLink.click(function (ev) {
-		ev.preventDefault();
-        $(this).parents('.image-edit-block').fadeOut(1200).empty();
-
-		var iImageId = $(this).attr('data-image');
-		if(iImageId > 0) {
-			$.ajax({
-				url: "/admin/gallery/ajaxRemoveImage",
-				method: 'POST',
-				data: {
-					iImageId: iImageId
-				}
-			}).done(function(response) {
-				var oResponse = $.parseJSON(response);
-                var iCount = $('#table-edit-album td').length;
-                if(iCount < 1) {
-                    $('#form-edit-album').hide(1200);
-                    $('#block-empty-album').show(1200);
-                    $('.album-gallery-edit').attr('src', '');
-                }
-				updateMessageBlock(oResponse);
-			});
-		}
 	});
 
 	/** Удаление альбома */
@@ -121,11 +137,11 @@ $(function () {
 				}
 			}).done(function(response) {
 				var oResponse = $.parseJSON(response);
-                updateMessageBlock(oResponse);
-                setTimeout(function() {
-                    window.location = "/admin/gallery";
-                }, 2000);
-            });
+				updateMessageBlock(oResponse);
+				setTimeout(function() {
+					window.location = "/admin/gallery";
+				}, 2000);
+			});
 		}
 	});
 
