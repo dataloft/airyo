@@ -364,10 +364,7 @@ $config['auth'] = 'admin';
 $config['image_preview_extension'] = '.jpg';
 
 /** @var array - Варианты размеров превью */
-$config['image_preview_size'] = array(
-	array('height' => 100, 'width' => 100),
-	array('height' => 200, 'width' => 200)
-);
+$config['image_preview_size'] = array(100, 200);
 /**
 | -------------------------------------------------------------------
 |  Native Auto-load

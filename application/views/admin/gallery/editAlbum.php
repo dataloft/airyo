@@ -16,7 +16,8 @@
 
 	<ol class="breadcrumb">
 		<li><a href="/admin/gallery">Фотоальбомы</a></li>
-		<li><?=$album->title; ?></li>
+		<li><a href="/admin/gallery/<?=$album->label; ?>"><?=$album->title; ?></a></li>
+		<li>редактирование</li>
 	</ol>
 	<div class="panel panel-default">
 		<div class="panel-body">

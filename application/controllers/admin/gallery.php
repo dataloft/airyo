@@ -191,18 +191,35 @@ class Gallery extends CommonAdminController {
 					$aImagePreviewSize = $this->config->item('image_preview_size');
 
 					if(!empty($aImagePreviewSize) AND is_array($aImagePreviewSize)) {
-						foreach ($aImagePreviewSize as $aSize) {
-							// Source image
-							$oSrc = imagecreatefromstring(file_get_contents($config['upload_path'].DIRECTORY_SEPARATOR.$upload['name']));
-							//$oSrc = imagecreatefromjpeg($config['upload_path'].DIRECTORY_SEPARATOR.$upload['name']);
+						foreach ($aImagePreviewSize as $iSize) {
 
+							$sFileName = $upload['tmp_name'][0];
+							switch($upload['type'][0]) {
+								// узнаем тип картинки
+								case "image/gif":
+									$oImage = imagecreatefromgif($sFileName);
+									break;
+								case "image/jpeg":
+									$oImage = imagecreatefromjpeg($sFileName);
+									break;
+								case "image/png":
+									$oImage = imagecreatefrompng($sFileName);
+									break;
+								case "image/pjpeg":
+									$oImage = imagecreatefromjpeg($sFileName);
+									break;
+							}
+
+							list($w,$h) = getimagesize($sFileName);
+							$koe = $h/200;
+							$new_w=ceil($w/$koe);
 							// Destination image with white background
-							$oDst = imagecreatetruecolor($aSize['width'], $aSize['height']);
-							imagefill($oDst, 0, 0, imagecolorallocate($oDst, 255, 255, 255));
+							$oNewImage = imagecreatetruecolor($new_w, 200); // создаем картинку
+							imagefill($oNewImage, 0, 0, imagecolorallocate($oNewImage, 255, 255, 255));
 
 							// All Magic is here
-							$oImage = $this->scaleImage($oSrc, $oDst, 'fit');
-							$sPath = $config['upload_path'].DIRECTORY_SEPARATOR.'thumbs' . intval($aSize['height']) . 'x' . intval($aSize['width']);
+							$oImage = $this->scaleImage($oImage, $oNewImage, 'fit');
+							$sPath = $config['upload_path'].DIRECTORY_SEPARATOR.'thumbs' . intval($iSize);
 							if (!is_dir($sPath)) {
 								mkdir($sPath);
 							}
@@ -452,7 +469,14 @@ class Gallery extends CommonAdminController {
 		$sPath = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$sAlbum;
 
 		if (empty($sImage)) {
-			@rmdir($sPath);
+			$aDirectory = opendir($sPath);
+			while(($dir = readdir($aDirectory))) {
+				if (is_dir($sPath.DIRECTORY_SEPARATOR.$dir) AND ($dir != ".") && ($dir != "..")) {
+					$this->deleteAction($sAlbum.DIRECTORY_SEPARATOR.$dir);
+				}
+			}
+			closedir ($aDirectory);
+			rmdir ($sPath);
 		} else {
 			$iIdImage = intval($iIdImage);
 			@unlink($sPath.DIRECTORY_SEPARATOR.$sImage);
@@ -462,9 +486,9 @@ class Gallery extends CommonAdminController {
 			$sImageExtension = $this->config->item('image_preview_extension');
 
 			if(!empty($aImagePreviewSize) AND is_array($aImagePreviewSize)) {
-				foreach ($aImagePreviewSize as $aSize) {
-					if (is_dir($sPath.DIRECTORY_SEPARATOR.'thumbs'.$aSize['height'].'x'.$aSize['width'])) {
-						@unlink($sPath.DIRECTORY_SEPARATOR.'thumbs'.$aSize['height'].'x'.$aSize['width'].DIRECTORY_SEPARATOR.'thumbs'.$iIdImage.$sImageExtension);
+				foreach ($aImagePreviewSize as $iSize) {
+					if (is_dir($sPath.DIRECTORY_SEPARATOR.'thumbs'.$iSize)) {
+						@unlink($sPath.DIRECTORY_SEPARATOR.'thumbs'.$iSize.DIRECTORY_SEPARATOR.'thumbs'.$iIdImage.$sImageExtension);
 					}
 				}
 			}
