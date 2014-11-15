@@ -70,12 +70,12 @@ class Gallery extends CommonAdminController {
 
 			$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
 
-			$aPreviewSize = $this->config->item('image_preview_size');
-			$this->oData['preview_size'] = $aPreviewSize[1];
+			$aGalleryConfig = $this->config->item('gallery');
+			$this->oData['preview_extension'] = $aGalleryConfig['image_preview_extension'];
+			$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][1];
 
 			$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
 			$this->oData['profile_id'] = $this->oUser->id;
-			$this->oData['preview_extension'] = $this->config->item('image_preview_extension');
 			$this->oData['pagination'] = $this->pagination;
 			$this->oData['view'] = 'admin/gallery/album';
 		}
@@ -188,7 +188,8 @@ class Gallery extends CommonAdminController {
                     $aImageData['create_date'] = date('H:i:s d.m.Y', strtotime($aImageData['create_date']));
 
 					/** Создание превьюшек - старт */
-					$aImagePreviewSize = $this->config->item('image_preview_size');
+					$aGalleryConfig = $this->config->item('gallery');
+					$aImagePreviewSize = $aGalleryConfig['image_preview_size'];
 
 					if(!empty($aImagePreviewSize) AND is_array($aImagePreviewSize)) {
 						foreach ($aImagePreviewSize as $iSize) {
@@ -211,10 +212,10 @@ class Gallery extends CommonAdminController {
 							}
 
 							list($w,$h) = getimagesize($sFileName);
-							$koe = $h/200;
+							$koe = $h/$iSize;
 							$new_w=ceil($w/$koe);
 							// Destination image with white background
-							$oNewImage = imagecreatetruecolor($new_w, 200); // создаем картинку
+							$oNewImage = imagecreatetruecolor($new_w, $iSize); // создаем картинку
 							imagefill($oNewImage, 0, 0, imagecolorallocate($oNewImage, 255, 255, 255));
 
 							// All Magic is here
@@ -482,8 +483,9 @@ class Gallery extends CommonAdminController {
 			@unlink($sPath.DIRECTORY_SEPARATOR.$sImage);
 
 			/** Удаление превьюшек - старт */
-			$aImagePreviewSize = $this->config->item('image_preview_size');
-			$sImageExtension = $this->config->item('image_preview_extension');
+			$aGalleryConfig = $this->config->item('gallery');
+			$aImagePreviewSize = $aGalleryConfig['image_preview_size'];
+			$sImageExtension = $aGalleryConfig['image_preview_extension'];
 
 			if(!empty($aImagePreviewSize) AND is_array($aImagePreviewSize)) {
 				foreach ($aImagePreviewSize as $iSize) {
