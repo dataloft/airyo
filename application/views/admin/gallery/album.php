@@ -32,7 +32,7 @@
 				</li>
 			</ul>
 			<?php if(!empty($images)) : ?>
-				<ul class="nav nav-pills">
+				<!--<ul class="nav nav-pills">
 					<li>
 						<a class="dropdown-toggle checkAll" data-toggle="dropdown" href="#">
 							<span class="glyphicon glyphicon-ok" style="color: #777"></span>&nbsp;&nbsp;Выделить все
@@ -41,7 +41,7 @@
 							<span class="glyphicon glyphicon-ok" style="color: #777"></span>&nbsp;&nbsp;Снять выделение
 						</a>
 					</li>
-				</ul>
+				</ul>-->
 			<?php endif; ?>
 		</div>
 	</div>
