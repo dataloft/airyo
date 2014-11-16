@@ -192,40 +192,16 @@ class Gallery extends CommonAdminController {
 					$aImagePreviewSize = $aGalleryConfig['image_preview_size'];
 
 					if(!empty($aImagePreviewSize) AND is_array($aImagePreviewSize)) {
-						foreach ($aImagePreviewSize as $iSize) {
-
-							$sFileName = $upload['tmp_name'][0];
-							switch($upload['type'][0]) {
-								// узнаем тип картинки
-								case "image/gif":
-									$oImage = imagecreatefromgif($sFileName);
-									break;
-								case "image/jpeg":
-									$oImage = imagecreatefromjpeg($sFileName);
-									break;
-								case "image/png":
-									$oImage = imagecreatefrompng($sFileName);
-									break;
-								case "image/pjpeg":
-									$oImage = imagecreatefromjpeg($sFileName);
-									break;
-							}
-
-							list($w,$h) = getimagesize($sFileName);
-							$koe = $h/$iSize;
-							$new_w=ceil($w/$koe);
-							// Destination image with white background
-							$oNewImage = imagecreatetruecolor($new_w, $iSize); // создаем картинку
-							imagefill($oNewImage, 0, 0, imagecolorallocate($oNewImage, 255, 255, 255));
-
-							// All Magic is here
-							$oImage = $this->scaleImage($oImage, $oNewImage, 'fit');
-							$sPath = $config['upload_path'].DIRECTORY_SEPARATOR.'thumbs' . intval($iSize);
+						$sFileName = $upload['tmp_name'][0];
+						foreach ($aImagePreviewSize as $aSize) {
+							$oImage = $this->resizeImage($sFileName, $aSize['width'], $aSize['height']);
+							$sPath = $config['upload_path'].DIRECTORY_SEPARATOR.'thumbs' . intval($aSize['width']) . 'x' . intval($aSize['height']);
 							if (!is_dir($sPath)) {
 								mkdir($sPath);
 							}
+							$new_name = sprintf("thumbs%s.jpg", $iId);
 
-							imagejpeg($oImage, $sPath.DIRECTORY_SEPARATOR.'thumbs'.$iId.'.jpg');
+							imagejpeg($oImage, $sPath.DIRECTORY_SEPARATOR.$new_name);
 						}
 					}
 					/** Создание превьюшек - финиш */
@@ -256,46 +232,50 @@ class Gallery extends CommonAdminController {
 	/**
 	 * Сжатие изображения
 	 *
-	 * @param $sSrcImage
-	 * @param $oDstImage
-	 * @param string $sOp
+	 * @param $old_file
+	 * @param $width
+	 * @param $height
 	 *
-	 * @return mixed
+	 * @return resource
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	private function scaleImage($sSrcImage, $oDstImage, $sOp = 'fit') {
-		$iSrcWidth = imagesx($sSrcImage);
-		$iSrcHeight = imagesy($sSrcImage);
+	public function resizeImage($old_file, $width, $height) {
+		list($width_orig, $height_orig, $image_type) = @getimagesize($old_file);
+		$img = FALSE;
 
-		$iDstWidth = imagesx($oDstImage);
-		$iDstHeight = imagesy($oDstImage);
+		// Get the image and create a thumbnail
+		switch($image_type)
+		{
+			case 1:
+				$img = @imagecreatefromgif($old_file);
+				break;
+			case 2:
+				$img = @imagecreatefromjpeg($old_file);
+				break;
+			case 3:
+				$img = @imagecreatefrompng($old_file);
+				break;
+		}
 
-		// Try to match destination image by width
-		$iNewWidth = $iDstWidth;
-		$iNewHeight = round($iNewWidth * ($iSrcHeight / $iSrcWidth));
-		$iNewX = 0;
-		$iNewY = round(($iDstHeight - $iNewHeight)/2);
-
-		// FILL and FIT mode are mutually exclusive
-		if ($sOp == 'fill') {
-			$bNext = $iNewHeight < $iDstHeight;
+		// Build the thumbnail
+		if($width_orig > $height_orig) {
+			$width_ratio = $width / $width_orig;
+			$new_width   = $width;
+			$new_height  = $height_orig * $width_ratio;
 		} else {
-			$bNext = $iNewHeight > $iDstHeight;
+			$height_ratio = $height / $height_orig;
+			$new_width    = $width_orig * $height_ratio;
+			$new_height   = $height;
 		}
 
-		// If match by width failed and destination image does not fit, try by height
-		if ($bNext) {
-			$iNewHeight = $iDstHeight;
-			$iNewWidth = round($iNewHeight*($iSrcWidth/$iSrcHeight));
-			$iNewX = round(($iDstWidth - $iNewWidth)/2);
-			$iNewY = 0;
-		}
+		$new_img = @imagecreatetruecolor($new_width, $new_height);
 
-		// Copy image on right place
-		imagecopyresampled($oDstImage, $sSrcImage , $iNewX, $iNewY, 0, 0, $iNewWidth, $iNewHeight, $iSrcWidth, $iSrcHeight);
+		// Fill the image black
+		@imagefilledrectangle($new_img, 0, 0, $new_width, $new_height, 0);
+		@imagecopyresampled($new_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width_orig, $height_orig);
 
-		return $oDstImage;
+		return $new_img;
 	}
 
 	/**
@@ -345,12 +325,14 @@ class Gallery extends CommonAdminController {
 		if(!empty($aPost)) {
 			$aAlbum = $aPost['album'];
 
-			$aSelected = array_flip($aPost['selected']);
-
+			if(isset($aPost['selected']) AND !empty($aPost['selected'])) {
+				$aSelected = array_flip($aPost['selected']);
+			}
 			for($i = 0; $i < count($aAlbum['id']); $i++) {
-
+				var_dump($aSelected);
+die();
 				if (isset($aSelected[$aAlbum['id'][$i]])) {
-					$this->removeImage($aAlbum['id'][$i]);
+					//$this->removeImage($aAlbum['id'][$i]);
 
 					$aMessage = array(
 						'type' => 'success',
@@ -488,9 +470,9 @@ class Gallery extends CommonAdminController {
 			$sImageExtension = $aGalleryConfig['image_preview_extension'];
 
 			if(!empty($aImagePreviewSize) AND is_array($aImagePreviewSize)) {
-				foreach ($aImagePreviewSize as $iSize) {
-					if (is_dir($sPath.DIRECTORY_SEPARATOR.'thumbs'.$iSize)) {
-						@unlink($sPath.DIRECTORY_SEPARATOR.'thumbs'.$iSize.DIRECTORY_SEPARATOR.'thumbs'.$iIdImage.$sImageExtension);
+				foreach ($aImagePreviewSize as $aSize) {
+					if (is_dir($sPath.DIRECTORY_SEPARATOR.'thumbs'.intval($aSize['width']) . 'x' . intval($aSize['height']))) {
+						@unlink($sPath.DIRECTORY_SEPARATOR.'thumbs'.intval($aSize['width']) . 'x' . intval($aSize['height']).DIRECTORY_SEPARATOR.'thumbs'.$iIdImage.$sImageExtension);
 					}
 				}
 			}
