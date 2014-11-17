@@ -46,11 +46,7 @@ $(function () {
 		formData: {album: $('#album_label').val()},
 		done: function (e, data) {
 			updateMessageBlock(data.result.message);
-			$('#progress').addClass('hidden');
-			$('#album-empty').hide();
-			setTimeout(function() {
-				location.reload();
-			}, 1500);
+			location.reload();
 		},
 		progressall: function (e, data) {
 			var progress = parseInt(data.loaded / data.total * 100, 10);
