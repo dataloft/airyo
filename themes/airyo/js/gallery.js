@@ -41,12 +41,17 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 });
 
 $(function () {
+	var selectImage = 0;
+	var uploadImage = 0;
+
 	$('#fileupload').fileupload({
 		dataType: 'json',
 		formData: {album: $('#album_label').val()},
 		done: function (e, data) {
 			updateMessageBlock(data.result.message);
-			location.reload();
+			if (selectImage === uploadImage) {
+				location.reload();
+			}
 		},
 		progressall: function (e, data) {
 			var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -55,7 +60,16 @@ $(function () {
 				progress + '%'
 			);
 		},
+		change: function (e, data) {
+			var idx = 0;
+			$.each(data.files, function (index, file) {
+				idx++;
+			});
+			selectImage = idx;
+		},
 		beforeSend : function(xhr, opts){
+			uploadImage++;
+
 			$.each(opts.originalFiles, function( key, value ) {
 				var ext = value.name.split('.').pop().toLowerCase();
 
@@ -95,19 +109,21 @@ $(function () {
 
 		var iAlbumId = $(this).attr('data-album');
 		if(iAlbumId > 0) {
-			$.ajax({
-				url: "/admin/gallery/ajaxRemoveAlbum",
-				method: 'POST',
-				data: {
-					iAlbumId: iAlbumId
-				}
-			}).done(function(response) {
-				var oResponse = $.parseJSON(response);
-				updateMessageBlock(oResponse);
-				setTimeout(function() {
-					window.location = "/admin/gallery";
-				}, 2000);
-			});
+			if(confirm('Вы уверены, что хотите удалить альбом?')) {
+				$.ajax({
+					url: "/admin/gallery/ajaxRemoveAlbum",
+					method: 'POST',
+					data: {
+						iAlbumId: iAlbumId
+					}
+				}).done(function(response) {
+					var oResponse = $.parseJSON(response);
+					updateMessageBlock(oResponse);
+					setTimeout(function() {
+						window.location = "/admin/gallery";
+					}, 2000);
+				});
+			}
 		}
 	});
 

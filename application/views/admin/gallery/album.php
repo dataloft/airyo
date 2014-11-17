@@ -37,16 +37,16 @@
 				</li>
 			</ul>
 			<?php if(!empty($images)) : ?>
-				<!--<ul class="nav nav-pills">
+				<ul class="nav nav-pills">
 					<li>
-						<a class="dropdown-toggle checkAllBtn" data-toggle="dropdown" href="#">
+						<a class="dropdown-toggle checkAllBtn checkAll" data-toggle="dropdown" href="#">
 							<span class="glyphicon glyphicon-ok" style="color: #777"></span>&nbsp;&nbsp;Выделить все
 						</a>
 						<a class="dropdown-toggle uncheckAllBtn uncheckAll hidden" data-toggle="dropdown" href="#">
 							<span class="glyphicon glyphicon-ok" style="color: #777"></span>&nbsp;&nbsp;Снять выделение
 						</a>
 					</li>
-				</ul>-->
+				</ul>
 			<?php endif; ?>
 		</div>
 	</div>
@@ -104,6 +104,10 @@
 
 		<div class="center-block" id="block-empty-album" style="display: <?=(empty($images)) ? 'block' : 'none'; ?>">
 			<p>В этом альбоме ещё нет фотографий</p>
+		</div>
+		<hr/>
+		<div class="text-center">
+			<?=$pagination->create_links(); ?>
 		</div>
 	</div>
 </div>

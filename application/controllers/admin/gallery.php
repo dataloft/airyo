@@ -226,6 +226,8 @@ class Gallery extends CommonAdminController {
 			);
 		}
 
+		$this->session->set_flashdata('message', $aMessage);
+
 		echo json_encode(array('image' => $aImageData, 'user' => $this->oUser, 'message' => $aMessage));
 	}
 
