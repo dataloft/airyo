@@ -2,7 +2,7 @@ $(document).ready( function() {
 	var checkCount = 0;
 
 	// Check All
-	$('.checkAll').click(function () {
+	$('.checkAllBtn').click(function () {
 		checkCount = $('.check').length;
 
 		$('input[name*=\'selected\']').prop("checked", true);
@@ -88,36 +88,6 @@ $(function () {
 		}).done(function(response) {
 			var oResponse = $.parseJSON(response);
 			updateMessageBlock(oResponse);
-		});
-		ev.preventDefault();
-	});
-
-	/** Обновление содержания альбома */
-	var frm = $('#form-edit-album');
-	frm.submit(function (ev) {
-		$.ajax({
-			url: "/admin/gallery/ajaxEditAlbum",
-			method: 'POST',
-			data: $('#form-edit-album').serialize()
-		}).done(function(response) {
-			var checkCount = $('.check');
-
-			$.each(checkCount, function(key, val) {
-				if(checkCount[key].checked == true) {
-					$(val).parents('.image-edit-block').fadeOut(1200).empty();
-				}
-			});
-			$('.uncheckAllBtn').click();
-
-			var oResponse = $.parseJSON(response);
-			var iCount = $('#table-edit-album td').length;
-			if(iCount < 1) {
-				$('#form-edit-album').hide(1200);
-				$('#block-empty-album').show(1200);
-				$('.album-gallery-edit').attr('src', '');
-			}
-			updateMessageBlock(oResponse);
-			$('html, body').animate({ scrollTop: 0 }, 'fast');
 		});
 		ev.preventDefault();
 	});

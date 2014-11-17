@@ -9,10 +9,15 @@
 <div class="container">
 	<h1 class="page-header">Фотоальбомы</h1>
 
-	<div id="alert-message" class="alert">
-		<span id="icon-message-success" class="glyphicon"></span>
-		<span id="text-message"></span>
-	</div>
+	<?php if (!empty($message)) : ?>
+		<div class="alert alert-<?=$message['type']?>">
+			<a class="close" data-dismiss="alert" href="#">&times;</a>
+			<?php if ($message['type']=='success') : ?>
+				<span class="glyphicon glyphicon-ok"></span>
+			<?php endif; ?>
+			<?=$message['text']?>
+		</div>
+	<? endif; ?>
 
 	<ol class="breadcrumb">
 		<li><a href="/admin/gallery">Фотоальбомы</a></li>
@@ -34,7 +39,7 @@
 			<?php if(!empty($images)) : ?>
 				<!--<ul class="nav nav-pills">
 					<li>
-						<a class="dropdown-toggle checkAll" data-toggle="dropdown" href="#">
+						<a class="dropdown-toggle checkAllBtn" data-toggle="dropdown" href="#">
 							<span class="glyphicon glyphicon-ok" style="color: #777"></span>&nbsp;&nbsp;Выделить все
 						</a>
 						<a class="dropdown-toggle uncheckAllBtn uncheckAll hidden" data-toggle="dropdown" href="#">
@@ -62,7 +67,7 @@
 	<?php endif; ?>
 
 	<div class="row" id="links">
-		<form method="POST" action="/admin/gallery/ajaxEditAlbum" id="form-edit-album" style="display: <?=(!empty($images)) ? 'block' : 'none'; ?>">
+		<form method="POST" action="/admin/gallery/editAlbum" id="form-edit-album" style="display: <?=(!empty($images)) ? 'block' : 'none'; ?>">
 			<table class="table table-responsive" id="table-edit-album">
 				<?php foreach($images as $image) : ?>
 					<tr class="image-edit-block">

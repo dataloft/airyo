@@ -319,7 +319,7 @@ class Gallery extends CommonAdminController {
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function ajaxEditAlbum(){
+	public function editAlbum(){
 		$aPost = $this->input->post();
 		$aMessage = array();
 		if(!empty($aPost)) {
@@ -329,10 +329,8 @@ class Gallery extends CommonAdminController {
 				$aSelected = array_flip($aPost['selected']);
 			}
 			for($i = 0; $i < count($aAlbum['id']); $i++) {
-				var_dump($aSelected);
-die();
 				if (isset($aSelected[$aAlbum['id'][$i]])) {
-					//$this->removeImage($aAlbum['id'][$i]);
+					$this->removeImage($aAlbum['id'][$i]);
 
 					$aMessage = array(
 						'type' => 'success',
@@ -370,7 +368,9 @@ die();
 			);
 		}
 
-		echo json_encode($aMessage);
+		$this->session->set_flashdata('message', $aMessage);
+
+		redirect($_SERVER['HTTP_REFERER'], 'refresh');
 	}
 
 	/**
