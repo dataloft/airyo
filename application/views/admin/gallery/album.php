@@ -36,7 +36,7 @@
 					<a href="/admin/gallery/<?=$album->label; ?>?action=edit"><span class="glyphicon glyphicon-film" style="color: #777"></span> Редактирование альбома</a>
 				</li>
 			</ul>
-			<?php if(!empty($images)) : ?>
+<!--			<?php /*if(!empty($images)) : */?>
 				<ul class="nav nav-pills">
 					<li>
 						<a class="dropdown-toggle checkAllBtn checkAll" data-toggle="dropdown" href="#">
@@ -47,7 +47,7 @@
 						</a>
 					</li>
 				</ul>
-			<?php endif; ?>
+			--><?php /*endif; */?>
 		</div>
 	</div>
 
