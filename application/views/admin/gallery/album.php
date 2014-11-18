@@ -33,7 +33,7 @@
 					<input type="hidden" name="album_label" id="album_label" value="<?=$album->label; ?>" />
 				</li>
 				<li>
-					<a href="/admin/gallery/<?=$album->label; ?>?action=edit"><span class="glyphicon glyphicon-film" style="color: #777"></span> Редактирование альбома</a>
+					<a href="/admin/gallery/edit/<?=$album->label; ?>"><span class="glyphicon glyphicon-film" style="color: #777"></span> Редактирование альбома</a>
 				</li>
 			</ul>
 <!--			<?php /*if(!empty($images)) : */?>

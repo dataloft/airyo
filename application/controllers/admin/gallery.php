@@ -44,41 +44,30 @@ class Gallery extends CommonAdminController {
 
 	public function getAlbum($sAlbumLabel)
 	{
-		$aGet = $this->input->get();
 		$this->oData['main_menu'] = 'gallery';
+		$this->oData['result'] = array();
+		$this->oData['message'] = $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
 
-		if(isset($aGet['action']) AND $aGet['action'] == 'edit') {
-			$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+		$aPaginationConfig = $this->getPaginationConfig();
 
-			$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
+		$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
 
-			$this->oData['profile_id'] = $this->oUser->id;
-			$this->oData['view'] = 'admin/gallery/editAlbum';
-		} else {
-			$this->oData['result'] = array();
-			$this->oData['message'] = $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
+		$aPaginationConfig['base_url'] = '/admin/gallery/' . $sAlbumLabel;
+		$aPaginationConfig['total_rows'] = $this->oData["album"]->images_count;
+		$aPaginationConfig['uri_segment'] = 4;
 
-			$aPaginationConfig = $this->getPaginationConfig();
+		$this->pagination->initialize($aPaginationConfig);
 
-			$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+		$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
 
-			$aPaginationConfig['base_url'] = '/admin/gallery/' . $sAlbumLabel;
-			$aPaginationConfig['total_rows'] = $this->oData["album"]->images_count;
-			$aPaginationConfig['uri_segment'] = 4;
+		$aGalleryConfig = $this->config->item('gallery');
+		$this->oData['preview_extension'] = $aGalleryConfig['image_preview_extension'];
+		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][1];
 
-			$this->pagination->initialize($aPaginationConfig);
-
-			$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
-
-			$aGalleryConfig = $this->config->item('gallery');
-			$this->oData['preview_extension'] = $aGalleryConfig['image_preview_extension'];
-			$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][1];
-
-			$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
-			$this->oData['profile_id'] = $this->oUser->id;
-			$this->oData['pagination'] = $this->pagination;
-			$this->oData['view'] = 'admin/gallery/album';
-		}
+		$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
+		$this->oData['profile_id'] = $this->oUser->id;
+		$this->oData['pagination'] = $this->pagination;
+		$this->oData['view'] = 'admin/gallery/album';
 	}
 	
 	/**
@@ -283,18 +272,29 @@ class Gallery extends CommonAdminController {
 	/**
 	 * Обновление описания альбома
 	 *
+	 * @param $sAlbumLabel
+	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function ajaxEditDescriptionAlbum(){
-		$aPost = $this->input->post();
+	public function editDescriptionAlbum($sAlbumLabel) {
+		$this->oData['main_menu'] = 'gallery';
+
+		$oPost = (object) $this->input->post();
+
 		$aMessage = array();
 
-		if(!empty($aPost)) {
-			$sValidData = $this->validateData($aPost['album']);
-			if(isset($sValidData['iAlbumId'])) {
-				$iId = $sValidData['iAlbumId'];
-				unset($sValidData['iAlbumId']);
-				if($this->gallery_model->updateAlbum($iId, $sValidData)) {
+		if(!empty($oPost->form_edit)) {
+			$this->form_validation->set_rules('title', 'Название', 'trim|required|min_length[2]|xss_clean');
+			$this->form_validation->set_rules('description', 'Описание', 'trim|xss_clean');
+
+			if ($this->form_validation->run() == true) {
+				$iId = $this->input->post('album_id',TRUE);
+				$aAlbumData = array(
+					'title'         => $this->input->post('title',TRUE),
+					'description'   => $this->input->post('description',TRUE),
+				);
+
+				if ($this->gallery_model->updateAlbum($iId, $aAlbumData)) {
 					$aMessage = array(
 						'type' => 'success',
 						'text' => 'Альбом обновлён'
@@ -303,17 +303,24 @@ class Gallery extends CommonAdminController {
 					$aMessage = array(
 						'type' => 'danger',
 						'text' => 'Ошибка при обновлении альбома'
-					);
-				}
+					);}
+			} else {
+				$aMessage = array(
+					'type' => 'danger',
+					'text' =>  validation_errors()
+				);
 			}
-		} else {
-			$aMessage = array(
-				'type' => 'danger',
-				'text' => 'Неизвестная ошибка'
-			);
 		}
 
-		echo json_encode($aMessage);
+		$aGalleryConfig = $this->config->item('gallery');
+		$this->oData['preview_extension'] = $aGalleryConfig['image_preview_extension'];
+		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][1];
+
+		$this->oData['message'] =  $aMessage;
+		$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+		$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
+		$this->oData['profile_id'] = $this->oUser->id;
+		$this->oData['view'] = 'admin/gallery/editAlbum';
 	}
 	
 	/**

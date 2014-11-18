@@ -60,10 +60,13 @@
 }
 
 .album-gallery-edit {
-	height: 200px;
-	width: 242px;
 	margin: 30px;
 	display: block;
+}
+
+.album-gallery-edit.no-image {
+	min-height: 200px;
+	min-width: 242px;
 }
 
 #alert-message {

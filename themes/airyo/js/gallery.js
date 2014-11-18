@@ -48,7 +48,7 @@ $(function () {
 		dataType: 'json',
 		formData: {album: $('#album_label').val()},
 		done: function (e, data) {
-			updateMessageBlock(data.result.message);
+			uploadImage++;
 			if (selectImage === uploadImage) {
 				location.reload();
 			}
@@ -68,8 +68,6 @@ $(function () {
 			selectImage = idx;
 		},
 		beforeSend : function(xhr, opts){
-			uploadImage++;
-
 			$.each(opts.originalFiles, function( key, value ) {
 				var ext = value.name.split('.').pop().toLowerCase();
 
@@ -88,20 +86,6 @@ $(function () {
 		}
 	});
 
-	/** Обновление описания альбома */
-	var formEditDescriptionAlbum = $('#edit-description-album');
-	formEditDescriptionAlbum.submit(function (ev) {
-		$.ajax({
-			url: "/admin/gallery/ajaxEditDescriptionAlbum",
-			method: 'POST',
-			data: $('#edit-description-album').serialize()
-		}).done(function(response) {
-			var oResponse = $.parseJSON(response);
-			updateMessageBlock(oResponse);
-		});
-		ev.preventDefault();
-	});
-
 	/** Удаление альбома */
 	var albumRemoveLink = $('.link-album-remove');
 	albumRemoveLink.click(function (ev) {
@@ -118,45 +102,11 @@ $(function () {
 					}
 				}).done(function(response) {
 					var oResponse = $.parseJSON(response);
-					updateMessageBlock(oResponse);
 					setTimeout(function() {
 						window.location = "/admin/gallery";
-					}, 2000);
+					}, 1000);
 				});
 			}
 		}
 	});
-
-	/**
-	 * Установка сообщения
-	 *
-	 * @param oData
-	 */
-	function updateMessageBlock(oData) {
-		var oAlertMessage = $('#alert-message');
-		var oIconMessageSucces = $('#icon-message-success');
-		var oTextMessage = $('#text-message');
-
-		$(oAlertMessage).show(200);
-
-		oAlertMessage.addClass('alert-' + oData.type);
-		oTextMessage.text(oData.text);
-
-		if(oData.type == 'success') {
-			oIconMessageSucces.addClass('glyphicon-ok')
-		} else {
-			oIconMessageSucces.addClass('glyphicon-remove')
-		}
-
-		setTimeout(function() {
-			$(oAlertMessage).hide(200);
-
-			oAlertMessage.removeClass('alert-' + oData.type);
-			if(oData.type == 'success') {
-				oIconMessageSucces.removeClass('glyphicon-ok')
-			} else {
-				oIconMessageSucces.removeClass('glyphicon-remove')
-			}
-		}, 3500)
-	}
 });
