@@ -409,24 +409,27 @@ class Gallery extends CommonAdminController {
 		if(!empty($aPost)) {
 			$iAlbumId = $aPost['iAlbumId'];
 			if($oAlbum = $this->gallery_model->getAlbumById($iAlbumId)) {
-				if(!$this->gallery_model->getFetchCountriesImages(array('iAlbumId' => $iAlbumId))) {
-					if($this->deleteAction($oAlbum->label)) {
-						if($this->gallery_model->deleteAlbum($iAlbumId)) {
-							$aMessage = array(
-								'type' => 'success',
-								'text' => 'Альбом удалён'
-							);
-						}
-					} else {
+
+				/** Remove images from album - start */
+				$aImages = $this->gallery_model->getFetchCountriesImages(array('iAlbumId' => $iAlbumId));
+				if(!empty($aImages)) {
+					foreach ($aImages as $aImage) {
+						$this->removeImage($aImage->id);
+					}
+				}
+				/** Remove images from album - finish */
+
+				if($this->deleteAction($oAlbum->label)) {
+					if($this->gallery_model->deleteAlbum($iAlbumId)) {
 						$aMessage = array(
-							'type' => 'danger',
-							'text' => 'Ошибка при удалении'
+							'type' => 'success',
+							'text' => 'Альбом удалён'
 						);
 					}
 				} else {
 					$aMessage = array(
 						'type' => 'danger',
-						'text' => 'Удалите все изображения из альбома'
+						'text' => 'Ошибка при удалении'
 					);
 				}
 			}
