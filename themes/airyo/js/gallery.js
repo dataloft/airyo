@@ -87,26 +87,11 @@ $(function () {
 	});
 
 	/** Удаление альбома */
-	var albumRemoveLink = $('.link-album-remove');
-	albumRemoveLink.click(function (ev) {
+	$('.link-album-delete').click(function (ev) {
 		ev.preventDefault();
 
-		var iAlbumId = $(this).attr('data-album');
-		if(iAlbumId > 0) {
-			if(confirm('Вы уверены, что хотите удалить альбом?')) {
-				$.ajax({
-					url: "/admin/gallery/ajaxRemoveAlbum",
-					method: 'POST',
-					data: {
-						iAlbumId: iAlbumId
-					}
-				}).done(function(response) {
-					var oResponse = $.parseJSON(response);
-					setTimeout(function() {
-						window.location = "/admin/gallery";
-					}, 1000);
-				});
-			}
+		if(confirm('Вы уверены, что хотите удалить альбом?')) {
+			$('.form-album-delete').submit();
 		}
 	});
 });

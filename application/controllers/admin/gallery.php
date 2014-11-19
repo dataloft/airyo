@@ -414,7 +414,7 @@ class Gallery extends CommonAdminController {
 		$aMessage = array();
 
 		if(!empty($aPost)) {
-			$iAlbumId = $aPost['iAlbumId'];
+			$iAlbumId = $aPost['album_id'];
 			if($oAlbum = $this->gallery_model->getAlbumById($iAlbumId)) {
 
 				/** Remove images from album - start */
@@ -446,8 +446,8 @@ class Gallery extends CommonAdminController {
 				'text' => 'Неизвестная ошибка'
 			);
 		}
-
-		echo json_encode($aMessage);
+		$this->session->set_flashdata('message', $aMessage);
+		redirect('/admin/gallery', 'refresh');
 	}
 	
 	/**

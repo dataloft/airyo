@@ -38,7 +38,7 @@
 								<img class="img-thumbnail album-gallery-edit no-image">
 							<?php endif; ?>
 							<div class="center-block" style="text-align: center;">
-								<a href="#" class="link-album-remove" data-album="<?=$album->id; ?>">Удалить альбом</a>
+								<a href="#" class="link-album-delete" data-album="<?=$album->id; ?>">Удалить альбом</a>
 							</div>
 						</td>
 						<td>
@@ -57,6 +57,10 @@
 				</table>
 				<input type="hidden" value="<?=$album->id; ?>" name="album_id" />
 				<input type="hidden" name="form_edit" value="edit" />
+			<?php echo form_close(); ?>
+
+			<?php echo form_open("/admin/gallery/ajaxRemoveAlbum", 'class="form-album-delete" method="POST" role="form"');?>
+				<input type="hidden" value="<?=$album->id; ?>" name="album_id" />
 			<?php echo form_close();?>
 		</div>
 	</div>
