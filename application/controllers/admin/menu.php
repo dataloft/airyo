@@ -180,10 +180,6 @@ class Menu extends CommonAdminController {
         $menu = new ArrayObject;
 	    $this->oData['title'] = "Добавить/редактировать пункт меню";
 
-        if (!$this->ion_auth->is_admin()) {
-            redirect('auth', 'refresh');
-        }
-
 	    $this->oData['menu_group'] = $mid;
         if ($list = $this->menu_model->getList($this->oData['menu_group'])) {
 	        $this->oData['lvl_menu']  = $this->printSelectList($this->buildTree($list));
@@ -245,10 +241,6 @@ class Menu extends CommonAdminController {
 
         $menu = new stdClass();
 	    $this->oData['title'] = "Добавить/редактировать пункт меню";
-
-        if (!$this->ion_auth->is_admin()) {
-            redirect('auth', 'refresh');
-        }
 
         $this->form_validation->set_rules('name', '', 'required');
         $this->form_validation->set_rules('url', '', 'required');

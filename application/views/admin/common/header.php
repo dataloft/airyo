@@ -54,7 +54,7 @@ if (!empty($styles))
 					<ul class="dropdown-menu">
 						<li <? if ($main_menu == 'users') echo 'class="active"';?> ><a href="/admin/users">Пользователи</a></li>
 						<li <? if ($main_menu == 'groups') echo 'class="active"';?> ><a href="/admin/groups">Группы</a></li>
-						<li <? if ($main_menu == 'gallery') echo 'class="active"';?>><a href="/admin/gallery">Галерея</a></li>
+						<li <? if ($main_menu == 'gallery') echo 'class="active"';?>><a href="/admin/gallery">Фотоальбомы</a></li>
 						<li><a href="/admin/">Слайдеры</a></li>
 						<li><a href="/admin/">Каталог товаров</a></li>
 						<li><a href="/admin/">Заказы</a></li>

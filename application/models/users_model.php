@@ -65,9 +65,34 @@ class Users_model extends CI_Model {
 		}
 	}
 
-	public function Update ($id, $data) {
+	/**
+	 * Обновление профиля
+	 *
+	 * @param $id
+	 * @param $data
+	 * @return bool
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function Update($id, $data) {
 		if ($this->db->update($this->db->dbprefix('users'), $data, array('id' => $id))) {
 			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Создание профиля
+	 *
+	 * @param $data
+	 * @return bool
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function addUser($data){
+		if ($iId = $this->db->insert($this->db->dbprefix('users'), $data)) {
+			return $iId;
 		} else {
 			return false;
 		}
@@ -79,7 +104,7 @@ class Users_model extends CI_Model {
 	 * @param $aParams
 	 * @return array
 	 *
-	 * @autor N.Kulchinskiy
+	 * @author N.Kulchinskiy
 	 */
 	private static function validateData($aParams){
 		$aValidParams = array();
