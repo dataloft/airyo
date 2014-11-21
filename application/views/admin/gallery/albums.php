@@ -24,7 +24,7 @@
 			<div class="col-md-12" style="margin: 0 0 20px">
 				<ul class="nav nav-pills pull-right">
 					<li>
-						<a href="" class="pull-right" data-toggle="modal" data-target="#createAlbumModal"><span class="glyphicon glyphicon-film" style="color: #777"></span> Создать альбом</a>
+						<a href="" class="pull-right" data-toggle="modal" data-target="#createAlbumModal"><span class="glyphicon glyphicon-plus" style="color: #777"></span> Создать альбом</a>
 					</li>
 				</ul>
 			</div>

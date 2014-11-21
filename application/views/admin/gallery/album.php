@@ -33,7 +33,7 @@
 					<input type="hidden" name="album_label" id="album_label" value="<?=$album->label; ?>" />
 				</li>
 				<li>
-					<a href="/admin/gallery/edit/<?=$album->label; ?>"><span class="glyphicon glyphicon-film" style="color: #777"></span> Редактирование альбома</a>
+					<a href="/admin/gallery/edit/<?=$album->label; ?>"><span class="glyphicon glyphicon-edit" style="color: #777"></span> Редактирование альбома</a>
 				</li>
 			</ul>
 <!--			<?php /*if(!empty($images)) : */?>
@@ -51,6 +51,7 @@
 		</div>
 	</div>
 
+	<div class="row">
 	<div class="col-md-12">
 		<br>
 		<br>
@@ -59,14 +60,16 @@
 			<div class="progress-bar progress-bar-success"></div>
 		</div>
 	</div>
+	</div>
 
-	<?php if(!empty($album->description)) : ?>
+	<?/*php if(!empty($album->description)) : ?>
 		<div class="starter-template">
 			<p class="lead"><?=$album->description; ?></p>
 		</div>
-	<?php endif; ?>
+	<?php endif; */?>
 
 	<div class="row" id="links">
+	<div class="col-md-12">
 		<form method="POST" action="/admin/gallery/editAlbum" id="form-edit-album" style="display: <?=(!empty($images)) ? 'block' : 'none'; ?>">
 			<table class="table table-responsive" id="table-edit-album">
 				<?php foreach($images as $image) : ?>
@@ -75,8 +78,7 @@
 							<input type="checkbox" class="check" name="selected[]" value="<?=$image->id; ?>" />
 						</td>
 						<td class="row-vertical-center">
-							<a class="next" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" data-toggle="lightbox" data-gallery="multiimages" data-parent data-footer="<div class='pull-right'><small>Добавлена
-								<?=date('H:i:s d.m.Y', strtotime($image->create_date));?><br/><?=$image->first_name; ?> <?=$image->last_name; ?></small></div><br/><?=$image->description; ?>" data-title="<?=$image->title;?>">
+							<a class="next" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" data-toggle="lightbox" data-gallery="multiimages" data-parent data-footer="<?=$image->description; ?>" data-title="<?=$image->title;?>">
 								<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive image-gallery" />
 							</a>
 						</td>
@@ -94,10 +96,10 @@
 					</tr>
 				<?php endforeach; ?>
 			</table>
-			<div class="text-center">
+			<div>
 				<button type="submit" class="btn btn-success">
-					<span class="checkAll">Сохранить изменения</span>
-					<span class="uncheckAll hidden">Сохранить изменения и удалить выделенное</span>
+					<span class="checkAll">Сохранить</span>
+					<span class="uncheckAll hidden">Сохранить и удалить отмеченные</span>
 				</button>
 			</div>
 		</form>
@@ -105,9 +107,12 @@
 		<div class="center-block" id="block-empty-album" style="display: <?=(empty($images)) ? 'block' : 'none'; ?>">
 			<p>В этом альбоме ещё нет фотографий</p>
 		</div>
-		<hr/>
+		
 		<div class="text-center">
 			<?=$pagination->create_links(); ?>
 		</div>
+		
 	</div>
+	</div>
+	
 </div>
