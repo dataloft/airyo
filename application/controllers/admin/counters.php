@@ -9,10 +9,8 @@ class Counters extends CommonAdminController {
     }
 
     public function index() {
-	    $this->oData['main_menu'] = 'admin';
+	    $this->oData['main_menu'] = 'counters';
 
-	    $this->oData['main_menu'][0] = 'modules';
-	    $this->oData['main_menu'][1] = 'counters';
 	    $this->oData['menu'] = array();
 	    $this->oData['usermenu'] = array();
 

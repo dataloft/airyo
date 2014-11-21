@@ -53,7 +53,6 @@ if (!empty($styles))
 				<li class="dropdown <?php  if ($main_menu[0] == 'modules') echo 'active';?>"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li <? if ($main_menu == 'users') echo 'class="active"';?> ><a href="/admin/users">Пользователи</a></li>
-						<li <? if ($main_menu == 'groups') echo 'class="active"';?> ><a href="/admin/groups">Группы</a></li>
 						<li <? if ($main_menu == 'gallery') echo 'class="active"';?>><a href="/admin/gallery">Фотоальбомы</a></li>
 						<li><a href="/admin/">Слайдеры</a></li>
 						<li><a href="/admin/">Каталог товаров</a></li>
@@ -65,13 +64,13 @@ if (!empty($styles))
 						<li><a href="/admin/">Настройки сайта</a></li>
 						<li><a href="/admin/">Коллекция стилей</a></li>
 						<li><a href="/admin/">Пакетные операции</a></li>
-						<li  <? if ($main_menu[1] == 'counters') echo 'class="active"';?>><a href="/admin/counters">Счетчики</a></li>
+						<li  <? if ($main_menu == 'counters') echo 'class="active"';?>><a href="/admin/counters">Счетчики</a></li>
 					</ul>
 				</li>
 			</ul>
 			<form class="navbar-form navbar-right" style="width: 250px" role="search">
 	        	<div class="input-group">
-		        	<input type="text" class="form-control" placeholder="Search">
+		        	<input type="text" class="form-control" placeholder="Поиск">
 		        	<div class="input-group-btn"><button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button></div>
 		        </div>
 	        </form>
