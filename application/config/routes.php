@@ -96,10 +96,9 @@ $route['admin/gallery'] = 'admin/gallery';
 $route['admin/gallery/(album:any)'] = 'admin/gallery/getalbum/$1';
 $route['admin/gallery/createalbum'] = 'admin/gallery/createalbum';
 $route['admin/gallery/uploadimages'] = 'admin/gallery/uploadimages';
-$route['admin/gallery/ajaxEditAlbum'] = 'admin/gallery/ajaxEditAlbum';
-$route['admin/gallery/ajaxRemoveImage'] = 'admin/gallery/ajaxRemoveImage';
+$route['admin/gallery/editAlbum'] = 'admin/gallery/editAlbum';
+$route['admin/gallery/edit/(album:any)'] = 'admin/gallery/editDescriptionAlbum/$1';
 $route['admin/gallery/ajaxRemoveAlbum'] = 'admin/gallery/ajaxRemoveAlbum';
-$route['admin/gallery/ajaxEditDescriptionAlbum'] = 'admin/gallery/ajaxEditDescriptionAlbum';
 
 //admin modules
 $route['admin/counters'] = 'admin/counters';

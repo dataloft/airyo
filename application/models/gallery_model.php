@@ -21,7 +21,7 @@ class Gallery_model extends CI_Model {
 	 */
 	public function getFetchCountriesAlbums(array $aParams = array()) {
 		$this->db->select('album.*');
-		$this->db->select('(SELECT i.label FROM ' . $this->db->dbprefix('images') . ' AS i WHERE i.album_id = album.id ORDER BY id DESC LIMIT 1) AS random_image_label');
+		$this->db->select('(SELECT i.id FROM ' . $this->db->dbprefix('images') . ' AS i WHERE i.album_id = album.id ORDER BY id DESC LIMIT 1) AS random_image_id');
 		$this->db->select('(SELECT COUNT(img.id) FROM ' . $this->db->dbprefix('images') . ' AS img WHERE img.album_id = album.id) AS images_count');
 
 		$this->db->from('albums AS album');

@@ -2,6 +2,10 @@
 	content: ''
 }
 
+.row-vertical-center {
+	vertical-align: middle !important;
+}
+
 .photo-album-title {
 	background: rgba(0, 0, 0, 0.5);
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#7f000000', endColorstr='#7f000000')";
@@ -28,13 +32,13 @@
 	opacity: 0.01;
 	position: absolute;
 	z-index: 200;
-    padding: 10px;
+	padding: 26px;
 	margin: -1.3em;
+	width: 230px;
 }
 
 .image-gallery {
     width: auto;
-	height: 170px !important;
 }
 
 .img-responsive-gallery {
@@ -56,10 +60,13 @@
 }
 
 .album-gallery-edit {
-	height: 200px;
-	width: 242px;
 	margin: 30px;
 	display: block;
+}
+
+.album-gallery-edit.no-image {
+	min-height: 200px;
+	min-width: 242px;
 }
 
 #alert-message {

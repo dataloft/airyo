@@ -44,39 +44,30 @@ class Gallery extends CommonAdminController {
 
 	public function getAlbum($sAlbumLabel)
 	{
-		$aGet = $this->input->get();
 		$this->oData['main_menu'] = 'gallery';
+		$this->oData['result'] = array();
+		$this->oData['message'] = $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
 
-		if(isset($aGet['action']) AND $aGet['action'] == 'edit') {
-			$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+		$aPaginationConfig = $this->getPaginationConfig();
 
-			$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
+		$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
 
-			$this->oData['profile_id'] = $this->oUser->id;
-			$this->oData['view'] = 'admin/gallery/editAlbum';
-		} else {
-			$this->oData['result'] = array();
-			$this->oData['message'] = $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
+		$aPaginationConfig['base_url'] = '/admin/gallery/' . $sAlbumLabel;
+		$aPaginationConfig['total_rows'] = $this->oData["album"]->images_count;
+		$aPaginationConfig['uri_segment'] = 4;
 
-			$aPaginationConfig = $this->getPaginationConfig();
+		$this->pagination->initialize($aPaginationConfig);
 
-			$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+		$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
 
-			$aPaginationConfig['base_url'] = '/admin/gallery/' . $sAlbumLabel;
-			$aPaginationConfig['total_rows'] = $this->oData["album"]->images_count;
-			$aPaginationConfig['uri_segment'] = 4;
+		$aGalleryConfig = $this->config->item('gallery');
+		$this->oData['preview_extension'] = $aGalleryConfig['image_preview_extension'];
+		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][1];
 
-			$this->pagination->initialize($aPaginationConfig);
-
-			$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
-			$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
-
-			$this->oData['profile_id'] = $this->oUser->id;
-
-			$this->oData['pagination'] = $this->pagination;
-
-			$this->oData['view'] = 'admin/gallery/album';
-		}
+		$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
+		$this->oData['profile_id'] = $this->oUser->id;
+		$this->oData['pagination'] = $this->pagination;
+		$this->oData['view'] = 'admin/gallery/album';
 	}
 	
 	/**
@@ -148,7 +139,7 @@ class Gallery extends CommonAdminController {
 			$this->load->library('upload', $config);
 
 			$this->upload->initialize($config);
-			if (in_array($upload['type'][0],$this->config->item('not_allowed_mimes'))) {
+			if (in_array($upload['type'][0], $this->config->item('not_allowed_mimes'))) {
 				$aMessage =   array(
 						'type' => 'danger',
 						'text' => $upload['type'][0].' not allowed mime'
@@ -181,9 +172,28 @@ class Gallery extends CommonAdminController {
 					'enable'        => 1
 				);
 
-				if($this->gallery_model->addImage($aImageData)) {
+				if($iId = $this->gallery_model->addImage($aImageData)) {
 					$files_data[] = $aTmpData['full_path'];
                     $aImageData['create_date'] = date('H:i:s d.m.Y', strtotime($aImageData['create_date']));
+
+					/** Создание превьюшек - старт */
+					$aGalleryConfig = $this->config->item('gallery');
+					$aImagePreviewSize = $aGalleryConfig['image_preview_size'];
+
+					if(!empty($aImagePreviewSize) AND is_array($aImagePreviewSize)) {
+						$sFileName = $upload['tmp_name'][0];
+						foreach ($aImagePreviewSize as $aSize) {
+							$oImage = $this->resizeImage($sFileName, $aSize['width'], $aSize['height']);
+							$sPath = $config['upload_path'].DIRECTORY_SEPARATOR.'thumbs' . intval($aSize['width']) . 'x' . intval($aSize['height']);
+							if (!is_dir($sPath)) {
+								mkdir($sPath);
+							}
+							$new_name = sprintf("thumbs%s.jpg", $iId);
+
+							imagejpeg($oImage, $sPath.DIRECTORY_SEPARATOR.$new_name);
+						}
+					}
+					/** Создание превьюшек - финиш */
 
 					$aMessage =   array(
 						'type' => 'success',
@@ -205,24 +215,86 @@ class Gallery extends CommonAdminController {
 			);
 		}
 
+		$this->session->set_flashdata('message', $aMessage);
+
 		echo json_encode(array('image' => $aImageData, 'user' => $this->oUser, 'message' => $aMessage));
+	}
+
+	/**
+	 * Сжатие изображения
+	 *
+	 * @param $old_file
+	 * @param $width
+	 * @param $height
+	 *
+	 * @return resource
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function resizeImage($old_file, $width, $height) {
+		list($width_orig, $height_orig, $image_type) = @getimagesize($old_file);
+		$img = FALSE;
+
+		// Get the image and create a thumbnail
+		switch($image_type)
+		{
+			case 1:
+				$img = @imagecreatefromgif($old_file);
+				break;
+			case 2:
+				$img = @imagecreatefromjpeg($old_file);
+				break;
+			case 3:
+				$img = @imagecreatefrompng($old_file);
+				break;
+		}
+
+		// Build the thumbnail
+		if($width_orig > $height_orig) {
+			$width_ratio = $width / $width_orig;
+			$new_width   = $width;
+			$new_height  = $height_orig * $width_ratio;
+		} else {
+			$height_ratio = $height / $height_orig;
+			$new_width    = $width_orig * $height_ratio;
+			$new_height   = $height;
+		}
+
+		$new_img = @imagecreatetruecolor($new_width, $new_height);
+
+		// Fill the image black
+		@imagefilledrectangle($new_img, 0, 0, $new_width, $new_height, 0);
+		@imagecopyresampled($new_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width_orig, $height_orig);
+
+		return $new_img;
 	}
 
 	/**
 	 * Обновление описания альбома
 	 *
+	 * @param $sAlbumLabel
+	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function ajaxEditDescriptionAlbum(){
-		$aPost = $this->input->post();
+	public function editDescriptionAlbum($sAlbumLabel) {
+		$this->oData['main_menu'] = 'gallery';
+
+		$oPost = (object) $this->input->post();
+
 		$aMessage = array();
 
-		if(!empty($aPost)) {
-			$sValidData = $this->validateData($aPost['album']);
-			if(isset($sValidData['iAlbumId'])) {
-				$iId = $sValidData['iAlbumId'];
-				unset($sValidData['iAlbumId']);
-				if($this->gallery_model->updateAlbum($iId, $sValidData)) {
+		if(!empty($oPost->form_edit)) {
+			$this->form_validation->set_rules('title', 'Название', 'trim|required|min_length[2]|xss_clean');
+			$this->form_validation->set_rules('description', 'Описание', 'trim|xss_clean');
+
+			if ($this->form_validation->run() == true) {
+				$iId = $this->input->post('album_id',TRUE);
+				$aAlbumData = array(
+					'title'         => $this->input->post('title',TRUE),
+					'description'   => $this->input->post('description',TRUE),
+				);
+
+				if ($this->gallery_model->updateAlbum($iId, $aAlbumData)) {
 					$aMessage = array(
 						'type' => 'success',
 						'text' => 'Альбом обновлён'
@@ -231,17 +303,24 @@ class Gallery extends CommonAdminController {
 					$aMessage = array(
 						'type' => 'danger',
 						'text' => 'Ошибка при обновлении альбома'
-					);
-				}
+					);}
+			} else {
+				$aMessage = array(
+					'type' => 'danger',
+					'text' =>  validation_errors()
+				);
 			}
-		} else {
-			$aMessage = array(
-				'type' => 'danger',
-				'text' => 'Неизвестная ошибка'
-			);
 		}
 
-		echo json_encode($aMessage);
+		$aGalleryConfig = $this->config->item('gallery');
+		$this->oData['preview_extension'] = $aGalleryConfig['image_preview_extension'];
+		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][1];
+
+		$this->oData['message'] =  $aMessage;
+		$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+		$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
+		$this->oData['profile_id'] = $this->oUser->id;
+		$this->oData['view'] = 'admin/gallery/editAlbum';
 	}
 	
 	/**
@@ -249,32 +328,45 @@ class Gallery extends CommonAdminController {
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function ajaxEditAlbum(){
+	public function editAlbum(){
 		$aPost = $this->input->post();
 		$aMessage = array();
 		if(!empty($aPost)) {
 			$aAlbum = $aPost['album'];
-			for($i = 0; $i < count($aAlbum['id']); $i++) {
-				$aImages = array(
-					'image_id' => $aAlbum['id'][$i],
-					'title' => $aAlbum['title'][$i],
-					'description' => $aAlbum['description'][$i]
-				);
-				$aValidateData = $this->validateData($aImages);
 
-				if(isset($aValidateData['iImageId'])) {
-					$iId = $aValidateData['iImageId'];
-					unset($aValidateData['iImageId']);
-					if($this->gallery_model->updateImage($iId, $aValidateData)) {
-						$aMessage = array(
-							'type' => 'success',
-							'text' => 'Альбом обновлён'
-						);
-					} else {
-						$aMessage = array(
-							'type' => 'danger',
-							'text' => 'Ошибка при обновлении альбома'
-						);
+			if(isset($aPost['selected']) AND !empty($aPost['selected'])) {
+				$aSelected = array_flip($aPost['selected']);
+			}
+			for($i = 0; $i < count($aAlbum['id']); $i++) {
+				if (isset($aSelected[$aAlbum['id'][$i]])) {
+					$this->removeImage($aAlbum['id'][$i]);
+
+					$aMessage = array(
+						'type' => 'success',
+						'text' => 'Альбом обновлён'
+					);
+				} else {
+					$aImages = array(
+						'image_id' => $aAlbum['id'][$i],
+						'title' => $aAlbum['title'][$i],
+						'description' => $aAlbum['description'][$i]
+					);
+					$aValidateData = $this->validateData($aImages);
+
+					if(isset($aValidateData['iImageId'])) {
+						$iId = $aValidateData['iImageId'];
+						unset($aValidateData['iImageId']);
+						if($this->gallery_model->updateImage($iId, $aValidateData)) {
+							$aMessage = array(
+								'type' => 'success',
+								'text' => 'Альбом обновлён'
+							);
+						} else {
+							$aMessage = array(
+								'type' => 'danger',
+								'text' => 'Ошибка при обновлении альбома'
+							);
+						}
 					}
 				}
 			}
@@ -285,42 +377,31 @@ class Gallery extends CommonAdminController {
 			);
 		}
 
-		echo json_encode($aMessage);
+		$this->session->set_flashdata('message', $aMessage);
+
+		redirect($_SERVER['HTTP_REFERER'], 'refresh');
 	}
 
 	/**
 	 * Удаление изображения
 	 *
+	 * @param $iId
+	 * @return bool
+	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function ajaxRemoveImage(){
-		$aPost = $this->input->post();
-		if(!empty($aPost)) {
-			$iImageId = $aPost['iImageId'];
-
+	protected function removeImage($iId){
+		if($iImageId = intval($iId) AND $iImageId > 0) {
 			$oImage = $this->gallery_model->getImageById($iImageId);
 
-			if($this->deleteAction($oImage->label_album, $oImage->label)) {
+			if($this->deleteAction($oImage->label_album, $oImage->label, $iImageId)) {
 				if($this->gallery_model->deleteImage($iImageId)) {
-					$aMessage = array(
-						'type' => 'success',
-						'text' => 'Изображение удалено'
-					);
+					return true;
 				}
-			} else {
-				$aMessage = array(
-					'type' => 'danger',
-					'text' => 'Ошибка при удалении'
-				);
 			}
-		} else {
-			$aMessage = array(
-				'type' => 'danger',
-				'text' => 'Неизвестная ошибка'
-			);
 		}
 
-		echo json_encode($aMessage);
+		return false;
 	}
 
 	/**
@@ -333,26 +414,29 @@ class Gallery extends CommonAdminController {
 		$aMessage = array();
 
 		if(!empty($aPost)) {
-			$iAlbumId = $aPost['iAlbumId'];
+			$iAlbumId = $aPost['album_id'];
 			if($oAlbum = $this->gallery_model->getAlbumById($iAlbumId)) {
-				if(!$this->gallery_model->getFetchCountriesImages(array('iAlbumId' => $iAlbumId))) {
-					if($this->deleteAction($oAlbum->label)) {
-						if($this->gallery_model->deleteAlbum($iAlbumId)) {
-							$aMessage = array(
-								'type' => 'success',
-								'text' => 'Альбом удалён'
-							);
-						}
-					} else {
+
+				/** Remove images from album - start */
+				$aImages = $this->gallery_model->getFetchCountriesImages(array('iAlbumId' => $iAlbumId));
+				if(!empty($aImages)) {
+					foreach ($aImages as $aImage) {
+						$this->removeImage($aImage->id);
+					}
+				}
+				/** Remove images from album - finish */
+
+				if($this->deleteAction($oAlbum->label)) {
+					if($this->gallery_model->deleteAlbum($iAlbumId)) {
 						$aMessage = array(
-							'type' => 'danger',
-							'text' => 'Ошибка при удалении'
+							'type' => 'success',
+							'text' => 'Альбом удалён'
 						);
 					}
 				} else {
 					$aMessage = array(
 						'type' => 'danger',
-						'text' => 'Удалите все изображения из альбома'
+						'text' => 'Ошибка при удалении'
 					);
 				}
 			}
@@ -362,8 +446,8 @@ class Gallery extends CommonAdminController {
 				'text' => 'Неизвестная ошибка'
 			);
 		}
-
-		echo json_encode($aMessage);
+		$this->session->set_flashdata('message', $aMessage);
+		redirect('/admin/gallery', 'refresh');
 	}
 	
 	/**
@@ -371,15 +455,40 @@ class Gallery extends CommonAdminController {
 	 *
 	 * @param $sAlbum
 	 * @param null $sImage
+	 * @param null $iIdImage
 	 *
 	 * @return bool
 	 * @author N.Kulchinskiy
 	 */
-	private function deleteAction($sAlbum, $sImage = null) {
+	private function deleteAction($sAlbum, $sImage = null, $iIdImage = null) {
+		$sPath = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$sAlbum;
+
 		if (empty($sImage)) {
-			@rmdir($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$sAlbum);
+			$aDirectory = opendir($sPath);
+			while(($dir = readdir($aDirectory))) {
+				if (is_dir($sPath.DIRECTORY_SEPARATOR.$dir) AND ($dir != ".") && ($dir != "..")) {
+					$this->deleteAction($sAlbum.DIRECTORY_SEPARATOR.$dir);
+				}
+			}
+			closedir ($aDirectory);
+			rmdir ($sPath);
 		} else {
-			@unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$sAlbum.DIRECTORY_SEPARATOR.$sImage);
+			$iIdImage = intval($iIdImage);
+			@unlink($sPath.DIRECTORY_SEPARATOR.$sImage);
+
+			/** Удаление превьюшек - старт */
+			$aGalleryConfig = $this->config->item('gallery');
+			$aImagePreviewSize = $aGalleryConfig['image_preview_size'];
+			$sImageExtension = $aGalleryConfig['image_preview_extension'];
+
+			if(!empty($aImagePreviewSize) AND is_array($aImagePreviewSize)) {
+				foreach ($aImagePreviewSize as $aSize) {
+					if (is_dir($sPath.DIRECTORY_SEPARATOR.'thumbs'.intval($aSize['width']) . 'x' . intval($aSize['height']))) {
+						@unlink($sPath.DIRECTORY_SEPARATOR.'thumbs'.intval($aSize['width']) . 'x' . intval($aSize['height']).DIRECTORY_SEPARATOR.'thumbs'.$iIdImage.$sImageExtension);
+					}
+				}
+			}
+			/** Удаление превьюшек - финиш */
 		}
 
 		return true;

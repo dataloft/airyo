@@ -20,29 +20,33 @@
 			</div>
 		<? endif; ?>
 
-		<ol class="breadcrumb">
-			<li><a href="#">Фотоальбомы</a></li>
-			<li class="un-styled pull-right"><a href="" class="pull-right" data-toggle="modal" data-target="#createAlbumModal">Создать альбом</a></li>
-		</ol>
+		<div class="row">
+			<div class="col-md-12" style="margin: 0 0 20px">
+				<ul class="nav nav-pills pull-right">
+					<li>
+						<a href="" class="pull-right" data-toggle="modal" data-target="#createAlbumModal"><span class="glyphicon glyphicon-film" style="color: #777"></span> Создать альбом</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 
-		<?php if(!empty($albums)) : ?>
-			<?php foreach($albums as $album) : ?>
-				<div class="col-lg-3 col-md-4 col-xs-6 thumb">
-					<a class="thumbnail image-gallery-albums" href="/admin/gallery/<?=$album->label; ?>" title="<?=$album->title; ?>">
-	                    <?php if(!empty($album->random_image_label)) : ?>
-						    <img src="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$album->random_image_label; ?>" class="img-responsive image-gallery"  />
-	                    <?php endif; ?>
-						<div class="photo-album-title">
-							<p class="photo-title pull-left"><?=$album->title; ?></p>
-							<span class="pull-right" style="margin-right: 3px;"><i class="glyphicon glyphicon-camera"></i> <?=$album->images_count; ?></span>
-						</div>
-					</a>
-				</div>
-			<?php endforeach; ?>
-		<?php else : ?>
-			<div class="clearfix"></div>
-			<div id="album-empty"><p>Альбомов нет</p></div>
-		<?php endif ?>
+		<div class="row">
+			<div class="col-md-12">
+				<?php if(!empty($albums)) : ?>
+					<ul class="list-group">
+						<?php foreach($albums as $album) : ?>
+							<li class="list-group-item"><a href="/admin/gallery/<?=$album->label; ?>"><?=$album->title; ?></a></li>
+						<?php endforeach; ?>
+					</ul>
+					<div class="text-center">
+						<?=$pagination->create_links(); ?>
+					</div>
+				<?php else : ?>
+					<div class="clearfix"></div>
+					<div id="album-empty"><p>Альбомов нет</p></div>
+				<?php endif ?>
+			</div>
+		</div>
 	</div>
 </div>
 
