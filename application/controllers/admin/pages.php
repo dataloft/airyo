@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Content extends CommonAdminController {
+class Pages extends CommonAdminController {
 
     protected $default;
 
@@ -25,11 +25,11 @@ class Content extends CommonAdminController {
 
 	    $this->oData['content']  = $this->content_model->getList($this->oData['type'], $this->oData['search']);
 	    $this->oData['type_list']  = $this->content_model->getType();
-	    $this->oData['view'] = 'admin/content/list';
+	    $this->oData['view'] = 'admin/pages/list';
     }
 
     public function add() {
-	    $this->oData['main_menu'] = 'content';
+	    $this->oData['main_menu'] = 'pages';
 	    $this->oData['id'] = '';
 	    $this->oData['message'] = '';
 	    $this->oData['title'] = "Добавить/редактировать страницу";
@@ -175,7 +175,7 @@ class Content extends CommonAdminController {
                 $additional_data['content'] = serialize($content);
             }
             else
-                $additional_data['content'] = $this->input->post('content',TRUE);
+                $additional_data['content'] = $this->input->post('content');
 
             if ($id = $this->content_model->Add($additional_data))
             {
@@ -184,7 +184,7 @@ class Content extends CommonAdminController {
                         'text' => 'Запись создана'
                     )
                 );
-                redirect("admin/content/edit/$id", 'refresh');
+                redirect("admin/pages/edit/$id", 'refresh');
             }
             else
             {
@@ -202,7 +202,7 @@ class Content extends CommonAdminController {
             );
         }
         $alias = 'add';
-        $this->oData['view'] = 'admin/content/'.$alias;
+        $this->oData['view'] = 'admin/pages/'.$alias;
         $this->oData['scripts'] = array(
             '/themes/airyo/js/content.js',
         );
@@ -211,7 +211,7 @@ class Content extends CommonAdminController {
     public function edit($id = '') {
         $this->oData['id'] = '';
         $this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-        $this->oData['main_menu'] = 'content';
+        $this->oData['main_menu'] = 'pages';
         $this->oData['template_list'] = $this->config->item('templates');
         $this->oData['title'] = "Добавить/редактировать страницу";
         if (!$this->ion_auth->logged_in()) {
@@ -277,16 +277,18 @@ class Content extends CommonAdminController {
             {
                 $this->oData['page'] = array(
 
-                    'h1' => $this->input->post('h1',TRUE),
-                    'alias' =>  $this->input->post('alias',TRUE),
-                    'type' =>  $this->input->post('type',TRUE),
-                    'title' =>  $this->input->post('title',TRUE),
-                    'meta_description' =>   $this->input->post('meta_description',TRUE),
-                    'meta_keywords' =>  $this->input->post('meta_keywords',TRUE),
-                    'enabled' =>  $this->input->post('enabled',TRUE)
+                    'h1' => $this->input->post('h1'),
+                    'alias' =>  $this->input->post('alias'),
+                    'type' =>  $this->input->post('type'),
+                    'title' =>  $this->input->post('title'),
+                    'meta_description' =>   $this->input->post('meta_description'),
+                    'meta_keywords' =>  $this->input->post('meta_keywords'),
+                    'enabled' =>  $this->input->post('enabled')
 
                 );
+                
                 $save_data = $this->oData['page'];
+                
                 if (!empty($this->oData['template_list'][$template]['fields']))
                 {
                     foreach ($this->oData['fields'] as $key => $param)
@@ -294,6 +296,7 @@ class Content extends CommonAdminController {
                         $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name']);
 
                         $content[$param['field_name']] = $this->input->post($param['field_name']);
+                        
                         if ($param['type'] == 'file')
                         {
                             $upload = !empty($_FILES[$param['field_name']]) ?
@@ -346,12 +349,13 @@ class Content extends CommonAdminController {
                             }
                         }
                     }
+                    
                     $save_data['content'] = serialize($content);
                 }
                 else
                 {
-                    $save_data['content'] = $this->input->post('content',TRUE);
-                    $this->oData['page']['content'] = $this->input->post('content',TRUE);
+                    $save_data['content'] = $this->input->post('content');
+                    $this->oData['page']['content'] = $this->input->post('content');
                 }
 
                 if ($this->content_model->Update($this->oData['id'],$save_data))
@@ -372,14 +376,14 @@ class Content extends CommonAdminController {
             elseif($this->input->post('id') == $id)
             {
                 $this->oData['page'] = array(
-                    'h1' => $this->input->post('h1',TRUE),
-                    'alias' =>  $this->input->post('alias',TRUE),
-                    'type' =>  $this->input->post('type',TRUE),
-                    'title' =>  $this->input->post('title',TRUE),
-                    'meta_description' =>   $this->input->post('meta_description',TRUE),
-                    'meta_keywords' =>  $this->input->post('meta_keywords',TRUE),
-                    'enabled' =>  $this->input->post('enabled',TRUE),
-                    'template' =>  $this->input->post('template',TRUE)
+                    'h1' => $this->input->post('h1'),
+                    'alias' =>  $this->input->post('alias'),
+                    'type' =>  $this->input->post('type'),
+                    'title' =>  $this->input->post('title'),
+                    'meta_description' =>   $this->input->post('meta_description'),
+                    'meta_keywords' =>  $this->input->post('meta_keywords'),
+                    'enabled' =>  $this->input->post('enabled'),
+                    'template' =>  $this->input->post('template')
                 );
                 if (!empty($this->oData['template_list'][$template]['fields']))
                 {
@@ -392,7 +396,7 @@ class Content extends CommonAdminController {
                 }
                 else
                 {
-                    $this->oData['page']['content'] = $this->input->post('content',TRUE);
+                    $this->oData['page']['content'] = $this->input->post('content');
                 }
 
                 $this->oData['message'] = array(
@@ -405,11 +409,11 @@ class Content extends CommonAdminController {
         //Вставляем новую запись
         else
         {
-            redirect("admin/content/add", 'refresh');
+            redirect("admin/pages/add", 'refresh');
         }
 
         $alias = 'edit';
-        $this->oData['view'] = 'admin/content/'.$alias;
+        $this->oData['view'] = 'admin/pages/'.$alias;
 
     }
 

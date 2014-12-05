@@ -19,8 +19,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12" style="margin-top: 20px">
-            <p class="pull-right"><span class="glyphicon glyphicon-plus" style="color: #777"></span> <a href="/admin/menu/add/<?=$menu_group?>" class="add">Добавить раздел</a></p>
+        <div class="col-md-12" style="margin: 20px 0 20px">
+            <p class="pull-right"><span class="glyphicon glyphicon-plus" style="color: #777"></span> <a href="/admin/menu/add/<?=$menu_group?>" class="add">Добавить пункт</a></p>
         </div>
     </div>
     <div class="row">

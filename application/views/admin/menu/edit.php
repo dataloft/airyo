@@ -2,7 +2,13 @@
     <? if ($message) {?>
         <div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
     <? } ?>
-    <h1 class="page-header">Меню<small> / редактирование</small></h1>
+    <h1 class="page-header">Меню</h1>
+    
+    <ul class="breadcrumb">
+		<li><a href="../../menu">Главное меню</a></li>
+		<li><? echo $menu->name; ?></li>
+	</ul>
+    
     <?php echo form_open("", 'name="edit" method="POST"');?>
     <div class="form-group <?php if (form_error('name')) echo 'has-error"'; ?>">
         <label for="name" class="control-label">Название пункта меню</label>
@@ -32,7 +38,9 @@
      if (!empty($id)) {?> <input type="hidden" name="id" value="<?=$id?>"><?} else {?><input type="hidden" name="action" value="add"><?}?>
     <button type="submit" class="btn btn-success" style="float: left;">Сохранить</button>
     <?php echo form_close();?>
-    <? if (!empty($id)) {?><button type="submit" class="btn btn-warning btn-sm" style="float: right;" id="<?=$id?>" onclick="trash('<?=$id?>');">Удалить</button><?}?>
+    <? if (!empty($id)) {?>
+    	<a href="#" style="float: right;" onclick="trash('<?=$id?>');">Удалить пункт</a>
+    <?}?>
 </div>
 
 <script type="text/javascript"><!--

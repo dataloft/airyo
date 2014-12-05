@@ -50,12 +50,12 @@ $route[$this->config->item('auth')] = 'admin/auth/login';
 $route['admin/registration'] = 'admin/auth/create_user';
 $route['admin/logout'] = 'admin/auth/logout';
 
-//admin content
-$route['admin/content'] = 'admin/content';
-$route['admin/content/add'] = 'admin/content/add';
-$route['admin/content/edit'] = 'admin/content/edit';
-$route['admin/content/edit/(:num)'] = 'admin/content/edit/$1';
-$route['admin/content/delete'] = 'admin/content/delete';
+//admin pages
+$route['admin/pages'] = 'admin/pages';
+$route['admin/pages/add'] = 'admin/pages/add';
+$route['admin/pages/edit'] = 'admin/pages/edit';
+$route['admin/pages/edit/(:num)'] = 'admin/pages/edit/$1';
+$route['admin/pages/delete'] = 'admin/pages/delete';
 
 //admin users (profile)
 $route['admin/users'] = 'admin/users';

@@ -1,1 +1,0 @@
-DROP TABLE `airyo_templates`, `airyo_templates_config`;
