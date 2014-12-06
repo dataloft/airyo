@@ -9,7 +9,7 @@
 		<li>Новая страница</li>
 	</ul>
     
-    <?php echo form_open_multipart("", 'name="edit" method="POST"');?>
+    <?php echo form_open_multipart("", 'name="edit" id="pages" method="POST"');?>
         <div class="form-group <?php if (form_error('template')) echo 'has-error"'; ?>">
             <label for="template" class="control-label">Шаблон записи</label>
             <select class="form-control" id="tpl" name="template">
@@ -82,37 +82,5 @@
 		<button type="submit" class="btn btn-success" style="float: left;">Сохранить</button>
 
     <?php echo form_close();?>
-    <? if (!empty($id)) {?><button type="submit" class="btn btn-warning btn-sm" style="float: right;" id="<?=$id?>" onclick="trash('<?=$id?>');">Удалить</button><?}?>
+    
 </div>
-
-<script type="text/javascript"><!--
-    function trash (id) {
-        //var li = $('#'+id).parent();
-        //var tr = td.parent();
-        if (confirm('Удалить запись?')) {
-            $.ajax({
-                type: 'post',
-                url: '/admin/content/delete',
-                dataType: 'json',
-                data: {id:id},
-                complete: function() {
-
-                },
-                success: function(data, status) {
-                    if (data.error) {
-                        alert('Удалить запись не удалось');
-                    }
-                    if (data.success) {
-                        location.replace('/admin/pages');
-                    }
-
-                },
-                error: function (data,status, error)
-                {
-                    alert(error);
-                }
-            });
-        }
-    }
-
-    //--></script>

@@ -47,7 +47,7 @@ if (!empty($styles))
 		<?php if(isset($main_menu) AND !empty($main_menu)) : ?>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li <? if ($main_menu == 'content') echo 'class="active"';?> ><a href="/admin/pages">Страницы</a></li>
+				<li <? if ($main_menu == 'pages') echo 'class="active"';?> ><a href="/admin/pages">Страницы</a></li>
 				<li <? if ($main_menu == 'menu') echo 'class="active"';?> ><a href="/admin/menu">Меню</a></li>
 				<li <? if ($main_menu == 'files') echo 'class="active"';?>><a href="/admin/files">Файлы</a></li>
 				<li class="dropdown <?php  if ($main_menu[0] == 'modules') echo 'active';?>"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>

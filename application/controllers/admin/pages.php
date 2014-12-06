@@ -13,7 +13,7 @@ class Pages extends CommonAdminController {
     }
 
     public function index($page = '') {
-	    $this->oData['main_menu'] = 'content';
+	    $this->oData['main_menu'] = 'pages';
 
 	    $this->oData['type'] = '';
 	    $this->oData['search'] = '';
@@ -29,7 +29,9 @@ class Pages extends CommonAdminController {
     }
 
     public function add() {
+    
 	    $this->oData['main_menu'] = 'pages';
+	    
 	    $this->oData['id'] = '';
 	    $this->oData['message'] = '';
 	    $this->oData['title'] = "Добавить/редактировать страницу";
@@ -43,7 +45,8 @@ class Pages extends CommonAdminController {
         $this->form_validation->set_rules('h1', '', 'required');
         $this->form_validation->set_rules('template', '', 'required');
         $this->form_validation->set_rules('alias', '', 'callback_check_alias');
-        $this->oData['page']['template'] = $this->input->post('template')?$this->input->post('template'):$this->default;
+        $this->oData['page']['template'] = $this->input->post('template') ? $this->input->post('template') : $this->default;
+        //echo $this->oData['page']['template'];
 
         if (!empty($_POST['change']))
             $_POST = array();
@@ -91,21 +94,21 @@ class Pages extends CommonAdminController {
         }
         else
         {
-            $this->oData['page']['content'] = $this->input->post('content',TRUE);
+            $this->oData['page']['content'] = $this->input->post('content');
         }
 
         if ($this->form_validation->run() == true)
         {
             $additional_data = array(
 
-                'template' => $this->input->post('template',TRUE),
-                'h1' => $this->input->post('h1',TRUE),
-                'alias' =>  $this->input->post('alias',TRUE),
-                'type' =>  $this->input->post('type',TRUE),
-                'title' =>  $this->input->post('title',TRUE),
-                'meta_description' =>   $this->input->post('meta_description',TRUE),
-                'meta_keywords' =>  $this->input->post('meta_keywords',TRUE),
-                'enabled' =>  $this->input->post('enabled',TRUE)
+                'template' => $this->input->post('template'),
+                'h1' => $this->input->post('h1'),
+                'alias' =>  $this->input->post('alias'),
+                'type' =>  $this->input->post('type'),
+                'title' =>  $this->input->post('title'),
+                'meta_description' =>   $this->input->post('meta_description'),
+                'meta_keywords' =>  $this->input->post('meta_keywords'),
+                'enabled' =>  $this->input->post('enabled')
             );
 
             if (!empty($this->oData['template_list'][$this->oData['page']['template']]['fields']))
@@ -201,6 +204,7 @@ class Pages extends CommonAdminController {
                 'text' =>  validation_errors()
             );
         }
+        
         $alias = 'add';
         $this->oData['view'] = 'admin/pages/'.$alias;
         $this->oData['scripts'] = array(

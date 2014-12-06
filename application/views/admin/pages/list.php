@@ -5,7 +5,7 @@
 	<h1 class="page-header">Страницы</h1>
 	<div class="row">
 		<div class="col-md-12" style="margin: 20px 0 20px">
-			<p class="pull-right"><span class="glyphicon glyphicon-plus" style="color: #777"></span> <a href="/admin/content/edit<? if (!empty($type)) echo '?type='.$type; ?>" class="add">Создать страницу</a></p>
+			<p class="pull-right"><span class="glyphicon glyphicon-plus" style="color: #777"></span> <a href="/admin/pages/edit<? if (!empty($type)) echo '?type='.$type; ?>" class="add">Создать страницу</a></p>
 		</div>
 	</div>
 	<div class="row">

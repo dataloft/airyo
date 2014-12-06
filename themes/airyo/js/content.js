@@ -11,7 +11,7 @@ $(document).ready(function(){
             else
             {
                 $("#change").val('1');
-                $("form:first").submit();
+                $("#pages").submit();
             }
         })
 
