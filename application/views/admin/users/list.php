@@ -9,7 +9,7 @@
             <ul class="nav nav-pills pull-right">
                 <li>
                     <a href="/admin/users/add">
-                        <span class="glyphicon glyphicon glyphicon-user" style="color: #777"></span> Добавить пользователя
+                        <span class="glyphicon glyphicon glyphicon-plus" style="color: #777"></span> Добавить пользователя
                     </a>
                 </li>
                 <!--li>
