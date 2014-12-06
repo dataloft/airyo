@@ -61,7 +61,7 @@ class Auth extends CommonAdminController {
 				//redirect them back to the home page
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
 				$oLog = $this->logs_model->getLastLog(array('iUserId' => $this->ion_auth->get_user_id(), 'sType' => 'redirect'));
-				$sRedirect = (!empty($oLog)) ? $oLog->description : 'admin/content';
+				$sRedirect = (!empty($oLog)) ? $oLog->description : 'admin/pages';
 
 				redirect($sRedirect, 'refresh');
 			} else {
@@ -77,7 +77,7 @@ class Auth extends CommonAdminController {
 		} else {
 			if ($this->ion_auth->logged_in()) {
 				//redirect them to the login page
-               redirect('admin/content', 'refresh');
+               redirect('admin/pages', 'refresh');
 			}
             //$this->validation->set_message('Имя функц.', 'Ваше сообщение об ошибке');
 			//the user is not logging in so display the login page
