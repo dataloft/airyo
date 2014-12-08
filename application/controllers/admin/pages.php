@@ -42,7 +42,7 @@ class Pages extends CommonAdminController {
             redirect('auth', 'refresh');
         }
         $this->oData['type_list']  = $this->content_model->getType();
-        $this->form_validation->set_rules('h1', '', 'required');
+        $this->form_validation->set_rules('h1', '', 'trim|xss_clean|strip_tags|required');
         $this->form_validation->set_rules('template', '', 'required');
         $this->form_validation->set_rules('alias', '', 'callback_check_alias');
         $this->oData['page']['template'] = $this->input->post('template') ? $this->input->post('template') : $this->default;
@@ -50,9 +50,9 @@ class Pages extends CommonAdminController {
 
         if (!empty($_POST['change']))
             $_POST = array();
-        $this->oData['page']['h1'] = $this->input->post('h1');
+        $this->oData['page']['h1'] = $this->input->post('h1',TRUE);
         $this->oData['page']['alias'] = $this->input->post('alias');
-        $this->oData['page']['title'] = $this->input->post('title');
+        $this->oData['page']['title'] = $this->input->post('title',TRUE);
         $this->oData['page']['meta_description'] = $this->input->post('meta_description');
         $this->oData['page']['meta_keywords'] = $this->input->post('meta_keywords');
         $this->oData['page']['type'] = $this->input->get('type')?$this->input->get('type'):$this->input->post('type');
@@ -102,10 +102,10 @@ class Pages extends CommonAdminController {
             $additional_data = array(
 
                 'template' => $this->input->post('template'),
-                'h1' => $this->input->post('h1'),
+                'h1' => $this->input->post('h1',TRUE),
                 'alias' =>  $this->input->post('alias'),
                 'type' =>  $this->input->post('type'),
-                'title' =>  $this->input->post('title'),
+                'title' =>  $this->input->post('title',TRUE),
                 'meta_description' =>   $this->input->post('meta_description'),
                 'meta_keywords' =>  $this->input->post('meta_keywords'),
                 'enabled' =>  $this->input->post('enabled')
@@ -273,18 +273,17 @@ class Pages extends CommonAdminController {
                 }
             }
             $this->oData['id'] = $id;
-            $this->form_validation->set_rules('h1', '', 'required');
+            $this->form_validation->set_rules('h1', '', 'required|trim|xss_clean|strip_tags');
             $this->form_validation->set_rules('alias', '', 'callback_check_alias');
-
 
             if ($this->form_validation->run() == true)
             {
                 $this->oData['page'] = array(
 
-                    'h1' => $this->input->post('h1'),
+                    'h1' => $this->input->post('h1',TRUE),
                     'alias' =>  $this->input->post('alias'),
                     'type' =>  $this->input->post('type'),
-                    'title' =>  $this->input->post('title'),
+                    'title' =>  $this->input->post('title',TRUE),
                     'meta_description' =>   $this->input->post('meta_description'),
                     'meta_keywords' =>  $this->input->post('meta_keywords'),
                     'enabled' =>  $this->input->post('enabled')
@@ -380,10 +379,10 @@ class Pages extends CommonAdminController {
             elseif($this->input->post('id') == $id)
             {
                 $this->oData['page'] = array(
-                    'h1' => $this->input->post('h1'),
+                    'h1' => $this->input->post('h1',TRUE),
                     'alias' =>  $this->input->post('alias'),
                     'type' =>  $this->input->post('type'),
-                    'title' =>  $this->input->post('title'),
+                    'title' =>  $this->input->post('title',TRUE),
                     'meta_description' =>   $this->input->post('meta_description'),
                     'meta_keywords' =>  $this->input->post('meta_keywords'),
                     'enabled' =>  $this->input->post('enabled'),
@@ -423,6 +422,12 @@ class Pages extends CommonAdminController {
 
     public function check_alias ()
     {
+        if (!preg_match('/^[a-z0-9-\/\.]+$/', $this->input->post('alias'))){
+            $this->form_validation->set_message(__FUNCTION__, 'Некорректно указан адрес страницы');
+            return false;
+        }
+        else
+        {
         $page =  $this->content_model->getToAlias($this->input->post('alias'));
         $this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
         if (empty($page))
@@ -431,6 +436,7 @@ class Pages extends CommonAdminController {
             return true;
         else
             return false;
+        }
     }
 
     public function delete () {
