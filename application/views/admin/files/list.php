@@ -33,7 +33,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" onclick="$('#delete').submit();">
+                        <a class="dropdown-toggle" id="delete-link" data-toggle="dropdown" href="#" onclick="$('#delete').submit();">
                             <span class="glyphicon glyphicon glyphicon-trash" style="color: #777"></span>&nbsp;&nbsp;Удалить
                         </a>
                     </li>

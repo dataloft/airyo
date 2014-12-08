@@ -17,7 +17,7 @@ $(document).ready( function() {
 
     $('#delete-link').click(function (ev) {
         ev.preventDefault();
-        if (!confirm('Удалить файл?')) {
+        if (!confirm('Удалить?')) {
             return false;
         }
         else
