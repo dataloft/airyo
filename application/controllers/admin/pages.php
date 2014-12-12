@@ -331,8 +331,10 @@ class Pages extends CommonAdminController {
                                         @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
                                         $this->oData['page'][$param['field_name']] = '';
                                     }
-                                    elseif($this->input->post($param['field_name'].'_hidden'))
+                                    elseif($this->input->post($param['field_name'].'_hidden')){
                                         $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                                        $content[$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                                    }
                                     else
                                         $this->oData['page'][$param['field_name']] = '';
                                 }
@@ -346,7 +348,10 @@ class Pages extends CommonAdminController {
                                 }
 
                                 elseif($this->input->post($param['field_name'].'_hidden'))
-                                    $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                                {
+                                        $content[$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                                        $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                                }
                                 else
                                     $this->oData['page'][$param['field_name']] = '';
                             }
