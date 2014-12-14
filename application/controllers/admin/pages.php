@@ -422,21 +422,23 @@ class Pages extends CommonAdminController {
 
     public function check_alias ()
     {
-        if (!preg_match('/^[a-z0-9-\/\.]+$/', $this->input->post('alias'))){
-            $this->form_validation->set_message(__FUNCTION__, 'Некорректно указан адрес страницы');
-            return false;
-        }
-        else
-        {
-        $page =  $this->content_model->getToAlias($this->input->post('alias'));
-        $this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
-        if (empty($page))
-            return true;
-        if ($this->input->post('id') == $page->id)
-            return true;
-        else
-            return false;
-        }
+
+            if (!empty($_POST['alias']) && !preg_match('/^[a-z0-9-\/\.]+$/', $this->input->post('alias'))){
+                $this->form_validation->set_message(__FUNCTION__, 'Некорректно указан адрес страницы');
+                return false;
+            }
+            else
+            {
+            $page =  $this->content_model->getToAlias($this->input->post('alias'));
+            $this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
+            if (empty($page))
+                return true;
+            if ($this->input->post('id') == $page->id)
+                return true;
+            else
+                return false;
+            }
+
     }
 
     public function delete () {
