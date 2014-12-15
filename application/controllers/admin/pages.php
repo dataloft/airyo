@@ -399,6 +399,11 @@ class Pages extends CommonAdminController {
                     {
                         $this->input->post($param['field_name'])?$this->oData['page'][$param['field_name']] = $this->input->post($param['field_name']):$this->oData['page'][$param['field_name']] = '';
                         //$content[$param['field_name']] = $this->input->post($param['field_name']);
+                        if($this->input->post($param['field_name'].'_hidden'))
+                        {
+                        $content[$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                        $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                        }
 
                     }
                 }
