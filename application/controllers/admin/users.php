@@ -11,6 +11,7 @@ class Users extends CommonAdminController {
 		parent::__construct();
 
 		$this->load->model('groups_model');
+		$this->load->model('modules_model');
 		$this->load->config('ion_auth', TRUE);
 	}
 
@@ -114,6 +115,10 @@ class Users extends CommonAdminController {
 	public function edit($iId) {
 		$this->oData['main_menu'] = 'users';
 
+		$this->oData['styles'] = array(
+			'/themes/airyo/css/users.css',
+		);
+
 		$oPost = (object) $this->input->post();
 
 		if(!empty($oPost->form_edit)) {
@@ -121,6 +126,10 @@ class Users extends CommonAdminController {
 
 			if($oPost->form_edit == "profile") {
 				$aMessage = $this->updateProfile($iId);
+			}
+			if($oPost->form_edit == "modules") {
+				$aMessage = $this->updateUserModules($iId);
+				$aMessage['form'] = $oPost->form_edit;
 			}
 			elseif($oPost->form_edit == "password") {
 				$this->form_validation->set_rules('newpass', 'Новый пароль', 'trim|required');
@@ -143,17 +152,26 @@ class Users extends CommonAdminController {
 			$this->oData['message'] =  $aMessage;
 		}
 
-		$aUserGroups = $this->groups_model->getUsersGroups(array('iUserId' => $iId));
-		$aGroups = array();
-		if($aUserGroups) {
-			foreach ($aUserGroups as $aGroup) {
-				array_push($aGroups, $aGroup->group_id);
-			}
+		$aGroups = $this->ion_auth->groups()->result_array();
+		$aUserGroups = $this->groups_model->getUsersGroups(array('iUserId' => $iId, 'bAsArray' => true));
+		$userGroups = array();
+		foreach ($aUserGroups as $key => $userGroup) {
+			$userGroups[] = $userGroup['group_id'];
+		}
+
+		$aModules = $this->modules_model->getModules();
+		$aUserModules = $this->modules_model->getUserModules(array('iUserId' => $iId, 'bAsArray' => true));
+		$userModules = array();
+		foreach ($aUserModules as $key => $userModule) {
+			$userModules[] = $userModule['module_id'];
 		}
 
 		$this->oData['user']  = $this->users_model->getUserById($iId);
-		$this->oData['user_groups']  = $aGroups;
-		$this->oData['groups']  = $this->ion_auth->groups()->result_array();
+		$this->oData['modules']  = $aModules;
+		$this->oData['user_modules']  = $userModules;
+		$this->oData['rules']  = $this->users_model->getRules();
+		$this->oData['groups']  = $aGroups;
+		$this->oData['user_groups']  = $userGroups;
 
 		$this->oData['view'] = 'admin/users/edit';
 	}
@@ -178,6 +196,7 @@ class Users extends CommonAdminController {
 			//$this->form_validation->set_rules('company', 'Название компании', 'trim|min_length[3]|xss_clean');
 			//$this->form_validation->set_rules('phone', 'Телефонный номер', 'trim|alpha_dash');
 			$this->form_validation->set_rules('groups', 'Группа', 'required');
+			$this->form_validation->set_rules('rule', 'Роль', 'required|numeric');
 
 			if ($this->form_validation->run() == true) {
 				$aProfileData = array(
@@ -188,17 +207,26 @@ class Users extends CommonAdminController {
 					//'company'       => $this->input->post('company',TRUE),
 					//'phone'         => $this->input->post('phone',TRUE)
 				);
+
 				$aGroups = $this->input->post('groups',TRUE);
 				if ($this->users_model->Update($iId, $aProfileData)) {
-					if($this->ion_auth->remove_from_group(false, $iId)) {
-						foreach ($aGroups as $iGroupId) {
-							if(!$this->ion_auth->add_to_group($iGroupId, $iId)) {
-								return $aMessage = array(
-									'type' => 'warning',
-									'text' => 'Ошибка при добавлении в группу'
-								);
+					$iRuleId = $this->input->post('rule',TRUE);
+					if($this->users_model->updateRule($iId, $iRuleId)) {
+						if($this->ion_auth->remove_from_group(false, $iId)) {
+							foreach ($aGroups as $iGroupId) {
+								if(!$this->ion_auth->add_to_group($iGroupId, $iId)) {
+									return $aMessage = array(
+										'type' => 'warning',
+										'text' => 'Ошибка при добавлении в группу'
+									);
+								}
 							}
 						}
+					} else {
+						return $aMessage = array(
+							'type' => 'warning',
+							'text' => 'Ошибка сохранения роли'
+						);
 					}
 
 					$aMessage = array(
@@ -216,6 +244,39 @@ class Users extends CommonAdminController {
 			$aMessage = array(
 				'type' => 'warning',
 				'text' =>  'Ошибка при сохранении'
+			);
+		}
+
+		return $aMessage;
+	}
+
+	/**
+	 * Модули пользователя
+	 *
+	 * @param $iId
+	 * @return array
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	private function updateUserModules($iId){
+		$aMessage = array();
+
+		if ($iId = intval($iId) AND $iId > 0) {
+			$aModules = $this->input->post('modules',TRUE);
+			if($this->modules_model->removeUserModules($iId)) {
+				foreach ($aModules as $iModuleId) {
+					if(!$this->modules_model->addUserModules($iId, $iModuleId)) {
+						return $aMessage = array(
+							'type' => 'warning',
+							'text' => 'Ошибка при добавлении модуля'
+						);
+					}
+				}
+			}
+
+			$aMessage = array(
+				'type' => 'success',
+				'text' => 'Успешное сохранение профиля'
 			);
 		}
 

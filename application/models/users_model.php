@@ -35,7 +35,12 @@ class Users_model extends CI_Model {
 	public function getUsers(array $aParams = array()){
 		$aParams = self::validateData($aParams);
 
-		$this->db->select('*');
+		$this->db->select($this->db->dbprefix('users').'.*');
+		$this->db->select($this->db->dbprefix('rules').'.id AS rule_id');
+		$this->db->select($this->db->dbprefix('rules').'.title AS rule_title');
+
+		$this->db->join($this->db->dbprefix('users_rules'), $this->db->dbprefix('users') . '.id = ' . $this->db->dbprefix('users_rules') . '.user_id', 'left');
+		$this->db->join($this->db->dbprefix('rules'), $this->db->dbprefix('rules') . '.id = ' . $this->db->dbprefix('users_rules') . '.rule_id', 'left');
 
 		if (isset($aParams['iUserId'])) {
 			$this->db->where($this->db->dbprefix('users').'.id', $aParams['iUserId']);
@@ -96,6 +101,47 @@ class Users_model extends CI_Model {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Получение списка ролей
+	 *
+	 * @return array $result
+	 */
+	public function getRules()
+	{
+		$this->db->select('*')->from($this->db->dbprefix('rules'));
+		$query = $this->db->get();
+
+		if($result = $query->result()) {
+			return $result;
+		}
+	}
+
+	/**
+	 * Обновление роли пользователя
+	 *
+	 * @param $iId
+	 * @param $iRuleId
+	 * @return bool
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function updateRule($iId, $iRuleId){
+		$aUser = $this->getUserById($iId);
+		if(!empty($aUser->rule_id)) {
+
+			$this->db->where('user_id', $iId);
+			if($this->db->update($this->db->dbprefix('users_rules'), array('rule_id' => $iRuleId))) {
+				return true;
+			}
+
+		} else {
+			if($this->db->insert($this->db->dbprefix('users_rules'), array('user_id' => $iId, 'rule_id' => $iRuleId))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

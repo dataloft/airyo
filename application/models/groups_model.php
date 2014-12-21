@@ -80,10 +80,7 @@ class Groups_model extends CI_Model {
 		$aQuery = $this->db->get();
 
 		//var_dump($this->db->last_query());
-
-		if($aRecord = $aQuery->result()) {
-			return $aRecord;
-		}
+		return $aRecord = ($aParams['bAsArray']) ? $aQuery->result_array() : $aQuery->result();
 	}
 
 	/**
@@ -120,6 +117,12 @@ class Groups_model extends CI_Model {
 		// Проверка id группы
 		if(isset($aParams['iGroupId']) AND $iId = intval($aParams['iGroupId']) AND $iId > 0) {
 			$aValidParams['iGroupId'] = $iId;
+		}
+		// Тип вывода
+		if(isset($aParams['bAsArray']) AND $aParams['bAsArray']) {
+			$aValidParams['bAsArray'] = true;
+		} else {
+			$aValidParams['bAsArray'] = false;
 		}
 
 		return $aValidParams;
