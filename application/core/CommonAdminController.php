@@ -21,6 +21,7 @@ class CommonAdminController extends CI_Controller
 		$this->load->helper('url');
 		$this->load->helper('language');
 		$this->lang->load('content');
+		$this->load->model('modules_model');
 		$this->load->model('users_model');
 		$this->load->model('logs_model');
 
@@ -31,14 +32,25 @@ class CommonAdminController extends CI_Controller
 
 		$this->oData['message'] = '';
 		$this->oData['user_data'] = $this->oUser;
+		$this->oData['headermenu_modules'] = $this->modules_model->getUserModules(array('iUserId' => $this->oUser->id));
 
 		if(!$this->ion_auth->logged_in() AND $bLogin) {
 			redirect('admin', 'refresh');
 		}
 
+		$this->updateLogs();
+	}
+
+	/**
+	 * Обновление журнала посещения
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	private function updateLogs(){
 		$aNotUpdate = array(
 			'admin', 'admin/logout'
 		);
+
 		if(!in_array($this->uri->uri_string, $aNotUpdate)) {
 			$this->logs_model->updateLogs(array(
 				'user_id'       => $this->ion_auth->get_user_id(),

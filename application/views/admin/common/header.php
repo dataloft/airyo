@@ -44,27 +44,21 @@ if (!empty($styles))
 			<?php endif; ?>
 			<a class="navbar-brand" href="/" target="_blank" style="margin-right: 20px"><span class="glyphicon glyphicon-dashboard"></span> <?=ltrim($_SERVER['HTTP_HOST'],'www.');?></a>
 		</div>
-		<?php if(isset($main_menu) AND !empty($main_menu)) : ?>
+		<?php if(isset($main_menu) AND !empty($main_menu) AND isset($headermenu_modules) AND !empty($headermenu_modules)) : ?>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li <? if ($main_menu == 'pages') echo 'class="active"';?> ><a href="/admin/pages">Страницы</a></li>
-				<li <? if ($main_menu == 'menu') echo 'class="active"';?> ><a href="/admin/menu">Меню</a></li>
-				<li <? if ($main_menu == 'files') echo 'class="active"';?>><a href="/admin/files">Файлы</a></li>
-				<li class="dropdown <?php  if ($main_menu[0] == 'modules') echo 'active';?>"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>
+				<?php foreach ($headermenu_modules as $key => $module) : ?>
+					<?php if ($key < 3) : ?>
+						<li <?=($main_menu == $module->alias) ? 'class="active"' : ''; ?> ><a href="/admin/<?=$module->alias; ?>"><?=$module->title; ?></a></li>
+					<?php endif; ?>
+				<?php endforeach; ?>
+				<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li <? if ($main_menu == 'users') echo 'class="active"';?> ><a href="/admin/users">Пользователи</a></li>
-						<li <? if ($main_menu == 'gallery') echo 'class="active"';?>><a href="/admin/gallery">Фотоальбомы</a></li>
-						<!--li><a href="/admin/">Слайдеры</a></li>
-						<li><a href="/admin/">Каталог товаров</a></li>
-						<li><a href="/admin/">Заказы</a></li>
-						<li><a href="/admin/">Формы и запросы</a></li>
-						<li><a href="/admin/">Комментарии</a></li>
-						<li><a href="/admin/">Подписки и рассылки</a></li>
-						<li><a href="/admin/">Журнал действий</a></li>
-						<li><a href="/admin/">Настройки сайта</a></li>
-						<li><a href="/admin/">Коллекция стилей</a></li>
-						<li><a href="/admin/">Пакетные операции</a></li-->
-						<li  <? if ($main_menu == 'counters') echo 'class="active"';?>><a href="/admin/counters">Счетчики</a></li>
+						<?php foreach ($headermenu_modules as $key => $module) : ?>
+							<?php if ($key >= 3) : ?>
+								<li <?=($main_menu == $module->alias) ? 'class="active"' : ''; ?> ><a href="/admin/<?=$module->alias; ?>"><?=$module->title; ?></a></li>
+							<?php endif; ?>
+						<?php endforeach; ?>
 					</ul>
 				</li>
 			</ul>
@@ -78,16 +72,14 @@ if (!empty($styles))
 		<?php endif; ?>
 	</div>
 </div>
-<script>
-var url = document.location.href;
-$.each($(".menu a"),function(){
-if(this.href == url){
-$(this).addClass('active-menu');
-};
-});
+<script type="text/javascript">
+	var url = document.location.href;
+	$.each($(".menu a"),function(){
+		if(this.href == url){
+			$(this).addClass('active-menu');
+		};
+	});
 
-$(".box-category a").each(function(e){
-
-
+	$(".box-category a").each(function(e){
 });
 </script>
