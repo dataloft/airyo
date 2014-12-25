@@ -32,7 +32,18 @@ class CommonAdminController extends CI_Controller
 
 		$this->oData['message'] = '';
 		$this->oData['user_data'] = $this->oUser;
-		$this->oData['headermenu_modules'] = $this->modules_model->getUserModules(array('iUserId' => $this->oUser->id));
+		$this->oData['headermenu_modules'] = new stdClass();
+
+		if($this->oUser) {
+			switch($this->oUser->rule_id) {
+				case 1:
+					$this->oData['headermenu_modules'] = $this->modules_model->getUserModules(array('iUserId' => $this->ion_auth->get_user_id()));
+					break;
+				case 2:
+					$this->oData['headermenu_modules'] = $this->modules_model->getModules();
+					break;
+			}
+		}
 
 		if(!$this->ion_auth->logged_in() AND $bLogin) {
 			redirect('admin', 'refresh');

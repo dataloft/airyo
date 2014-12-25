@@ -25,7 +25,7 @@ class Groups_model extends CI_Model {
 	}
 
 	/**
-	 * Получение групп пользвоателей
+	 * Получение групп пользователей
 	 *
 	 * @param array $aParams
 	 *

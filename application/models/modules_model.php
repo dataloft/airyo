@@ -63,7 +63,6 @@ class Modules_model extends CI_Model {
 	public function getUserModules(array $aParams = array()){
 		$aParams = self::validateData($aParams);
 
-
 		$this->db->select('*');
 		$this->db->from($this->db->dbprefix('users_modules'));
 		$this->db->join($this->db->dbprefix('modules'), $this->db->dbprefix('modules') . '.id = ' . $this->db->dbprefix('users_modules') . '.module_id', 'left');
