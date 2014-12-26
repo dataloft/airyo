@@ -12,8 +12,8 @@ class Users_model extends CI_Model {
 	}
 
 	public function fetch_countries($limit, $start) {
-		$this->db->limit($limit, $start);
 		$query = $this->db->get("users");
+		$this->db->limit($limit, $start);
 
 		if ($query->num_rows() > 0) {
 			foreach ($query->result() as $row) {
@@ -37,8 +37,19 @@ class Users_model extends CI_Model {
 
 		$this->db->select($this->db->dbprefix('users').'.*');
 
-		if (isset($aParams['iUserId'])) {
+		if (isset($aParams['iUserId']) AND !isset($aParams['iRuleId'])) {
 			$this->db->where($this->db->dbprefix('users').'.id', $aParams['iUserId']);
+		}
+
+		if (isset($aParams['iUserId']) AND isset($aParams['iRuleId'])) {
+			if ($aParams['iRuleId'] == 1) {
+				$this->db->where($this->db->dbprefix('users').'.rule_id', 0);
+				$this->db->or_where($this->db->dbprefix('users').'.id', $aParams['iUserId']);
+			}
+		}
+
+		if (isset($aParams['iLimit']) AND isset($aParams['iStart'])) {
+			$this->db->limit($aParams['iLimit'], $aParams['iStart']);
 		}
 
 		$this->db->order_by($this->db->dbprefix('users').'.id','asc');
@@ -153,6 +164,21 @@ class Users_model extends CI_Model {
 		// Проверка id пользователя
 		if(isset($aParams['iUserId']) AND $iId = intval($aParams['iUserId']) AND $iId > 0) {
 			$aValidParams['iUserId'] = $iId;
+		}
+
+		// Проверка id роли
+		if(isset($aParams['iRuleId']) AND $iId = intval($aParams['iRuleId']) AND $iId > 0) {
+			$aValidParams['iRuleId'] = $iId;
+		}
+
+		// Проверка лимита
+		if(isset($aParams['iLimit']) AND $iId = intval($aParams['iLimit']) AND $iId > 0) {
+			$aValidParams['iLimit'] = $iId;
+		}
+
+		// Проверка номера страницы
+		if(isset($aParams['iStart']) AND $iId = intval($aParams['iStart']) AND $iId > 0) {
+			$aValidParams['iStart'] = $iId;
 		}
 
 		return $aValidParams;

@@ -30,7 +30,14 @@ class Users extends CommonAdminController {
 		$this->pagination->initialize($aPaginationConfig);
 
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$this->oData["users"] = $this->users_model->fetch_countries($aPaginationConfig["per_page"], $page);
+		$this->oData["users"] = $this->users_model->getUsers(
+			array(
+				'iUserId' => $this->oUser->id,
+				'iRuleId' => $this->oUser->rule_id,
+				'iLimit' => $aPaginationConfig["per_page"],
+				'iStart' => $page
+			)
+		);
 
 		foreach ($this->oData["users"] as $iKey => $aUser) {
 			$this->oData["users"][$iKey]->groups = $this->ion_auth->get_users_groups($aUser->id)->result_array();
@@ -159,11 +166,15 @@ class Users extends CommonAdminController {
 			$userGroups[] = $userGroup['group_id'];
 		}
 
-		$aModules = $this->modules_model->getModules();
-		$aUserModules = $this->modules_model->getUserModules(array('iUserId' => $iId, 'bAsArray' => true));
+		$aModules = array();
 		$userModules = array();
-		foreach ($aUserModules as $key => $userModule) {
-			$userModules[] = $userModule['module_id'];
+
+		if ($this->oUser->rule_id == 2) {
+			$aModules = $this->modules_model->getModules();
+			$aUserModules = $this->modules_model->getUserModules(array('iUserId' => $iId, 'bAsArray' => true));
+			foreach ($aUserModules as $key => $userModule) {
+				$userModules[] = $userModule['module_id'];
+			}
 		}
 
 		$this->oData['user']  = $this->users_model->getUserById($iId);

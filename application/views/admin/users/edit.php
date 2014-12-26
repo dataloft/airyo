@@ -13,7 +13,9 @@
 		<!-- Tabs -->
 		<ul class="nav nav-tabs" role="tablist">
 			<li <?=(!isset($message['form'])) ? 'class="active"' : ''; ?>><a href="#profile" role="tab" data-toggle="tab">Настройки пользователя</a></li>
-			<li <?=(isset($message['form']) AND $message['form'] == 'modules') ? 'class="active"' : ''; ?>><a href="#modules" role="tab" data-toggle="tab">Доступы к модулям</a></li>
+			<?php if(!empty($modules) AND $countModules = sizeof($modules)) : ?>
+				<li <?=(isset($message['form']) AND $message['form'] == 'modules') ? 'class="active"' : ''; ?>><a href="#modules" role="tab" data-toggle="tab">Доступы к модулям</a></li>
+			<?php endif; ?>
 			<li <?=(isset($message['form']) AND $message['form'] == 'password') ? 'class="active"' : ''; ?>><a href="#password" role="tab" data-toggle="tab">Изменение пароля</a></li>
 		</ul>
 
@@ -86,11 +88,11 @@
 				<input type="hidden" name="form_edit" value="profile" />
 				<?php echo form_close();?>
 			</div>
-			<div class="tab-pane <?=(isset($message['form']) AND $message['form'] == 'modules') ? 'active' : ''; ?>" id="modules">
-				<?php echo form_open("", 'class="form-horizontal" autocomplete="off" method="POST"');?>
-					<div class="col-md-5">
-						<ul class="list-group">
-							<?php if(!empty($modules) AND $countModules = sizeof($modules)) : ?>
+			<?php if(!empty($modules) AND $countModules = sizeof($modules)) : ?>
+				<div class="tab-pane <?=(isset($message['form']) AND $message['form'] == 'modules') ? 'active' : ''; ?>" id="modules">
+					<?php echo form_open("", 'class="form-horizontal" autocomplete="off" method="POST"');?>
+						<div class="col-md-5">
+							<ul class="list-group">
 								<?php foreach($modules as $key => $module) : ?>
 									<?php if ($countModules / 2 == $key) : ?>
 											</ul>
@@ -105,15 +107,15 @@
 										<?=$module->title; ?>
 									</li>
 								<?php endforeach; ?>
-							<?php endif; ?>
-						</ul>
-					</div>
-						<div class="col-md-2 col-md-offset-4">
-							<button type="submit" class="btn btn-success">Сохранить</button>
+							</ul>
 						</div>
-				<input type="hidden" name="form_edit" value="modules" />
-				<?php echo form_close();?>
-			</div>
+							<div class="col-md-2 col-md-offset-4">
+								<button type="submit" class="btn btn-success">Сохранить</button>
+							</div>
+					<input type="hidden" name="form_edit" value="modules" />
+					<?php echo form_close();?>
+				</div>
+			<?php endif; ?>
 			<div class="tab-pane <?=(isset($message['form']) AND $message['form'] == 'password') ? 'active' : ''; ?>" id="password">
 				<?php echo form_open("", 'class="form-horizontal" autocomplete="off" method="POST"');?>
 				<div class="form-group <?php if(form_error('newpass')) echo 'has-error'; ?>">
