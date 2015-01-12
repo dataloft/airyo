@@ -61,7 +61,7 @@ class Auth extends CommonAdminController {
 			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
 			{
 				$this->oUser = $this->users_model->getUserById($this->ion_auth->get_user_id());
-				if ($this->oUser->rule_id == 0) {
+				if ($this->oUser->role_id == 0) {
 					$this->logout();
 				}
 				//if the login is successful

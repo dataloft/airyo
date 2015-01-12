@@ -37,13 +37,13 @@ class Users_model extends CI_Model {
 
 		$this->db->select($this->db->dbprefix('users').'.*');
 
-		if (isset($aParams['iUserId']) AND !isset($aParams['iRuleId'])) {
+		if (isset($aParams['iUserId']) AND !isset($aParams['iRoleId'])) {
 			$this->db->where($this->db->dbprefix('users').'.id', $aParams['iUserId']);
 		}
 
-		if (isset($aParams['iUserId']) AND isset($aParams['iRuleId'])) {
-			if ($aParams['iRuleId'] == 1) {
-				$this->db->where($this->db->dbprefix('users').'.rule_id', 0);
+		if (isset($aParams['iUserId']) AND isset($aParams['iRoleId'])) {
+			if ($aParams['iRoleId'] == 1) {
+				$this->db->where($this->db->dbprefix('users').'.role_id', 0);
 				$this->db->or_where($this->db->dbprefix('users').'.id', $aParams['iUserId']);
 			}
 		}
@@ -114,9 +114,9 @@ class Users_model extends CI_Model {
 	 *
 	 * @return array $result
 	 */
-	public function getRules()
+	public function getRoles()
 	{
-		$this->db->select('*')->from($this->db->dbprefix('rules'));
+		$this->db->select('*')->from($this->db->dbprefix('roles'));
 		$query = $this->db->get();
 
 		if($result = $query->result()) {
@@ -128,22 +128,22 @@ class Users_model extends CI_Model {
 	 * Обновление роли пользователя
 	 *
 	 * @param $iId
-	 * @param $iRuleId
+	 * @param $iRoleId
 	 * @return bool
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function updateRule($iId, $iRuleId){
+	public function updateRole($iId, $iRoleId){
 		$aUser = $this->getUserById($iId);
-		if(!empty($aUser->rule_id)) {
+		if(!empty($aUser->role_id)) {
 
 			$this->db->where('user_id', $iId);
-			if($this->db->update($this->db->dbprefix('users_rules'), array('rule_id' => $iRuleId))) {
+			if($this->db->update($this->db->dbprefix('users_roles'), array('role_id' => $iRoleId))) {
 				return true;
 			}
 
 		} else {
-			if($this->db->insert($this->db->dbprefix('users_rules'), array('user_id' => $iId, 'rule_id' => $iRuleId))) {
+			if($this->db->insert($this->db->dbprefix('users_roles'), array('user_id' => $iId, 'role_id' => $iRoleId))) {
 				return true;
 			}
 		}
@@ -167,8 +167,8 @@ class Users_model extends CI_Model {
 		}
 
 		// Проверка id роли
-		if(isset($aParams['iRuleId']) AND $iId = intval($aParams['iRuleId']) AND $iId > 0) {
-			$aValidParams['iRuleId'] = $iId;
+		if(isset($aParams['iRoleId']) AND $iId = intval($aParams['iRoleId']) AND $iId > 0) {
+			$aValidParams['iRoleId'] = $iId;
 		}
 
 		// Проверка лимита

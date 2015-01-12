@@ -33,7 +33,7 @@ class Users extends CommonAdminController {
 		$this->oData["users"] = $this->users_model->getUsers(
 			array(
 				'iUserId' => $this->oUser->id,
-				'iRuleId' => $this->oUser->rule_id,
+				'iRoleId' => $this->oUser->role_id,
 				'iLimit' => $aPaginationConfig["per_page"],
 				'iStart' => $page
 			)
@@ -169,7 +169,7 @@ class Users extends CommonAdminController {
 		$aModules = array();
 		$userModules = array();
 
-		if ($this->oUser->rule_id == 2) {
+		if ($this->oUser->role_id == 2) {
 			$aModules = $this->modules_model->getModules();
 			$aUserModules = $this->modules_model->getUserModules(array('iUserId' => $iId, 'bAsArray' => true));
 			foreach ($aUserModules as $key => $userModule) {
@@ -180,7 +180,7 @@ class Users extends CommonAdminController {
 		$this->oData['user']  = $this->users_model->getUserById($iId);
 		$this->oData['modules']  = $aModules;
 		$this->oData['user_modules']  = $userModules;
-		$this->oData['rules']  = $this->users_model->getRules();
+		$this->oData['roles']  = $this->users_model->getRoles();
 		$this->oData['groups']  = $aGroups;
 		$this->oData['user_groups']  = $userGroups;
 
@@ -207,7 +207,7 @@ class Users extends CommonAdminController {
 			//$this->form_validation->set_rules('company', 'Название компании', 'trim|min_length[3]|xss_clean');
 			//$this->form_validation->set_rules('phone', 'Телефонный номер', 'trim|alpha_dash');
 			$this->form_validation->set_rules('groups', 'Группа', 'required');
-			$this->form_validation->set_rules('rule', 'Роль', 'required|numeric');
+			$this->form_validation->set_rules('role', 'Роль', 'required|numeric');
 
 			if ($this->form_validation->run() == true) {
 				$aProfileData = array(
@@ -221,8 +221,8 @@ class Users extends CommonAdminController {
 
 				$aGroups = $this->input->post('groups',TRUE);
 				if ($this->users_model->Update($iId, $aProfileData)) {
-					$iRuleId = $this->input->post('rule',TRUE);
-					if($this->users_model->updateRule($iId, $iRuleId)) {
+					$iRoleId = $this->input->post('role',TRUE);
+					if($this->users_model->updateRole($iId, $iRoleId)) {
 						if($this->ion_auth->remove_from_group(false, $iId)) {
 							foreach ($aGroups as $iGroupId) {
 								if(!$this->ion_auth->add_to_group($iGroupId, $iId)) {
