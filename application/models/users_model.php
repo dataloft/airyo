@@ -112,11 +112,20 @@ class Users_model extends CI_Model {
 	/**
 	 * Получение списка ролей
 	 *
+	 * @param $iUserId
+	 *
 	 * @return array $result
 	 */
-	public function getRoles()
+	public function getRoles($iUserId)
 	{
-		$this->db->select('*')->from($this->db->dbprefix('roles'));
+		$oUser = $this->getUserById($iUserId);
+
+		$this->db ->select('*')->from($this->db->dbprefix('roles'));
+
+		if ($oUser->role_id < 2) {
+			$this->db->where($this->db->dbprefix('roles').'.id != 2');
+		}
+
 		$query = $this->db->get();
 
 		if($result = $query->result()) {

@@ -120,6 +120,15 @@ class Users extends CommonAdminController {
 	 * @author N.Kulchinskiy
 	 */
 	public function edit($iId) {
+
+		$oUserData = $this->users_model->getUserById($iId);
+
+		if ($this->oUser->role_id == 1 AND in_array($oUserData->role_id, array(1, 2))) {
+			if ($this->oUser->id != $oUserData->id) {
+				redirect('admin/users', 'refresh');
+			}
+		}
+
 		$this->oData['main_menu'] = 'users';
 
 		$this->oData['styles'] = array(
@@ -177,10 +186,10 @@ class Users extends CommonAdminController {
 			}
 		}
 
-		$this->oData['user']  = $this->users_model->getUserById($iId);
+		$this->oData['user']  = $oUserData;
 		$this->oData['modules']  = $aModules;
 		$this->oData['user_modules']  = $userModules;
-		$this->oData['roles']  = $this->users_model->getRoles();
+		$this->oData['roles']  = $this->users_model->getRoles($this->oUser->id);
 		$this->oData['groups']  = $aGroups;
 		$this->oData['user_groups']  = $userGroups;
 
@@ -207,38 +216,32 @@ class Users extends CommonAdminController {
 			//$this->form_validation->set_rules('company', 'Название компании', 'trim|min_length[3]|xss_clean');
 			//$this->form_validation->set_rules('phone', 'Телефонный номер', 'trim|alpha_dash');
 			$this->form_validation->set_rules('groups', 'Группа', 'required');
-			$this->form_validation->set_rules('role', 'Роль', 'required|numeric');
+			$this->form_validation->set_rules('role', 'Роль', 'required');
 
 			if ($this->form_validation->run() == true) {
 				$aProfileData = array(
 					'username'      => $this->input->post('username',TRUE),
 					'first_name'    => $this->input->post('first_name',TRUE),
-					//'last_name'     => $this->input->post('last_name',TRUE),
+					//'last_name'   => $this->input->post('last_name',TRUE),
 					'email'         => $this->input->post('email',TRUE),
-					//'company'       => $this->input->post('company',TRUE),
-					//'phone'         => $this->input->post('phone',TRUE)
+					//'company'     => $this->input->post('company',TRUE),
+					//'phone'       => $this->input->post('phone',TRUE),
+					'role_id'       => $this->input->post('role',TRUE)
 				);
 
 				$aGroups = $this->input->post('groups',TRUE);
 				if ($this->users_model->Update($iId, $aProfileData)) {
-					$iRoleId = $this->input->post('role',TRUE);
-					if($this->users_model->updateRole($iId, $iRoleId)) {
-						if($this->ion_auth->remove_from_group(false, $iId)) {
-							foreach ($aGroups as $iGroupId) {
-								if(!$this->ion_auth->add_to_group($iGroupId, $iId)) {
-									return $aMessage = array(
-										'type' => 'warning',
-										'text' => 'Ошибка при добавлении в группу'
-									);
-								}
+					if($this->ion_auth->remove_from_group(false, $iId)) {
+						foreach ($aGroups as $iGroupId) {
+							if(!$this->ion_auth->add_to_group($iGroupId, $iId)) {
+								return $aMessage = array(
+									'type' => 'warning',
+									'text' => 'Ошибка при добавлении в группу'
+								);
 							}
 						}
-					} else {
-						return $aMessage = array(
-							'type' => 'warning',
-							'text' => 'Ошибка сохранения роли'
-						);
 					}
+
 
 					$aMessage = array(
 						'type' => 'success',
