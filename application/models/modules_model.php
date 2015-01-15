@@ -43,6 +43,10 @@ class Modules_model extends CI_Model {
 			$this->db->where($this->db->dbprefix('modules').'.id', $aParams['iModuleId']);
 		}
 
+		if (isset($aParams['sModuleName'])) {
+			$this->db->where($this->db->dbprefix('modules').'.alias', $aParams['sModuleName']);
+		}
+
 		$this->db->order_by($this->db->dbprefix('modules').'.position','asc');
 		$aQuery = $this->db->get();
 
@@ -90,12 +94,28 @@ class Modules_model extends CI_Model {
 	 * Получение модуля по ID
 	 *
 	 * @param int $iModuleId
-	 * @return object $oUser
+	 * @return object $aModule
 	 *
 	 * @author N.Kulchinskiy
 	 */
 	public function getModuleById($iModuleId) {
 		if($iId = intval($iModuleId) and $iModuleId > 0 and $aModule = $this->getModules(array('iModuleId' => $iId))) {
+			if(count($aModule) > 0) {
+				return array_pop($aModule);
+			}
+		}
+	}
+
+	/**
+	 * Получение модуля по названию
+	 *
+	 * @param int $sModuleName
+	 * @return object $aModule
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	public function getModuleByName($sModuleName) {
+		if($aModule = $this->getModules(array('sModuleName' => $sModuleName))) {
 			if(count($aModule) > 0) {
 				return array_pop($aModule);
 			}
@@ -148,8 +168,8 @@ class Modules_model extends CI_Model {
 			$aValidParams['iModuleId'] = $iId;
 		}
         // Проверка названия модуля
-        if(isset($aParams['iModuleName'])) {
-            $aValidParams['iModuleName'] = htmlspecialchars(trim($aParams['iModuleName']));
+        if(isset($aParams['sModuleName'])) {
+            $aValidParams['sModuleName'] = htmlspecialchars(trim($aParams['sModuleName']));
         }
 		// Тип вывода
 		if(isset($aParams['bAsArray']) AND $aParams['bAsArray']) {

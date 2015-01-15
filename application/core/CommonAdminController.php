@@ -43,12 +43,27 @@ class CommonAdminController extends CI_Controller
 					$this->oData['headermenu_modules'] = $this->modules_model->getModules();
 					break;
 			}
-            if(sizeof($this->uri->segments) > 1) {
-                $oModule = $this->modules_model->getUserModules(array('iModuleName' => $this->uri->segments[2]));
-                if (empty($oModule) AND $this->oUser->role_id != 2) {
-                    redirect('admin', 'refresh');
-                }
-            }
+			if($this->oUser->role_id != 2) {
+				if(sizeof($this->uri->segments) > 1) {
+					if($this->modules_model->getModuleByName($this->uri->segments[2])) {
+						$aModulesList = $this->modules_model->getUserModules(array('iUserId' => $this->oUser->id));
+
+						$aUserModules = array();
+						foreach ($aModulesList as $aModule) {
+							$aUserModules[] = $aModule->alias;
+						}
+
+						if(!empty($aUserModules)) {
+							if (!in_array($this->uri->segments[2], $aUserModules)) {
+								$sRandomModule = array_shift($aUserModules);
+								redirect('admin/'.$sRandomModule, 'refresh');
+							}
+						} else {
+							$this->ion_auth->logout();
+						}
+					}
+				}
+			}
 		}
 
 		if(!$this->ion_auth->logged_in() AND $bLogin) {

@@ -278,12 +278,14 @@ class Users extends CommonAdminController {
 		if ($iId = intval($iId) AND $iId > 0) {
 			$aModules = $this->input->post('modules',TRUE);
 			if($this->modules_model->removeUserModules($iId)) {
-				foreach ($aModules as $iModuleId) {
-					if(!$this->modules_model->addUserModules($iId, $iModuleId)) {
-						return $aMessage = array(
-							'type' => 'warning',
-							'text' => 'Ошибка при добавлении модуля'
-						);
+				if(!empty($aModules)) {
+					foreach ($aModules as $iModuleId) {
+						if(!$this->modules_model->addUserModules($iId, $iModuleId)) {
+							return $aMessage = array(
+								'type' => 'warning',
+								'text' => 'Ошибка при добавлении модуля'
+							);
+						}
 					}
 				}
 			}
