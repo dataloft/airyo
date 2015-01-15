@@ -178,7 +178,7 @@ class Users extends CommonAdminController {
 		$aModules = array();
 		$userModules = array();
 
-		if ($this->oUser->role_id == 2) {
+		if ($iId !== $this->oUser->id) {
 			$aModules = $this->modules_model->getModules();
 			$aUserModules = $this->modules_model->getUserModules(array('iUserId' => $iId, 'bAsArray' => true));
 			foreach ($aUserModules as $key => $userModule) {

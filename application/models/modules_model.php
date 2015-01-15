@@ -72,6 +72,10 @@ class Modules_model extends CI_Model {
 			$this->db->where($this->db->dbprefix('modules').'.id', $aParams['iModuleId']);
 		}
 
+        if (isset($aParams['iModuleName'])) {
+            $this->db->where($this->db->dbprefix('modules').'.alias', $aParams['iModuleName']);
+        }
+
 		if (isset($aParams['iUserId'])) {
 			$this->db->where($this->db->dbprefix('users_modules').'.user_id', $aParams['iUserId']);
 		}
@@ -90,8 +94,8 @@ class Modules_model extends CI_Model {
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function getGroupById($iModuleId) {
-		if($iId = intval($iModuleId) and $iModuleId > 0 and $aModule = $this->getGroups(array('iModuleId' => $iId))) {
+	public function getModuleById($iModuleId) {
+		if($iId = intval($iModuleId) and $iModuleId > 0 and $aModule = $this->getModules(array('iModuleId' => $iId))) {
 			if(count($aModule) > 0) {
 				return array_pop($aModule);
 			}
@@ -143,6 +147,10 @@ class Modules_model extends CI_Model {
 		if(isset($aParams['iModuleId']) AND $iId = intval($aParams['iModuleId']) AND $iId > 0) {
 			$aValidParams['iModuleId'] = $iId;
 		}
+        // Проверка названия модуля
+        if(isset($aParams['iModuleName'])) {
+            $aValidParams['iModuleName'] = htmlspecialchars(trim($aParams['iModuleName']));
+        }
 		// Тип вывода
 		if(isset($aParams['bAsArray']) AND $aParams['bAsArray']) {
 			$aValidParams['bAsArray'] = true;

@@ -47,20 +47,24 @@ if (!empty($styles))
 		<?php if(isset($main_menu) AND !empty($main_menu) AND isset($headermenu_modules) AND !empty($headermenu_modules)) : ?>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
+
 				<?php foreach ($headermenu_modules as $key => $module) : ?>
 					<?php if ($key < 3) : ?>
 						<li <?=($main_menu == $module->alias) ? 'class="active"' : ''; ?> ><a href="/admin/<?=$module->alias; ?>"><?=$module->title; ?></a></li>
 					<?php endif; ?>
 				<?php endforeach; ?>
-				<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>
-					<ul class="dropdown-menu">
-						<?php foreach ($headermenu_modules as $key => $module) : ?>
-							<?php if ($key >= 3) : ?>
-								<li <?=($main_menu == $module->alias) ? 'class="active"' : ''; ?> ><a href="/admin/<?=$module->alias; ?>"><?=$module->title; ?></a></li>
-							<?php endif; ?>
-						<?php endforeach; ?>
-					</ul>
-				</li>
+
+                <?php if(sizeof($headermenu_modules) > 3) : ?>
+                    <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Все модули <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <?php foreach ($headermenu_modules as $key => $module) : ?>
+                                <?php if ($key >= 3) : ?>
+                                    <li <?=($main_menu == $module->alias) ? 'class="active"' : ''; ?> ><a href="/admin/<?=$module->alias; ?>"><?=$module->title; ?></a></li>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                <?php endif; ?>
 			</ul>
 			<form class="navbar-form navbar-right" style="width: 250px" role="search">
 	        	<div class="input-group">

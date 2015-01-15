@@ -13,7 +13,7 @@
 		<!-- Tabs -->
 		<ul class="nav nav-tabs" role="tablist">
 			<li <?=(!isset($message['form'])) ? 'class="active"' : ''; ?>><a href="#profile" role="tab" data-toggle="tab">Настройки пользователя</a></li>
-			<?php if(!empty($modules) AND $countModules = sizeof($modules) AND $user->role_id != 0) : ?>
+			<?php if(!empty($modules) AND $countModules = sizeof($modules) AND in_array($user->role_id, array(0, 1))) : ?>
 				<li <?=(isset($message['form']) AND $message['form'] == 'modules') ? 'class="active"' : ''; ?>><a href="#modules" role="tab" data-toggle="tab">Доступы к модулям</a></li>
 			<?php endif; ?>
 			<li <?=(isset($message['form']) AND $message['form'] == 'password') ? 'class="active"' : ''; ?>><a href="#password" role="tab" data-toggle="tab">Изменение пароля</a></li>
@@ -88,7 +88,7 @@
 				<input type="hidden" name="form_edit" value="profile" />
 				<?php echo form_close();?>
 			</div>
-			<?php if(!empty($modules) AND $countModules = sizeof($modules) AND $user->role_id != 0) : ?>
+			<?php if(!empty($modules) AND $countModules = sizeof($modules) AND in_array($user->role_id, array(0, 1))) : ?>
 				<div class="tab-pane <?=(isset($message['form']) AND $message['form'] == 'modules') ? 'active' : ''; ?>" id="modules">
 					<?php echo form_open("", 'class="form-horizontal" autocomplete="off" method="POST"');?>
 						<div class="col-md-5">
