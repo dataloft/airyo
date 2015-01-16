@@ -31,6 +31,12 @@ CREATE TABLE IF NOT EXISTS `airyo_roles` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Роли пользователей' AUTO_INCREMENT=3 ;
 
 --
+-- Очистка таблицы таблицы `airyo_roles`
+--
+
+TRUNCATE TABLE `airyo_roles`;
+
+--
 -- Дамп данных таблицы `airyo_roles`
 --
 

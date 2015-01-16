@@ -15,7 +15,15 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+--
+-- Добавление поля role_id
+--
+
 ALTER TABLE `airyo_users` ADD COLUMN `role_id` INT(11) NOT NULL AFTER `phone` ;
+
+--
+-- Добавление пользовтелям ролей
+--
 
 UPDATE `airyo_users` SET `role_id` = 2 WHERE `id` IN (1, 2, 4);
 
@@ -29,16 +37,21 @@ CREATE TABLE IF NOT EXISTS `airyo_roles` (
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `title_UNIQUE` (`title`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Роли пользователей' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Роли пользователей' AUTO_INCREMENT=3 ;
+
+--
+-- Очистка таблицы таблицы `airyo_roles`
+--
+
+TRUNCATE TABLE `airyo_roles`;
 
 --
 -- Дамп данных таблицы `airyo_roles`
 --
 
 INSERT INTO `airyo_roles` (`id`, `title`, `description`) VALUES
-(1, 'user', 'Простой пользователь сайта'),
-(2, 'editor', 'Редактор в административной части'),
-(3, 'root', 'Суперадмин');
+(1, 'editor', 'Редактор в административной части'),
+(2, 'root', 'Суперадмин');
 
 --
 -- Структура таблицы `airyo_modules`

@@ -51,7 +51,7 @@
 						<label for="inputGroup" class="control-label col-xs-2">Роль:</label>
 						<div class="col-xs-3">
 							<select class="form-control" name="role" id="inputRole">
-								<option>-- выбрать роль -- </option>
+								<option value="0">user</option>
 								<?php foreach ($roles as $role) : ?>
 									<option <?=($role->id == $user->role_id) ? 'selected' : ''; ?> value="<?=$role->id; ?>"><?=$role->title; ?></option>
 								<?php endforeach; ?>
