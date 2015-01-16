@@ -186,7 +186,7 @@ class Users extends CommonAdminController {
 			}
 		}
 
-		$this->oData['user']  = $oUserData;
+		$this->oData['user']  = $this->users_model->getUserById($iId);
 		$this->oData['modules']  = $aModules;
 		$this->oData['user_modules']  = $userModules;
 		$this->oData['roles']  = $this->users_model->getRoles($this->oUser->id);
