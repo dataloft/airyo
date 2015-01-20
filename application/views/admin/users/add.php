@@ -58,11 +58,7 @@
 			<div class="col-xs-3">
 				<select multiple class="form-control" name="groups[]" id="inputGroup">
 					<?php foreach ($groups as $key => $group) : ?>
-						<?php if(!empty($session['groups'])) : ?>
-							<option <?=in_array($group['id'], $session['groups']) ? 'selected' : ''; ?> value="<?=$group['id']; ?>"><?=$group['name']; ?></option>
-						<?php else : ?>
-							<option <?=($key == 0) ? 'selected' : ''; ?> value="<?=$group['id']; ?>"><?=$group['name']; ?></option>
-						<?php endif; ?>
+						<option value="<?=$group['id']; ?>"><?=$group['name']; ?></option>
 					<?php endforeach; ?>
 				</select>
 			</div>

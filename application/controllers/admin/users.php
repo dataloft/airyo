@@ -220,7 +220,6 @@ class Users extends CommonAdminController {
 			//$this->form_validation->set_rules('company', 'Название компании', 'trim|min_length[3]|xss_clean');
 			//$this->form_validation->set_rules('phone', 'Телефонный номер', 'trim|alpha_dash');
 			$this->form_validation->set_rules('groups', 'Группа', 'required');
-			$this->form_validation->set_rules('role', 'Роль', 'required');
 
 			if ($this->form_validation->run() == true) {
 				$aProfileData = array(
