@@ -44,8 +44,9 @@ class CommonAdminController extends CI_Controller
 					break;
 			}
 			if($this->oUser->role_id != 2) {
-				if(sizeof($this->uri->segments) > 1) {
-					if($this->modules_model->getModuleByName($this->uri->segments[2])) {
+				$aUrl = $this->uri->segments;
+				if(sizeof($aUrl) > 1) {
+					if($this->modules_model->getModuleByName($aUrl[2])) {
 						$aModulesList = $this->modules_model->getUserModules(array('iUserId' => $this->oUser->id));
 
 						$aUserModules = array();
@@ -54,9 +55,13 @@ class CommonAdminController extends CI_Controller
 						}
 
 						if(!empty($aUserModules)) {
-							if (!in_array($this->uri->segments[2], $aUserModules)) {
-								$sRandomModule = array_shift($aUserModules);
-								redirect('admin/'.$sRandomModule, 'refresh');
+							if (!in_array($aUrl[2], $aUserModules)) {
+								if ($aUrl[2] == 'users' AND isset($aUrl[4]) AND $aUrl[4] == $this->oUser->id) {
+									return $this->updateLogs();
+								} else {
+									$sRandomModule = array_shift($aUserModules);
+									redirect('admin/'.$sRandomModule, 'refresh');
+								}
 							}
 						} else {
 							$this->ion_auth->logout();

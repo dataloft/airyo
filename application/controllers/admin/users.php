@@ -66,12 +66,14 @@ class Users extends CommonAdminController {
 			$this->form_validation->set_rules('first_name', 'Имя', 'trim|min_length[2]|xss_clean');
 			$this->form_validation->set_rules('email', 'Почтовый адрес', 'trim|required|valid_email|xss_clean');
 			$this->form_validation->set_rules('groups', 'Группа', 'required');
+			$this->form_validation->set_rules('role', 'Роль', 'required');
 			$this->form_validation->set_rules('newpass', 'Новый пароль', 'trim|required');
 			$this->form_validation->set_rules('passconf', 'Подтверждение пароля', 'trim|required|matches[newpass]');
 
 			if ($this->form_validation->run() == true) {
 				$sUsername = strtolower($this->input->post('username'));
 				$sEmail    = strtolower($this->input->post('email'));
+				$iRoleId   = $this->input->post('role');
 				$sPassword = $this->input->post('newpass');
 				$aGroups = $this->input->post('groups',TRUE);
 
@@ -79,7 +81,7 @@ class Users extends CommonAdminController {
 					'first_name' => $this->input->post('first_name')
 				);
 
-				if($this->ion_auth->register($sUsername, $sPassword, $sEmail, $aAdditionalData, $aGroups)) {
+				if($this->ion_auth->register($sUsername, $sPassword, $sEmail, $aAdditionalData, $aGroups, $iRoleId)) {
 					$aMessage = array(
 						'type' => 'success',
 						'text' => 'Успешное создание пользователя'
@@ -108,6 +110,7 @@ class Users extends CommonAdminController {
 		}
 
 		$this->oData['session'] =  $aSession;
+		$this->oData['roles']  = $this->users_model->getRoles($this->oUser->id);
 		$this->oData['groups']  = $this->ion_auth->groups()->result_array();
 		$this->oData['view'] = 'admin/users/add';
 	}
@@ -152,10 +155,15 @@ class Users extends CommonAdminController {
 				$this->form_validation->set_rules('passconf', 'Подтверждение пароля', 'trim|required|matches[newpass]');
 
 				if ($this->form_validation->run() == true) {
-					$identity = $this->session->userdata($this->config->item('identity', 'ion_auth'));
-					$NewPassword = $oPost->newpass;
 
-					$aMessage = $this->changePassword($identity, $NewPassword);
+					$NewPassword = $oPost->newpass;
+					$identity_column = $this->config->item('identity', 'ion_auth');
+					$identity = $this->db->select($identity_column)
+						->where('id', $iId)
+						->get($this->db->dbprefix('users'))
+						->row();
+
+					$aMessage = $this->changePassword($identity->$identity_column, $NewPassword);
 				} else {
 					$aMessage = array(
 						'type' => 'danger',
@@ -231,6 +239,10 @@ class Users extends CommonAdminController {
 
 				$aGroups = $this->input->post('groups',TRUE);
 				if ($this->users_model->Update($iId, $aProfileData)) {
+					if($aProfileData['role_id'] == 0) {
+						$this->modules_model->removeUserModules($iId);
+					}
+
 					if($this->ion_auth->remove_from_group(false, $iId)) {
 						foreach ($aGroups as $iGroupId) {
 							if(!$this->ion_auth->add_to_group($iGroupId, $iId)) {
@@ -241,7 +253,6 @@ class Users extends CommonAdminController {
 							}
 						}
 					}
-
 
 					$aMessage = array(
 						'type' => 'success',
