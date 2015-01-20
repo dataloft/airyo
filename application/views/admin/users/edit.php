@@ -3,11 +3,13 @@
 		<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
 	<?php endif; ?>
 	<h1 class="page-header">Пользователи</h1>
-	
-	<ol class="breadcrumb">
-       <li><a href="/admin/users/">Пользователи</a></li>
-       <li><?=$user->username; ?></li>
-	</ol>
+
+	<?php if ($show_breadcrumbs) : ?>
+		<ol class="breadcrumb">
+	       <li><a href="/admin/users/">Пользователи</a></li>
+	       <li><?=$user->username; ?></li>
+		</ol>
+	<?php endif; ?>
 
 	<div class="bs-tabs">
 		<!-- Tabs -->

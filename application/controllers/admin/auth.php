@@ -62,7 +62,7 @@ class Auth extends CommonAdminController {
 			{
 				$this->oUser = $this->users_model->getUserById($this->ion_auth->get_user_id());
 				if ($this->oUser->role_id == 0) {
-					$this->logout();
+					$this->logout($this->lang->line('login_unsuccessful'));
 				}
 				//if the login is successful
 				//redirect them back to the home page
@@ -110,14 +110,14 @@ class Auth extends CommonAdminController {
 	/**
 	 * Log the user out
 	 */
-	function logout() {
+	function logout($message = null) {
         if(!$this->ion_auth->logged_in()) {
             show_404();
         }
 		$this->oData['title'] = "Logout";
 
 		//log the user out
-		$logout = $this->ion_auth->logout();
+		$logout = $this->ion_auth->logout($message);
 
 		//redirect them to the login page
 		//$this->session->set_flashdata('message', $this->ion_auth->messages());

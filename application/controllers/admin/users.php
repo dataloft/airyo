@@ -66,7 +66,6 @@ class Users extends CommonAdminController {
 			$this->form_validation->set_rules('first_name', 'Имя', 'trim|min_length[2]|xss_clean');
 			$this->form_validation->set_rules('email', 'Почтовый адрес', 'trim|required|valid_email|xss_clean');
 			$this->form_validation->set_rules('groups', 'Группа', 'required');
-			$this->form_validation->set_rules('role', 'Роль', 'required');
 			$this->form_validation->set_rules('newpass', 'Новый пароль', 'trim|required');
 			$this->form_validation->set_rules('passconf', 'Подтверждение пароля', 'trim|required|matches[newpass]');
 
@@ -125,7 +124,6 @@ class Users extends CommonAdminController {
 	public function edit($iId) {
 
 		$oUserData = $this->users_model->getUserById($iId);
-
 		if ($this->oUser->role_id == 1 AND in_array($oUserData->role_id, array(1, 2))) {
 			if ($this->oUser->id != $oUserData->id) {
 				redirect('admin/users', 'refresh');
@@ -133,13 +131,11 @@ class Users extends CommonAdminController {
 		}
 
 		$this->oData['main_menu'] = 'users';
-
 		$this->oData['styles'] = array(
 			'/themes/airyo/css/users.css',
 		);
 
 		$oPost = (object) $this->input->post();
-
 		if(!empty($oPost->form_edit)) {
 			$aMessage = array();
 

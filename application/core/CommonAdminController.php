@@ -31,6 +31,7 @@ class CommonAdminController extends CI_Controller
 		$this->oData['usermenu'] = array();
 
 		$this->oData['message'] = '';
+		$this->oData['show_breadcrumbs'] = true;
 		$this->oData['user_data'] = $this->oUser;
 		$this->oData['headermenu_modules'] = new stdClass();
 
@@ -57,14 +58,15 @@ class CommonAdminController extends CI_Controller
 						if(!empty($aUserModules)) {
 							if (!in_array($aUrl[2], $aUserModules)) {
 								if ($aUrl[2] == 'users' AND isset($aUrl[4]) AND $aUrl[4] == $this->oUser->id) {
-									return $this->updateLogs();
+									$this->oData['show_breadcrumbs'] = false;
 								} else {
+									die('sd');
 									$sRandomModule = array_shift($aUserModules);
 									redirect('admin/'.$sRandomModule, 'refresh');
 								}
 							}
 						} else {
-							$this->ion_auth->logout();
+							$this->ion_auth->logout($this->lang->line('login_unsuccessful'));
 						}
 					}
 				}

@@ -299,7 +299,7 @@ class Ion_auth
 
 		if (!$email_activation)
 		{
-			$id = $this->ion_auth_model->register($username, $password, $email, $additional_data, $group_ids, $role_id);
+			$id = $this->ion_auth_model->register($username, $password, $email, $additional_data, $group_ids);
 			if ($id !== FALSE)
 			{
 				$this->set_message('account_creation_successful');
@@ -315,6 +315,8 @@ class Ion_auth
 		}
 		else
 		{
+
+
 			$id = $this->ion_auth_model->register($username, $password, $email, $additional_data, $group_ids, $role_id);
 
 			if (!$id)
@@ -378,7 +380,7 @@ class Ion_auth
 	 * @return void
 	 * @author Mathew
 	 **/
-	public function logout()
+	public function logout($message = null)
 	{
 		$this->ion_auth_model->trigger_events('logout');
 
@@ -402,6 +404,10 @@ class Ion_auth
 		if (substr(CI_VERSION, 0, 1) == '2')
 		{
 			$this->session->sess_create();
+		}
+
+		if (!empty($message)) {
+			$this->session->set_flashdata('message', $message);
 		}
 
 		$this->set_message('logout_successful');

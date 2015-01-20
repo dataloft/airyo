@@ -76,8 +76,8 @@ class Modules_model extends CI_Model {
 			$this->db->where($this->db->dbprefix('modules').'.id', $aParams['iModuleId']);
 		}
 
-        if (isset($aParams['iModuleName'])) {
-            $this->db->where($this->db->dbprefix('modules').'.alias', $aParams['iModuleName']);
+        if (isset($aParams['sModuleName'])) {
+            $this->db->where($this->db->dbprefix('modules').'.alias', $aParams['sModuleName']);
         }
 
 		if (isset($aParams['iUserId'])) {
