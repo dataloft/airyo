@@ -65,16 +65,17 @@ class Users extends CommonAdminController {
 			$this->form_validation->set_rules('username', 'Пользователь', 'trim|required|min_length[3]|max_length[25]|alpha_numeric');
 			$this->form_validation->set_rules('first_name', 'Имя', 'trim|min_length[2]|xss_clean');
 			$this->form_validation->set_rules('email', 'Почтовый адрес', 'trim|required|valid_email|xss_clean');
-			$this->form_validation->set_rules('groups', 'Группа', 'required');
+			//$this->form_validation->set_rules('groups', 'Группа', 'required');
+			//$this->form_validation->set_rules('role', 'Роль', 'required');
 			$this->form_validation->set_rules('newpass', 'Новый пароль', 'trim|required');
 			$this->form_validation->set_rules('passconf', 'Подтверждение пароля', 'trim|required|matches[newpass]');
 
 			if ($this->form_validation->run() == true) {
 				$sUsername = strtolower($this->input->post('username'));
 				$sEmail    = strtolower($this->input->post('email'));
-				$iRoleId   = $this->input->post('role');
+				$iRoleId   = $this->input->post('role', TRUE);
 				$sPassword = $this->input->post('newpass');
-				$aGroups = $this->input->post('groups',TRUE);
+				$aGroups = ($this->input->post('groups',TRUE)) ? $this->input->post('groups',TRUE) : array();
 
 				$aAdditionalData = array(
 					'first_name' => $this->input->post('first_name')
@@ -219,9 +220,12 @@ class Users extends CommonAdminController {
 			$this->form_validation->set_rules('email', 'Почтовый адрес', 'trim|required|valid_email|xss_clean');
 			//$this->form_validation->set_rules('company', 'Название компании', 'trim|min_length[3]|xss_clean');
 			//$this->form_validation->set_rules('phone', 'Телефонный номер', 'trim|alpha_dash');
-			$this->form_validation->set_rules('groups', 'Группа', 'required');
+			//$this->form_validation->set_rules('groups', 'Группа', 'required');
+			//$this->form_validation->set_rules('role', 'Роль', 'required');
 
-			if ($this->form_validation->run() == true) {
+			if ($this->form_validation->run() == true AND $oUserData = $this->users_model->getUserById($iId)) {
+				$iRoleId = ($this->input->post('role',TRUE)) ? $this->input->post('role',TRUE) : $oUserData->role_id;
+
 				$aProfileData = array(
 					'username'      => $this->input->post('username',TRUE),
 					'first_name'    => $this->input->post('first_name',TRUE),
@@ -229,10 +233,10 @@ class Users extends CommonAdminController {
 					'email'         => $this->input->post('email',TRUE),
 					//'company'     => $this->input->post('company',TRUE),
 					//'phone'       => $this->input->post('phone',TRUE),
-					'role_id'       => $this->input->post('role',TRUE)
+					'role_id'       => $iRoleId
 				);
 
-				$aGroups = $this->input->post('groups',TRUE);
+				$aGroups = ($this->input->post('groups',TRUE)) ? $this->input->post('groups',TRUE) : array();
 				if ($this->users_model->Update($iId, $aProfileData)) {
 					if($aProfileData['role_id'] == 0) {
 						$this->modules_model->removeUserModules($iId);
