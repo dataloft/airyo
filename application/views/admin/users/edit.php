@@ -47,7 +47,7 @@
 							<input type="email" class="form-control" name="email" id="inputEmail" placeholder="E-mail" value="<?=$user->email; ?>">
 						</div>
 					</div>
-					<?php if($user_data->role_id == 2) : ?>
+					<?php if($user_data->role_id == 2 AND $user_data->id !== $user->id) : ?>
 						<div class="form-group <?php if(form_error('role')) echo 'has-error'; ?>">
 							<label for="inputGroup" class="control-label col-xs-2">Роль:</label>
 							<div class="col-xs-3">
