@@ -21,6 +21,7 @@ class CommonAdminController extends CI_Controller
 		$this->load->helper('url');
 		$this->load->helper('language');
 		$this->lang->load('content');
+		$this->load->model('modules_model');
 		$this->load->model('users_model');
 		$this->load->model('logs_model');
 
@@ -30,15 +31,65 @@ class CommonAdminController extends CI_Controller
 		$this->oData['usermenu'] = array();
 
 		$this->oData['message'] = '';
+		$this->oData['show_breadcrumbs'] = true;
 		$this->oData['user_data'] = $this->oUser;
+		$this->oData['headermenu_modules'] = new stdClass();
+
+		if($this->oUser) {
+			switch($this->oUser->role_id) {
+				case 1:
+					$this->oData['headermenu_modules'] = $this->modules_model->getUserModules(array('iUserId' => $this->ion_auth->get_user_id()));
+					break;
+				case 2:
+					$this->oData['headermenu_modules'] = $this->modules_model->getModules();
+					break;
+			}
+			if($this->oUser->role_id != 2) {
+				$aUrl = $this->uri->segments;
+				if(sizeof($aUrl) > 1) {
+					if($this->modules_model->getModuleByName($aUrl[2])) {
+						$aModulesList = $this->modules_model->getUserModules(array('iUserId' => $this->oUser->id));
+
+						$aUserModules = array();
+						foreach ($aModulesList as $aModule) {
+							$aUserModules[] = $aModule->alias;
+						}
+
+						if(!empty($aUserModules)) {
+							if (!in_array($aUrl[2], $aUserModules)) {
+								if ($aUrl[2] == 'users' AND isset($aUrl[4]) AND $aUrl[4] == $this->oUser->id) {
+									$this->oData['show_breadcrumbs'] = false;
+								} else {
+									die('sd');
+									$sRandomModule = array_shift($aUserModules);
+									redirect('admin/'.$sRandomModule, 'refresh');
+								}
+							}
+						} else {
+							$this->ion_auth->logout($this->lang->line('login_unsuccessful'));
+						}
+					}
+				}
+			}
+		}
 
 		if(!$this->ion_auth->logged_in() AND $bLogin) {
 			redirect('admin', 'refresh');
 		}
 
+		$this->updateLogs();
+	}
+
+	/**
+	 * Обновление журнала посещения
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	private function updateLogs(){
 		$aNotUpdate = array(
 			'admin', 'admin/logout'
 		);
+
 		if(!in_array($this->uri->uri_string, $aNotUpdate)) {
 			$this->logs_model->updateLogs(array(
 				'user_id'       => $this->ion_auth->get_user_id(),

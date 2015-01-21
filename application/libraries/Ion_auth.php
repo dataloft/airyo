@@ -291,7 +291,7 @@ class Ion_auth
 	 * @return void
 	 * @author Mathew
 	 **/
-	public function register($username, $password, $email, $additional_data = array(), $group_ids = array()) //need to test email activation
+	public function register($username, $password, $email, $additional_data = array(), $group_ids = array(), $role_id = 0) //need to test email activation
 	{
 		$this->ion_auth_model->trigger_events('pre_account_creation');
 
@@ -315,7 +315,9 @@ class Ion_auth
 		}
 		else
 		{
-			$id = $this->ion_auth_model->register($username, $password, $email, $additional_data, $group_ids);
+
+
+			$id = $this->ion_auth_model->register($username, $password, $email, $additional_data, $group_ids, $role_id);
 
 			if (!$id)
 			{
@@ -378,7 +380,7 @@ class Ion_auth
 	 * @return void
 	 * @author Mathew
 	 **/
-	public function logout()
+	public function logout($message = null)
 	{
 		$this->ion_auth_model->trigger_events('logout');
 
@@ -402,6 +404,10 @@ class Ion_auth
 		if (substr(CI_VERSION, 0, 1) == '2')
 		{
 			$this->session->sess_create();
+		}
+
+		if (!empty($message)) {
+			$this->session->set_flashdata('message', $message);
 		}
 
 		$this->set_message('logout_successful');

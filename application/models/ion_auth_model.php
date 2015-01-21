@@ -789,7 +789,7 @@ class Ion_auth_model extends CI_Model
 	 * @return bool
 	 * @author Mathew
 	 **/
-	public function register($username, $password, $email, $additional_data = array(), $groups = array())
+	public function register($username, $password, $email, $additional_data = array(), $groups = array(), $role_id = 0)
 	{
 		$this->trigger_events('pre_register');
 
@@ -828,6 +828,7 @@ class Ion_auth_model extends CI_Model
 		$data = array(
 		    'username'   => $username,
 		    'password'   => $password,
+			'role_id'    => $role_id,
 		    'email'      => $email,
 		    'ip_address' => $ip_address,
 		    'created_on' => time(),
@@ -860,11 +861,11 @@ class Ion_auth_model extends CI_Model
 		}
 
 		//add to default group if not already set
-		$default_group = $this->where('name', $this->config->item('default_group', 'ion_auth'))->group()->row();
+		/*$default_group = $this->where('name', $this->config->item('default_group', 'ion_auth'))->group()->row();
 		if ((isset($default_group->id) && !isset($groups)) || (empty($groups) && !in_array($default_group->id, $groups)))
 		{
 			$this->add_to_group($default_group->id, $id);
-		}
+		}*/
 
 		$this->trigger_events('post_register');
 

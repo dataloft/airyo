@@ -11,6 +11,7 @@ class Users extends CommonAdminController {
 		parent::__construct();
 
 		$this->load->model('groups_model');
+		$this->load->model('modules_model');
 		$this->load->config('ion_auth', TRUE);
 	}
 
@@ -29,7 +30,14 @@ class Users extends CommonAdminController {
 		$this->pagination->initialize($aPaginationConfig);
 
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$this->oData["users"] = $this->users_model->fetch_countries($aPaginationConfig["per_page"], $page);
+		$this->oData["users"] = $this->users_model->getUsers(
+			array(
+				'iUserId' => $this->oUser->id,
+				'iRoleId' => $this->oUser->role_id,
+				'iLimit' => $aPaginationConfig["per_page"],
+				'iStart' => $page
+			)
+		);
 
 		foreach ($this->oData["users"] as $iKey => $aUser) {
 			$this->oData["users"][$iKey]->groups = $this->ion_auth->get_users_groups($aUser->id)->result_array();
@@ -57,21 +65,23 @@ class Users extends CommonAdminController {
 			$this->form_validation->set_rules('username', 'Пользователь', 'trim|required|min_length[3]|max_length[25]|alpha_numeric');
 			$this->form_validation->set_rules('first_name', 'Имя', 'trim|min_length[2]|xss_clean');
 			$this->form_validation->set_rules('email', 'Почтовый адрес', 'trim|required|valid_email|xss_clean');
-			$this->form_validation->set_rules('groups', 'Группа', 'required');
+			//$this->form_validation->set_rules('groups', 'Группа', 'required');
+			//$this->form_validation->set_rules('role', 'Роль', 'required');
 			$this->form_validation->set_rules('newpass', 'Новый пароль', 'trim|required');
 			$this->form_validation->set_rules('passconf', 'Подтверждение пароля', 'trim|required|matches[newpass]');
 
 			if ($this->form_validation->run() == true) {
 				$sUsername = strtolower($this->input->post('username'));
 				$sEmail    = strtolower($this->input->post('email'));
+				$iRoleId   = $this->input->post('role', TRUE);
 				$sPassword = $this->input->post('newpass');
-				$aGroups = $this->input->post('groups',TRUE);
+				$aGroups = ($this->input->post('groups',TRUE)) ? $this->input->post('groups',TRUE) : array();
 
 				$aAdditionalData = array(
 					'first_name' => $this->input->post('first_name')
 				);
 
-				if($this->ion_auth->register($sUsername, $sPassword, $sEmail, $aAdditionalData, $aGroups)) {
+				if($this->ion_auth->register($sUsername, $sPassword, $sEmail, $aAdditionalData, $aGroups, $iRoleId)) {
 					$aMessage = array(
 						'type' => 'success',
 						'text' => 'Успешное создание пользователя'
@@ -100,6 +110,7 @@ class Users extends CommonAdminController {
 		}
 
 		$this->oData['session'] =  $aSession;
+		$this->oData['roles']  = $this->users_model->getRoles($this->oUser->id);
 		$this->oData['groups']  = $this->ion_auth->groups()->result_array();
 		$this->oData['view'] = 'admin/users/add';
 	}
@@ -112,25 +123,44 @@ class Users extends CommonAdminController {
 	 * @author N.Kulchinskiy
 	 */
 	public function edit($iId) {
+
+		$oUserData = $this->users_model->getUserById($iId);
+		if ($this->oUser->role_id == 1 AND in_array($oUserData->role_id, array(1, 2))) {
+			if ($this->oUser->id != $oUserData->id) {
+				redirect('admin/users', 'refresh');
+			}
+		}
+
 		$this->oData['main_menu'] = 'users';
+		$this->oData['styles'] = array(
+			'/themes/airyo/css/users.css',
+		);
 
 		$oPost = (object) $this->input->post();
-
 		if(!empty($oPost->form_edit)) {
 			$aMessage = array();
 
 			if($oPost->form_edit == "profile") {
 				$aMessage = $this->updateProfile($iId);
 			}
+			if($oPost->form_edit == "modules") {
+				$aMessage = $this->updateUserModules($iId);
+				$aMessage['form'] = $oPost->form_edit;
+			}
 			elseif($oPost->form_edit == "password") {
 				$this->form_validation->set_rules('newpass', 'Новый пароль', 'trim|required');
 				$this->form_validation->set_rules('passconf', 'Подтверждение пароля', 'trim|required|matches[newpass]');
 
 				if ($this->form_validation->run() == true) {
-					$identity = $this->session->userdata($this->config->item('identity', 'ion_auth'));
-					$NewPassword = $oPost->newpass;
 
-					$aMessage = $this->changePassword($identity, $NewPassword);
+					$NewPassword = $oPost->newpass;
+					$identity_column = $this->config->item('identity', 'ion_auth');
+					$identity = $this->db->select($identity_column)
+						->where('id', $iId)
+						->get($this->db->dbprefix('users'))
+						->row();
+
+					$aMessage = $this->changePassword($identity->$identity_column, $NewPassword);
 				} else {
 					$aMessage = array(
 						'type' => 'danger',
@@ -143,17 +173,30 @@ class Users extends CommonAdminController {
 			$this->oData['message'] =  $aMessage;
 		}
 
-		$aUserGroups = $this->groups_model->getUsersGroups(array('iUserId' => $iId));
-		$aGroups = array();
-		if($aUserGroups) {
-			foreach ($aUserGroups as $aGroup) {
-				array_push($aGroups, $aGroup->group_id);
+		$aGroups = $this->ion_auth->groups()->result_array();
+		$aUserGroups = $this->groups_model->getUsersGroups(array('iUserId' => $iId, 'bAsArray' => true));
+		$userGroups = array();
+		foreach ($aUserGroups as $key => $userGroup) {
+			$userGroups[] = $userGroup['group_id'];
+		}
+
+		$aModules = array();
+		$userModules = array();
+
+		if ($iId !== $this->oUser->id) {
+			$aModules = $this->modules_model->getModules();
+			$aUserModules = $this->modules_model->getUserModules(array('iUserId' => $iId, 'bAsArray' => true));
+			foreach ($aUserModules as $key => $userModule) {
+				$userModules[] = $userModule['module_id'];
 			}
 		}
 
 		$this->oData['user']  = $this->users_model->getUserById($iId);
-		$this->oData['user_groups']  = $aGroups;
-		$this->oData['groups']  = $this->ion_auth->groups()->result_array();
+		$this->oData['modules']  = $aModules;
+		$this->oData['user_modules']  = $userModules;
+		$this->oData['roles']  = $this->users_model->getRoles($this->oUser->id);
+		$this->oData['groups']  = $aGroups;
+		$this->oData['user_groups']  = $userGroups;
 
 		$this->oData['view'] = 'admin/users/edit';
 	}
@@ -177,19 +220,28 @@ class Users extends CommonAdminController {
 			$this->form_validation->set_rules('email', 'Почтовый адрес', 'trim|required|valid_email|xss_clean');
 			//$this->form_validation->set_rules('company', 'Название компании', 'trim|min_length[3]|xss_clean');
 			//$this->form_validation->set_rules('phone', 'Телефонный номер', 'trim|alpha_dash');
-			$this->form_validation->set_rules('groups', 'Группа', 'required');
+			//$this->form_validation->set_rules('groups', 'Группа', 'required');
+			//$this->form_validation->set_rules('role', 'Роль', 'required');
 
-			if ($this->form_validation->run() == true) {
+			if ($this->form_validation->run() == true AND $oUserData = $this->users_model->getUserById($iId)) {
+				$iRoleId = ($this->input->post('role',TRUE)) ? $this->input->post('role',TRUE) : $oUserData->role_id;
+
 				$aProfileData = array(
 					'username'      => $this->input->post('username',TRUE),
 					'first_name'    => $this->input->post('first_name',TRUE),
-					//'last_name'     => $this->input->post('last_name',TRUE),
+					//'last_name'   => $this->input->post('last_name',TRUE),
 					'email'         => $this->input->post('email',TRUE),
-					//'company'       => $this->input->post('company',TRUE),
-					//'phone'         => $this->input->post('phone',TRUE)
+					//'company'     => $this->input->post('company',TRUE),
+					//'phone'       => $this->input->post('phone',TRUE),
+					'role_id'       => $iRoleId
 				);
-				$aGroups = $this->input->post('groups',TRUE);
+
+				$aGroups = ($this->input->post('groups',TRUE)) ? $this->input->post('groups',TRUE) : array();
 				if ($this->users_model->Update($iId, $aProfileData)) {
+					if($aProfileData['role_id'] == 0) {
+						$this->modules_model->removeUserModules($iId);
+					}
+
 					if($this->ion_auth->remove_from_group(false, $iId)) {
 						foreach ($aGroups as $iGroupId) {
 							if(!$this->ion_auth->add_to_group($iGroupId, $iId)) {
@@ -216,6 +268,41 @@ class Users extends CommonAdminController {
 			$aMessage = array(
 				'type' => 'warning',
 				'text' =>  'Ошибка при сохранении'
+			);
+		}
+
+		return $aMessage;
+	}
+
+	/**
+	 * Модули пользователя
+	 *
+	 * @param $iId
+	 * @return array
+	 *
+	 * @author N.Kulchinskiy
+	 */
+	private function updateUserModules($iId){
+		$aMessage = array();
+
+		if ($iId = intval($iId) AND $iId > 0) {
+			$aModules = $this->input->post('modules',TRUE);
+			if($this->modules_model->removeUserModules($iId)) {
+				if(!empty($aModules)) {
+					foreach ($aModules as $iModuleId) {
+						if(!$this->modules_model->addUserModules($iId, $iModuleId)) {
+							return $aMessage = array(
+								'type' => 'warning',
+								'text' => 'Ошибка при добавлении модуля'
+							);
+						}
+					}
+				}
+			}
+
+			$aMessage = array(
+				'type' => 'success',
+				'text' => 'Успешное сохранение профиля'
 			);
 		}
 

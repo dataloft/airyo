@@ -3,16 +3,21 @@
 		<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
 	<?php endif; ?>
 	<h1 class="page-header">Пользователи</h1>
-	
-	<ol class="breadcrumb">
-       <li><a href="/admin/users/">Пользователи</a></li>
-       <li><?=$user->username; ?></li>
-	</ol>
+
+	<?php if ($show_breadcrumbs) : ?>
+		<ol class="breadcrumb">
+	       <li><a href="/admin/users/">Пользователи</a></li>
+	       <li><?=$user->username; ?></li>
+		</ol>
+	<?php endif; ?>
 
 	<div class="bs-tabs">
 		<!-- Tabs -->
 		<ul class="nav nav-tabs" role="tablist">
 			<li <?=(!isset($message['form'])) ? 'class="active"' : ''; ?>><a href="#profile" role="tab" data-toggle="tab">Настройки пользователя</a></li>
+			<?php if(!empty($modules) AND $countModules = sizeof($modules) AND $user->role_id == 1) : ?>
+				<li <?=(isset($message['form']) AND $message['form'] == 'modules') ? 'class="active"' : ''; ?>><a href="#modules" role="tab" data-toggle="tab">Доступы к модулям</a></li>
+			<?php endif; ?>
 			<li <?=(isset($message['form']) AND $message['form'] == 'password') ? 'class="active"' : ''; ?>><a href="#password" role="tab" data-toggle="tab">Изменение пароля</a></li>
 		</ul>
 
@@ -44,6 +49,19 @@
 							<input type="email" class="form-control" name="email" id="inputEmail" placeholder="E-mail" value="<?=$user->email; ?>">
 						</div>
 					</div>
+					<?php if($user_data->role_id == 2 AND $user_data->id !== $user->id) : ?>
+						<div class="form-group <?php if(form_error('role')) echo 'has-error'; ?>">
+							<label for="inputGroup" class="control-label col-xs-2">Роль:</label>
+							<div class="col-xs-3">
+								<select class="form-control" name="role" id="inputRole">
+									<option value="0">user</option>
+									<?php foreach ($roles as $role) : ?>
+										<option <?=($role->id == $user->role_id) ? 'selected' : ''; ?> value="<?=$role->id; ?>"><?=$role->title; ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+					<?php endif; ?>
 					<div class="form-group <?php if(form_error('groups')) echo 'has-error'; ?>">
 						<label for="inputGroup" class="control-label col-xs-2">Группа:</label>
 						<div class="col-xs-3">
@@ -74,6 +92,34 @@
 				<input type="hidden" name="form_edit" value="profile" />
 				<?php echo form_close();?>
 			</div>
+			<?php if(!empty($modules) AND $countModules = sizeof($modules) AND $user->role_id == 1) : ?>
+				<div class="tab-pane <?=(isset($message['form']) AND $message['form'] == 'modules') ? 'active' : ''; ?>" id="modules">
+					<?php echo form_open("", 'class="form-horizontal" autocomplete="off" method="POST"');?>
+						<div class="col-md-5">
+							<ul class="list-group">
+								<?php foreach($modules as $key => $module) : ?>
+									<?php if ($countModules / 2 == $key) : ?>
+											</ul>
+										</div>
+										<div class="col-md-5">
+											<ul class="list-group">
+									<?php endif; ?>
+									<li class="list-group-item">
+										<span class="badge badge-checkbox">
+											<input type="checkbox" <?=in_array($module->id, $user_modules) ? 'checked' : ''; ?> name="modules[]" value="<?=$module->id; ?>" />
+										</span>
+										<?=$module->title; ?>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+						</div>
+							<div class="col-md-2 col-md-offset-4">
+								<button type="submit" class="btn btn-success">Сохранить</button>
+							</div>
+					<input type="hidden" name="form_edit" value="modules" />
+					<?php echo form_close();?>
+				</div>
+			<?php endif; ?>
 			<div class="tab-pane <?=(isset($message['form']) AND $message['form'] == 'password') ? 'active' : ''; ?>" id="password">
 				<?php echo form_open("", 'class="form-horizontal" autocomplete="off" method="POST"');?>
 				<div class="form-group <?php if(form_error('newpass')) echo 'has-error'; ?>">

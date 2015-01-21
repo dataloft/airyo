@@ -11,6 +11,7 @@ class Auth extends CommonAdminController {
 		$this->load->database();
 		$this->lang->load('auth');
 		$this->load->helper('language');
+		$this->load->model('users_model');
 
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 	}
@@ -46,6 +47,8 @@ class Auth extends CommonAdminController {
 	function login() {
 		$this->oData['title'] = "Login";
 
+
+
 		//validate form input
 		$this->form_validation->set_rules('identity', 'Identity', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
@@ -57,6 +60,10 @@ class Auth extends CommonAdminController {
 
 			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
 			{
+				$this->oUser = $this->users_model->getUserById($this->ion_auth->get_user_id());
+				if ($this->oUser->role_id == 0) {
+					$this->logout($this->lang->line('login_unsuccessful'));
+				}
 				//if the login is successful
 				//redirect them back to the home page
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
@@ -103,14 +110,14 @@ class Auth extends CommonAdminController {
 	/**
 	 * Log the user out
 	 */
-	function logout() {
+	function logout($message = null) {
         if(!$this->ion_auth->logged_in()) {
             show_404();
         }
 		$this->oData['title'] = "Logout";
 
 		//log the user out
-		$logout = $this->ion_auth->logout();
+		$logout = $this->ion_auth->logout($message);
 
 		//redirect them to the login page
 		//$this->session->set_flashdata('message', $this->ion_auth->messages());
