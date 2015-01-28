@@ -40,7 +40,7 @@
 
 $route['404_override'] = '';
 
-$route['default_controller'] = 'startbootstrap/pages';
+$route['default_controller'] = 'laseris/pages';
 
 // admin
 $route['admin'] = 'admin';
@@ -103,7 +103,7 @@ $route['admin/gallery/ajaxRemoveAlbum'] = 'admin/gallery/ajaxRemoveAlbum';
 //admin modules
 $route['admin/counters'] = 'admin/counters';
 
-$route['(:any)'] = 'startbootstrap/pages/index/$1';
+$route['(:any)'] = 'laseris/pages/index/$1';
 
 
 /* End of file routes.php */

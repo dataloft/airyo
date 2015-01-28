@@ -5,7 +5,7 @@
     <h1 class="page-header">Страницы</h1>
     
     <ul class="breadcrumb">
-		<li><a href="">Страницы</a></li>
+		<li><a href="/admin/pages/">Страницы</a></li>
 		<li>Новая страница</li>
 	</ul>
     

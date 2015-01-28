@@ -1,0 +1,300 @@
+/* ----------------------------------- *\
+			import
+\* ----------------------------------- */
+
+/* ----------------------------------- *\
+			icons
+\* ----------------------------------- */
+
+.i {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: middle;
+}
+/*
+Icon classes can be used entirely standalone. They are named after their original file names.
+
+```html
+<i class="icon-home"></i>
+```
+*/
+
+.i-logo {
+  background-image: url(../img/spr.png);
+  background-position: 0px 0px;
+  width: 619px;
+  height: 62px;
+}
+/* ----------------------------------- *\
+			fonts
+\* ----------------------------------- */
+
+/* ----------------------------------- *\
+			forms styles
+\* ----------------------------------- */
+
+/* ----------------------------------- *\
+			structura
+\* ----------------------------------- */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+.empty {
+  height: 103px;
+}
+body {
+  background: #f9f5fa;
+  position: relative;
+}
+body:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 50%;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #c59ac9;
+}
+body:after {
+  content: "";
+  display: block;
+  height: 25px;
+  background: #903f98;
+  position: absolute;
+  top: 102px;
+  left: 0;
+  right: 0;
+}
+.wrap {
+  position: relative;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  width: 930px;
+  overflow: hidden;
+  background: #f9f5fa;
+  margin: 0 auto;
+  z-index: 2;
+}
+.wrap:before {
+  content: "";
+  display: block;
+  width: 220px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: #903f98;
+}
+.footer {
+  position: relative;
+  margin-top: -103px;
+  height: 103px;
+  min-width: 930px;
+  overflow: hidden;
+  background: url(../img/main/footer.png) 0 bottom repeat-x;
+  z-index: 3;
+}
+.footer .inner {
+  width: 930px;
+  height: 103px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.footer .copy {
+  width: 220px;
+  height: 103px;
+  padding: 40px 0 0 0;
+  float: left;
+  text-align: center;
+  overflow: hidden;
+  font-size: 10px;
+  color: white;
+}
+.footer .logos {
+  width: 670px;
+  float: left;
+  padding: 25px 0 0 20px;
+  overflow: hidden;
+}
+.header {
+  height: 127px;
+  position: relative;
+  margin: 0 auto;
+  margin-bottom: -25px;
+}
+.header:after {
+  content: "";
+  display: block;
+  width: 220px;
+  height: 20px;
+  background: #c59ac9;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+.header .logo_pic {
+  width: 220px;
+  height: 127px;
+  overflow: hidden;
+  float: left;
+}
+.header .logo {
+  text-align: center;
+  line-height: 102px;
+  overflow: hidden;
+  float: left;
+  width: 710px;
+  padding-left: 20px;
+}
+.header .logo a,
+.header .logo img {
+  vertical-align: middle;
+}
+.nav {
+  clear: both;
+  height: 25px;
+  line-height: 25px;
+  overflow: hidden;
+  background: #903f98;
+  font-size: 16px;
+  font-weight: 800;
+  color: #e8b2ff;
+  text-shadow: 0 1px 1px black;
+  margin-left: 220px;
+  text-align: center;
+  position: relative;
+  top: -25px;
+}
+.nav a {
+  color: #e8b2ff;
+  text-decoration: none;
+}
+.nav a:hover,
+.nav a.active {
+  color: #efcaff;
+}
+.nav li {
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 15px;
+}
+.page {
+  overflow: hidden;
+  padding: 0px 0 30px 0;
+  position: relative;
+}
+.page .side {
+  width: 220px;
+  float: left;
+  padding-top: 10px;
+}
+.page .content {
+  width: 710px;
+  float: right;
+  padding: 0 20px;
+}
+/* ----------------------------------- *\
+			common elements
+\* ----------------------------------- */
+
+/* ----------------------------------- *\
+			main styles
+\* ----------------------------------- */
+
+body {
+  line-height: 1.15;
+  font-size: 14px;
+  color: #903f98;
+}
+a {
+  color: #903f98;
+  text-decoration: underline;
+}
+a:hover {
+  text-decoration: none;
+}
+h1,
+h2 {
+  font-size: 19px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+h2 {
+  margin-bottom: 10px;
+}
+p {
+  margin-bottom: 20px;
+}
+.index_article {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.index_article p {
+  margin-bottom: 10px;
+}
+.link {
+  font-size: 30px;
+  font-weight: 800;
+  font-style: italic;
+}
+.link a {
+  text-decoration: none;
+}
+.link a:hover {
+  text-decoration: underline;
+}
+/* ----------------------------------- *\
+			side
+\* ----------------------------------- */
+
+.side_menu {
+  color: white;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: normal;
+}
+.side_menu > ul > li > a {
+  font-size: 16px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.side_menu > ul > li > a:hover {
+  text-decoration: underline;
+}
+.side_menu > ul ul {
+  margin-bottom: 20px;
+}
+.side_menu > ul ul li {
+  padding-left: 9px;
+  position: relative;
+}
+.side_menu > ul ul li:after {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #b790fa;
+  position: absolute;
+  top: 8px;
+  left: 0;
+}
+.side_menu > ul ul a {
+  color: white;
+  text-decoration: none;
+}
+.side_menu > ul ul a:hover {
+  text-decoration: underline;
+}

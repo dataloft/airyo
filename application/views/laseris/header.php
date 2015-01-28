@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <title>Главная</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,700,600,800,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/themes/laseris/css/reset.css" />
+    <link rel="stylesheet" href="/themes/laseris/css/style.css" />
+    <!--[if lte IE 8]><link href= "/themes/laseris/css/ie.css" rel= "stylesheet" media= "all" /><![endif]-->
+    <!--[if lt IE 9]>
+		<script src="/themes/laseris/js/html5-ie.js"></script>
+		<script src="/themes/laseris/js/respond.min.js"></script>
+	<![endif]-->
+    <script src="/themes/laseris/js/jquery-1.8.3.min.js"></script>
+    <script src="/themes/laseris/js/jquery.placeholder.min.js"></script>
+    <script src="/themes/laseris/js/script.js"></script>
+    <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <body>
+        <!-- wrap -->
+        <div class="wrap">
+            <!-- header -->
+            <header class="header">
+                <div class="logo_pic">
+                    <img src="/themes/laseris/img/main/logo_pic.jpg" alt="">
+                </div>
+                <div class="logo">
+                    <a href="" class="i i-logo"></a>
+                </div>
+            </header>
+            <!-- /header -->
+            <!-- nav -->
+            <nav class="nav">
+                <ul>
+                    <li><a href="">О фирме</a>
+                    </li>
+                    <li><a href="">Контакты</a>
+                    </li>
+                    <li><a href="">Сертификаты</a> / <a href="">Акты</a> / <a href="">Заключения</a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /nav -->
+            <!-- page -->
+            <div class="page">
+                <!-- content -->
+                <div class="content">
+                
