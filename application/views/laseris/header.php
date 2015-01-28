@@ -39,12 +39,35 @@
             <!-- nav -->
             <nav class="nav">
                 <ul>
-                    <li><a href="">О фирме</a>
-                    </li>
-                    <li><a href="">Контакты</a>
-                    </li>
-                    <li><a href="">Сертификаты</a> / <a href="">Акты</a> / <a href="">Заключения</a>
-                    </li>
+                	
+                    <?
+					if(is_array($mainmenu) && count($mainmenu)){
+					foreach ($mainmenu as $item)
+					{
+					
+					?>
+						<li <? echo (($this->uri->uri_string() == $item['url'] or current_url() == $item['url']) ) ? 'class="active"' : ''; ?>>
+							<a href="<?=$item['url']?>"><?=$item['name']?></a>
+							<?
+							if(is_array($item['childs']) && count($item['childs'])){
+							?>
+							<ul>
+							<?
+								foreach($item['childs'] as $childitem){
+								?>
+								<li><a href="<?=$childitem['url']?>"><?=$childitem['name']?></a></li>
+								<?
+								}
+							?>
+							</ul>
+							<?
+							}
+							?>
+						</li>
+					<?
+					}
+					}
+					?>
                 </ul>
             </nav>
             <!-- /nav -->

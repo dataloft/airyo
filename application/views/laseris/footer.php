@@ -7,6 +7,7 @@
                     
                     	<ul>
 <?
+if(is_array($menu) && count($menu)){
 foreach ($menu as $item)
 {
 
@@ -30,6 +31,7 @@ foreach ($menu as $item)
 		?>
     </li>
 <?
+}
 }
 ?>                    
                     	</ul>

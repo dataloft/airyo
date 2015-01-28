@@ -158,6 +158,13 @@ class Menu_model extends CI_Model {
 		
 	}
 
+	public function getSorterMenuGroups(){
+		$rows =  $this->db->get($this->db->dbprefix('menu_group'))->result_array();
+        $ret = array();
+		foreach($rows as $row) $ret[$row['id']] = $row;
+		return  $ret;
+	}
+
 }
 
 /* End of file page.php */

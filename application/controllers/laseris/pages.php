@@ -17,6 +17,7 @@ class Pages extends CI_Controller {
         $data['template_list'] = $this->config->item('templates');
         //$data['menu'] = $this->menu_model->getList(1,true);
 		$data['menu'] = $this->menu_model->getListTree(1);
+		$data['mainmenu'] = $this->menu_model->getListTree(2);
 		
 		
 		if($data['page']) {

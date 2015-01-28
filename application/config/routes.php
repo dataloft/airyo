@@ -75,6 +75,7 @@ $route['admin/groups/delete'] = 'admin/groups/delete';
 
 //admin menu
 $route['admin/menu'] = 'admin/menu';
+$route['admin/menu/(:num)'] = 'admin/menu/index/$1';
 $route['admin/menu/add'] = 'admin/menu/add';
 $route['admin/menu/add/(:num)'] = 'admin/menu/add/$1';
 $route['admin/menu/edit'] = 'admin/menu/edit';

@@ -8,12 +8,16 @@ class Menu extends CommonAdminController {
 		$this->load->model('trash_model');
 	}
 
-	public function index() {
+	public function index($selected_menu=1) {
+		$selected_menu = (int) $selected_menu;
+		if(!$selected_menu) $selected_menu=1;
 		$this->oData['main_menu'] = 'menu';
 
 		$this->oData['menu_group'] = '';
 		$this->oData['menu_list'] =  $this->menu_model->getMenuGroup();
-		$this->oData['menu_group'] = $this->oData['menu_list'][0]['id'];
+		
+		//$this->oData['menu_group'] = $this->oData['menu_list'][0]['id'];
+		$this->oData['menu_group'] = $selected_menu;
 
 		if ($this->input->post('typeSelect')) {
 			$this->oData['menu_group'] = $this->input->post('typeSelect');
@@ -120,7 +124,7 @@ class Menu extends CommonAdminController {
             $echo.= '<li class="list-group-item">';
             if ($item->id != $current)
             {
-                $echo.= '<a href="menu/edit/'.$item->id . '"';
+                $echo.= '<a href="/admin/menu/edit/'.$item->id . '"';
                 if ($level>0)
                     $echo.='style="margin-left:'.($level*20).'px"';
                $echo.=  '>' . $item->name . '</a>';
@@ -172,7 +176,10 @@ class Menu extends CommonAdminController {
     }
 
     public function add($mid=0) {
-	    $this->oData['main_menu'] = 'menu';
+	    
+		$this->oData['main_menu'] = 'menu';
+		$this->oData['bc_menu'] = $this->menu_model->getSorterMenuGroups();
+		if(!isset($this->oData['bc_menu'][$mid])) redirect("/admin/menu");
 
 	    $this->oData['id'] = '';
 	    $this->oData['message'] = '';
@@ -195,7 +202,7 @@ class Menu extends CommonAdminController {
         $menu->menu_group = $this->input->post('menu_group');
 	    $this->oData['menu'] = $menu;
         if ($this->form_validation->run() == true) {
-            if ($check = $this->menu_model->ckeckUniqueOrder($this->input->post('level_menu',TRUE), $this->input->post('order',TRUE))) {
+			if ($check = $this->menu_model->ckeckUniqueOrder($this->input->post('level_menu',TRUE), $this->input->post('order',TRUE))) {
                 $check_order = $this->menu_model->getMaxOrder($this->input->post('level_menu',TRUE))+1;
                 $this->menu_model->Update($check, array('order' => $check_order));
                 $menu->order = $this->input->post('order',TRUE);
@@ -246,7 +253,12 @@ class Menu extends CommonAdminController {
         $this->form_validation->set_rules('url', '', 'required');
         // Если передан Ид ищем содержание стр в БД
         if (!empty($id)) {
-	        $this->oData['menu'] = $this->menu_model->getToId($id);
+	        
+			$this->oData['menu'] = $this->menu_model->getToId($id);
+			if(!$this->oData['menu']) redirect("admin/menu/add", 'refresh');
+			$this->oData['bc_menu'] = $this->menu_model->getSorterMenuGroups();
+			$this->oData['menu_group'] = $this->oData['menu']->menu_group;
+			
 
             if (empty($this->oData['menu']))
                 show_404();

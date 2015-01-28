@@ -5,7 +5,9 @@
     <h1 class="page-header">Меню</h1>
     
     <ul class="breadcrumb">
-		<li><a href="../../menu">Главное меню</a></li>
+		<li>
+        <a href="../../menu/<?=$menu_group?>"><?=$bc_menu[$menu_group]['name']?></a>
+        </li>
 		<li><? echo $menu->name; ?></li>
 	</ul>
     
