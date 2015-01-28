@@ -36,6 +36,9 @@
         </select>
 
     </div>
+    <div class="checkbox">
+            <label>  <input type="checkbox" id="enabled"  value="1" name="enabled" <? if (isset($menu->enabled) && $menu->enabled == 1) echo 'checked'; ?> > Enabled</label>
+        </div>
     <?
      if (!empty($id)) {?> <input type="hidden" name="id" value="<?=$id?>"><?} else {?><input type="hidden" name="action" value="add"><?}?>
     <button type="submit" class="btn btn-success" style="float: left;">Сохранить</button>

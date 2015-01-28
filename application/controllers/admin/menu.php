@@ -200,6 +200,8 @@ class Menu extends CommonAdminController {
         $menu->url = $this->input->post('url');
         $menu->order = $this->input->post('order',TRUE);
         $menu->menu_group = $this->input->post('menu_group');
+		$menu->enabled = (int) $this->input->post('enabled');
+		if($menu->enabled >1 ) $menu->enabled=1;
 	    $this->oData['menu'] = $menu;
         if ($this->form_validation->run() == true) {
 			if ($check = $this->menu_model->ckeckUniqueOrder($this->input->post('level_menu',TRUE), $this->input->post('order',TRUE))) {
@@ -214,7 +216,8 @@ class Menu extends CommonAdminController {
                 'url' => $menu->url,
                 'menu_group' =>  $mid,
                 'parent_id' =>  $this->input->post('level_menu'),
-                'order' =>  $menu->order
+                'order' =>  $menu->order,
+				'enabled' => $menu->enabled
             );
             if ($id = $this->menu_model->Add($additional_data)) {
                 $this->session->set_flashdata('message',  array(
@@ -301,7 +304,9 @@ class Menu extends CommonAdminController {
                     'order' => $menu->order,
                     'menu_group' =>   $this->oData['menu']->menu_group,
                     'parent_id' =>   $this->input->post('level_menu',TRUE),
+					'enabled' => (int) $this->input->post('enabled')
                 );
+				
                 if ($this->menu_model->Update($this->oData['id'],$additional_data))
                 {
                     $this->reOrder($this->oData['menu']->menu_group);
@@ -309,6 +314,7 @@ class Menu extends CommonAdminController {
                         'type' => 'success',
                         'text' => 'Запись обновлена'
                     );
+					$this->oData['menu'] = $this->menu_model->getToId($id);
                 } else {
 	                $this->oData['message'] = array(
                         'type' => 'danger',
@@ -322,6 +328,8 @@ class Menu extends CommonAdminController {
                 $menu->url = $this->input->post('url',TRUE);
                 $menu->order = $this->input->post('order',TRUE);
                 $menu->menu_group = $this->input->post('menu_group',TRUE);
+				$menu->enabled = (int) $this->input->post('enabled');
+				var_dump($menu->enabled);
 
 	            $this->oData['menu'] = $menu;
 	            $this->oData['message'] = array(

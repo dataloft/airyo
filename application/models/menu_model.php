@@ -141,6 +141,7 @@ class Menu_model extends CI_Model {
             $this->db->where('menu_group',$type);
         
         $this->db->where('parent_id',$parent_id);
+		$this->db->where('enabled',1);
         $this->db->order_by('order','asc');
         $this->db->order_by('parent_id','asc');
         $this->db->order_by('id','asc');
