@@ -15,7 +15,9 @@ class Pages extends CI_Controller {
         $page = $this->uri->uri_string();
 		$data['page'] = $this->content_model->getToAlias($page,true);
         $data['template_list'] = $this->config->item('templates');
-        $data['menu'] = $this->menu_model->getList(1,true);
+        //$data['menu'] = $this->menu_model->getList(1,true);
+		$data['menu'] = $this->menu_model->getListTree(1);
+		
 		
 		if($data['page']) {
 			//$this->load->view('startbootstrap/common/header', $data);

@@ -11,14 +11,31 @@ foreach ($menu as $item)
 {
 
 ?>
-	<li <? echo (($this->uri->uri_string() == $item->url or current_url() == $item->url) ) ? 'class="active"' : ''; ?>><a href="<?=$item->url?>"><?=$item->name?></a></li>
+	<li <? echo (($this->uri->uri_string() == $item['url'] or current_url() == $item['url']) ) ? 'class="active"' : ''; ?>>
+    	<a href="<?=$item['url']?>"><?=$item['name']?></a>
+        <?
+        if(is_array($item['childs']) && count($item['childs'])){
+		?>
+        <ul>
+        <?
+			foreach($item['childs'] as $childitem){
+			?>
+            <li><a href="<?=$childitem['url']?>"><?=$childitem['name']?></a></li>
+            <?
+			}
+		?>
+        </ul>
+        <?
+		}
+		?>
+    </li>
 <?
 }
 ?>                    
                     	</ul>
                     
                     
-                        <ul>
+                        <?php /*?><ul>
                             <li>
                                 <a href="">Новости</a>
                                 <ul>
@@ -65,7 +82,7 @@ foreach ($menu as $item)
                                 </ul>
                             </li>
                             <li><a href="">ЛРСЗЦ</a></li>
-                        </ul>
+                        </ul><?php */?>
                     </nav>
                 </div>
                 <!-- /side -->
