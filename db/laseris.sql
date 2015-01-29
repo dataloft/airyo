@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Jan 29, 2015 at 03:58 PM
+-- Generation Time: Jan 29, 2015 at 04:53 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.4.25
 
@@ -71,7 +71,7 @@ CREATE TABLE `airyo_content` (
 --
 
 INSERT INTO `airyo_content` (`id`, `title`, `h1`, `content`, `alias`, `meta_description`, `meta_keywords`, `enabled`, `type`, `template`) VALUES
-(106, '0', 'Главная страница', '<header>\n        <h1>ОСНОВНЫЕ НАПРАВЛЕНИЯ ДЕЯТЕЛЬНОСТИ</h1>\n    </header>\n    <p>РАЗРАБОТКА и ПОСТАВКА ПОД «КЛЮЧ» на договорной основе технологии и оборудования,\n        оснастки для лазерной и гибридной сварки излучением большой мощности (до 30–50–100 кВт)\n        волоконными, диодными, дисковыми лазерами, включая сервисное и информационное\n        обслуживание, обучение персонала, аттестацию и сертификацию;</p>\n    <p>Информационные, консультационные и маркетинговые услуги,\n        включая подготовку информационных и патентных, аналитических обзоров и справок на основе\n        одного из лучших в России информационных и патентных фондов (более 10 тыс. ед. хранения\n        с 70–80-х годов) по ЛАЗЕРНЫМ ТЕХНОЛОГИЯМ ОБРАБОТКИ МАТЕРИАЛОВ (ЛТ)\n        и ЛАЗЕРНОМУ ТЕХНОЛОГИЧЕСКОМУ ОБОРУДОВАНИЮ (ЛТО);</p>\n    <p>ООО «ЛазерИнформСервис» (ранее АОЗТ и ЗАО) работает с 30.05.1992 года – см. раздел «ИСТОРИЯ»;</p>\n    <p>Комплектация ЛТО выполняется от лучших мировых производителей из соображений\n        целесообразности и оптимальности их параметров: ЦЕНЫ и КАЧЕСТВА,\n        с максимальным учетом пожеланий заказчика;</p>\n    <p>Технология лазерной и гибридной сварки стали и сплавов толщиной до 15–50 мм\n        разрабатывается лучшими российскими специалистами на основе многолетнего опыта\n        на базе самых современных лазеров мощностью до 30–100 кВт</p>\n    <header>\n        <h2>Контакты</h2>\n    </header>\n    <p><b>Почтовый адрес:</b> 195297 Санкт-Петербург, Светлановский пр., д. 70, корп. 1, лит. А, пом. 12-Н\n        <br>\n        <b>Производство:</b> Коломяжский пр., 10 (между ст. метро «Черная речка» и «Пионерская»)\n        <br>\n        <b>Телефоны:</b> +7 905 204 23 25, +7 962 703 81 75 (в СПб), +7 965 410 16 06 (по России)</p>\n    <p><b>e-mail:</b> laseris-spb@peterlink.ru</p>\n    <div class="link"><a href="">www.laseris.ru</a>\n</div>', '', '0', '0', 1, '0', 'pages_default'),
+(106, '0', 'Главная страница', '<header><h1>ОСНОВНЫЕ НАПРАВЛЕНИЯ ДЕЯТЕЛЬНОСТИ</h1></header>\n<p>РАЗРАБОТКА и ПОСТАВКА ПОД «КЛЮЧ» на договорной основе технологии и оборудования,\nоснастки для лазерной и гибридной сварки излучением большой мощности (до 30–50–100 кВт)\nволоконными, диодными, дисковыми лазерами, включая сервисное и информационное\nобслуживание, обучение персонала, аттестацию и сертификацию;</p>\n<p>Информационные, консультационные и маркетинговые услуги,\nвключая подготовку информационных и патентных, аналитических обзоров и справок на основе\nодного из лучших в России информационных и патентных фондов (более 10 тыс. ед. хранения\nс 70–80-х годов) по ЛАЗЕРНЫМ ТЕХНОЛОГИЯМ ОБРАБОТКИ МАТЕРИАЛОВ (ЛТ)\nи ЛАЗЕРНОМУ ТЕХНОЛОГИЧЕСКОМУ ОБОРУДОВАНИЮ (ЛТО);</p>\n<p>ООО «ЛазерИнформСервис» (ранее АОЗТ и ЗАО) работает с 30.05.1992 года – см. раздел «ИСТОРИЯ»;</p>\n<p>Комплектация ЛТО выполняется от лучших мировых производителей из соображений\nцелесообразности и оптимальности их параметров: ЦЕНЫ и КАЧЕСТВА,\nс максимальным учетом пожеланий заказчика;</p>\n<p>Технология лазерной и гибридной сварки стали и сплавов толщиной до 15–50 мм\nразрабатывается лучшими российскими специалистами на основе многолетнего опыта\nна базе самых современных лазеров мощностью до 30–100 кВт</p>\n<header>\n<h2>Контакты</h2>\n</header>\n<p><b>Почтовый адрес:</b> 195297 Санкт-Петербург, Светлановский пр., д. 70, корп. 1, лит. А, пом. 12-Н\n<br>\n<b>Производство:</b> Коломяжский пр., 10 (между ст. метро «Черная речка» и «Пионерская»)\n<br>\n<b>Телефоны:</b> +7 905 204 23 25, +7 962 703 81 75 (в СПб), +7 965 410 16 06 (по России)</p>\n<p><b>e-mail:</b> laseris-spb@peterlink.ru</p>\n<div class="link"><a href="">www.laseris.ru</a></div>', '', '0', '0', 1, '0', 'pages_default'),
 (121, '0', 'Новости', 'Информация подготавливается', 'news', '0', '0', 1, '0', 'pages_default'),
 (122, '0', 'Вакансии и кадры', '', 'vacancy', '0', '0', 1, '', 'pages_default'),
 (123, '0', 'Выставки', '', 'exhibitions', '0', '0', 1, '', 'pages_default'),
@@ -88,7 +88,7 @@ INSERT INTO `airyo_content` (`id`, `title`, `h1`, `content`, `alias`, `meta_desc
 (133, '0', 'Основные обозначения', '<header>\n                            <h1>Основные обозначения</h1>\n                        </header>\n						\n						<ul>\n							<li><strong>P</strong> &ndash; мощность лазерного пучка <strong>&theta;</strong></li>\n							<li><strong>D</strong> &ndash; диаметр несфокусированного лазерного пучка.</li>\n							<li><strong>f ''</strong> &ndash; фокусное расстояние оптической системы.</li>\n							<li><strong>&alpha;</strong> &ndash; угол фокусировки пучка.</li>\n							<li><strong>&theta;<sub>&epsilon;</sub></strong> &ndash; расходимость пучка по уровню <strong>&epsilon;</strong> мощности.</li>\n							<li><strong>d<sub>&epsilon;</sub></strong> &ndash; диаметр пучка в фокальной плоскости по уровню <strong>&epsilon;</strong> мощности.</li>\n							<li><strong>g</strong> &ndash; продольный полуразмер фокального пятна.</li>\n							<li><strong>&beta; = &theta; D</strong> &ndash; параметр качества излучения.</li>\n							<li><strong>q</strong> &ndash; плотность мощности излучения.</li>\n							<li><strong>&sigma;<sub>0</sub></strong> &ndash; радиус пучка по уровню 1/е интенсивности &delta;</li>\n							<li><strong>M</strong> &ndash; коэффициент увеличения резонатора.</li>\n							<li><strong>&delta;</strong> &ndash; толщина металла.</li>\n							<li><strong>H</strong> &ndash; глубина проплавления.</li>\n							<li><strong>&Delta;</strong> &ndash; положение фокального пятна ( + соответствует заглублению)</li>\n							<li><strong>V</strong><sub>св</sub> &ndash; </li>\n							<li><strong>a</strong> &ndash; температуропроводность металла.</li>\n							<li><strong>&lambda;</strong> &ndash; теплопроводность металла и длина волны.</li>\n							<li><strong>S</strong> &ndash; потенциал потока тепла.</li>\n							<li><strong>w = V<sub>св</sub> d <sub>f</sub> / &alpha;</strong> &ndash; безразмерная скорость сварки</li>\n							<li><strong>æ = P / g S</strong> &ndash; безразмерная мощность пучка.</li>\n							<li><strong>m</strong> &ndash; интегральный коэффициент поглощения мощности в плазме.</li>\n							<li><strong>&eta;<sub>т</sub></strong> &ndash; термический к.п.д. сварки.</li>\n							<li><strong>&eta;<sub>и</sub></strong> &ndash; эффективный к.п.д. сварки.</li>\n						</ul>', 'oboznacheniya', '0', '0', 1, '', 'pages_default');
 INSERT INTO `airyo_content` (`id`, `title`, `h1`, `content`, `alias`, `meta_description`, `meta_keywords`, `enabled`, `type`, `template`) VALUES
 (134, '0', 'Перечень сокращений', '<header>\n                            <h1>Перечень сокращений</h1>\n                        </header>\n						\n						<ul>\n							<li>ВКИЭ – высококонцентрированные источники энергии.</li>\n							<li>ВЛ – волоконный лазер.</li>\n							<li>ГЛР – газолазерная резка.</li>\n							<li>ГУП – государственное унитарное предприятие.</li>\n							<li>ДН – диод накачки.</li>\n							<li>ИПР – импульсно-периодический режим генерации излучения.</li>\n							<li>ЛДС – лазерно-дуговая сварка.</li>\n							<li>ЛИ – лазерное излучение</li>\n							<li>ЛМ – лазерная маркировка.</li>\n							<li>ЛОМ – лазерная обработка материалов.</li>\n							<li>ЛР – лазерная резка.</li>\n							<li>ЛС – лазерная сварка.</li>\n							<li>ЛТ – лазерная техника, лазерные технологии.</li>\n							<li>ЛТК – лазерный технологический комплекс.</li>\n							<li>ЛТО – лазерное технологическое оборудование.</li>\n							<li>ЛТУ – лазерная технологическая установка.</li>\n							<li>Nd:AИГ- твердотельные лазер на алюминиево-иттриевом гранате, активированном ионами трёхвалентного неодима.</li>\n							<li>НР – непрерывный режим генерации излучения.</li>\n							<li>НТФ – научно-техническая фирма.</li>\n							<li>ОРПМ - относительное распределение плотности мощности.</li>\n							<li>СИР – суперимпульсный режим генерации излучения.</li>\n							<li>СНЭ – сварка неплавящимся электродом.</li>\n							<li>СПЭ – сварка плавящимся электродом.</li>\n							<li>СО<sub>2</sub> – лазер – газовый лазер на основе основного компонента газовой смеси –            углекислого газа, служащего активной средой для энергетической накачки.</li>\n							<li>СПб – Санкт-Петербург.</li>\n							<li>ТЛ – технологический лазер.</li>\n							<li>ТТЛ – твердотельный технологический лазер.</li>\n							<li>ЭЛС – электронно-лучевая сварка.</li>\n						</ul>', 'sokr', '0', '0', 1, '', 'pages_default'),
-(135, '0', 'Контакты', '<header>\n        <h2>Контакты</h2>\n    </header>\n    <p><b>Почтовый адрес:</b> 195297 Санкт-Петербург, Светлановский пр., д. 70, корп. 1, лит. А, пом. 12-Н\n        <br>\n        <b>Производство:</b> Коломяжский пр., 10 (между ст. метро «Черная речка» и «Пионерская»)\n        <br>\n        <b>Телефоны:</b> +7 905 204 23 25, +7 962 703 81 75 (в СПб), +7 965 410 16 06 (по России)</p>\n    <p><b>e-mail:</b> laseris-spb@peterlink.ru</p>\n    <div class="link"><a href="">www.laseris.ru</a>', 'contact', '0', '0', 1, '', 'pages_default');
+(135, '0', 'Контакты', '<header>\n        <h2>Контакты</h2>\n    </header>\n    <p><b>Почтовый адрес:</b> 195297 Санкт-Петербург, Светлановский пр., д. 70, корп. 1, лит. А, пом. 12-Н\n        <br>\n        <b>Производство:</b> Коломяжский пр., 10 (между ст. метро «Черная речка» и «Пионерская»)\n        <br>\n        <b>Телефоны:</b> +7 905 204 23 25, +7 962 703 81 75 (в СПб), +7 965 410 16 06 (по России)</p>\n    <p><b>e-mail:</b> laseris-spb@peterlink.ru</p>', 'contact', '0', '0', 1, '0', 'pages_default');
 
 -- --------------------------------------------------------
 
@@ -179,7 +179,7 @@ CREATE TABLE `airyo_logs` (
   `description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_logs_users1_idx` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица для логирования' AUTO_INCREMENT=1654 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица для логирования' AUTO_INCREMENT=1725 ;
 
 --
 -- Dumping data for table `airyo_logs`
@@ -1839,7 +1839,78 @@ INSERT INTO `airyo_logs` (`id`, `user_id`, `type`, `description`) VALUES
 (1650, 2, 'redirect', 'admin/menu/2'),
 (1651, 2, 'redirect', 'admin/menu/2'),
 (1652, 2, 'redirect', 'admin/menu/edit/24'),
-(1653, 2, 'redirect', 'admin/menu/edit/24');
+(1653, 2, 'redirect', 'admin/menu/edit/24'),
+(1654, 2, 'redirect', 'admin/menu/edit/24'),
+(1655, 2, 'redirect', 'admin/users/edit/2'),
+(1656, 2, 'redirect', 'admin/users'),
+(1657, 2, 'redirect', 'admin/users/edit/2'),
+(1658, 2, 'redirect', 'admin/users'),
+(1659, 2, 'redirect', 'admin/menu'),
+(1660, 2, 'redirect', 'admin/files'),
+(1661, 2, 'redirect', 'admin/pages'),
+(1662, 2, 'redirect', 'admin/pages/edit/135'),
+(1663, 2, 'redirect', 'admin/pages/edit/135'),
+(1664, 2, 'redirect', 'admin/pages'),
+(1665, 2, 'redirect', 'admin/pages'),
+(1666, 2, 'redirect', 'admin/files'),
+(1667, 2, 'redirect', 'admin/menu'),
+(1668, 2, 'redirect', 'admin/pages'),
+(1669, 2, 'redirect', 'admin/menu'),
+(1670, 2, 'redirect', 'admin/files'),
+(1671, 2, 'redirect', 'admin/menu'),
+(1672, 2, 'redirect', 'admin/pages'),
+(1673, 2, 'redirect', 'admin/menu'),
+(1674, 2, 'redirect', 'admin/files'),
+(1675, 2, 'redirect', 'admin/menu'),
+(1676, 2, 'redirect', 'admin/pages'),
+(1677, 2, 'redirect', 'admin/menu'),
+(1678, 2, 'redirect', 'admin/pages'),
+(1679, 2, 'redirect', 'admin/pages/edit/106'),
+(1680, 2, 'redirect', 'admin/pages/edit/106'),
+(1681, 2, 'redirect', 'admin/menu'),
+(1682, 2, 'redirect', 'admin/files'),
+(1683, 2, 'redirect', 'admin/files'),
+(1684, 2, 'redirect', 'admin/files/content'),
+(1685, 2, 'redirect', 'admin/files'),
+(1686, 2, 'redirect', 'admin/menu'),
+(1687, 2, 'redirect', 'admin/pages'),
+(1688, 2, 'redirect', 'admin/pages'),
+(1689, 2, 'redirect', 'admin/menu'),
+(1690, 2, 'redirect', 'admin/pages'),
+(1691, 2, 'redirect', 'admin/menu'),
+(1692, 2, 'redirect', 'admin/files'),
+(1693, 2, 'redirect', 'admin/users'),
+(1694, 2, 'redirect', 'admin/gallery'),
+(1695, 2, 'redirect', 'admin/gallery/album1417784733'),
+(1696, 2, 'redirect', 'admin/gallery'),
+(1697, 2, 'redirect', 'admin/menu'),
+(1698, 2, 'redirect', 'admin/pages'),
+(1699, 2, 'redirect', 'admin/pages/edit/123'),
+(1700, 2, 'redirect', 'admin/pages'),
+(1701, 2, 'redirect', 'admin/pages/edit/106'),
+(1702, 2, 'redirect', 'admin/pages/edit/106'),
+(1703, 2, 'redirect', 'admin/menu'),
+(1704, 2, 'redirect', 'admin/files'),
+(1705, 2, 'redirect', 'admin/menu'),
+(1706, 2, 'redirect', 'admin/files'),
+(1707, 2, 'redirect', 'admin/menu'),
+(1708, 2, 'redirect', 'admin/pages'),
+(1709, 2, 'redirect', 'admin/files'),
+(1710, 2, 'redirect', 'admin/gallery'),
+(1711, 2, 'redirect', 'admin/gallery/album1417784733'),
+(1712, 2, 'redirect', 'admin/gallery'),
+(1713, 2, 'redirect', 'admin/gallery/album1417784733'),
+(1714, 2, 'redirect', 'admin/gallery'),
+(1715, 2, 'redirect', 'admin/gallery/album1417784733'),
+(1716, 2, 'redirect', 'admin/files'),
+(1717, 2, 'redirect', 'admin/menu'),
+(1718, 2, 'redirect', 'admin/pages'),
+(1719, 2, 'redirect', 'admin/menu'),
+(1720, 2, 'redirect', 'admin/files'),
+(1721, 2, 'redirect', 'admin/menu'),
+(1722, 2, 'redirect', 'admin/pages'),
+(1723, 2, 'redirect', 'admin/menu'),
+(1724, 2, 'redirect', 'admin/files');
 
 -- --------------------------------------------------------
 
@@ -2048,7 +2119,7 @@ CREATE TABLE `airyo_users` (
 --
 
 INSERT INTO `airyo_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`, `role_id`) VALUES
-(2, '��,�', 'root', 'efb3d1a007c517abe13ebf40cdbc5a66c570c64a', NULL, 'root@airyo.ru', NULL, NULL, NULL, 'dd7604fd9b0e020199bf78c43cd40e746aadebad', 1392664432, 1422526272, 1, 'Андрей', 'Журавлёв', '', '', 2);
+(2, '��,�', 'root', 'efb3d1a007c517abe13ebf40cdbc5a66c570c64a', NULL, 'root@airyo.ru', NULL, NULL, NULL, 'dd7604fd9b0e020199bf78c43cd40e746aadebad', 1392664432, 1422547878, 1, 'Андрей', 'Журавлёв', '', '', 2);
 
 -- --------------------------------------------------------
 
