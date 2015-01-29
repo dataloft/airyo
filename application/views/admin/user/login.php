@@ -4,7 +4,7 @@
 			<div class="panel panel-default" style="margin-top: 65px;">
 				<div class="panel-heading">
 					<h3 class="panel-title">Вход в систему</h3>
-					<div style="float:right; font-size: 80%; position: relative; top:-15px"><a href="#">Забыли пароль?</a></div>
+					<!--div style="float:right; font-size: 80%; position: relative; top:-15px"><a href="#">Забыли пароль?</a></div-->
 				</div>
 				<div class="panel-body">
                    <?
