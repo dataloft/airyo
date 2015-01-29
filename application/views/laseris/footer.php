@@ -92,6 +92,7 @@ foreach ($menu as $item)
             <!-- /page -->
             <div class="empty"></div>
         </div>
+        </div>
         <!-- /wrap -->
         <!-- footer -->
         <footer class="footer">

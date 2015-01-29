@@ -25,6 +25,7 @@
 
     <body>
         <!-- wrap -->
+        <div class="wrapper">
         <div class="wrap">
             <!-- header -->
             <header class="header">
@@ -32,7 +33,7 @@
                     <img src="/themes/laseris/img/main/logo_pic.jpg" alt="">
                 </div>
                 <div class="logo">
-                    <a href="" class="i i-logo"></a>
+                    <a href="/" class="i i-logo"></a>
                 </div>
             </header>
             <!-- /header -->
