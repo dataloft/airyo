@@ -7,9 +7,9 @@
  */
 ?>
 <div class="container">
+	<h1 class="page-header">Фотоальбомы</h1>
 	<div class="row" id="links">
-		<h1 class="page-header">Фотоальбомы</h1>
-
+		<div class="col-md-12">
 		<?php if ($message) : ?>
 			<div class="alert alert-<?=$message['type']?>">
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -19,6 +19,8 @@
 				<?=$message['text']?>
 			</div>
 		<? endif; ?>
+		</div>
+	</div>
 
 		<div class="row">
 			<div class="col-md-12" style="margin: 0 0 20px">
