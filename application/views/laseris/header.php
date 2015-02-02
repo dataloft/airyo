@@ -2,7 +2,7 @@
 <html lang="ru">
 
 <head>
-    <title>Главная</title>
+    <title>ЛазерИнформСервис</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8" />
     <meta name="keywords" content="">
