@@ -44,10 +44,10 @@ class Pages extends CI_Controller {
                     $data['page'][$i] = $item;
                 }
             }
-            
-            $this->load->view('laseris/pages/'.$data['page']['template'], $data);
 
             if($counters = $this->counters_model->getCounters($this->input->ip_address(), $_SERVER['HTTP_HOST'])) $data['counters'] = $counters; else $data['counters'] = '';
+            
+            $this->load->view('laseris/pages/'.$data['page']['template'], $data);
 
 			//$this->load->view('startbootstrap/common/footer', $data);
 		} else {
