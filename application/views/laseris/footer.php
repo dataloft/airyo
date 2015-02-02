@@ -107,6 +107,12 @@ foreach ($menu as $item)
             </div>
         </footer>
         <!-- /footer -->
+        
+<?
+if (!empty($counters))
+    echo $counters->text;
+?>
+        
     </body>
 
 </html>
