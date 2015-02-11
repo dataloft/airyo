@@ -299,7 +299,7 @@ class Ion_auth
 
 		if (!$email_activation)
 		{
-			$id = $this->ion_auth_model->register($username, $password, $email, $additional_data, $group_ids);
+			$id = $this->ion_auth_model->register($username, $password, $email, $additional_data, $group_ids, $role_id);
 			if ($id !== FALSE)
 			{
 				$this->set_message('account_creation_successful');
@@ -315,8 +315,6 @@ class Ion_auth
 		}
 		else
 		{
-
-
 			$id = $this->ion_auth_model->register($username, $password, $email, $additional_data, $group_ids, $role_id);
 
 			if (!$id)
