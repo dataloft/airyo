@@ -369,3 +369,7 @@ p {
 .side_menu > ul ul a:hover {
   text-decoration: underline;
 }
+
+.side_menu > ul ul ul {
+  margin-bottom: 0 !important;
+}
