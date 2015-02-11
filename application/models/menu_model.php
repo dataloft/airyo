@@ -142,9 +142,10 @@ class Menu_model extends CI_Model {
         
         $this->db->where('parent_id',$parent_id);
 		$this->db->where('enabled',1);
-        $this->db->order_by('order','asc');
-        $this->db->order_by('parent_id','asc');
-        $this->db->order_by('id','asc');
+        //$this->db->order_by('order','asc');
+        //$this->db->order_by('parent_id','asc');
+        //$this->db->order_by('id','asc');
+		$this->db->order_by('name','asc');
 
         $rows =  $this->db->get($this->db->dbprefix('menu'))->result_array();
 		if(!count($rows)) return false;
@@ -166,6 +167,20 @@ class Menu_model extends CI_Model {
 		return  $ret;
 	}
 
+	public function generatemenutree($menu){
+		$returning = '';
+		if(!is_array($menu) || !count($menu)) return $returning;
+		$returning .= '<ul>';
+		foreach ($menu as $item){
+			$class='';
+			if($this->uri->uri_string() == $item['url'] or current_url() == $item['url']) $class='class="active"';
+			$returning .= '<li '.$class.'><a href="'.$item['url'].'">'.$item['name'].'</a>';
+			if(is_array($item['childs']) && count($item['childs'])) $returning .= $this->generatemenutree($item['childs']);
+			$returning .= '</li>';
+		}
+		$returning .= '</ul>';
+		return $returning;
+	}
 }
 
 /* End of file page.php */
