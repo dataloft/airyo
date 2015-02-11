@@ -5,7 +5,7 @@
                 <div class="side">
                     <nav class="side_menu">
                     
-                    	<ul>
+                    	<?php /*?><ul>
 <?
 if(is_array($menu) && count($menu)){
 foreach ($menu as $item)
@@ -34,8 +34,8 @@ foreach ($menu as $item)
 }
 }
 ?>                    
-                    	</ul>
-                    
+                    	</ul><?php */?>
+ 					<?=($menutree)?$menutree:''?>
                     
                         <?php /*?><ul>
                             <li>
