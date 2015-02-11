@@ -8,7 +8,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>	
-				<p class="navbar-text"><span class="glyphicon glyphicon-trash"></span> <a href="#">Корзина</a></p>
+				<!--p class="navbar-text"><span class="glyphicon glyphicon-trash"></span> <a href="#">Корзина</a></p-->
 			</div>
 			<div class="nav collapse navbar-collapse" id="bs-example-navbar-collapse-2">
 				<p class="navbar-text navbar-right">
