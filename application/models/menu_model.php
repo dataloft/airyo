@@ -11,9 +11,10 @@ class Menu_model extends CI_Model {
             $this->db->where('menu_group',$type);
         if (!empty($first_lvl))
             $this->db->where('parent_id',0);
-        $this->db->order_by('order','asc');
-        $this->db->order_by('parent_id','asc');
-        $this->db->order_by('id','asc');
+        //$this->db->order_by('order','asc');
+        //$this->db->order_by('parent_id','asc');
+        //$this->db->order_by('id','asc');
+		$this->db->order_by('name','asc');
 
         $q =  $this->db->get($this->db->dbprefix('menu'));
         if ($q->num_rows() > 0)
