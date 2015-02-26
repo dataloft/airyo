@@ -1,6 +1,8 @@
 <?php
 class Menu_model extends CI_Model {
 
+	private $parentslinks = array();
+
 	public function __construct() {
 		parent::__construct();
 	}
@@ -175,13 +177,28 @@ class Menu_model extends CI_Model {
 		foreach ($menu as $item){
 			$class='';
 			if($this->uri->uri_string() == $item['url'] or current_url() == $item['url']) $class='class="active"';
-			$returning .= '<li '.$class.'><a href="'.$item['url'].'">'.$item['name'].'</a>';
+			$returning .= '<li '.$class.'><a href="/'.$item['url'].'">'.$item['name'].'</a>';
 			if(is_array($item['childs']) && count($item['childs'])) $returning .= $this->generatemenutree($item['childs']);
 			$returning .= '</li>';
 		}
 		$returning .= '</ul>';
 		return $returning;
 	}
+
+	public function getChildsLinksArray($id, $first=0){
+		if($first) $this->parentslinks=array();
+		$cur_links = $this->db->select('id, url')->where('parent_id', $id)->where('enabled', 1)->get($this->db->dbprefix('menu'))->result_array();
+		if(is_array($cur_links) && count($cur_links)){
+			foreach($cur_links as $item){
+				if(!isset($this->parentslinks[$item['url']])){
+					$this->parentslinks[$item['url']] = 1;
+				}
+				$this->getChildsLinksArray($item['id']);
+			}
+		}
+		return $this->parentslinks;
+	}
+
 }
 
 /* End of file page.php */

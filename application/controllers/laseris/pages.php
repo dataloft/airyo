@@ -17,16 +17,15 @@ class Pages extends CI_Controller {
         $data['template_list'] = $this->config->item('templates');
         //$data['menu'] = $this->menu_model->getList(1,true);
 		$data['menu'] = $this->menu_model->getListTree(1);
-		$data['menutree'] = $this->menu_model->generatemenutree($data['menu']);
+
+		//$data['menutree'] = $this->menu_model->generatemenutree($data['menu']);
 		$data['mainmenu'] = $this->menu_model->getListTree(2);
-		
 		
 		if($data['page']) {
 			//$this->load->view('startbootstrap/common/header', $data);
 			//$this->load->view('startbootstrap/common/nav', $data);
 			
-			
-            if (!empty($data['template_list'][$data['page']['template']]['modules']))
+			if (!empty($data['template_list'][$data['page']['template']]['modules']))
             {
                 foreach ($data['template_list'][$data['page']['template']]['modules'] as $name => $value)
                 {
