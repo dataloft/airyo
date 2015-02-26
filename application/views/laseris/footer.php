@@ -52,7 +52,8 @@ function printmenutree($menu, $step=1, $parents=array()){
 		if($CI->uri->uri_string() == $item['url'] or current_url() == $item['url']) $class='class="active"';
 		if(substr($item['url'], 0, 1)=='/') $item['url'] = substr($item['url'], 1);
 		$returning .= '<li '.$class.'><a href="/'.$item['url'].'">'.$item['name'].'</a>';
-		if(is_array($item['childs']) && count($item['childs'])){
+		//if($CI->uri->uri_string() == $item['url']) $returning .= '->';
+		/*if(is_array($item['childs']) && count($item['childs'])){
 			$step++;
 			if($step<=3){
 				$returning .= printmenutree($item['childs'], $step, $parents);
@@ -62,7 +63,8 @@ function printmenutree($menu, $step=1, $parents=array()){
 				}
 			}
 			$step--;
-		}
+		}*/
+		$returning .= printmenutree($item['childs'], $step, $parents);
 		$returning .= '</li>';
 	}
 	$returning .= '</ul>';

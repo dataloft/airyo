@@ -163,7 +163,7 @@ class Menu_model extends CI_Model {
 		
 	}
 
-	public function getSorterMenuGroups(){
+	/*public function getSorterMenuGroups(){
 		$rows =  $this->db->get($this->db->dbprefix('menu_group'))->result_array();
         $ret = array();
 		foreach($rows as $row) $ret[$row['id']] = $row;
@@ -183,7 +183,7 @@ class Menu_model extends CI_Model {
 		}
 		$returning .= '</ul>';
 		return $returning;
-	}
+	}*/
 
 	public function getChildsLinksArray($id, $first=0){
 		if($first) $this->parentslinks=array();
