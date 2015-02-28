@@ -86,7 +86,7 @@ body:after {
   content: "";
   display: block;
   width: 220px;
-  height: 9999px;
+  height: 99999px;
   position: absolute;
   top: 0;
   left: 0;
