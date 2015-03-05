@@ -11,6 +11,7 @@ class Frontend extends CI_Controller
 		parent::__construct();
 		
 		$this->load->model('menu_model');
+		$this->load->model('counters_model');
 		$this->load->helper('url');
 
 		$this->oData['menu'] = $this->menu_model->getListTree(1);
@@ -20,6 +21,8 @@ class Frontend extends CI_Controller
 
 	public function _remap($method, $params = array()) {
 		
+		if ($counters = $this->counters_model->getCounters($this->input->ip_address(), $_SERVER['HTTP_HOST'])) $this->oData['counters'] = $counters; else $this->oData['counters'] = '';
+			
 		if(method_exists($this, $method)) {
 		
 			$result = call_user_func_array(array($this, $method), $params);
