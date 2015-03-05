@@ -32,9 +32,11 @@ class Gallery extends Frontend {
 		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][0];
 		
 		
-		foreach ($this->oData["albums"]  as $a)
-		{
-			$this->oData["images"][$a->id] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $a->label));
+		if (!empty($this->oData["albums"])){
+			foreach ($this->oData["albums"]  as $a)
+			{
+				$this->oData["images"][$a->id] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $a->label));
+			}
 		}
 
 		$this->oData['view'] = 'laseris/gallery/gallery';

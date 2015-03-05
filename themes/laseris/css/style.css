@@ -335,6 +335,9 @@ article table tr td{border:1px solid #000;padding:5px 10px;text-align:center;}
   font-size: 14px;
   line-height: normal;
 }
+.side_menu > ul > li {
+ 	margin-bottom: 15px;
+}
 .side_menu > ul > li > a {
   font-size: 16px;
   font-weight: 800;
