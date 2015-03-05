@@ -163,14 +163,14 @@ class Menu_model extends CI_Model {
 		
 	}
 
-	/*public function getSorterMenuGroups(){
+	public function getSorterMenuGroups(){
 		$rows =  $this->db->get($this->db->dbprefix('menu_group'))->result_array();
         $ret = array();
 		foreach($rows as $row) $ret[$row['id']] = $row;
 		return  $ret;
 	}
 
-	public function generatemenutree($menu){
+	/*public function generatemenutree($menu){
 		$returning = '';
 		if(!is_array($menu) || !count($menu)) return $returning;
 		$returning .= '<ul>';

@@ -127,7 +127,7 @@ class Menu extends CommonAdminController {
                 $echo.= '<a href="/admin/menu/edit/'.$item->id . '"';
                 if ($level>0)
                     $echo.='style="margin-left:'.($level*20).'px"';
-               $echo.=  '>' . $item->name . '</a>';
+               $echo.=  '>' . $item->name . '</a> <small class="text-muted">' . $item->url . '</small>';
             }
             else
             {
