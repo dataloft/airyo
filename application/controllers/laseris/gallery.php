@@ -14,12 +14,10 @@ class Gallery extends Frontend {
 		$this->oData['home_folder'] = $this->sHomeFolder;
 
 		$this->oData['scripts'] = array(
-			'/themes/airyo/js/Gallery/js/ekko-lightbox.js',
-			'/themes/airyo/js/gallery.js'
+			'/themes/laseris/js/jquery.magnific-popup.min.js'
 		);
 		$this->oData['styles'] = array(
-			'/themes/airyo/js/Gallery/css/ekko-lightbox.css',
-			'/themes/airyo/css/gallery.css'
+			'/themes/laseris/css/magnific-popup.css'
 		);
 	}
 
@@ -31,7 +29,7 @@ class Gallery extends Frontend {
 		
 		$aGalleryConfig = $this->config->item('gallery');
 		$this->oData['preview_extension'] = $aGalleryConfig['image_preview_extension'];
-		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][1];
+		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][0];
 		
 		
 		foreach ($this->oData["albums"]  as $a)

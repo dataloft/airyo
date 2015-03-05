@@ -364,8 +364,7 @@ $config['auth'] = 'admin';
 $config['gallery'] = array(
 	'image_preview_extension' => '.jpg',
 	'image_preview_size' => array(
-		array('height' => 100, 'width' => 200),
-		array('height' => 200, 'width' => 300),
+		array('width' => 154, 'height' => 154)
 	) // Варианты размеров превью
 );
 

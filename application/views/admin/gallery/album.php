@@ -84,8 +84,8 @@
 						</td>
 						<td>
 							<div class="form-group input-group-sm">
-								<label for="inputName">Название</label>
-								<input type="text" value="<?=$image->title; ?>" class="form-control" name="album[title][]" id="inputName" placeholder="Название">
+								<!--label for="inputName">Название</label-->
+								<input type="hidden" value="<?=$image->title; ?>" class="form-control" name="album[title][]" id="inputName" placeholder="Название">
 							</div>
 							<div class="form-group">
 								<label for="inputDescription">Описание</label>

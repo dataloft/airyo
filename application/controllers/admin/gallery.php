@@ -62,7 +62,7 @@ class Gallery extends CommonAdminController {
 
 		$aGalleryConfig = $this->config->item('gallery');
 		$this->oData['preview_extension'] = $aGalleryConfig['image_preview_extension'];
-		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][1];
+		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][0];
 
 		$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
 		$this->oData['profile_id'] = $this->oUser->id;
@@ -314,7 +314,7 @@ class Gallery extends CommonAdminController {
 
 		$aGalleryConfig = $this->config->item('gallery');
 		$this->oData['preview_extension'] = $aGalleryConfig['image_preview_extension'];
-		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][1];
+		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][0];
 
 		$this->oData['message'] =  $aMessage;
 		$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
