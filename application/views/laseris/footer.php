@@ -150,6 +150,15 @@ function printmenutree($menu, $step=1, $parents=array()){
 if (!empty($counters))
     echo $counters->text;
 ?>
+
+<?
+if (!empty($scripts))
+    foreach ($scripts as $script) {
+?>
+<script src="<?=$script?>"></script>
+<?
+    }
+?>
         
     </body>
 

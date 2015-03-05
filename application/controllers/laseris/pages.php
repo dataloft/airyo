@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Pages extends CI_Controller {
+class Pages extends Frontend {
 
 	public function __construct() {
 		parent::__construct();
@@ -12,14 +12,11 @@ class Pages extends CI_Controller {
 	}
 
 	public function index($page = '') {
+		
         $page = $this->uri->uri_string();
 		$data['page'] = $this->content_model->getToAlias($page,true);
         $data['template_list'] = $this->config->item('templates');
-        //$data['menu'] = $this->menu_model->getList(1,true);
-		$data['menu'] = $this->menu_model->getListTree(1);
-
-		//$data['menutree'] = $this->menu_model->generatemenutree($data['menu']);
-		$data['mainmenu'] = $this->menu_model->getListTree(2);
+        
 		
 		if($data['page']) {
 			//$this->load->view('startbootstrap/common/header', $data);
@@ -50,7 +47,8 @@ class Pages extends CI_Controller {
             $this->load->view('laseris/pages/'.$data['page']['template'], $data);
 
 			//$this->load->view('startbootstrap/common/footer', $data);
-		} else {
+		}
+		else {
 			show_404();
 		}
 	}

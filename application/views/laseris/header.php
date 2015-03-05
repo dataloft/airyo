@@ -12,6 +12,16 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,700,600,800,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/themes/laseris/css/reset.css" />
     <link rel="stylesheet" href="/themes/laseris/css/style.css" />
+	
+	<?
+	if (!empty($styles))
+	foreach ($styles as $style) {
+	?>
+	<link rel="stylesheet" href="<?=$style?>">
+	<?
+	}
+	?>
+	
     <!--[if lte IE 8]><link href= "/themes/laseris/css/ie.css" rel= "stylesheet" media= "all" /><![endif]-->
     <!--[if lt IE 9]>
 		<script src="/themes/laseris/js/html5-ie.js"></script>

@@ -41,6 +41,7 @@
 $route['404_override'] = '';
 
 $route['default_controller'] = 'laseris/pages';
+$route['gallery'] = 'laseris/gallery';
 
 // admin
 $route['admin'] = 'admin';
