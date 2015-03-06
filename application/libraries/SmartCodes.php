@@ -37,6 +37,7 @@ class SmartCodes
         return get_instance()->$var;
     }
 
+
     public function parseString ($str)
     {
         preg_match_all('/\[\[[^\[\]]*\]\]/i',$str,$matches);
@@ -63,6 +64,29 @@ class SmartCodes
             }
         return $str;
     }
+    
+    
+    public function Gallery($sAlbumLabel)
+    {
+        
+        return '123';
+        
+        /*$this->load->model('gallery_model');
+        $data["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+        $data['home_folder'] = 'public/gallery';
+        $aGalleryConfig = $this->config->item('gallery');
+        $data['preview_extension'] = $aGalleryConfig['image_preview_extension'];
+        $data['preview_size'] = $aGalleryConfig['image_preview_size'][1];
+
+        $data["albums"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
+        
+        //var_dump($data);
+        
+        return $this->load->view('laseris/gallery/gallery', $data, TRUE);*/
+
+    }
+    
+    
     public function counters($p1='', $p2='')    //changed $email to $identity
     {
         $this->load->model('counters_model');

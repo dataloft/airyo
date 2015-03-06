@@ -5,8 +5,8 @@ class Pages extends Frontend {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('content_model');
-		$this->load->model('menu_model');
         $this->load->helper('url');
+        $this->load->library('SmartCodes');
 	}
 
 	public function index($page = '') {
@@ -17,7 +17,6 @@ class Pages extends Frontend {
         
 		if ($this->oData['page']) {
 			
-			$this->load->library('SmartCodes');
             $this->oData['page']['content'] = $this->smartcodes->parseString($this->oData['page']['content']);
             
 			$this->oData['view'] = 'laseris/pages/'.$this->oData['page']['template'];

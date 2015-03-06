@@ -2,23 +2,19 @@
 
 class Gallery extends Frontend {
 
-
 	protected $sHomeFolder = 'public/gallery';
 
 
 	public function __construct() {
 		parent::__construct();
+		$this->load->config('gallery');
 		$this->load->helper('file');
 		$this->load->model('gallery_model');
 
 		$this->oData['home_folder'] = $this->sHomeFolder;
 
-		$this->oData['scripts'] = array(
-			'/themes/laseris/js/jquery.magnific-popup.min.js'
-		);
-		$this->oData['styles'] = array(
-			'/themes/laseris/css/magnific-popup.css'
-		);
+		$this->oData['scripts'][] = '/themes/laseris/js/jquery.magnific-popup.min.js';
+		$this->oData['styles'][] = '/themes/laseris/css/magnific-popup.css';
 	}
 
 

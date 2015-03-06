@@ -1,3 +1,5 @@
+<?$this->load->view('laseris/common/header')?>
+
 <? if(!empty($albums)) : ?>
 	
 	<? foreach($albums as $album) : ?>
@@ -55,5 +57,4 @@ if(!empty($albums)) {
 
 </script>
 
-
-
+<?$this->load->view('laseris/common/footer')?>

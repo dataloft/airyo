@@ -360,13 +360,6 @@ $config['proxy_ips'] = '';
 
 $config['auth'] = 'admin';
 
-/** @var array - Разрешение сформированных превью */
-$config['gallery'] = array(
-	'image_preview_extension' => '.jpg',
-	'image_preview_size' => array(
-		array('width' => 154, 'height' => 154)
-	) // Варианты размеров превью
-);
 
 /**
 | -------------------------------------------------------------------

@@ -6,6 +6,7 @@ class Gallery extends CommonAdminController {
 
 	public function __construct() {
 		parent::__construct();
+		$this->load->config('gallery');
 		$this->load->helper('file');
 		$this->config->load('not_allowed_mimes');
 		$this->load->model('gallery_model');

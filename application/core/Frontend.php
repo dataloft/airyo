@@ -27,9 +27,9 @@ class Frontend extends CI_Controller
 		
 			$result = call_user_func_array(array($this, $method), $params);
 			
-			$this->load->view('laseris/header', $this->oData);
+			//$this->load->view('laseris/common/header', $this->oData);
 			$this->load->view($this->oData['view'], $this->oData);
-			$this->load->view('laseris/footer', $this->oData);
+			//$this->load->view('laseris/common/footer', $this->oData);
 			
 			return $result;
 		}
