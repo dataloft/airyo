@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="/themes/laseris/css/reset.css" />
     <link rel="stylesheet" href="/themes/laseris/css/style.css" />
 	
+	
+	<?
+	
+	if (isset($albums) || isset($images)) echo '<link rel="stylesheet" href="/themes/laseris/css/magnific-popup.css" />';
+	
+	?>
+	
+	
 	<?
 	if (!empty($styles))
 	foreach ($styles as $style) {

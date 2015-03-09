@@ -10,32 +10,35 @@ class Gallery extends Frontend {
 		$this->load->config('gallery');
 		$this->load->helper('file');
 		$this->load->model('gallery_model');
+		
+		//var_dump($this->gallery_model->data);
 
-		$this->oData['home_folder'] = $this->sHomeFolder;
+		$this->data['home_folder'] = $this->sHomeFolder;
 
-		$this->oData['scripts'][] = '/themes/laseris/js/jquery.magnific-popup.min.js';
-		$this->oData['styles'][] = '/themes/laseris/css/magnific-popup.css';
+		//$this->oData['scripts'] = '/themes/laseris/js/jquery.magnific-popup.min.js';
+		//$this->oData['styles'] = '/themes/laseris/css/magnific-popup.css';
 	}
 
 
 	public function index() {
-		$this->oData['main_menu'] = 'gallery';
+		//$this->data['main_menu'] = 'gallery';
 
-		$this->oData["albums"] = $this->gallery_model->getFetchCountriesAlbums();
+		$this->data["albums"] = $this->gallery_model->getFetchCountriesAlbums();
 		
 		$aGalleryConfig = $this->config->item('gallery');
-		$this->oData['preview_extension'] = $aGalleryConfig['image_preview_extension'];
-		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][0];
+		$this->data['preview_extension'] = $aGalleryConfig['image_preview_extension'];
+		$this->data['preview_size'] = $aGalleryConfig['image_preview_size'][0];
 		
 		
-		if (!empty($this->oData["albums"])){
-			foreach ($this->oData["albums"]  as $a)
+		if (!empty($this->data["albums"])){
+			foreach ($this->data["albums"]  as $a)
 			{
-				$this->oData["images"][$a->id] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $a->label));
+				$this->data["images"][$a->id] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $a->label));
 			}
 		}
-
-		$this->oData['view'] = 'laseris/gallery/gallery';
+		
+		//$this->data['view'] = 'laseris/gallery/gallery';
+		$this->load->view('laseris/gallery/gallery', $this->data);
 	}
 
 

@@ -62,7 +62,7 @@ class CommonAdminController extends CI_Controller
 								} else {
 									die('sd');
 									$sRandomModule = array_shift($aUserModules);
-									redirect('admin/'.$sRandomModule, 'refresh');
+									redirect('airyo/'.$sRandomModule, 'refresh');
 								}
 							}
 						} else {
@@ -74,7 +74,7 @@ class CommonAdminController extends CI_Controller
 		}
 
 		if(!$this->ion_auth->logged_in() AND $bLogin) {
-			redirect('admin', 'refresh');
+			redirect('airyo', 'refresh');
 		}
 
 		$this->updateLogs();
@@ -87,7 +87,7 @@ class CommonAdminController extends CI_Controller
 	 */
 	private function updateLogs(){
 		$aNotUpdate = array(
-			'admin', 'admin/logout'
+			'admin', 'airyo/logout'
 		);
 
 		if(!in_array($this->uri->uri_string, $aNotUpdate)) {
@@ -112,14 +112,14 @@ class CommonAdminController extends CI_Controller
 	public function _remap($method, $params = array()) {
 
 		// you can set default variables to send to the template here
-		$this->header['title'] = 'Airyo project';
+		$this->header['title'] = 'Airyo';
 		//$this->body['view'] = strtolower(get_class($this)).'/'.$method;
 
 		if(method_exists($this, $method)) {
 			$result = call_user_func_array(array($this, $method), $params);
-			$this->load->view('admin/common/header', $this->oData);
+			$this->load->view('airyo/common/header', $this->oData);
 			$this->load->view($this->oData['view'], $this->oData);
-			$this->load->view('admin/common/footer', $this->oData);
+			$this->load->view('airyo/common/footer', $this->oData);
 			return $result;
 		}
 		show_404();

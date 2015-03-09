@@ -3,8 +3,14 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Gallery_model extends CI_Model {
 
+	public $data = array();
+	
+
 	public function __construct() {
 		parent::__construct();
+		
+		//$this->data['scripts'][] = '/themes/laseris/js/jquery.magnific-popup.min.js';	
+		//$this->data['styles'][] = '/themes/laseris/css/magnific-popup.css';
 	}
 
 	public function record_count() {

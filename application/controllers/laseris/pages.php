@@ -4,22 +4,35 @@ class Pages extends Frontend {
 
 	public function __construct() {
 		parent::__construct();
+		
 		$this->load->model('content_model');
         $this->load->helper('url');
         $this->load->library('SmartCodes');
 	}
 
-	public function index($page = '') {
+	public function index() {
 		
-        $page = $this->uri->uri_string();
-		
-		$this->oData['page'] = $this->content_model->getToAlias($page, true);
+        $this->data['page'] = $this->content_model->getToAlias($this->uri->uri_string(), true);
         
-		if ($this->oData['page']) {
+		if ($this->data['page']) {
 			
-            $this->oData['page']['content'] = $this->smartcodes->parseString($this->oData['page']['content']);
+			//$data['smart'] = $this->smartcodes->parseString($this->oData['page']['content']);
+			
+			//$this->smartcodes->Parse($this->oData['page']['content']);
+			
+			
+            //$this->data['page']['content'] = $this->smartcodes->Parse($this->data['page']['content']);
             
-			$this->oData['view'] = 'laseris/pages/'.$this->oData['page']['template'];
+            $this->smartcodes->Parse($this->data['page']['content']);
+            $this->data['page']['content'] = $this->smartcodes->data['output'];
+            unset($this->smartcodes->data['output']);
+            $this->data = array_merge($this->data, $this->smartcodes->data);
+            
+            //var_dump($this->data);
+            
+            $this->load->view('laseris/pages/'.$this->data['page']['template'], $this->data);
+            
+			//$this->data['view'] = 'laseris/pages/'.$this->data['page']['template'];
 			
 		}
 		else {

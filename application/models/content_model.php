@@ -25,8 +25,6 @@ class Content_model extends CI_Model {
         return  $q->result_array();
 	}
 
-
-
 	public function getType() {
 		$q = $this->db;
 		$this->sql = "SELECT * FROM ".$this->db->dbprefix('type_content');

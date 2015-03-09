@@ -38,74 +38,80 @@
 |
 */
 
-$route['404_override'] = '';
 
+//Frontend Routes:
+
+$route['404_override'] = '';
 $route['default_controller'] = 'laseris/pages';
 $route['gallery'] = 'laseris/gallery';
 
-// admin
-$route['admin'] = 'admin';
-//$route['admin'] = 'admin/auth/login';
-$route[$this->config->item('auth')] = 'admin/auth/login';
-//$route['admin/login'] = 'admin/auth/login';
-$route['admin/registration'] = 'admin/auth/create_user';
-$route['admin/logout'] = 'admin/auth/logout';
 
-//admin pages
-$route['admin/pages'] = 'admin/pages';
-$route['admin/pages/add'] = 'admin/pages/add';
-$route['admin/pages/edit'] = 'admin/pages/edit';
-$route['admin/pages/edit/(:num)'] = 'admin/pages/edit/$1';
-$route['admin/pages/delete'] = 'admin/pages/delete';
+//Admin Routes:
 
-//admin users (profile)
-$route['admin/users'] = 'admin/users';
-$route['admin/users/(:num)'] = 'admin/users';
-$route['admin/users/add'] = 'admin/users/add';
-$route['admin/users/edit'] = 'admin/users/edit';
-$route['admin/users/edit/(:num)'] = 'admin/users/edit/$1';
-$route['admin/users/delete'] = 'admin/users/delete';
+//airyo
+$route['airyo'] = 'airyo';
+$route[$this->config->item('auth')] = 'airyo/auth/login';
+$route['airyo/registration'] = 'airyo/auth/create_user';
+$route['airyo/logout'] = 'airyo/auth/logout';
 
-//admin users groups
-$route['admin/groups'] = 'admin/groups';
-$route['admin/groups/add'] = 'admin/groups/add';
-$route['admin/groups/add/(:num)'] = 'admin/groups/add/$1';
-$route['admin/groups/edit'] = 'admin/groups/edit';
-$route['admin/groups/edit/(:num)'] = 'admin/groups/edit/$1';
-$route['admin/groups/delete'] = 'admin/groups/delete';
+//airyo pages
+$route['airyo/pages'] = 'airyo/pages';
+$route['airyo/pages/add'] = 'airyo/pages/add';
+$route['airyo/pages/edit'] = 'airyo/pages/edit';
+$route['airyo/pages/edit/(:num)'] = 'airyo/pages/edit/$1';
+$route['airyo/pages/delete'] = 'airyo/pages/delete';
 
-//admin menu
-$route['admin/menu'] = 'admin/menu';
-$route['admin/menu/(:num)'] = 'admin/menu/index/$1';
-$route['admin/menu/add'] = 'admin/menu/add';
-$route['admin/menu/add/(:num)'] = 'admin/menu/add/$1';
-$route['admin/menu/edit'] = 'admin/menu/edit';
-$route['admin/menu/edit/(:num)'] = 'admin/menu/edit/$1';
-$route['admin/menu/delete'] = 'admin/menu/delete';
+//airyo users (profile)
+$route['airyo/users'] = 'airyo/users';
+$route['airyo/users/(:num)'] = 'airyo/users';
+$route['airyo/users/add'] = 'airyo/users/add';
+$route['airyo/users/edit'] = 'airyo/users/edit';
+$route['airyo/users/edit/(:num)'] = 'airyo/users/edit/$1';
+$route['airyo/users/delete'] = 'airyo/users/delete';
 
-//admin file manager
-$route['admin/files'] = 'admin/files';
-$route['admin/files/dir'] = 'admin/files';
-$route['admin/files/delete'] = 'admin/files/delete';
-$route['admin/files/createfolder'] = 'admin/files/createfolder';
-$route['admin/files/renamefolder'] = 'admin/files/renamefolder';
-$route['admin/files/upload'] = 'admin/files/upload';
-$route['admin/files/(:any)'] = 'admin/files/index/$1';
-$route['admin/download'] = 'admin/files/download';
+//airyo users groups
+$route['airyo/groups'] = 'airyo/groups';
+$route['airyo/groups/add'] = 'airyo/groups/add';
+$route['airyo/groups/add/(:num)'] = 'airyo/groups/add/$1';
+$route['airyo/groups/edit'] = 'airyo/groups/edit';
+$route['airyo/groups/edit/(:num)'] = 'airyo/groups/edit/$1';
+$route['airyo/groups/delete'] = 'airyo/groups/delete';
 
-//admin gallery manager
-$route['admin/gallery'] = 'admin/gallery';
-$route['admin/gallery/(album:any)'] = 'admin/gallery/getalbum/$1';
-$route['admin/gallery/createalbum'] = 'admin/gallery/createalbum';
-$route['admin/gallery/uploadimages'] = 'admin/gallery/uploadimages';
-$route['admin/gallery/editAlbum'] = 'admin/gallery/editAlbum';
-$route['admin/gallery/edit/(album:any)'] = 'admin/gallery/editDescriptionAlbum/$1';
-$route['admin/gallery/ajaxRemoveAlbum'] = 'admin/gallery/ajaxRemoveAlbum';
+//airyo menu
+$route['airyo/menu'] = 'airyo/menu';
+$route['airyo/menu/(:num)'] = 'airyo/menu/index/$1';
+$route['airyo/menu/add'] = 'airyo/menu/add';
+$route['airyo/menu/add/(:num)'] = 'airyo/menu/add/$1';
+$route['airyo/menu/edit'] = 'airyo/menu/edit';
+$route['airyo/menu/edit/(:num)'] = 'airyo/menu/edit/$1';
+$route['airyo/menu/delete'] = 'airyo/menu/delete';
 
-//admin modules
-$route['admin/counters'] = 'admin/counters';
+//airyo file manager
+$route['airyo/files'] = 'airyo/files';
+$route['airyo/files/dir'] = 'airyo/files';
+$route['airyo/files/delete'] = 'airyo/files/delete';
+$route['airyo/files/createfolder'] = 'airyo/files/createfolder';
+$route['airyo/files/renamefolder'] = 'airyo/files/renamefolder';
+$route['airyo/files/upload'] = 'airyo/files/upload';
+$route['airyo/files/(:any)'] = 'airyo/files/index/$1';
+$route['airyo/download'] = 'airyo/files/download';
+
+//airyo gallery manager
+$route['airyo/gallery'] = 'airyo/gallery';
+$route['airyo/gallery/(album:any)'] = 'airyo/gallery/getalbum/$1';
+$route['airyo/gallery/createalbum'] = 'airyo/gallery/createalbum';
+$route['airyo/gallery/uploadimages'] = 'airyo/gallery/uploadimages';
+$route['airyo/gallery/editAlbum'] = 'airyo/gallery/editAlbum';
+$route['airyo/gallery/edit/(album:any)'] = 'airyo/gallery/editDescriptionAlbum/$1';
+$route['airyo/gallery/ajaxRemoveAlbum'] = 'airyo/gallery/ajaxRemoveAlbum';
+
+//airyo counters
+$route['airyo/counters'] = 'airyo/counters';
+
+
 
 $route['(:any)'] = 'laseris/pages/index/$1';
+
 
 
 /* End of file routes.php */
