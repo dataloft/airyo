@@ -29,7 +29,7 @@
 
 		<div class="form-group">
 			<label for="inputName">Название</label>
-			<input type="text" value="<?=$album->title; ?>" class="form-control" name="title" id="inputName" placeholder="Название">
+			<input type="text" value="<?=htmlspecialchars($album->title); ?>" class="form-control" name="title" id="inputName" placeholder="Название">
 		</div>
 		<div class="form-group">
 			<label for="inputDescription">Описание</label>
