@@ -5,7 +5,7 @@
  *
  * @editor N.Kulchinskiy
  */
-class Users extends CommonAdminController {
+class Users extends Airyo {
 
 	public function __construct() {
 		parent::__construct();

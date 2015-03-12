@@ -49,7 +49,7 @@ $route['gallery'] = 'laseris/gallery';
 //Admin Routes:
 
 //airyo
-$route['airyo'] = 'airyo';
+$route['airyo'] = 'airyo/auth/login';
 $route[$this->config->item('auth')] = 'airyo/auth/login';
 $route['airyo/registration'] = 'airyo/auth/create_user';
 $route['airyo/logout'] = 'airyo/auth/logout';

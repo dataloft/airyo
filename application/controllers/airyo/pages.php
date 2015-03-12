@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Pages extends CommonAdminController {
+class Pages extends Airyo {
 
     protected $default;
 

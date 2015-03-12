@@ -61,7 +61,7 @@ class Content_model extends CI_Model {
     public function getToAlias($alias, $array = false) {
         $q = $this->db;
         $this->sql = "
-			SELECT * FROM ".$this->db->dbprefix('content')." WHERE alias = '".$alias."'
+			SELECT * FROM ".$this->db->dbprefix('content')." WHERE alias = '".$alias."' && enabled = '1'
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)

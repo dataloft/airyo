@@ -6,7 +6,7 @@ if( ! defined('BASEPATH')) exit('No direct script access allowed');
  *
  * @author N.Kulchinskiy
  */
-class CommonAdminController extends CI_Controller
+class Airyo extends CI_Controller
 {
 	protected $oData = array();
 	/** @var object */

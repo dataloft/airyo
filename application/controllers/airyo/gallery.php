@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Gallery extends CommonAdminController {
+class Gallery extends Airyo {
 	/** @var string  */
 	protected $sHomeFolder = 'public/gallery';
 

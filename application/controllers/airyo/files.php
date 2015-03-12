@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Files extends CommonAdminController {
+class Files extends Airyo {
 
     protected $start_folder = 'public';
     protected $path = '';

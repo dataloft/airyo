@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Auth extends CommonAdminController {
+class Auth extends Airyo {
 
 	function __construct() {
 		parent::__construct(false);

@@ -5,7 +5,7 @@
  *
  * @editor N.Kulchinskiy
  */
-class Groups extends CommonAdminController {
+class Groups extends Airyo {
 
 	public function __construct() {
 		parent::__construct();
