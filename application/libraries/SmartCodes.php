@@ -16,11 +16,19 @@ class SmartCodes
     {
         return get_instance()->$var;
     }
+    
+    
+    function str_replace_once($search, $replace, $text) 
+	{ 
+		$pos = strpos($text, $search); 
+		return $pos!==false ? substr_replace($text, $replace, $pos, strlen($search)) : $text; 
+	} 
 
 
     public function Parse($str)
     {
-        $this->data = array();
+        //$this->data = array();
+        // Добавить чистку пробелов в строке
         
         preg_match_all('/\[\[[^\[\]]*\]\]/i', $str, $matches);
         
@@ -45,7 +53,7 @@ class SmartCodes
                         //$new_str = call_user_func_array(array($this, $data_arr[0]), $params);
                         $new_str = call_user_func_array(array($this, $data_arr[0]), $params);
                         
-                        $str = str_replace($match, $new_str, $str);	
+                        $str = $this->str_replace_once($match, $new_str, $str);	
                         
                         /*if (count($data_arr) > 1)
                         {
@@ -75,7 +83,15 @@ class SmartCodes
         $data['home_folder'] = 'public/gallery';
         $data['preview_extension'] = $aGalleryConfig['image_preview_extension'];
         $data['preview_size'] = $aGalleryConfig['image_preview_size'][0];
+        
+        $rand_num = mt_rand(0, 0xffffff);
+        $rand_str = sprintf("%06x", $rand_num);
+        
+        $data['album']['name'] = $sAlbumLabel.$rand_str;
         $data['album']['label'] = $sAlbumLabel;
+        
+        //echo $data['album']['name'].'<br>';
+        
         $data["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
         
         
@@ -94,6 +110,8 @@ class SmartCodes
         //var_dump($data);
         
         $this->data['images'] = array(); //пустой массив, указывающий вьюшке на наличие галереи на странице 
+        
+        //echo $this->load->view('laseris/gallery/gallery_album', $data, TRUE);
         
         return $this->load->view('laseris/gallery/gallery_album', $data, TRUE);
     }
