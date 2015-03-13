@@ -23,10 +23,17 @@
 								//	$parents = $CI->menu_model->getChildsLinksArray($item['id'], 1);
 									
 								//}
-								//$class='';
-								//if($CI->uri->uri_string() == $item['url'] or current_url() == $item['url']) $class='class="active"';
+								
+								//echo uri_string().' = '.$item['url'].'<br>';
+								
+								$class = '';
+								if (uri_string() == $item['url']) $class=' class="active"';
+								
+								//if(uri_string() == $item['url'] or current_url() == $item['url']) $class=' class="active"';
 								//if(substr($item['url'], 0, 1)=='/') $item['url'] = substr($item['url'], 1);
-								$returning .= '<li '.@$class.'><a href="/'.$item['url'].'">'.$item['name'].'</a>';
+								
+								$returning .= '<li'.@$class.'><a href="/'.$item['url'].'">'.$item['name'].'</a>';
+								
 								//if($CI->uri->uri_string() == $item['url']) $returning .= '->';
 								/*if(is_array($item['childs']) && count($item['childs'])){
 									$step++;
