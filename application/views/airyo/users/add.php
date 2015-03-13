@@ -65,7 +65,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-xs-offset-2 col-xs-10">
-				<button type="submit" class="btn btn-success">Сохранить</button>
+				<button type="submit" class="btn btn-success"><?= $this->lang->line('save')?></button>
 			</div>
 		</div>
 		<input type="hidden" name="form_add" value="add" />

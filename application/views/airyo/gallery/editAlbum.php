@@ -35,7 +35,7 @@
 			<label for="inputDescription">Описание</label>
 			<textarea class="form-control" name="description" id="inputDescription" cols="60" rows="5"><?=$album->description; ?></textarea>
 		</div>
-		<button type="submit" class="btn btn-success">Сохранить</button>
+		<button type="submit" class="btn btn-success"><?= $this->lang->line('save')?></button>
 		<a href="#" class="link-album-delete" style="float: right;" data-album="<?=$album->id; ?>">Удалить альбом</a>
 		
 		<input type="hidden" value="<?=$album->id; ?>" name="album_id" />

@@ -34,12 +34,8 @@ $(document).ready(function(){
 
 <?
 
-//$album_string = '';
-
 if(!empty($albums)) {
 	foreach($albums as $album) {
-		//$album_string .= '#album'.$album->id.',';
-		
 		echo "
 			$('#album".$album->id."').magnificPopup({
 				delegate: 'a[name=album".$album->id."]', 
@@ -49,7 +45,6 @@ if(!empty($albums)) {
 		";
 		
 	}
-	//$album_string = rtrim($album_string, ",");
 }
 ?>
 	

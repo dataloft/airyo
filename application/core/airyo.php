@@ -24,8 +24,11 @@ class Airyo extends CI_Controller
 		$this->load->model('modules_model');
 		$this->load->model('users_model');
 		$this->load->model('logs_model');
+		
+		$this->lang->load('airyo', 'russian');
 
 		$this->oUser = $this->users_model->getUserById($this->ion_auth->get_user_id());
+		
 		$this->oData['main_menu'] = '';
 		$this->oData['menu'] = array();
 		$this->oData['usermenu'] = array();

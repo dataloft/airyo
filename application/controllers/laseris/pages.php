@@ -12,34 +12,19 @@ class Pages extends Frontend {
 
 	public function index() {
 		
-        $this->data['page'] = $this->content_model->getToAlias($this->uri->uri_string(), true);
+        $this->data['page'] = $this->content_model->getByAlias($this->uri->uri_string(), true);
         
-		if ($this->data['page']) {
-			
-			//$data['smart'] = $this->smartcodes->parseString($this->oData['page']['content']);
-			
-			//$this->smartcodes->Parse($this->oData['page']['content']);
-			
-			
-            //$this->data['page']['content'] = $this->smartcodes->Parse($this->data['page']['content']);
-            
-            $this->smartcodes->Parse($this->data['page']['content']);
+		if ($this->data['page'])
+		{
+			$this->smartcodes->Parse($this->data['page']['content']);
             $this->data['page']['content'] = $this->smartcodes->data['output'];
             unset($this->smartcodes->data['output']);
             $this->data = array_merge($this->data, $this->smartcodes->data);
             
-            //var_dump($this->data);
-            
             $this->load->view('laseris/pages/'.$this->data['page']['template'], $this->data);
-            
-			//$this->data['view'] = 'laseris/pages/'.$this->data['page']['template'];
-			
 		}
 		else {
 			show_404();
 		}
 	}
 }
-
-/* End of file page.php */
-/* Location: ./application/controllers/page.php */

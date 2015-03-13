@@ -68,7 +68,6 @@ class SmartCodes
                 }
             }
             
-        //return $str;
         $this->data['output'] = $str;
     }
     
@@ -90,28 +89,9 @@ class SmartCodes
         $data['album']['name'] = $sAlbumLabel.$rand_str;
         $data['album']['label'] = $sAlbumLabel;
         
-        //echo $data['album']['name'].'<br>';
-        
         $data["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
         
-        
-        //var_dump($this->gallery_model->data);
-        
-        
-        //$result = array();
-        
-        //$result['output'] 	= $this->load->view('laseris/gallery/gallery_album', $data, TRUE);
-        //$result['styles'] 	= $this->gallery_model->styles;
-        //$result['scripts'] 	= $this->gallery_model->scripts;
-        
-        //return $result;
-        
-        //echo $this->gallery_model->styles;
-        //var_dump($data);
-        
         $this->data['images'] = array(); //пустой массив, указывающий вьюшке на наличие галереи на странице 
-        
-        //echo $this->load->view('laseris/gallery/gallery_album', $data, TRUE);
         
         return $this->load->view('laseris/gallery/gallery_album', $data, TRUE);
     }

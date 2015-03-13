@@ -79,7 +79,7 @@
         </div>
         <input type="hidden" name="change" id="change" value="0">
         <? if (!empty($id)) {?> <input type="hidden" name="id" value="<?=$id?>"><?} else {?><input type="hidden" name="action" value="add"><?}?>
-		<button type="submit" class="btn btn-success" style="float: left;">Сохранить</button>
+		<button type="submit" class="btn btn-success" style="float: left;"><?= $this->lang->line('save')?></button>
 
     <?php echo form_close();?>
     

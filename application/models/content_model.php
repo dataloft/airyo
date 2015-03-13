@@ -20,7 +20,6 @@ class Content_model extends CI_Model {
 
         }
 
-
         $q =  $this->db->get($this->db->dbprefix('content'));
         return  $q->result_array();
 	}
@@ -58,7 +57,7 @@ class Content_model extends CI_Model {
         return false;
     }
 
-    public function getToAlias($alias, $array = false) {
+    public function getByAlias($alias, $array = false) {
         $q = $this->db;
         $this->sql = "
 			SELECT * FROM ".$this->db->dbprefix('content')." WHERE alias = '".$alias."' && enabled = '1'

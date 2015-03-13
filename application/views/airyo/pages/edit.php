@@ -72,10 +72,10 @@
             <input type="text" class="form-control" id="alias" name="alias" value="<? echo $page['alias']; ?>" placeholder="" >
 		</div>
         <div class="checkbox">
-            <label>  <input type="checkbox" id="enabled"  value="1" name="enabled" <? if ($page['enabled']) echo 'checked'; ?> > Enabled</label>
+            <label>  <input type="checkbox" id="enabled"  value="1" name="enabled" <? if ($page['enabled']) echo 'checked'; ?>> <?= $this->lang->line('enabled')?></label>
         </div>
         <? if (!empty($id)) {?> <input type="hidden" name="id" value="<?=$id?>"><?} else {?><input type="hidden" name="action" value="add"><?}?>
-		<button type="submit" class="btn btn-success" style="float: left;">Сохранить</button>
+		<button type="submit" class="btn btn-success" style="float: left;"><?= $this->lang->line('save')?></button>
 
     <?php echo form_close();?>
     <? if (!empty($id)) {?>

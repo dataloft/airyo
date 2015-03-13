@@ -98,8 +98,8 @@
 			</table>
 			<div>
 				<button type="submit" class="btn btn-success">
-					<span class="checkAll">Сохранить</span>
-					<span class="uncheckAll hidden">Сохранить и удалить отмеченные</span>
+					<span class="checkAll"><?= $this->lang->line('save')?></span>
+					<span class="uncheckAll hidden"><?= $this->lang->line('save_and_delete_checked')?></span>
 				</button>
 			</div>
 		</form>

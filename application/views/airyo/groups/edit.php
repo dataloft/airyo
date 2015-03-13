@@ -23,7 +23,7 @@
 	    <?php endif; ?>
 		<div class="pull-right">
 			<?php if(!empty($id)) : ?>
-				<button type="submit" class="btn btn-success">Сохранить</button>
+				<button type="submit" class="btn btn-success"><?= $this->lang->line('save')?></button>
 				<a class="btn btn-danger" id="<?=$id?>" onclick="removeGroup('<?=$id; ?>');">Удалить</a>
 			<?php else : ?>
 				<button type="submit" class="btn btn-success">Добавить</button>

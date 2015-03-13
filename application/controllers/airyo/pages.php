@@ -439,7 +439,7 @@ class Pages extends Airyo {
             }
             else
             {
-            $page =  $this->content_model->getToAlias($this->input->post('alias'));
+            $page =  $this->content_model->getByAlias($this->input->post('alias'));
             $this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
             if (empty($page))
                 return true;

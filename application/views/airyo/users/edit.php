@@ -86,7 +86,7 @@
 					</div>-->
 					<div class="form-group">
 						<div class="col-xs-offset-2 col-xs-10">
-							<button type="submit" class="btn btn-success">Сохранить</button>
+							<button type="submit" class="btn btn-success"><?= $this->lang->line('save')?></button>
 						</div>
 					</div>
 				<input type="hidden" name="form_edit" value="profile" />
@@ -114,7 +114,7 @@
 							</ul>
 						</div>
 							<div class="col-md-2 col-md-offset-4">
-								<button type="submit" class="btn btn-success">Сохранить</button>
+								<button type="submit" class="btn btn-success"><?= $this->lang->line('save')?></button>
 							</div>
 					<input type="hidden" name="form_edit" value="modules" />
 					<?php echo form_close();?>
@@ -136,7 +136,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-xs-offset-2 col-xs-10">
-						<button type="submit" class="btn btn-success">Сохранить</button>
+						<button type="submit" class="btn btn-success"><?= $this->lang->line('save')?></button>
 					</div>
 				</div>
 				<input type="hidden" name="form_edit" value="password" />
