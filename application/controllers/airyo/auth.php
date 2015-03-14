@@ -6,8 +6,8 @@ class Auth extends Airyo {
 		parent::__construct(false);
 
 		// Load MongoDB library instead of native db driver if required
-		$this->config->item('use_mongodb', 'ion_auth') ?
-		$this->load->library('mongo_db') :
+			//$this->config->item('use_mongodb', 'ion_auth') ?
+			//$this->load->library('mongo_db') :
 		$this->load->database();
 		$this->lang->load('auth');
 		$this->load->helper('language');

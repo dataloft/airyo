@@ -12,7 +12,7 @@ class Airyo extends CI_Controller
 	/** @var object */
 	protected $oUser;
 
-	public function __construct($bLogin = true) {
+	public function __construct() {
 		parent::__construct();
 
 		$this->load->library('ion_auth');
@@ -75,11 +75,11 @@ class Airyo extends CI_Controller
 				}
 			}
 		}
-
-		if(!$this->ion_auth->logged_in() AND $bLogin) {
-			redirect('airyo', 'refresh');
+		
+		if(!$this->ion_auth->logged_in() && $this->config->item('auth') != $this->uri->uri_string()) {
+			show_404();
 		}
-
+		
 		$this->updateLogs();
 	}
 
