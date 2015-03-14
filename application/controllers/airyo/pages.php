@@ -9,6 +9,9 @@ class Pages extends Airyo {
         $this->load->model('content_model');
         $this->load->model('trash_model');
         $this->config->load('templates');
+        
+        $this->lang->load('airyo_pages', 'russian');
+        
         $this->default = $this->config->item('default_template');
     }
 
@@ -34,7 +37,7 @@ class Pages extends Airyo {
 	    
 	    $this->oData['id'] = '';
 	    $this->oData['message'] = '';
-	    $this->oData['title'] = "Добавить/редактировать страницу";
+	    //$this->oData['title'] = "Добавить/редактировать страницу";
         $this->oData['id'] = '';
         $this->oData['message'] = '';
         $this->oData['template_list'] = $this->config->item('templates');
@@ -217,7 +220,7 @@ class Pages extends Airyo {
         $this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
         $this->oData['main_menu'] = 'pages';
         $this->oData['template_list'] = $this->config->item('templates');
-        $this->oData['title'] = "Добавить/редактировать страницу";
+        //$this->oData['title'] = "Добавить/редактировать страницу";
         if (!$this->ion_auth->logged_in()) {
             redirect('auth', 'refresh');
         }

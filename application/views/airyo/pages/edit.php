@@ -1,68 +1,23 @@
  <div class="container">
+ 
     <? if ($message) {?>
-	<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
+		<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
 	<? } ?>
-    <h1 class="page-header">Страницы</h1>
+	
+    <h1 class="page-header"><?= $this->lang->line('module_title_pages')?></h1>
     
     <ul class="breadcrumb">
-		<li><a href="/airyo/pages/">Страницы</a></li>
+		<li><a href="/airyo/pages/"><?= $this->lang->line('module_title_pages')?></a></li>
 		<li><? echo $page['h1']; ?></li>
 	</ul>
     
     <?php echo form_open_multipart("", 'name="edit" method="POST"');?>
-        <?
-        if (!empty($fields))
-        {
-            foreach ($fields as $param)
-            {
-        ?>
-            <div class="form-group <?php if (form_error($param['field_name'])) echo 'has-error"'; ?>">
-                <label for="<?=$param['field_name']?>" class="control-label"><?=$param['label']?></label>
-        <?
-                if ($param['type'] == 'textarea')
-                {
-        ?>
-                            <textarea name="<?=$param['field_name']?>" <? if (!empty($param['attributes'])) echo $param['attributes'];?> class="form-control" placeholder=""><?=$page[$param['field_name']]; ?></textarea>
-        <?
-                }
-                elseif($param['type'] == 'file')
-                {
 
-        ?>
-                    <input type="<?=$param['type']?>" class="form-control" name="<?=$param['field_name']?>" >
-        <?
-                    if (!empty($page[$param['field_name']]))
-                    {
-        ?>
-                        <input type="hidden" class="form-control" name="<?=$param['field_name']?>_hidden" value="<?=$page[$param['field_name']]?>" >
-                        <img src="/<?=$page[$param['field_name']]?>">
-                        <input type="checkbox" name="<?=$param['field_name']?>_delete" value="1"> Удалить файл
-        <?
-                    }
+        <div class="form-group <?php if (form_error('content')) echo 'has-error"'; ?>">
+            <label for="description" class="control-label">Html-код страницы</label>
+            <textarea rows="20" id="content" name="content" class="form-control" placeholder=""><? echo $page['content']; ?></textarea>
+        </div>
 
-                }
-
-                else
-                {
-
-        ?>
-                    <input type="<?=$param['type']?>" class="form-control" name="<?=$param['field_name']?>" value="<?=$page[$param['field_name']]; ?>" >
-        <?
-                }
-
-        ?>
-            </div>
-        <?
-            }
-        }
-        else
-        {
-            ?>
-            <div class="form-group <?php if (form_error('content')) echo 'has-error"'; ?>">
-                <label for="description" class="control-label">Html-код страницы</label>
-                <textarea rows="20" id="content" name="content" class="form-control" placeholder=""><? echo $page['content']; ?></textarea>
-            </div>
-        <?}?>
 		<div class="form-group <?php if (form_error('h1')) echo 'has-error"'; ?>">
 			<label for="h1" class="control-label">Название</label>
 			<input type="text" class="form-control" id="h1" name="h1" value="<? echo htmlspecialchars($page['h1']); ?>" placeholder="" >
@@ -78,16 +33,22 @@
 		<button type="submit" class="btn btn-success" style="float: left;"><?= $this->lang->line('save')?></button>
 
     <?php echo form_close();?>
-    <? if (!empty($id)) {?>
-    	<a href="#" style="float: right;" onclick="trash('<?=$id?>');">Удалить страницу</a>
-    <?}?>
+    
+    <?
+    if (!empty($id)) {
+    	echo '<a href="#" style="float: right;" onclick="trash('.$id.');">'.$this->lang->line('delete_page_link').'</a>';
+    }
+    ?>
+    
 </div>
 
-<script type="text/javascript"><!--
-    function trash (id) {
+<script type="text/javascript">
+<!--
+
+    function trash(id) {
         //var li = $('#'+id).parent();
         //var tr = td.parent();
-        if (confirm('Удалить запись?')) {
+        if (confirm('<?= $this->lang->line('delete_page_cofirm')?>')) {
             $.ajax({
                 type: 'post',
                 url: '/airyo/pages/delete',
@@ -98,14 +59,14 @@
                 },
                 success: function(data, status) {
                     if (data.error) {
-                        alert('Удалить запись не удалось');
+                        alert('<?= $this->lang->line('error_delete')?>');
                     }
                     if (data.success) {
                         location.replace('/airyo/pages');
                     }
 
                 },
-                error: function (data,status, error)
+                error: function (data,status,error)
                 {
                     alert(error);
                 }
@@ -113,4 +74,5 @@
         }
     }
 
-    //--></script>
+//-->
+</script>

@@ -2,10 +2,10 @@
     <? if ($message) {?>
 	<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
 	<? } ?>
-    <h1 class="page-header">Страницы</h1>
+    <h1 class="page-header"><?= $this->lang->line('module_title_pages')?></h1>
     
     <ul class="breadcrumb">
-		<li><a href="/airyo/pages/">Страницы</a></li>
+		<li><a href="/airyo/pages/"><?= $this->lang->line('module_title_pages')?></a></li>
 		<li>Новая страница</li>
 	</ul>
     
