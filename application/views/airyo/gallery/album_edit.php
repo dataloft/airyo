@@ -35,6 +35,11 @@
 			<label for="inputDescription">Описание</label>
 			<textarea class="form-control" name="description" id="inputDescription" cols="60" rows="5"><?=$album->description; ?></textarea>
 		</div>
+		<div class="form-group">
+			<label for="inputDescription">Дата публикации</label>
+			<input type="text" name="create_date" class="form-control" value="<?=$album->create_date; ?>" maxlength="10" id="create_date" style="width: 10em"/>
+		</div>
+		
 		<button type="submit" class="btn btn-success"><?= $this->lang->line('save')?></button>
 		<a href="#" class="link-album-delete" style="float: right;" data-album="<?=$album->id; ?>">Удалить альбом</a>
 		

@@ -295,13 +295,16 @@ class Gallery extends Airyo
 			$this->form_validation->set_rules('title', 'Название', 'trim|required|min_length[2]|xss_clean');
 			$this->form_validation->set_rules('description', 'Описание', 'trim|xss_clean');
 
-			if ($this->form_validation->run() == true) {
+			if ($this->form_validation->run() == true)
+			{
 				$iId = $this->input->post('album_id',TRUE);
+				
 				$aAlbumData = array(
 					'title'         => $this->input->post('title',TRUE),
 					'description'   => $this->input->post('description',TRUE),
+					'create_date'   => date("Y-m-d", strtotime($this->input->post('create_date',TRUE)))
 				);
-
+				//var_dump($aAlbumData);exit;
 				if ($this->gallery_model->updateAlbum($iId, $aAlbumData)) {
 					$aMessage = array(
 						'type' => 'success',
@@ -326,6 +329,9 @@ class Gallery extends Airyo
 
 		$this->data['message'] =  $aMessage;
 		$this->data["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+		//echo $this->data["album"]->create_date;
+		//$this->data["album"]->create_date = mdate("%Y Month: %m Day: %d", $this->data["album"]->create_date);
+		
 		$this->data["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
 		$this->data['profile_id'] = $this->user->id;
 		$this->data['view'] = 'airyo/gallery/album_edit';

@@ -8,14 +8,13 @@ class Gallery_model extends CI_Model {
 
 	public function __construct() {
 		parent::__construct();
-		
-		//$this->data['scripts'][] = '/themes/laseris/js/jquery.magnific-popup.min.js';	
-		//$this->data['styles'][] = '/themes/laseris/css/magnific-popup.css';
 	}
+
 
 	public function record_count() {
 		return $this->db->count_all("albums");
 	}
+
 
 	/**
 	 * Метод получения альбомов
@@ -26,7 +25,7 @@ class Gallery_model extends CI_Model {
 	 * @author N.Kulchinskiy
 	 */
 	public function getFetchCountriesAlbums(array $aParams = array()) {
-		$this->db->select('album.*');
+		$this->db->select('album.*, DATE_FORMAT(album.create_date, ("%d.%m.%Y")) AS create_date');
 		$this->db->select('(SELECT i.id FROM ' . $this->db->dbprefix('images') . ' AS i WHERE i.album_id = album.id ORDER BY id DESC LIMIT 1) AS random_image_id');
 		$this->db->select('(SELECT COUNT(img.id) FROM ' . $this->db->dbprefix('images') . ' AS img WHERE img.album_id = album.id) AS images_count');
 
