@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class SmartCodes
+class Smart_codes
 {
 	public $data = array();
 
@@ -75,7 +75,7 @@ class SmartCodes
     public function Gallery($sAlbumLabel)
     {
         $this->load->config('gallery');
-        $this->load->model('gallery_model');
+        $this->load->model('laseris/gallery_model');
         
         $aGalleryConfig = $this->config->item('gallery');
         

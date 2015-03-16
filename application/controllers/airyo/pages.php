@@ -6,8 +6,8 @@ class Pages extends Airyo {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('content_model');
-        $this->load->model('trash_model');
+        $this->load->model('airyo/content_model');
+        $this->load->model('airyo/trash_model');
         $this->config->load('templates');
         
         $this->lang->load('airyo_pages', 'russian');

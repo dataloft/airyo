@@ -10,7 +10,7 @@ class Gallery extends Airyo
 		$this->load->config('gallery');
 		$this->load->helper('file');
 		$this->config->load('not_allowed_mimes');
-		$this->load->model('gallery_model');
+		$this->load->model('airyo/gallery_model');
 
 		$this->data['home_folder'] = $this->sHomeFolder;
 

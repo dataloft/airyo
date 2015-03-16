@@ -10,8 +10,8 @@ class Users extends Airyo {
 	public function __construct() {
 		parent::__construct();
 
-		$this->load->model('groups_model');
-		$this->load->model('modules_model');
+		$this->load->model('airyo/groups_model');
+		$this->load->model('airyo/modules_model');
 		$this->load->config('ion_auth', TRUE);
 	}
 

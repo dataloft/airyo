@@ -21,9 +21,9 @@ class Airyo extends CI_Controller
 		$this->load->helper('url');
 		$this->load->helper('language');
 		$this->lang->load('content');
-		$this->load->model('modules_model');
-		$this->load->model('users_model');
-		$this->load->model('logs_model');
+		$this->load->model('airyo/modules_model');
+		$this->load->model('airyo/users_model');
+		$this->load->model('airyo/logs_model');
 		
 		$this->lang->load('airyo', 'russian');
 

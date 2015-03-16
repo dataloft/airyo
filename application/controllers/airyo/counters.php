@@ -4,8 +4,8 @@ class Counters extends Airyo {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('counters_model');
-        $this->load->model('trash_model');
+        $this->load->model('airyo/counters_model');
+        $this->load->model('airyo/trash_model');
     }
 
     public function index() {

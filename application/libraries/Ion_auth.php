@@ -78,7 +78,7 @@ class Ion_auth
 		// We assign the model object to "ion_auth_model" variable.
 		$this->config->item('use_mongodb', 'ion_auth') ?
 			$this->load->model('ion_auth_mongodb_model', 'ion_auth_model') :
-			$this->load->model('ion_auth_model');
+			$this->load->model('airyo/ion_auth_model');
 
 		$this->_cache_user_in_group =& $this->ion_auth_model->_cache_user_in_group;
 

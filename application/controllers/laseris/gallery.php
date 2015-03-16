@@ -9,7 +9,7 @@ class Gallery extends Frontend {
 		parent::__construct();
 		$this->load->config('gallery');
 		$this->load->helper('file');
-		$this->load->model('gallery_model');
+		$this->load->model('laseris/gallery_model');
 		
 		//var_dump($this->gallery_model->data);
 

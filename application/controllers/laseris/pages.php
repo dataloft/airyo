@@ -5,9 +5,9 @@ class Pages extends Frontend {
 	public function __construct() {
 		parent::__construct();
 		
-		$this->load->model('content_model');
+		$this->load->model('laseris/content_model');
         $this->load->helper('url');
-        $this->load->library('SmartCodes');
+        $this->load->library('Smart_codes');
 	}
 
 	public function index() {
@@ -16,10 +16,10 @@ class Pages extends Frontend {
         
 		if ($this->data['page'])
 		{
-			$this->smartcodes->Parse($this->data['page']['content']);
-            $this->data['page']['content'] = $this->smartcodes->data['output'];
-            unset($this->smartcodes->data['output']);
-            $this->data = array_merge($this->data, $this->smartcodes->data);
+			$this->smart_codes->Parse($this->data['page']['content']);
+            $this->data['page']['content'] = $this->smart_codes->data['output'];
+            unset($this->smart_codes->data['output']);
+            $this->data = array_merge($this->data, $this->smart_codes->data);
             
             $this->load->view('laseris/pages/'.$this->data['page']['template'], $this->data);
 		}

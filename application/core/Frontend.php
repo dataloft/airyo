@@ -10,8 +10,8 @@ class Frontend extends CI_Controller
 	public function __construct() {
 		parent::__construct();
 		
-		$this->load->model('menu_model');
-		$this->load->model('counters_model');
+		$this->load->model('laseris/menu_model');
+		$this->load->model('laseris/counters_model');
 		$this->load->helper('url');
 
 		$this->data['menu'] = $this->menu_model->getListTree(1);
