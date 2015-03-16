@@ -16,57 +16,57 @@ class Pages extends Airyo {
     }
 
     public function index($page = '') {
-	    $this->oData['main_menu'] = 'pages';
+	    $this->data['main_menu'] = 'pages';
 
-	    $this->oData['type'] = '';
-	    $this->oData['search'] = '';
-	    $this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+	    $this->data['type'] = '';
+	    $this->data['search'] = '';
+	    $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 	    if ($this->input->post('typeSelect'))
-	        $this->oData['type'] = $this->input->post('typeSelect');
+	        $this->data['type'] = $this->input->post('typeSelect');
 	    if ($this->input->post('search'))
-	        $this->oData['search'] = $this->input->post('search');
+	        $this->data['search'] = $this->input->post('search');
 
-	    $this->oData['content']  = $this->content_model->getList($this->oData['type'], $this->oData['search']);
-	    $this->oData['type_list']  = $this->content_model->getType();
-	    $this->oData['view'] = 'airyo/pages/list';
+	    $this->data['content']  = $this->content_model->getList($this->data['type'], $this->data['search']);
+	    $this->data['type_list']  = $this->content_model->getType();
+	    $this->data['view'] = 'airyo/pages/list';
     }
 
     public function add() {
     
-	    $this->oData['main_menu'] = 'pages';
+	    $this->data['main_menu'] = 'pages';
 	    
-	    $this->oData['id'] = '';
-	    $this->oData['message'] = '';
-	    //$this->oData['title'] = "Добавить/редактировать страницу";
-        $this->oData['id'] = '';
-        $this->oData['message'] = '';
-        $this->oData['template_list'] = $this->config->item('templates');
+	    $this->data['id'] = '';
+	    $this->data['message'] = '';
+	    //$this->data['title'] = "Добавить/редактировать страницу";
+        $this->data['id'] = '';
+        $this->data['message'] = '';
+        $this->data['template_list'] = $this->config->item('templates');
         if (!$this->ion_auth->logged_in()) {
             redirect('auth', 'refresh');
         }
-        $this->oData['type_list']  = $this->content_model->getType();
+        $this->data['type_list']  = $this->content_model->getType();
         $this->form_validation->set_rules('h1', '', 'trim|xss_clean|strip_tags|required');
         $this->form_validation->set_rules('template', '', 'required');
         $this->form_validation->set_rules('alias', '', 'callback_check_alias');
-        $this->oData['page']['template'] = $this->input->post('template') ? $this->input->post('template') : $this->default;
-        //echo $this->oData['page']['template'];
+        $this->data['page']['template'] = $this->input->post('template') ? $this->input->post('template') : $this->default;
+        //echo $this->data['page']['template'];
 
         if (!empty($_POST['change']))
             $_POST = array();
-        $this->oData['page']['h1'] = $this->input->post('h1',TRUE);
-        $this->oData['page']['alias'] = $this->input->post('alias');
-        $this->oData['page']['title'] = $this->input->post('title',TRUE);
-        $this->oData['page']['meta_description'] = $this->input->post('meta_description');
-        $this->oData['page']['meta_keywords'] = $this->input->post('meta_keywords');
-        $this->oData['page']['type'] = $this->input->get('type')?$this->input->get('type'):$this->input->post('type');
-        $this->oData['page']['enabled'] = $this->input->post('enabled');
+        $this->data['page']['h1'] = $this->input->post('h1',TRUE);
+        $this->data['page']['alias'] = $this->input->post('alias');
+        $this->data['page']['title'] = $this->input->post('title',TRUE);
+        $this->data['page']['meta_description'] = $this->input->post('meta_description');
+        $this->data['page']['meta_keywords'] = $this->input->post('meta_keywords');
+        $this->data['page']['type'] = $this->input->get('type')?$this->input->get('type'):$this->input->post('type');
+        $this->data['page']['enabled'] = $this->input->post('enabled');
 
-        if (!empty($this->oData['template_list'][$this->oData['page']['template']]['fields']))
+        if (!empty($this->data['template_list'][$this->data['page']['template']]['fields']))
         {
-            $fields = $this->oData['template_list'][$this->oData['page']['template']]['fields'];
+            $fields = $this->data['template_list'][$this->data['page']['template']]['fields'];
             foreach ($fields as $i => $field)
             {
-                $this->oData['fields'][$i]['field_name'] = $i;
+                $this->data['fields'][$i]['field_name'] = $i;
                 $params = $field;
                 foreach ($params as $key => $param)
                 {
@@ -76,28 +76,28 @@ class Pages extends Airyo {
                         {
                             $attributes .= $k.'="'.$attr.'" ';
                         }
-                        $this->oData['fields'][$i][$key] = $attributes;
+                        $this->data['fields'][$i][$key] = $attributes;
                     } else
-                        $this->oData['fields'][$i][$key] = $param;
+                        $this->data['fields'][$i][$key] = $param;
 
 
                 }
-                if ($this->oData['fields'][$i]['type'] != 'file' and !empty($this->oData['fields'][$i]['required']))
-                    $this->form_validation->set_rules($this->oData['fields'][$i]['field_name']  , '', 'required');
-                if ($this->oData['fields'][$i]['type'] == 'file' and !empty($this->oData['fields'][$i]['required']))
+                if ($this->data['fields'][$i]['type'] != 'file' and !empty($this->data['fields'][$i]['required']))
+                    $this->form_validation->set_rules($this->data['fields'][$i]['field_name']  , '', 'required');
+                if ($this->data['fields'][$i]['type'] == 'file' and !empty($this->data['fields'][$i]['required']))
                 {
-                    if(empty($_FILES) or $_FILES[$this->oData['fields'][$i]['field_name']]['error'] == 4)
-                        $this->form_validation->set_rules($this->oData['fields'][$i]['field_name']  , '', 'required');
+                    if(empty($_FILES) or $_FILES[$this->data['fields'][$i]['field_name']]['error'] == 4)
+                        $this->form_validation->set_rules($this->data['fields'][$i]['field_name']  , '', 'required');
                 }
 
-                $this->oData['page'][$this->oData['fields'][$i]['field_name']] = $this->input->post($this->oData['fields'][$i]['field_name']);
+                $this->data['page'][$this->data['fields'][$i]['field_name']] = $this->input->post($this->data['fields'][$i]['field_name']);
 
             }
 
         }
         else
         {
-            $this->oData['page']['content'] = $this->input->post('content');
+            $this->data['page']['content'] = $this->input->post('content');
         }
 
         if ($this->form_validation->run() == true)
@@ -114,11 +114,11 @@ class Pages extends Airyo {
                 'enabled' =>  $this->input->post('enabled')
             );
 
-            if (!empty($this->oData['template_list'][$this->oData['page']['template']]['fields']))
+            if (!empty($this->data['template_list'][$this->data['page']['template']]['fields']))
             {
-                foreach ($this->oData['fields'] as $key => $param)
+                foreach ($this->data['fields'] as $key => $param)
                 {
-                    $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name']);
+                    $this->data['page'][$param['field_name']] = $this->input->post($param['field_name']);
 
                     $content[$param['field_name']] = $this->input->post($param['field_name']);
                     if ($param['type'] == 'file')
@@ -148,19 +148,19 @@ class Pages extends Airyo {
                             {
                                 $tmp_data = $this->upload->data();
                                 $content[$param['field_name']] = $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
-                                $this->oData['page'][$param['field_name']] =  $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
+                                $this->data['page'][$param['field_name']] =  $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
                             }
                             else
                             {
                                 if ($this->input->post($param['field_name'].'_delete'))
                                 {
                                     @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
-                                    $this->oData['page'][$param['field_name']] = '';
+                                    $this->data['page'][$param['field_name']] = '';
                                 }
                                 elseif($this->input->post($param['field_name'].'_hidden'))
-                                    $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                                    $this->data['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
                                 else
-                                    $this->oData['page'][$param['field_name']] = '';
+                                    $this->data['page'][$param['field_name']] = '';
                             }
                         }
                         else
@@ -168,13 +168,13 @@ class Pages extends Airyo {
                             if ($this->input->post($param['field_name'].'_delete'))
                             {
                                 @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
-                                $this->oData['page'][$param['field_name']] = '';
+                                $this->data['page'][$param['field_name']] = '';
                             }
 
                             elseif($this->input->post($param['field_name'].'_hidden'))
-                                $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                                $this->data['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
                             else
-                                $this->oData['page'][$param['field_name']] = '';
+                                $this->data['page'][$param['field_name']] = '';
                         }
                     }
                 }
@@ -194,7 +194,7 @@ class Pages extends Airyo {
             }
             else
             {
-                $this->oData['message'] = array(
+                $this->data['message'] = array(
                     'type' => 'danger',
                     'text' => 'Произошла ошибка при сохранении записи.'
                 );
@@ -202,43 +202,43 @@ class Pages extends Airyo {
         }
         elseif ($this->input->post('action') == 'add')
         {
-            $this->oData['message'] = array(
+            $this->data['message'] = array(
                 'type' => 'danger',
                 'text' =>  validation_errors()
             );
         }
         
         $alias = 'add';
-        $this->oData['view'] = 'airyo/pages/'.$alias;
-        $this->oData['scripts'] = array(
+        $this->data['view'] = 'airyo/pages/'.$alias;
+        $this->data['scripts'] = array(
             '/themes/airyo/js/content.js',
         );
     }
 
     public function edit($id = '') {
-        $this->oData['id'] = '';
-        $this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-        $this->oData['main_menu'] = 'pages';
-        $this->oData['template_list'] = $this->config->item('templates');
-        //$this->oData['title'] = "Добавить/редактировать страницу";
+        $this->data['id'] = '';
+        $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+        $this->data['main_menu'] = 'pages';
+        $this->data['template_list'] = $this->config->item('templates');
+        //$this->data['title'] = "Добавить/редактировать страницу";
         if (!$this->ion_auth->logged_in()) {
             redirect('auth', 'refresh');
         }
-        $this->oData['type_list']  = $this->content_model->getType();
+        $this->data['type_list']  = $this->content_model->getType();
 
         // Если передан Ид ищем содержание стр в БД
         if (!empty($id))
         {
-            $this->oData['page'] = $this->content_model->getToId($id);
-            $template = $this->oData['page']['template'];
-            if (empty($this->oData['page']))
+            $this->data['page'] = $this->content_model->getToId($id);
+            $template = $this->data['page']['template'];
+            if (empty($this->data['page']))
                 show_404();
-            if (!empty($this->oData['template_list'][$template]['fields']))
+            if (!empty($this->data['template_list'][$template]['fields']))
             {
-                $fields = $this->oData['template_list'][$template]['fields'];
+                $fields = $this->data['template_list'][$template]['fields'];
                 foreach ($fields as $i => $field)
                 {
-                    $this->oData['fields'][$i]['field_name'] = $i;
+                    $this->data['fields'][$i]['field_name'] = $i;
 
                     foreach ($field as $key => $param)
                     {
@@ -248,40 +248,40 @@ class Pages extends Airyo {
                             {
                                 $attributes .= $k.'="'.$attr.'" ';
                             }
-                            $this->oData['fields'][$i][$key] = $attributes;
+                            $this->data['fields'][$i][$key] = $attributes;
                         } else
-                            $this->oData['fields'][$i][$key] = $param;
+                            $this->data['fields'][$i][$key] = $param;
 
 
                     }
-                    if ($this->oData['fields'][$i]['type'] != 'file' and !empty($this->oData['fields'][$i]['required']))
-                        $this->form_validation->set_rules($this->oData['fields'][$i]['field_name']  , '', 'required');
-                    if ($this->oData['fields'][$i]['type'] == 'file' and !empty($this->oData['fields'][$i]['required']))
+                    if ($this->data['fields'][$i]['type'] != 'file' and !empty($this->data['fields'][$i]['required']))
+                        $this->form_validation->set_rules($this->data['fields'][$i]['field_name']  , '', 'required');
+                    if ($this->data['fields'][$i]['type'] == 'file' and !empty($this->data['fields'][$i]['required']))
                     {
-                        if(!$this->input->post($this->oData['fields'][$i]['field_name'].'_hidden') and (empty($_FILES) or $_FILES[$this->oData['fields'][$i]['field_name']]['error'] == 4))
-                            $this->form_validation->set_rules($this->oData['fields'][$i]['field_name']  , '', 'required');
+                        if(!$this->input->post($this->data['fields'][$i]['field_name'].'_hidden') and (empty($_FILES) or $_FILES[$this->data['fields'][$i]['field_name']]['error'] == 4))
+                            $this->form_validation->set_rules($this->data['fields'][$i]['field_name']  , '', 'required');
 
                     }
-                    $this->oData['page'][$this->oData['fields'][$i]['field_name']] = '';
+                    $this->data['page'][$this->data['fields'][$i]['field_name']] = '';
 
                 }
 
-                if (!empty($this->oData['page']['content']))
+                if (!empty($this->data['page']['content']))
                 {
-                    $content = unserialize($this->oData['page']['content']);
+                    $content = unserialize($this->data['page']['content']);
                     foreach ($content as $i => $item)
                     {
-                        $this->oData['page'][$i] = $item;
+                        $this->data['page'][$i] = $item;
                     }
                 }
             }
-            $this->oData['id'] = $id;
+            $this->data['id'] = $id;
             $this->form_validation->set_rules('h1', '', 'required|trim|xss_clean|strip_tags');
             $this->form_validation->set_rules('alias', '', 'callback_check_alias');
 
             if ($this->form_validation->run() == true)
             {
-                $this->oData['page'] = array(
+                $this->data['page'] = array(
 
                     'h1' => $this->input->post('h1',TRUE),
                     'alias' =>  $this->input->post('alias'),
@@ -293,13 +293,13 @@ class Pages extends Airyo {
 
                 );
                 
-                $save_data = $this->oData['page'];
+                $save_data = $this->data['page'];
                 
-                if (!empty($this->oData['template_list'][$template]['fields']))
+                if (!empty($this->data['template_list'][$template]['fields']))
                 {
-                    foreach ($this->oData['fields'] as $key => $param)
+                    foreach ($this->data['fields'] as $key => $param)
                     {
-                        $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name']);
+                        $this->data['page'][$param['field_name']] = $this->input->post($param['field_name']);
 
                         $content[$param['field_name']] = $this->input->post($param['field_name']);
                         
@@ -325,21 +325,21 @@ class Pages extends Airyo {
                                 {
                                     $tmp_data = $this->upload->data();
                                     $content[$param['field_name']] = $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
-                                    $this->oData['page'][$param['field_name']] =  $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
+                                    $this->data['page'][$param['field_name']] =  $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
                                 }
                                 else
                                 {
                                     if ($this->input->post($param['field_name'].'_delete'))
                                     {
                                         @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
-                                        $this->oData['page'][$param['field_name']] = '';
+                                        $this->data['page'][$param['field_name']] = '';
                                     }
                                     elseif($this->input->post($param['field_name'].'_hidden')){
-                                        $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                                        $this->data['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
                                         $content[$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
                                     }
                                     else
-                                        $this->oData['page'][$param['field_name']] = '';
+                                        $this->data['page'][$param['field_name']] = '';
                                 }
                             }
                             else
@@ -347,16 +347,16 @@ class Pages extends Airyo {
                                 if ($this->input->post($param['field_name'].'_delete'))
                                 {
                                     @unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->input->post($param['field_name'].'_hidden'));
-                                    $this->oData['page'][$param['field_name']] = '';
+                                    $this->data['page'][$param['field_name']] = '';
                                 }
 
                                 elseif($this->input->post($param['field_name'].'_hidden'))
                                 {
                                         $content[$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
-                                        $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                                        $this->data['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
                                 }
                                 else
-                                    $this->oData['page'][$param['field_name']] = '';
+                                    $this->data['page'][$param['field_name']] = '';
                             }
                         }
                     }
@@ -366,19 +366,19 @@ class Pages extends Airyo {
                 else
                 {
                     $save_data['content'] = $this->input->post('content');
-                    $this->oData['page']['content'] = $this->input->post('content');
+                    $this->data['page']['content'] = $this->input->post('content');
                 }
 
-                if ($this->content_model->Update($this->oData['id'],$save_data))
+                if ($this->content_model->Update($this->data['id'],$save_data))
                 {
-                    $this->oData['message'] = array(
+                    $this->data['message'] = array(
                         'type' => 'success',
                         'text' => 'Запись обновлена'
                     );
                 }
                 else
                 {
-                    $this->oData['message'] = array(
+                    $this->data['message'] = array(
                         'type' => 'danger',
                         'text' => 'Произошла ошибка при обновлении записи.'
                     );
@@ -386,7 +386,7 @@ class Pages extends Airyo {
             }
             elseif($this->input->post('id') == $id)
             {
-                $this->oData['page'] = array(
+                $this->data['page'] = array(
                     'h1' => $this->input->post('h1',TRUE),
                     'alias' =>  $this->input->post('alias'),
                     'type' =>  $this->input->post('type'),
@@ -396,26 +396,26 @@ class Pages extends Airyo {
                     'enabled' =>  $this->input->post('enabled'),
                     'template' =>  $this->input->post('template')
                 );
-                if (!empty($this->oData['template_list'][$template]['fields']))
+                if (!empty($this->data['template_list'][$template]['fields']))
                 {
-                    foreach ($this->oData['fields'] as $key => $param)
+                    foreach ($this->data['fields'] as $key => $param)
                     {
-                        $this->input->post($param['field_name'])?$this->oData['page'][$param['field_name']] = $this->input->post($param['field_name']):$this->oData['page'][$param['field_name']] = '';
+                        $this->input->post($param['field_name'])?$this->data['page'][$param['field_name']] = $this->input->post($param['field_name']):$this->data['page'][$param['field_name']] = '';
                         //$content[$param['field_name']] = $this->input->post($param['field_name']);
                         if($this->input->post($param['field_name'].'_hidden'))
                         {
                         $content[$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
-                        $this->oData['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
+                        $this->data['page'][$param['field_name']] = $this->input->post($param['field_name'].'_hidden');
                         }
 
                     }
                 }
                 else
                 {
-                    $this->oData['page']['content'] = $this->input->post('content');
+                    $this->data['page']['content'] = $this->input->post('content');
                 }
 
-                $this->oData['message'] = array(
+                $this->data['message'] = array(
                     'type' => 'danger',
                     'text' => validation_errors()
                 );
@@ -429,7 +429,7 @@ class Pages extends Airyo {
         }
 
         $alias = 'edit';
-        $this->oData['view'] = 'airyo/pages/'.$alias;
+        $this->data['view'] = 'airyo/pages/'.$alias;
 
     }
 

@@ -18,27 +18,27 @@ class Groups extends Airyo {
 	 * @author N.Kulchinskiy
 	 */
 	public function index() {
-		$this->oData['main_menu'] = 'groups';
+		$this->data['main_menu'] = 'groups';
 
-		$this->oData['scripts'] = array(
+		$this->data['scripts'] = array(
 			'/themes/airyo/js/groups.js'
 		);
 
 		$aGroups = $this->ion_auth->groups()->result_array();
 
-		$this->oData["groups"] = $aGroups;
+		$this->data["groups"] = $aGroups;
 
-		$this->oData['view'] = 'airyo/groups/index';
+		$this->data['view'] = 'airyo/groups/index';
 	}
 
 	public function add() {
-		$this->oData['main_menu'] = 'groups';
+		$this->data['main_menu'] = 'groups';
 
-		$this->oData['id'] = '';
-		$this->oData['message'] = '';
+		$this->data['id'] = '';
+		$this->data['message'] = '';
 
 		$oGroups = new stdClass();
-		$this->oData['title'] = "Добавить/редактировать группу";
+		$this->data['title'] = "Добавить/редактировать группу";
 
 		$this->form_validation->set_rules('name', '', 'required');
 		$this->form_validation->set_rules('description', '', 'required');
@@ -46,29 +46,29 @@ class Groups extends Airyo {
 		$oGroups->name = $this->input->post('name');
 		$oGroups->description = $this->input->post('description');
 
-		$this->oData['group'] = $oGroups;
+		$this->data['group'] = $oGroups;
 		if ($this->form_validation->run() == true) {
 			if ($iId = $this->ion_auth->create_group($oGroups->name, $oGroups->description)) {
-				$this->oData['message'] = array(
+				$this->data['message'] = array(
 					'type' => 'success',
 					'text' => 'Группа создана'
 				);
 				redirect("airyo/groups/edit/$iId", 'refresh');
 			} else {
-				$this->oData['message'] = array(
+				$this->data['message'] = array(
 					'type' => 'danger',
 					'text' => 'Произошла ошибка при сохранении записи.'
 				);
 			}
 		}
 		elseif ($this->input->post('action') == 'add') {
-			$this->oData['message'] = array(
+			$this->data['message'] = array(
 				'type' => 'danger',
 				'text' =>  validation_errors()
 			);
 		}
 
-		$this->oData['view'] = 'airyo/groups/edit';
+		$this->data['view'] = 'airyo/groups/edit';
 	}
 
 	/**
@@ -81,37 +81,37 @@ class Groups extends Airyo {
 	 * @author N.Kulchinskiy
 	 */
 	public function edit($iId = 0) {
-		$this->oData['main_menu'] = 'groups';
+		$this->data['main_menu'] = 'groups';
 
-		$this->oData['scripts'] = array(
+		$this->data['scripts'] = array(
 			'/themes/airyo/js/groups.js'
 		);
 
 		$oGroup = new stdClass();
-		$this->oData['title'] = "Добавить/редактировать группу";
-		$this->oData['id'] = '';
+		$this->data['title'] = "Добавить/редактировать группу";
+		$this->data['id'] = '';
 
 		$this->form_validation->set_rules('name', '', 'required');
 		$this->form_validation->set_rules('description', '', 'required');
 
 		// Если передан ID, сохраняем группу
 		if (!empty($iId) AND $iId = intval($iId) AND $iId > 0) {
-			$this->oData['group'] = $this->ion_auth->group($iId)->row();
+			$this->data['group'] = $this->ion_auth->group($iId)->row();
 
-			$this->oData['id'] = $iId;
+			$this->data['id'] = $iId;
 
 			if ($this->form_validation->run() == true) {
 				$oGroup->name = $this->input->post('name',TRUE);
 				$oGroup->description = $this->input->post('description',TRUE);
 
-				$this->oData['group'] = $oGroup;
+				$this->data['group'] = $oGroup;
 				if ($this->ion_auth->update_group($iId, $oGroup->name, $oGroup->description)) {
-					$this->oData['message'] = array(
+					$this->data['message'] = array(
 						'type' => 'success',
 						'text' => 'Запись обновлена'
 					);
 				} else {
-					$this->oData['message'] = array(
+					$this->data['message'] = array(
 						'type' => 'danger',
 						'text' => 'Произошла ошибка при обновлении записи.'
 					);
@@ -121,8 +121,8 @@ class Groups extends Airyo {
 				$oGroup->name = $this->input->post('name',TRUE);
 				$oGroup->description = $this->input->post('description',TRUE);
 
-				$this->oData['group'] = $oGroup;
-				$this->oData['message'] = array(
+				$this->data['group'] = $oGroup;
+				$this->data['message'] = array(
 					'type' => 'danger',
 					'text' => validation_errors()
 				);
@@ -131,7 +131,7 @@ class Groups extends Airyo {
 			redirect("airyo/groups/add", 'refresh');
 		}
 
-		$this->oData['view'] = 'airyo/groups/edit';
+		$this->data['view'] = 'airyo/groups/edit';
 	}
 
 	/**

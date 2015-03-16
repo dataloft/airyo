@@ -1,8 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Gallery extends Airyo {
-	/** @var string  */
+class Gallery extends Airyo 
+{
 	protected $sHomeFolder = 'public/gallery';
+
 
 	public function __construct() {
 		parent::__construct();
@@ -11,16 +12,16 @@ class Gallery extends Airyo {
 		$this->config->load('not_allowed_mimes');
 		$this->load->model('gallery_model');
 
-		$this->oData['home_folder'] = $this->sHomeFolder;
+		$this->data['home_folder'] = $this->sHomeFolder;
 
-		$this->oData['scripts'] = array(
+		$this->data['scripts'] = array(
 			'/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',
 			'/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js',
 			'/themes/airyo/js/FileUpload/js/jquery.fileupload.js',
 			'/themes/airyo/js/Gallery/js/ekko-lightbox.js',
 			'/themes/airyo/js/gallery.js'
 		);
-		$this->oData['styles'] = array(
+		$this->data['styles'] = array(
 			'/themes/airyo/js/FileUpload/css/jquery.fileupload.css',
 			'/themes/airyo/js/FileUpload/css/jquery.fileupload-ui.css',
 			'/themes/airyo/js/FileUpload/css/style.css',
@@ -29,32 +30,34 @@ class Gallery extends Airyo {
 		);
 	}
 
+
 	public function index() {
-		$this->oData['main_menu'] = 'gallery';
+		$this->data['main_menu'] = 'gallery';
 
-		$this->oData['result'] = array();
-		$this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		$this->data['result'] = array();
+		$this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
-		$this->oData["albums"] = $this->gallery_model->getFetchCountriesAlbums();
+		$this->data["albums"] = $this->gallery_model->getFetchCountriesAlbums();
 
-		$this->oData['profile_id'] = $this->oUser->id;
-		$this->oData['pagination'] = $this->pagination;
+		$this->data['profile_id'] = $this->user->id;
+		$this->data['pagination'] = $this->pagination;
 
-		$this->oData['view'] = 'airyo/gallery/albums';
+		$this->data['view'] = 'airyo/gallery/albums';
 	}
+
 
 	public function getAlbum($sAlbumLabel)
 	{
-		$this->oData['main_menu'] = 'gallery';
-		$this->oData['result'] = array();
-		$this->oData['message'] = $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
+		$this->data['main_menu'] = 'gallery';
+		$this->data['result'] = array();
+		$this->data['message'] = $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
 
 		$aPaginationConfig = $this->getPaginationConfig();
 
-		$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+		$this->data["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
 
 		$aPaginationConfig['base_url'] = '/airyo/gallery/' . $sAlbumLabel;
-		$aPaginationConfig['total_rows'] = $this->oData["album"]->images_count;
+		$aPaginationConfig['total_rows'] = $this->data["album"]->images_count;
 		$aPaginationConfig['uri_segment'] = 4;
 
 		$this->pagination->initialize($aPaginationConfig);
@@ -62,14 +65,15 @@ class Gallery extends Airyo {
 		$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
 
 		$aGalleryConfig = $this->config->item('gallery');
-		$this->oData['preview_extension'] = $aGalleryConfig['image_preview_extension'];
-		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][0];
+		$this->data['preview_extension'] = $aGalleryConfig['image_preview_extension'];
+		$this->data['preview_size'] = $aGalleryConfig['image_preview_size'][0];
 
-		$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
-		$this->oData['profile_id'] = $this->oUser->id;
-		$this->oData['pagination'] = $this->pagination;
-		$this->oData['view'] = 'airyo/gallery/album';
+		$this->data["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
+		$this->data['profile_id'] = $this->user->id;
+		$this->data['pagination'] = $this->pagination;
+		$this->data['view'] = 'airyo/gallery/album';
 	}
+	
 	
 	/**
 	 * Создание нового альбома
@@ -88,7 +92,7 @@ class Gallery extends Airyo {
 				'title'         => $this->input->post('album_title',TRUE),
 				'description'   => $this->input->post('album_description',TRUE),
 				'image_id'      => 1,
-				'user_id'       => $this->oUser->id,
+				'user_id'       => $this->user->id,
 				'create_date'   => date('Y-m-d H:i:s'),
 				'enable'        => 1
 			);
@@ -99,21 +103,21 @@ class Gallery extends Airyo {
 				if (!is_dir($sPath.DIRECTORY_SEPARATOR.$sLabelAlbum)) {
 					mkdir($sPath.DIRECTORY_SEPARATOR.$sLabelAlbum);
 				} else {
-					$this->oData['message'] = $this->session->set_flashdata('message', array(
+					$this->data['message'] = $this->session->set_flashdata('message', array(
 							'type' => 'danger',
 							'text' => 'Альбом с таким именем уже есть'
 						)
 					);
 				}
 			} else {
-				$this->oData['message'] = $this->session->set_flashdata('message', array(
+				$this->data['message'] = $this->session->set_flashdata('message', array(
 						'type' => 'danger',
 						'text' => 'Ошибка при создании альбома'
 					)
 				);
 			}
 		} else {
-			$this->oData['message'] = $this->session->set_flashdata('message', array(
+			$this->data['message'] = $this->session->set_flashdata('message', array(
 					'type' => 'danger',
 					'text' => 'Ошибка при проверке названия или описания альбома'
 				)
@@ -122,6 +126,7 @@ class Gallery extends Airyo {
 
 		redirect($_SERVER['HTTP_REFERER'], 'refresh');
 	}
+
 
 	/**
 	 * Загрузка изображения в альбом
@@ -168,7 +173,7 @@ class Gallery extends Airyo {
 					'label'         => $aTmpData['file_name'],
 					'title'         => $aTmpData['raw_name'],
 					'album_id'      => $oAlbum->id,
-					'user_id'       => $this->oUser->id,
+					'user_id'       => $this->user->id,
 					'create_date'   => date('Y-m-d H:i:s'),
 					'enable'        => 1
 				);
@@ -218,8 +223,9 @@ class Gallery extends Airyo {
 
 		$this->session->set_flashdata('message', $aMessage);
 
-		echo json_encode(array('image' => $aImageData, 'user' => $this->oUser, 'message' => $aMessage));
+		echo json_encode(array('image' => $aImageData, 'user' => $this->user, 'message' => $aMessage));
 	}
+
 
 	/**
 	 * Сжатие изображения
@@ -270,6 +276,7 @@ class Gallery extends Airyo {
 		return $new_img;
 	}
 
+
 	/**
 	 * Обновление описания альбома
 	 *
@@ -278,7 +285,7 @@ class Gallery extends Airyo {
 	 * @author N.Kulchinskiy
 	 */
 	public function editDescriptionAlbum($sAlbumLabel) {
-		$this->oData['main_menu'] = 'gallery';
+		$this->data['main_menu'] = 'gallery';
 
 		$oPost = (object) $this->input->post();
 
@@ -314,15 +321,16 @@ class Gallery extends Airyo {
 		}
 
 		$aGalleryConfig = $this->config->item('gallery');
-		$this->oData['preview_extension'] = $aGalleryConfig['image_preview_extension'];
-		$this->oData['preview_size'] = $aGalleryConfig['image_preview_size'][0];
+		$this->data['preview_extension'] = $aGalleryConfig['image_preview_extension'];
+		$this->data['preview_size'] = $aGalleryConfig['image_preview_size'][0];
 
-		$this->oData['message'] =  $aMessage;
-		$this->oData["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
-		$this->oData["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
-		$this->oData['profile_id'] = $this->oUser->id;
-		$this->oData['view'] = 'airyo/gallery/editAlbum';
+		$this->data['message'] =  $aMessage;
+		$this->data["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
+		$this->data["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
+		$this->data['profile_id'] = $this->user->id;
+		$this->data['view'] = 'airyo/gallery/album_edit';
 	}
+	
 	
 	/**
 	 * Обновление содержимого альбома
@@ -383,6 +391,7 @@ class Gallery extends Airyo {
 		redirect($_SERVER['HTTP_REFERER'], 'refresh');
 	}
 
+
 	/**
 	 * Удаление изображения
 	 *
@@ -404,6 +413,7 @@ class Gallery extends Airyo {
 
 		return false;
 	}
+
 
 	/**
 	 * Удаление альбома
@@ -451,6 +461,7 @@ class Gallery extends Airyo {
 		redirect('/airyo/gallery', 'refresh');
 	}
 	
+	
 	/**
 	 * Удаление директорий и файлов
 	 *
@@ -495,6 +506,7 @@ class Gallery extends Airyo {
 		return true;
 	}
 
+
 	/**
 	 * Транслитерация строки
 	 *
@@ -522,6 +534,7 @@ class Gallery extends Airyo {
 		);
 		return strtr($sString, $aTranslit);
 	}
+
 
 	/**
 	 * Валидация данных альбома

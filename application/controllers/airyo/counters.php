@@ -9,26 +9,26 @@ class Counters extends Airyo {
     }
 
     public function index() {
-	    $this->oData['main_menu'] = 'counters';
+	    $this->data['main_menu'] = 'counters';
 
-	    $this->oData['menu'] = array();
-	    $this->oData['usermenu'] = array();
+	    $this->data['menu'] = array();
+	    $this->data['usermenu'] = array();
 
-	    $this->oData['type'] = '';
-	    $this->oData['search'] = '';
+	    $this->data['type'] = '';
+	    $this->data['search'] = '';
         $counters = new ArrayObject;
-	    $this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-	    $this->oData['counters'] = $this->counters_model->getCounters();
+	    $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+	    $this->data['counters'] = $this->counters_model->getCounters();
 
-        if (empty($this->oData['counters']))
+        if (empty($this->data['counters']))
             show_404();
 
         if ($this->input->post('save')) {
             $counters->text = $this->input->post('text');
             $counters->ip = $this->input->post('ip');
             $counters->domain = $this->input->post('domain');
-            $counters->id = $this->oData['counters']->id;
-	        $this->oData['counters'] = $counters;
+            $counters->id = $this->data['counters']->id;
+	        $this->data['counters'] = $counters;
             $additional_data = array(
                 'text' => $counters->text,
                 'ip' => $counters->ip,
@@ -36,7 +36,7 @@ class Counters extends Airyo {
             );
 
             if ($this->counters_model->Update($counters->id, $additional_data)) {
-	            $this->oData['message'] = array(
+	            $this->data['message'] = array(
                     'type' => 'success',
                     'text' => 'Запись обновлена'
                 );
@@ -44,16 +44,16 @@ class Counters extends Airyo {
                 $counters->text = $this->input->post('text');
                 $counters->ip = $this->input->post('ip');
                 $counters->domain = $this->input->post('domain');
-                $counters->id = $this->oData['counters']->id;
-	            $this->oData['counters'] = $counters;
-	            $this->oData['message'] = array(
+                $counters->id = $this->data['counters']->id;
+	            $this->data['counters'] = $counters;
+	            $this->data['message'] = array(
                     'type' => 'danger',
                     'text' => validation_errors()
                 );
             }
         }
 
-	    $this->oData['view'] = 'airyo/counters/counters';
+	    $this->data['view'] = 'airyo/counters/counters';
     }
 }
 

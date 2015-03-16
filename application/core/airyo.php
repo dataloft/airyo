@@ -8,9 +8,9 @@ if( ! defined('BASEPATH')) exit('No direct script access allowed');
  */
 class Airyo extends CI_Controller
 {
-	protected $oData = array();
-	/** @var object */
-	protected $oUser;
+	protected $data = array();
+	protected $user;
+
 
 	public function __construct() {
 		parent::__construct();
@@ -27,31 +27,31 @@ class Airyo extends CI_Controller
 		
 		$this->lang->load('airyo', 'russian');
 
-		$this->oUser = $this->users_model->getUserById($this->ion_auth->get_user_id());
+		$this->user = $this->users_model->getUserById($this->ion_auth->get_user_id());
 		
-		$this->oData['main_menu'] = '';
-		$this->oData['menu'] = array();
-		$this->oData['usermenu'] = array();
+		$this->data['main_menu'] = '';
+		$this->data['menu'] = array();
+		$this->data['usermenu'] = array();
 
-		$this->oData['message'] = '';
-		$this->oData['show_breadcrumbs'] = true;
-		$this->oData['user_data'] = $this->oUser;
-		$this->oData['headermenu_modules'] = new stdClass();
+		$this->data['message'] = '';
+		$this->data['show_breadcrumbs'] = true;
+		$this->data['user_data'] = $this->user;
+		$this->data['headermenu_modules'] = new stdClass();
 
-		if($this->oUser) {
-			switch($this->oUser->role_id) {
+		if($this->user) {
+			switch($this->user->role_id) {
 				case 1:
-					$this->oData['headermenu_modules'] = $this->modules_model->getUserModules(array('iUserId' => $this->ion_auth->get_user_id()));
+					$this->data['headermenu_modules'] = $this->modules_model->getUserModules(array('iUserId' => $this->ion_auth->get_user_id()));
 					break;
 				case 2:
-					$this->oData['headermenu_modules'] = $this->modules_model->getModules();
+					$this->data['headermenu_modules'] = $this->modules_model->getModules();
 					break;
 			}
-			if($this->oUser->role_id != 2) {
+			if($this->user->role_id != 2) {
 				$aUrl = $this->uri->segments;
 				if(sizeof($aUrl) > 1) {
 					if($this->modules_model->getModuleByName($aUrl[2])) {
-						$aModulesList = $this->modules_model->getUserModules(array('iUserId' => $this->oUser->id));
+						$aModulesList = $this->modules_model->getUserModules(array('iUserId' => $this->user->id));
 
 						$aUserModules = array();
 						foreach ($aModulesList as $aModule) {
@@ -60,8 +60,8 @@ class Airyo extends CI_Controller
 
 						if(!empty($aUserModules)) {
 							if (!in_array($aUrl[2], $aUserModules)) {
-								if ($aUrl[2] == 'users' AND isset($aUrl[4]) AND $aUrl[4] == $this->oUser->id) {
-									$this->oData['show_breadcrumbs'] = false;
+								if ($aUrl[2] == 'users' AND isset($aUrl[4]) AND $aUrl[4] == $this->user->id) {
+									$this->data['show_breadcrumbs'] = false;
 								} else {
 									die('sd');
 									$sRandomModule = array_shift($aUserModules);
@@ -120,9 +120,9 @@ class Airyo extends CI_Controller
 
 		if(method_exists($this, $method)) {
 			$result = call_user_func_array(array($this, $method), $params);
-			$this->load->view('airyo/common/header', $this->oData);
-			$this->load->view($this->oData['view'], $this->oData);
-			$this->load->view('airyo/common/footer', $this->oData);
+			$this->load->view('airyo/common/header', $this->data);
+			$this->load->view($this->data['view'], $this->data);
+			$this->load->view('airyo/common/footer', $this->data);
 			return $result;
 		}
 		show_404();

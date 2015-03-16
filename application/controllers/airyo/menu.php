@@ -11,26 +11,26 @@ class Menu extends Airyo {
 	public function index($selected_menu=1) {
 		$selected_menu = (int) $selected_menu;
 		if(!$selected_menu) $selected_menu=1;
-		$this->oData['main_menu'] = 'menu';
+		$this->data['main_menu'] = 'menu';
 
-		$this->oData['menu_group'] = '';
-		$this->oData['menu_list'] =  $this->menu_model->getMenuGroup();
+		$this->data['menu_group'] = '';
+		$this->data['menu_list'] =  $this->menu_model->getMenuGroup();
 		
-		//$this->oData['menu_group'] = $this->oData['menu_list'][0]['id'];
-		$this->oData['menu_group'] = $selected_menu;
+		//$this->data['menu_group'] = $this->data['menu_list'][0]['id'];
+		$this->data['menu_group'] = $selected_menu;
 
 		if ($this->input->post('typeSelect')) {
-			$this->oData['menu_group'] = $this->input->post('typeSelect');
+			$this->data['menu_group'] = $this->input->post('typeSelect');
 		}
 
-		if ($list = $this->menu_model->getList($this->oData['menu_group'])) {
-			$this->oData['content']  = $this->printTreeList($this->buildTree($list));
+		if ($list = $this->menu_model->getList($this->data['menu_group'])) {
+			$this->data['content']  = $this->printTreeList($this->buildTree($list));
 		} else {
-			$this->oData['content'] = '';
+			$this->data['content'] = '';
 		}
-		$this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		$this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
-		$this->oData['view'] = 'airyo/menu/list';
+		$this->data['view'] = 'airyo/menu/list';
 	}
 
 	/**
@@ -177,21 +177,21 @@ class Menu extends Airyo {
 
     public function add($mid=0) {
 	    
-		$this->oData['main_menu'] = 'menu';
-		$this->oData['bc_menu'] = $this->menu_model->getSorterMenuGroups();
-		if(!isset($this->oData['bc_menu'][$mid])) redirect("/airyo/menu");
+		$this->data['main_menu'] = 'menu';
+		$this->data['bc_menu'] = $this->menu_model->getSorterMenuGroups();
+		if(!isset($this->data['bc_menu'][$mid])) redirect("/airyo/menu");
 
-	    $this->oData['id'] = '';
-	    $this->oData['message'] = '';
+	    $this->data['id'] = '';
+	    $this->data['message'] = '';
 
         $menu = new ArrayObject;
-	    $this->oData['title'] = "Добавить/редактировать пункт меню";
+	    $this->data['title'] = "Добавить/редактировать пункт меню";
 
-	    $this->oData['menu_group'] = $mid;
-        if ($list = $this->menu_model->getList($this->oData['menu_group'])) {
-	        $this->oData['lvl_menu']  = $this->printSelectList($this->buildTree($list));
+	    $this->data['menu_group'] = $mid;
+        if ($list = $this->menu_model->getList($this->data['menu_group'])) {
+	        $this->data['lvl_menu']  = $this->printSelectList($this->buildTree($list));
         } else {
-	        $this->oData['lvl_menu'] = '';
+	        $this->data['lvl_menu'] = '';
         }
 
         $this->form_validation->set_rules('name', '', 'required');
@@ -202,7 +202,7 @@ class Menu extends Airyo {
         $menu->menu_group = $this->input->post('menu_group');
 		$menu->enabled = (int) $this->input->post('enabled');
 		if($menu->enabled >1 ) $menu->enabled=1;
-	    $this->oData['menu'] = $menu;
+	    $this->data['menu'] = $menu;
         if ($this->form_validation->run() == true) {
 			if ($check = $this->menu_model->ckeckUniqueOrder($this->input->post('level_menu',TRUE), $this->input->post('order',TRUE))) {
                 $check_order = $this->menu_model->getMaxOrder($this->input->post('level_menu',TRUE))+1;
@@ -227,54 +227,54 @@ class Menu extends Airyo {
                 );
                 redirect("airyo/menu/edit/$id", 'refresh');
             } else {
-	            $this->oData['message'] = array(
+	            $this->data['message'] = array(
                     'type' => 'danger',
                     'text' => 'Произошла ошибка при сохранении записи.'
                 );
             }
         }
         elseif ($this->input->post('action') == 'add') {
-	        $this->oData['message'] = array(
+	        $this->data['message'] = array(
                 'type' => 'danger',
                 'text' =>  validation_errors()
             );
         }
 
-	    $this->oData['view'] = 'airyo/menu/edit';
+	    $this->data['view'] = 'airyo/menu/edit';
     }
 
     public function edit($id = '') {
-	    $this->oData['main_menu'] = 'menu';
+	    $this->data['main_menu'] = 'menu';
 
-	    $this->oData['id'] = '';
-	    $this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+	    $this->data['id'] = '';
+	    $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
         $menu = new stdClass();
-	    $this->oData['title'] = "Добавить/редактировать пункт меню";
+	    $this->data['title'] = "Добавить/редактировать пункт меню";
 
         $this->form_validation->set_rules('name', '', 'required');
         $this->form_validation->set_rules('url', '', 'required');
         // Если передан Ид ищем содержание стр в БД
         if (!empty($id)) {
 	        
-			$this->oData['menu'] = $this->menu_model->getToId($id);
-			if(!$this->oData['menu']) redirect("airyo/menu/add", 'refresh');
-			$this->oData['bc_menu'] = $this->menu_model->getSorterMenuGroups();
-			$this->oData['menu_group'] = $this->oData['menu']->menu_group;
+			$this->data['menu'] = $this->menu_model->getToId($id);
+			if(!$this->data['menu']) redirect("airyo/menu/add", 'refresh');
+			$this->data['bc_menu'] = $this->menu_model->getSorterMenuGroups();
+			$this->data['menu_group'] = $this->data['menu']->menu_group;
 			
 
-            if (empty($this->oData['menu']))
+            if (empty($this->data['menu']))
                 show_404();
-	        $this->oData['id'] = $id;
-            $old_parent_id = $this->oData['menu']->parent_id;
+	        $this->data['id'] = $id;
+            $old_parent_id = $this->data['menu']->parent_id;
             if ($this->input->post('level_menu',TRUE))
                 $menu->level_menu = $this->input->post('level_menu',TRUE);
             else
-                $menu->level_menu = $this->oData['menu']->parent_id;
-            if ($list = $this->menu_model->getList($this->oData['menu']->menu_group)) {
-	            $this->oData['lvl_menu']  = $this->printSelectList($this->buildTree($list),$menu->level_menu, 0, $id);
+                $menu->level_menu = $this->data['menu']->parent_id;
+            if ($list = $this->menu_model->getList($this->data['menu']->menu_group)) {
+	            $this->data['lvl_menu']  = $this->printSelectList($this->buildTree($list),$menu->level_menu, 0, $id);
             } else {
-	            $this->oData['lvl_menu'] = '';
+	            $this->data['lvl_menu'] = '';
             }
             if ($this->form_validation->run() == true) {
 
@@ -295,28 +295,28 @@ class Menu extends Airyo {
                     $menu->order = $this->input->post('order',TRUE);
                 }
 
-                $menu->menu_group = $this->oData['menu']->menu_group;
+                $menu->menu_group = $this->data['menu']->menu_group;
 
-	            $this->oData['menu'] = $menu;
+	            $this->data['menu'] = $menu;
                 $additional_data = array(
                     'name' => $menu->name,
                     'url' => $menu->url,
                     'order' => $menu->order,
-                    'menu_group' =>   $this->oData['menu']->menu_group,
+                    'menu_group' =>   $this->data['menu']->menu_group,
                     'parent_id' =>   $this->input->post('level_menu',TRUE),
 					'enabled' => (int) $this->input->post('enabled')
                 );
 				
-                if ($this->menu_model->Update($this->oData['id'],$additional_data))
+                if ($this->menu_model->Update($this->data['id'],$additional_data))
                 {
-                    $this->reOrder($this->oData['menu']->menu_group);
-	                $this->oData['message'] = array(
+                    $this->reOrder($this->data['menu']->menu_group);
+	                $this->data['message'] = array(
                         'type' => 'success',
                         'text' => 'Запись обновлена'
                     );
-					$this->oData['menu'] = $this->menu_model->getToId($id);
+					$this->data['menu'] = $this->menu_model->getToId($id);
                 } else {
-	                $this->oData['message'] = array(
+	                $this->data['message'] = array(
                         'type' => 'danger',
                         'text' => 'Произошла ошибка при обновлении записи.'
                     );
@@ -331,8 +331,8 @@ class Menu extends Airyo {
 				$menu->enabled = (int) $this->input->post('enabled');
 				var_dump($menu->enabled);
 
-	            $this->oData['menu'] = $menu;
-	            $this->oData['message'] = array(
+	            $this->data['menu'] = $menu;
+	            $this->data['message'] = array(
                     'type' => 'danger',
                     'text' => validation_errors()
                 );
@@ -342,7 +342,7 @@ class Menu extends Airyo {
             redirect("airyo/menu/add", 'refresh');
         }
 
-	    $this->oData['view'] = 'airyo/menu/edit';
+	    $this->data['view'] = 'airyo/menu/edit';
     }
 
     // Пресортировка пунктов меню

@@ -17,17 +17,17 @@ class Files extends Airyo {
     }
 
     public function index() {
-        $this->oData['main_menu'] = 'files';
+        $this->data['main_menu'] = 'files';
 
-        $this->oData['result'] = array();
-        $this->oData['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-        $this->oData['scripts'] = array(
+        $this->data['result'] = array();
+        $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+        $this->data['scripts'] = array(
             '/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',
             '/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js',
             '/themes/airyo/js/FileUpload/js/jquery.fileupload.js',
             '/themes/airyo/js/files.js'
         );
-        $this->oData['styles'] = array(
+        $this->data['styles'] = array(
             '/themes/airyo/js/FileUpload/css/jquery.fileupload.css',
             '/themes/airyo/js/FileUpload/css/jquery.fileupload-ui.css',
             '/themes/airyo/js/FileUpload/css/style.css'
@@ -55,18 +55,18 @@ class Files extends Airyo {
                 'tiff'	=>	'image/tiff',
                 'tif'	=>	'image/tiff'
             );
-            $this->oData['file']['name'] = basename($file);
+            $this->data['file']['name'] = basename($file);
             if (in_array(mime_content_type($file),$img))
-                $this->oData['file']['type'] = 'img';
-            $this->oData['file']['path'] = $file;
-            $this->oData['file']['url'] = site_url($file);
+                $this->data['file']['type'] = 'img';
+            $this->data['file']['path'] = $file;
+            $this->data['file']['url'] = site_url($file);
 
-            $this->oData['view'] = 'airyo/files/show';
+            $this->data['view'] = 'airyo/files/show';
         }
         else {
 
             if (!is_dir($dir)) {
-                $this->oData['message'] = array(
+                $this->data['message'] = array(
                     'type' => 'danger',
                     'text' => 'Каталог не найден'
                 );
@@ -75,7 +75,7 @@ class Files extends Airyo {
                 $arr = $this->readdir($dir);
             } catch (Exception $e) {
                 $arr = array();
-                $this->oData['message'] = array(
+                $this->data['message'] = array(
                     'type' => 'danger',
                     'text' => 'Не удалось прочитать каталог'
                 );
@@ -90,7 +90,7 @@ class Files extends Airyo {
                     $path =  preg_replace("/".$this->start_folder."\//", '', (ltrim($item,'/')),1);
                     $isLink = is_link($path);
                     if (is_dir($item)) {
-                        $this->oData['result'][] = array(
+                        $this->data['result'][] = array(
                             'type' => 'dir',
                             'isLink' => $isLink,
                             'path' => $path,
@@ -112,7 +112,7 @@ class Files extends Airyo {
                         }
                         $extension = pathinfo($path, PATHINFO_EXTENSION);
                         if (empty($extension)) $extension = '-';
-                        $this->oData['result'][] = array(
+                        $this->data['result'][] = array(
                             'type' => 'file',
                             'isLink' => $isLink,
                             'path' => $path,
@@ -125,9 +125,9 @@ class Files extends Airyo {
                     }
                 }
             } else {
-                $this->oData['result']=array();
-                if(empty($this->oData['message'])) {
-                    $this->oData['message'] = array(
+                $this->data['result']=array();
+                if(empty($this->data['message'])) {
+                    $this->data['message'] = array(
                         'type' => 'warning',
                         'text' => 'Каталог пуст'
                     );
@@ -136,21 +136,21 @@ class Files extends Airyo {
 
             $upDir = ltrim(ltrim(dirname($dir),$this->start_folder),"/");
             if ($upDir == '' || $upDir == '.') {
-                array_unshift($this->oData['result'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/airyo/files'));
+                array_unshift($this->data['result'], array('type' => 'up', 'path' => '', 'label' => 'Вверх', 'url' => '/airyo/files'));
             } else {
-                array_unshift($this->oData['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/airyo/files/'.$upDir));
+                array_unshift($this->data['result'], array('type' => 'up', 'path' => $upDir, 'label' => 'Вверх', 'url' => '/airyo/files/'.$upDir));
             }
 
 
 
-            $this->oData['view'] = 'airyo/files/list';
+            $this->data['view'] = 'airyo/files/list';
         }
         // Создаем путь (хлебные крошки)
         $currDir = preg_replace("/".$this->start_folder."/",'',rtrim($this->getCurrentDir($this->path), '\\/'),1);
 
         $currExplodedDir = preg_split('#\\\\|/#', $currDir);
         if (isset($currExplodedDir[0]) && $currExplodedDir[0] == '') $currExplodedDir[0] = DIRECTORY_SEPARATOR; //FIX для UNIX
-        $this->oData['path'] = array();
+        $this->data['path'] = array();
         $url = '';
         foreach ($currExplodedDir as $value) {
             if ($value != DIRECTORY_SEPARATOR) {
@@ -159,7 +159,7 @@ class Files extends Airyo {
                 $url = DIRECTORY_SEPARATOR;
                 $value = 'Files';
             }
-            $this->oData['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
+            $this->data['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
         }
     }
 

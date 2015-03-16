@@ -21,7 +21,7 @@ class Users extends Airyo {
 	 * @author N.Kulchinskiy
 	 */
 	public function index() {
-		$this->oData['main_menu'] = 'users';
+		$this->data['main_menu'] = 'users';
 
 		$aPaginationConfig = $this->getPaginationConfig();
 		$aPaginationConfig['base_url'] = '/airyo/users/';
@@ -30,24 +30,24 @@ class Users extends Airyo {
 		$this->pagination->initialize($aPaginationConfig);
 
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-		$this->oData["users"] = $this->users_model->getUsers(
+		$this->data["users"] = $this->users_model->getUsers(
 			array(
-				'iUserId' => $this->oUser->id,
-				'iRoleId' => $this->oUser->role_id,
+				'iUserId' => $this->user->id,
+				'iRoleId' => $this->user->role_id,
 				'iLimit' => $aPaginationConfig["per_page"],
 				'iStart' => $page
 			)
 		);
 
-		foreach ($this->oData["users"] as $iKey => $aUser) {
-			$this->oData["users"][$iKey]->groups = $this->ion_auth->get_users_groups($aUser->id)->result_array();
+		foreach ($this->data["users"] as $iKey => $aUser) {
+			$this->data["users"][$iKey]->groups = $this->ion_auth->get_users_groups($aUser->id)->result_array();
 		}
 
-		$this->oData['message'] =  $this->session->flashdata('message') ? $this->session->flashdata('message'):'';
-		$this->oData['profile_id'] = $this->oUser->id;
-		$this->oData['pagination'] = $this->pagination;
+		$this->data['message'] =  $this->session->flashdata('message') ? $this->session->flashdata('message'):'';
+		$this->data['profile_id'] = $this->user->id;
+		$this->data['pagination'] = $this->pagination;
 
-		$this->oData['view'] = 'airyo/users/list';
+		$this->data['view'] = 'airyo/users/list';
 	}
 
 	/**
@@ -56,7 +56,7 @@ class Users extends Airyo {
 	 * @author N.Zakharenko
 	 */
 	public function add() {
-		$this->oData['main_menu'] = 'users';
+		$this->data['main_menu'] = 'users';
 
 		$oPost = (object) $this->input->post();
 		$aSession = array();
@@ -106,13 +106,13 @@ class Users extends Airyo {
 				);
 			}
 			/** Оповещение */
-			$this->oData['message'] =  $aMessage;
+			$this->data['message'] =  $aMessage;
 		}
 
-		$this->oData['session'] =  $aSession;
-		$this->oData['roles']  = $this->users_model->getRoles($this->oUser->id);
-		$this->oData['groups']  = $this->ion_auth->groups()->result_array();
-		$this->oData['view'] = 'airyo/users/add';
+		$this->data['session'] =  $aSession;
+		$this->data['roles']  = $this->users_model->getRoles($this->user->id);
+		$this->data['groups']  = $this->ion_auth->groups()->result_array();
+		$this->data['view'] = 'airyo/users/add';
 	}
 
 	/**
@@ -125,14 +125,14 @@ class Users extends Airyo {
 	public function edit($iId) {
 
 		$oUserData = $this->users_model->getUserById($iId);
-		if ($this->oUser->role_id == 1 AND in_array($oUserData->role_id, array(1, 2))) {
-			if ($this->oUser->id != $oUserData->id) {
+		if ($this->user->role_id == 1 AND in_array($oUserData->role_id, array(1, 2))) {
+			if ($this->user->id != $oUserData->id) {
 				redirect('airyo/users', 'refresh');
 			}
 		}
 
-		$this->oData['main_menu'] = 'users';
-		$this->oData['styles'] = array(
+		$this->data['main_menu'] = 'users';
+		$this->data['styles'] = array(
 			'/themes/airyo/css/users.css',
 		);
 
@@ -170,7 +170,7 @@ class Users extends Airyo {
 				$aMessage['form'] = 'password';
 			}
 			/** Оповещение */
-			$this->oData['message'] =  $aMessage;
+			$this->data['message'] =  $aMessage;
 		}
 
 		$aGroups = $this->ion_auth->groups()->result_array();
@@ -183,7 +183,7 @@ class Users extends Airyo {
 		$aModules = array();
 		$userModules = array();
 
-		if ($iId !== $this->oUser->id) {
+		if ($iId !== $this->user->id) {
 			$aModules = $this->modules_model->getModules();
 			$aUserModules = $this->modules_model->getUserModules(array('iUserId' => $iId, 'bAsArray' => true));
 			foreach ($aUserModules as $key => $userModule) {
@@ -191,14 +191,14 @@ class Users extends Airyo {
 			}
 		}
 
-		$this->oData['user']  = $this->users_model->getUserById($iId);
-		$this->oData['modules']  = $aModules;
-		$this->oData['user_modules']  = $userModules;
-		$this->oData['roles']  = $this->users_model->getRoles($this->oUser->id);
-		$this->oData['groups']  = $aGroups;
-		$this->oData['user_groups']  = $userGroups;
+		$this->data['user']  = $this->users_model->getUserById($iId);
+		$this->data['modules']  = $aModules;
+		$this->data['user_modules']  = $userModules;
+		$this->data['roles']  = $this->users_model->getRoles($this->user->id);
+		$this->data['groups']  = $aGroups;
+		$this->data['user_groups']  = $userGroups;
 
-		$this->oData['view'] = 'airyo/users/edit';
+		$this->data['view'] = 'airyo/users/edit';
 	}
 
 	/**
