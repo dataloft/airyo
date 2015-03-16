@@ -45,7 +45,6 @@ class Counters_model extends CI_Model {
     public function Update ($id, $data)
     {
         if ($this->db->update($this->db->dbprefix('counters'), $data, array('id' => $id)))
-            //$return = $this->db->affected_rows() == 1;
             return true;
         else
             return false;
