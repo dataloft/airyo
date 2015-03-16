@@ -115,7 +115,7 @@ class Airyo extends CI_Controller
 	public function _remap($method, $params = array()) {
 
 		// you can set default variables to send to the template here
-		$this->header['title'] = 'Airyo';
+		//$this->header['title'] = 'Airyo';
 		//$this->body['view'] = strtolower(get_class($this)).'/'.$method;
 
 		if(method_exists($this, $method)) {
@@ -135,7 +135,7 @@ class Airyo extends CI_Controller
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	protected function getPaginationConfig(){
+	/*protected function getPaginationConfig(){
 		$config = array(
 			'full_tag_open'     => '<ul class="pagination pagination-sm">',
 			'full_tag_close'    => '</ul>',
@@ -162,5 +162,5 @@ class Airyo extends CI_Controller
 		);
 
 		return $config;
-	}
+	}*/
 }

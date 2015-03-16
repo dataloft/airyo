@@ -17,7 +17,15 @@ class Frontend extends CI_Controller
 		$this->data['menu'] = $this->menu_model->getListTree(1);
 		$this->data['mainmenu'] = $this->menu_model->getListTree(2);
 		
-		if ($counters = $this->counters_model->getCounters($this->input->ip_address(), $_SERVER['HTTP_HOST'])) $this->data['counters'] = $counters; else $this->data['counters'] = '';
+		
+		if ($counters = $this->counters_model->getCounters(
+				$this->input->ip_address(), $_SERVER['HTTP_HOST'])
+			){
+			$this->data['counters'] = $counters; 
+		}
+		else {
+			$this->data['counters'] = '';
+		}
 			
 		
 	}

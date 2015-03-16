@@ -52,23 +52,29 @@ class Gallery extends Airyo
 		$this->data['result'] = array();
 		$this->data['message'] = $this->session->flashdata('message') ? $this->session->flashdata('message') : '';
 
-		$aPaginationConfig = $this->getPaginationConfig();
+		//$aPaginationConfig = $this->getPaginationConfig();
 
 		$this->data["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
 
-		$aPaginationConfig['base_url'] = '/airyo/gallery/' . $sAlbumLabel;
-		$aPaginationConfig['total_rows'] = $this->data["album"]->images_count;
-		$aPaginationConfig['uri_segment'] = 4;
+		//$aPaginationConfig['base_url'] = '/airyo/gallery/' . $sAlbumLabel;
+		//$aPaginationConfig['total_rows'] = $this->data["album"]->images_count;
+		//$aPaginationConfig['uri_segment'] = 4;
 
-		$this->pagination->initialize($aPaginationConfig);
+		//$this->pagination->initialize($aPaginationConfig);
 
-		$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
+		//$iPage = ($this->uri->segment($aPaginationConfig['uri_segment'])) ? $this->uri->segment($aPaginationConfig['uri_segment']) : 0;
 
 		$aGalleryConfig = $this->config->item('gallery');
 		$this->data['preview_extension'] = $aGalleryConfig['image_preview_extension'];
 		$this->data['preview_size'] = $aGalleryConfig['image_preview_size'][0];
 
-		$this->data["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel, 'iLimit' => $aPaginationConfig["per_page"], 'iStart' => $iPage));
+		$this->data["images"] = $this->gallery_model->getFetchCountriesImages(
+			array(
+				'sAlbumLabel' => $sAlbumLabel, 
+				//'iLimit' => $aPaginationConfig["per_page"], 
+				//'iStart' => $iPage
+				));
+				
 		$this->data['profile_id'] = $this->user->id;
 		$this->data['pagination'] = $this->pagination;
 		$this->data['view'] = 'airyo/gallery/album';

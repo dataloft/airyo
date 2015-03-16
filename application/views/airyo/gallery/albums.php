@@ -41,7 +41,7 @@
 						<?php endforeach; ?>
 					</ul>
 					<div class="text-center">
-						<?=$pagination->create_links(); ?>
+						<?=@$pagination->create_links(); ?>
 					</div>
 				<?php else : ?>
 					<div class="clearfix"></div>

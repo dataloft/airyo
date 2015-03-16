@@ -23,19 +23,20 @@ class Users extends Airyo {
 	public function index() {
 		$this->data['main_menu'] = 'users';
 
-		$aPaginationConfig = $this->getPaginationConfig();
-		$aPaginationConfig['base_url'] = '/airyo/users/';
-		$aPaginationConfig['total_rows'] = $this->users_model->record_count();
+		//$aPaginationConfig = $this->getPaginationConfig();
+		//$aPaginationConfig['base_url'] = '/airyo/users/';
+		//$aPaginationConfig['total_rows'] = $this->users_model->record_count();
 
-		$this->pagination->initialize($aPaginationConfig);
+		//$this->pagination->initialize($aPaginationConfig);
 
-		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		//$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		
 		$this->data["users"] = $this->users_model->getUsers(
 			array(
 				'iUserId' => $this->user->id,
 				'iRoleId' => $this->user->role_id,
-				'iLimit' => $aPaginationConfig["per_page"],
-				'iStart' => $page
+				//'iLimit' => $aPaginationConfig["per_page"],
+				//'iStart' => $page
 			)
 		);
 
