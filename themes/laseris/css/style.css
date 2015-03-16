@@ -121,10 +121,11 @@ body:after {
   left: 50%;
   margin-left: -465px;
 }
+
 .footer {
   position: relative;
-  margin-top: -103px;
-  height: 103px;
+  margin-top: -143px;
+  height: 143px;
   min-width: 930px;
   overflow: hidden;
   background: url(../img/main/footer.png) 0 bottom repeat-x;
@@ -132,26 +133,35 @@ body:after {
 }
 .footer .inner {
   width: 930px;
-  height: 103px;
+  height: 143px;
   overflow: hidden;
   margin: 0 auto;
 }
-.footer .copy {
+.footer .copy-left {
   width: 220px;
-  height: 103px;
-  padding: 40px 0 0 0;
+  height: 143px;
+  padding: 40px 0 0 15px;
   float: left;
-  text-align: center;
+  xtext-align: center;
   overflow: hidden;
-  font-size: 10px;
+  font-size: 90%;
   color: white;
+}
+.footer .copy-right {
+  margin: 30px 0;
+  width: 670px;
+  float: left;
+  color: #FFF;
+  text-align: center;
 }
 .footer .logos {
   width: 670px;
   float: left;
   padding: 25px 0 0 20px;
+  text-align: center;
   overflow: hidden;
 }
+
 .header {
   height: 127px;
   position: relative;

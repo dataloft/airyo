@@ -70,13 +70,20 @@
         
         <!-- footer -->
         <footer class="footer">
-            <div class="inner">
-                <div class="copy">
+            <div class="inner">	
+            	<div class="copy-left">
+                    &nbsp;
+                </div>
+                <!--div class="copy-left">
                     &copy; ЛазерИнформСервис, 1992-2015
                     <br>&copy; Игнатов А.Г., 1982-2015
-                </div>
+                </div-->
                 <div class="logos">
                     <img src="/themes/laseris/img/main/logos.png" alt="">
+                </div>
+                <div class="copy-right">
+                    &copy; ЛазерИнформСервис, 1992-2015 &nbsp;&nbsp;&nbsp;
+                    &copy; Игнатов А.Г., 1982-2015
                 </div>
             </div>
         </footer>
