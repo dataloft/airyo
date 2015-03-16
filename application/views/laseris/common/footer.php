@@ -79,7 +79,7 @@
                     <br>&copy; Игнатов А.Г., 1982-2015
                 </div-->
                 <div class="logos">
-                    <img src="/themes/laseris/img/main/logos.png" alt="">
+                    <img src="/themes/laseris/img/main/logos-590.png" alt="">
                 </div>
                 <div class="copy-right">
                     &copy; ЛазерИнформСервис, 1992-2015 &nbsp;&nbsp;&nbsp;
