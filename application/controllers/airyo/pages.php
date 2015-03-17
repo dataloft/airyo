@@ -218,9 +218,9 @@ class Pages extends Airyo {
         //$this->data['view'] = 'airyo/pages/'.$alias;
         
         
-        $this->data['scripts'] = array(
+        /*$this->data['scripts'] = array(
             '/themes/airyo/js/content.js',
-        );
+        );*/
     }
 
     public function edit($id = '') {

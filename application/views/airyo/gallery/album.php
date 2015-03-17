@@ -1,4 +1,24 @@
-<?$this->load->view('airyo/common/header')?>
+<?
+
+$this->css = '
+	<link rel="stylesheet" href="/themes/airyo/js/FileUpload/css/jquery.fileupload.css" />
+	<link rel="stylesheet" href="/themes/airyo/js/FileUpload/css/jquery.fileupload-ui.css" />
+	<link rel="stylesheet" href="/themes/airyo/js/FileUpload/css/style.css" />
+	<link rel="stylesheet" href="/themes/airyo/js/Gallery/css/ekko-lightbox.css" />
+	<link rel="stylesheet" href="/themes/airyo/css/gallery.css" />
+	';
+	
+$this->js = '
+	<script src="/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js"></script>
+	<script src="/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js"></script>
+	<script src="/themes/airyo/js/FileUpload/js/jquery.fileupload.js"></script>
+	<script src="/themes/airyo/js/Gallery/js/ekko-lightbox.js"></script>
+	<script src="/themes/airyo/js/gallery.js"></script>
+	';
+
+$this->load->view('airyo/common/header')
+
+?>
 
 <div class="container">
 	<h1 class="page-header">Фотоальбомы</h1>

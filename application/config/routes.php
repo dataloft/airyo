@@ -69,14 +69,6 @@ $route['airyo/users/edit'] = 'airyo/users/edit';
 $route['airyo/users/edit/(:num)'] = 'airyo/users/edit/$1';
 $route['airyo/users/delete'] = 'airyo/users/delete';
 
-//airyo users groups
-$route['airyo/groups'] = 'airyo/groups';
-$route['airyo/groups/add'] = 'airyo/groups/add';
-$route['airyo/groups/add/(:num)'] = 'airyo/groups/add/$1';
-$route['airyo/groups/edit'] = 'airyo/groups/edit';
-$route['airyo/groups/edit/(:num)'] = 'airyo/groups/edit/$1';
-$route['airyo/groups/delete'] = 'airyo/groups/delete';
-
 //airyo menu
 $route['airyo/menu'] = 'airyo/menu';
 $route['airyo/menu/(:num)'] = 'airyo/menu/index/$1';

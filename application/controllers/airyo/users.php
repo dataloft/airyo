@@ -49,7 +49,6 @@ class Users extends Airyo {
 		$this->data['pagination'] = $this->pagination;
 		
 		$this->load->view('airyo/users/list', $this->data);
-		//$this->data['view'] = 'airyo/users/list';
 	}
 
 	/**
@@ -136,9 +135,9 @@ class Users extends Airyo {
 		}
 
 		$this->data['main_menu'] = 'users';
-		$this->data['styles'] = array(
+		/*$this->data['styles'] = array(
 			'/themes/airyo/css/users.css',
-		);
+		);*/
 
 		$oPost = (object) $this->input->post();
 		if(!empty($oPost->form_edit)) {

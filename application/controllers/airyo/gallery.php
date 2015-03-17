@@ -14,7 +14,7 @@ class Gallery extends Airyo
 
 		$this->data['home_folder'] = $this->sHomeFolder;
 
-		$this->data['scripts'] = array(
+		/*$this->data['scripts'] = array(
 			'/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',
 			'/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js',
 			'/themes/airyo/js/FileUpload/js/jquery.fileupload.js',
@@ -27,7 +27,7 @@ class Gallery extends Airyo
 			'/themes/airyo/js/FileUpload/css/style.css',
 			'/themes/airyo/js/Gallery/css/ekko-lightbox.css',
 			'/themes/airyo/css/gallery.css'
-		);
+		);*/
 	}
 
 
@@ -42,7 +42,6 @@ class Gallery extends Airyo
 		$this->data['profile_id'] = $this->user->id;
 		$this->data['pagination'] = $this->pagination;
 
-		//$this->data['view'] = 'airyo/gallery/albums';
 		$this->load->view('airyo/gallery/albums', $this->data);
 	}
 

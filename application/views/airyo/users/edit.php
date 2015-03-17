@@ -1,4 +1,10 @@
-<?$this->load->view('airyo/common/header')?>
+<?
+
+$this->css = '<link rel="stylesheet" href="/themes/airyo/css/users.css" />';
+
+$this->load->view('airyo/common/header')
+
+?>
 
 <div class="container">
 	<?php if ($message) : ?>

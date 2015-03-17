@@ -1,4 +1,10 @@
-<?$this->load->view('airyo/common/header')?>
+<?
+
+$this->js = '<script src="/themes/airyo/js/content.js"></script>';
+
+$this->load->view('airyo/common/header')
+
+?>
 
 <div class="container">
     <? if ($message) {?>

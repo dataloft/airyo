@@ -1,4 +1,21 @@
-<?$this->load->view('airyo/common/header')?>
+<?
+
+$this->css = '
+	<link rel="stylesheet" href="/themes/airyo/js/FileUpload/css/jquery.fileupload.css" />
+	<link rel="stylesheet" href="/themes/airyo/js/FileUpload/css/jquery.fileupload-ui.css" />
+	<link rel="stylesheet" href="/themes/airyo/js/FileUpload/css/style.css" />
+	';
+	
+$this->js = '
+	<script src="/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js"></script>
+	<script src="/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js"></script>
+	<script src="/themes/airyo/js/FileUpload/js/jquery.fileupload.js"></script>
+	<script src="/themes/airyo/js/files.js"></script>
+	';
+
+$this->load->view('airyo/common/header');
+
+?>
 
 <div class="container">
 
@@ -22,7 +39,7 @@
     </ol>
 
 
-    <? if (sizeof($result) > 1) {?>
+    <? if (sizeof($files) > 1) { ?>
         <div class="row">
             <div class="col-md-12" style="margin: 0 0 20px">
                 <ul class="nav nav-pills pull-right">
@@ -35,21 +52,21 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-toggle" id="delete-link" data-toggle="dropdown" href="#" onclick="$('#delete').submit();">
+                        <a class="dropdown-toggle" id="delete-link" data-toggle="dropdown" href="#" onclick="$('#delete-link').submit();">
                             <span class="glyphicon glyphicon glyphicon-trash" style="color: #777"></span>&nbsp;&nbsp;Удалить
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
-    <?}?>
+    <? } ?>
 
 
     <div class="row">
         <div id="dropzone" class="dropzone col-md-12">
             <ul class="list-group">
                 <form action="/airyo/files/delete" id="delete" method="post">
-                    <?php foreach ($result as $i => $row): ?>
+                    <?php foreach ($files as $i => $row): ?>
                         <?php if ($row['type'] == 'up'): ?>
                             <!-- <li class="list-group-item"><a href="<?php /*echo $row['url']; */?>"><?php /*echo $row['label']; */?></a></li>-->
                         <? else: ?>
@@ -130,8 +147,14 @@
                     </div>
                 <?}?>
             </div>
+            
+            
         </div>
+        
+        
     </div>
+    
+    
 </div>
 
 <?$this->load->view('airyo/common/footer')?>
