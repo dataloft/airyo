@@ -52,8 +52,9 @@ class Counters extends Airyo {
                 );
             }
         }
-
-	    $this->data['view'] = 'airyo/counters/counters';
+        
+        $this->load->view('airyo/counters/counters', $this->data);
+	    //$this->data['view'] = 'airyo/counters/counters';
     }
 }
 

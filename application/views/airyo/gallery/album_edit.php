@@ -1,11 +1,5 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: N.Kulchinskiy
- * Date: 07.10.14
- * Time: 22:30
- */
-?>
+<?$this->load->view('airyo/common/header')?>
+
 <div class="container">
 	<h1 class="page-header">Фотоальбомы</h1>
 
@@ -52,3 +46,5 @@
 	<?php echo form_close();?>
 
 </div>
+
+<?$this->load->view('airyo/common/footer')?>

@@ -28,7 +28,10 @@ class Pages extends Airyo {
 
 	    $this->data['content']  = $this->content_model->getList($this->data['type'], $this->data['search']);
 	    $this->data['type_list']  = $this->content_model->getType();
-	    $this->data['view'] = 'airyo/pages/list';
+	    
+	    
+	    $this->load->view('airyo/pages/list', $this->data);
+	    //$this->data['view'] = 'airyo/pages/list';
     }
 
     public function add() {
@@ -208,8 +211,13 @@ class Pages extends Airyo {
             );
         }
         
-        $alias = 'add';
-        $this->data['view'] = 'airyo/pages/'.$alias;
+        //$alias = 'add';
+        
+        
+        $this->load->view('airyo/pages/add', $this->data);
+        //$this->data['view'] = 'airyo/pages/'.$alias;
+        
+        
         $this->data['scripts'] = array(
             '/themes/airyo/js/content.js',
         );
@@ -428,8 +436,10 @@ class Pages extends Airyo {
             redirect("airyo/pages/add", 'refresh');
         }
 
-        $alias = 'edit';
-        $this->data['view'] = 'airyo/pages/'.$alias;
+        //$alias = 'edit';
+        
+        $this->load->view('airyo/pages/edit', $this->data);
+        //$this->data['view'] = 'airyo/pages/'.$alias;
 
     }
 

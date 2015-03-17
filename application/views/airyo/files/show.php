@@ -1,3 +1,5 @@
+<?$this->load->view('airyo/common/header')?>
+
 <div class="container">
 
 	<h1 class="page-header">Файлы</h1>
@@ -56,3 +58,5 @@
         <input type="hidden" name="redirect" value="<? $end_element = array_pop($path); echo $end_element['url']; ?>">
     </form>
 </div>
+
+<?$this->load->view('airyo/common/footer')?>

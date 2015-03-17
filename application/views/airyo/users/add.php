@@ -1,3 +1,5 @@
+<?$this->load->view('airyo/common/header')?>
+
 <div class="container">
 	<?php if ($message) : ?>
 		<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
@@ -71,3 +73,5 @@
 		<input type="hidden" name="form_add" value="add" />
 	<?php echo form_close();?>
 </div>
+
+<?$this->load->view('airyo/common/footer')?>

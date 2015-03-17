@@ -29,8 +29,9 @@ class Menu extends Airyo {
 			$this->data['content'] = '';
 		}
 		$this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-
-		$this->data['view'] = 'airyo/menu/list';
+		
+		$this->load->view('airyo/menu/list', $this->data);
+		//$this->data['view'] = 'airyo/menu/list';
 	}
 
 	/**
@@ -239,8 +240,9 @@ class Menu extends Airyo {
                 'text' =>  validation_errors()
             );
         }
-
-	    $this->data['view'] = 'airyo/menu/edit';
+        
+        $this->load->view('airyo/menu/edit', $this->data);
+	    //$this->data['view'] = 'airyo/menu/edit';
     }
 
     public function edit($id = '') {
@@ -341,8 +343,9 @@ class Menu extends Airyo {
         } else { //Вставляем новую запись
             redirect("airyo/menu/add", 'refresh');
         }
-
-	    $this->data['view'] = 'airyo/menu/edit';
+        
+        $this->load->view('airyo/menu/edit', $this->data);
+	    //$this->data['view'] = 'airyo/menu/edit';
     }
 
     // Пресортировка пунктов меню

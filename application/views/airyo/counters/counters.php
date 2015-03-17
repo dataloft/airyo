@@ -1,3 +1,5 @@
+<?$this->load->view('airyo/common/header')?>
+
 <div class="container">
 
     <? if ($message) {?>
@@ -26,3 +28,5 @@
     <?php echo form_close();?>
     
 </div>
+
+<?$this->load->view('airyo/common/footer')?>

@@ -81,6 +81,8 @@ class Airyo extends CI_Controller
 		}
 		
 		$this->updateLogs();
+		
+		//$this->load->view('airyo/common/header', $this->data);
 	}
 
 	/**
@@ -112,7 +114,7 @@ class Airyo extends CI_Controller
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function _remap($method, $params = array()) {
+	/*public function _remap($method, $params = array()) {
 
 		// you can set default variables to send to the template here
 		//$this->header['title'] = 'Airyo';
@@ -126,7 +128,7 @@ class Airyo extends CI_Controller
 			return $result;
 		}
 		show_404();
-	}
+	}*/
 
 	/**
 	 * Получение конфигурации для пагинации

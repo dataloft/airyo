@@ -27,8 +27,9 @@ class Groups extends Airyo {
 		$aGroups = $this->ion_auth->groups()->result_array();
 
 		$this->data["groups"] = $aGroups;
-
-		$this->data['view'] = 'airyo/groups/index';
+		
+		$this->load->view('airyo/groups/index', $this->data);
+		//$this->data['view'] = 'airyo/groups/index';
 	}
 
 	public function add() {
@@ -67,8 +68,9 @@ class Groups extends Airyo {
 				'text' =>  validation_errors()
 			);
 		}
-
-		$this->data['view'] = 'airyo/groups/edit';
+		
+		$this->load->view('airyo/groups/edit', $this->data);
+		//$this->data['view'] = 'airyo/groups/edit';
 	}
 
 	/**
@@ -130,8 +132,9 @@ class Groups extends Airyo {
 		} else { //Вставляем новую запись
 			redirect("airyo/groups/add", 'refresh');
 		}
-
-		$this->data['view'] = 'airyo/groups/edit';
+		
+		$this->load->view('airyo/groups/edit', $this->data);
+		//$this->data['view'] = 'airyo/groups/edit';
 	}
 
 	/**

@@ -42,7 +42,8 @@ class Gallery extends Airyo
 		$this->data['profile_id'] = $this->user->id;
 		$this->data['pagination'] = $this->pagination;
 
-		$this->data['view'] = 'airyo/gallery/albums';
+		//$this->data['view'] = 'airyo/gallery/albums';
+		$this->load->view('airyo/gallery/albums', $this->data);
 	}
 
 
@@ -77,7 +78,9 @@ class Gallery extends Airyo
 				
 		$this->data['profile_id'] = $this->user->id;
 		$this->data['pagination'] = $this->pagination;
-		$this->data['view'] = 'airyo/gallery/album';
+		
+		$this->load->view('airyo/gallery/album', $this->data);
+		//$this->data['view'] = 'airyo/gallery/album';
 	}
 	
 	
@@ -340,7 +343,9 @@ class Gallery extends Airyo
 		
 		$this->data["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
 		$this->data['profile_id'] = $this->user->id;
-		$this->data['view'] = 'airyo/gallery/album_edit';
+		
+		$this->load->view('airyo/gallery/album_edit', $this->data);
+		//$this->data['view'] = 'airyo/gallery/album_edit';
 	}
 	
 	

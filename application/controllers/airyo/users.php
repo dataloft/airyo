@@ -47,8 +47,9 @@ class Users extends Airyo {
 		$this->data['message'] =  $this->session->flashdata('message') ? $this->session->flashdata('message'):'';
 		$this->data['profile_id'] = $this->user->id;
 		$this->data['pagination'] = $this->pagination;
-
-		$this->data['view'] = 'airyo/users/list';
+		
+		$this->load->view('airyo/users/list', $this->data);
+		//$this->data['view'] = 'airyo/users/list';
 	}
 
 	/**
@@ -113,7 +114,9 @@ class Users extends Airyo {
 		$this->data['session'] =  $aSession;
 		$this->data['roles']  = $this->users_model->getRoles($this->user->id);
 		$this->data['groups']  = $this->ion_auth->groups()->result_array();
-		$this->data['view'] = 'airyo/users/add';
+		
+		$this->load->view('airyo/users/add', $this->data);
+		//$this->data['view'] = 'airyo/users/add';
 	}
 
 	/**
@@ -198,8 +201,9 @@ class Users extends Airyo {
 		$this->data['roles']  = $this->users_model->getRoles($this->user->id);
 		$this->data['groups']  = $aGroups;
 		$this->data['user_groups']  = $userGroups;
-
-		$this->data['view'] = 'airyo/users/edit';
+		
+		$this->load->view('airyo/users/edit', $this->data);
+		//$this->data['view'] = 'airyo/users/edit';
 	}
 
 	/**

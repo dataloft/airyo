@@ -77,7 +77,8 @@ class Auth extends Airyo {
                 $this->session->set_flashdata('message', $this->ion_auth->errors());
                 $this->data['message'] = ($this->session->flashdata('message')) ? $this->session->flashdata('message') : $this->ion_auth->errors();
 
-				$this->data['view'] = 'airyo/user/login';
+				//$this->data['view'] = 'airyo/user/login';
+				$this->load->view('airyo/user/login', $this->data);
 
 				//redirect('airyo/auth/login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
 			}
@@ -102,7 +103,8 @@ class Auth extends Airyo {
 				'type' => 'password',
 			);
 
-			$this->data['view'] = 'airyo/user/login';
+			//$this->data['view'] = 'airyo/user/login';
+			$this->load->view('airyo/user/login', $this->data);
 			//$this->_render_page('airyo/auth/login', $this->data);
 		}
 	}

@@ -1,4 +1,6 @@
- <div class="container">
+<?$this->load->view('airyo/common/header')?>
+
+<div class="container">
  
     <? if ($message) {?>
 		<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
@@ -76,3 +78,5 @@
 
 //-->
 </script>
+
+<?$this->load->view('airyo/common/footer')?>

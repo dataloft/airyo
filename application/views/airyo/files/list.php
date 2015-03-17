@@ -1,3 +1,5 @@
+<?$this->load->view('airyo/common/header')?>
+
 <div class="container">
 
     <h1 class="page-header">Файлы</h1>
@@ -131,3 +133,5 @@
         </div>
     </div>
 </div>
+
+<?$this->load->view('airyo/common/footer')?>

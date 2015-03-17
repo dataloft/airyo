@@ -17,6 +17,7 @@ class Files extends Airyo {
     }
 
     public function index() {
+        
         $this->data['main_menu'] = 'files';
 
         $this->data['result'] = array();
@@ -42,6 +43,26 @@ class Files extends Airyo {
         }
 
         $dir = $this->getCurrentDir($this->path);
+        
+        
+        // Создаем путь (хлебные крошки)
+        $currDir = preg_replace("/".$this->start_folder."/",'',rtrim($this->getCurrentDir($this->path), '\\/'),1);
+
+        $currExplodedDir = preg_split('#\\\\|/#', $currDir);
+        if (isset($currExplodedDir[0]) && $currExplodedDir[0] == '') $currExplodedDir[0] = DIRECTORY_SEPARATOR; //FIX для UNIX
+        $this->data['path'] = array();
+        $url = '';
+        foreach ($currExplodedDir as $value) {
+            if ($value != DIRECTORY_SEPARATOR) {
+                $url .= ($value . DIRECTORY_SEPARATOR);
+            } else {
+                $url = DIRECTORY_SEPARATOR;
+                $value = 'Files';
+            }
+            $this->data['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
+        }
+        
+        
         if (is_file(rtrim($dir,'/'))) {
             $file = rtrim($dir,'/');
             $img = array(
@@ -61,7 +82,8 @@ class Files extends Airyo {
             $this->data['file']['path'] = $file;
             $this->data['file']['url'] = site_url($file);
 
-            $this->data['view'] = 'airyo/files/show';
+            //$this->data['view'] = 'airyo/files/show';
+            $this->load->view('airyo/files/show', $this->data);
         }
         else {
 
@@ -142,25 +164,14 @@ class Files extends Airyo {
             }
 
 
-
-            $this->data['view'] = 'airyo/files/list';
+            
+            //$this->data['view'] = 'airyo/files/list';
+            $this->load->view('airyo/files/list', $this->data);
         }
-        // Создаем путь (хлебные крошки)
-        $currDir = preg_replace("/".$this->start_folder."/",'',rtrim($this->getCurrentDir($this->path), '\\/'),1);
-
-        $currExplodedDir = preg_split('#\\\\|/#', $currDir);
-        if (isset($currExplodedDir[0]) && $currExplodedDir[0] == '') $currExplodedDir[0] = DIRECTORY_SEPARATOR; //FIX для UNIX
-        $this->data['path'] = array();
-        $url = '';
-        foreach ($currExplodedDir as $value) {
-            if ($value != DIRECTORY_SEPARATOR) {
-                $url .= ($value . DIRECTORY_SEPARATOR);
-            } else {
-                $url = DIRECTORY_SEPARATOR;
-                $value = 'Files';
-            }
-            $this->data['path'][] = array('text' => $value, 'url' => ltrim($url,'/'));
-        }
+        
+        
+        
+        
     }
 
     public function edit($id = '') {
