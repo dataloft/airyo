@@ -81,8 +81,6 @@ class Airyo extends CI_Controller
 		}
 		
 		$this->updateLogs();
-		
-		//$this->load->view('airyo/common/header', $this->data);
 	}
 
 	/**
@@ -103,32 +101,6 @@ class Airyo extends CI_Controller
 			));
 		}
 	}
-
-	/**
-	 * Формирование отображения
-	 *
-	 * @param       $method
-	 * @param array $params
-	 *
-	 * @return mixed
-	 *
-	 * @author N.Kulchinskiy
-	 */
-	/*public function _remap($method, $params = array()) {
-
-		// you can set default variables to send to the template here
-		//$this->header['title'] = 'Airyo';
-		//$this->body['view'] = strtolower(get_class($this)).'/'.$method;
-
-		if(method_exists($this, $method)) {
-			$result = call_user_func_array(array($this, $method), $params);
-			$this->load->view('airyo/common/header', $this->data);
-			$this->load->view($this->data['view'], $this->data);
-			$this->load->view('airyo/common/footer', $this->data);
-			return $result;
-		}
-		show_404();
-	}*/
 
 	/**
 	 * Получение конфигурации для пагинации
