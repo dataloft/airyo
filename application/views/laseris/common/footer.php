@@ -88,12 +88,10 @@
             </div>
         </footer>
         <!-- /footer -->
+        
+        <?= @$this->js?>
 
-		<?
-		if (isset($albums) || isset($images)) echo '<script src="/themes/laseris/js/jquery.magnific-popup.min.js"></script>';
-		?>
-
-		<? if (!empty($counters)) echo $counters->text; ?>
+		<?= @$counters->text; ?>
         
     </body>
 

@@ -10,18 +10,12 @@ class Gallery extends Frontend {
 		$this->load->config('gallery');
 		$this->load->helper('file');
 		$this->load->model('laseris/gallery_model');
-		
-		//var_dump($this->gallery_model->data);
 
 		$this->data['home_folder'] = $this->sHomeFolder;
-
-		//$this->oData['scripts'] = '/themes/laseris/js/jquery.magnific-popup.min.js';
-		//$this->oData['styles'] = '/themes/laseris/css/magnific-popup.css';
 	}
 
 
 	public function index() {
-		//$this->data['main_menu'] = 'gallery';
 
 		$this->data["albums"] = $this->gallery_model->getFetchCountriesAlbums();
 		
@@ -37,7 +31,6 @@ class Gallery extends Frontend {
 			}
 		}
 		
-		//$this->data['view'] = 'laseris/gallery/gallery';
 		$this->load->view('laseris/gallery/gallery', $this->data);
 	}
 

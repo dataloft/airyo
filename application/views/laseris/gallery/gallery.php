@@ -1,3 +1,10 @@
+<?
+
+$this->css = '<link rel="stylesheet" href="/themes/laseris/css/magnific-popup.css" />';
+$this->js = '<script src="/themes/laseris/js/jquery.magnific-popup.min.js"></script>';
+
+?>
+
 <?$this->load->view('laseris/common/header')?>
 
 <? if(!empty($albums)) : ?>

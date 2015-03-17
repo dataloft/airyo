@@ -68,7 +68,7 @@ class Smart_codes
                 }
             }
             
-        $this->data['output'] = $str;
+        return $str;
     }
     
     
@@ -90,8 +90,6 @@ class Smart_codes
         $data['album']['label'] = $sAlbumLabel;
         
         $data["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
-        
-        $this->data['images'] = array(); //пустой массив, указывающий вьюшке на наличие галереи на странице 
         
         return $this->load->view('laseris/gallery/gallery_album', $data, TRUE);
     }

@@ -13,22 +13,7 @@
     <link rel="stylesheet" href="/themes/laseris/css/reset.css" />
     <link rel="stylesheet" href="/themes/laseris/css/style.css" />
 	
-	
-	<?
-	
-	if (isset($albums) || isset($images)) echo '<link rel="stylesheet" href="/themes/laseris/css/magnific-popup.css" />';
-	
-	?>
-	
-	
-	<?
-	if (!empty($styles))
-	foreach ($styles as $style) {
-	?>
-	<link rel="stylesheet" href="<?=$style?>">
-	<?
-	}
-	?>
+	<?= @$this->css?>
 	
     <!--[if lte IE 8]><link href= "/themes/laseris/css/ie.css" rel= "stylesheet" media= "all" /><![endif]-->
     <!--[if lt IE 9]>
