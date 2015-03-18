@@ -5,14 +5,14 @@ class Pages extends Frontend {
 	public function __construct() {
 		parent::__construct();
 		
-		$this->load->model('laseris/content_model');
+		$this->load->model('laseris/pages_model');
         $this->load->helper('url');
         $this->load->library('Smart_codes');
 	}
 
 	public function index() {
 		
-        $this->data['page'] = $this->content_model->getByAlias($this->uri->uri_string(), true);
+        $this->data['page'] = $this->pages_model->getByAlias($this->uri->uri_string(), true);
         
 		if ($this->data['page'])
 		{

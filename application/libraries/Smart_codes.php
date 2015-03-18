@@ -8,7 +8,6 @@ class Smart_codes
     public function __construct()
     {
         $this->load->helper('url');
-        $this->config->load('templates');
     }
 
     
@@ -33,6 +32,7 @@ class Smart_codes
         preg_match_all('/\[\[[^\[\]]*\]\]/i', $str, $matches);
         
         if (!empty($matches[0]))
+        {
             foreach($matches[0] as $match)
             {
                 $string = preg_replace(array('/\[/i','/\]/i'), '', $match);
@@ -67,6 +67,7 @@ class Smart_codes
                     }
                 }
             }
+        }
             
         return $str;
     }

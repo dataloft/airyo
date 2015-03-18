@@ -2,11 +2,13 @@
 
 class Pages extends Airyo {
 
+
     protected $default;
+
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('airyo/content_model');
+        $this->load->model('airyo/pages_model');
         $this->load->model('airyo/trash_model');
         $this->config->load('templates');
         
@@ -15,24 +17,28 @@ class Pages extends Airyo {
         $this->default = $this->config->item('default_template');
     }
 
+
     public function index($page = '') {
+    
 	    $this->data['main_menu'] = 'pages';
 
 	    $this->data['type'] = '';
 	    $this->data['search'] = '';
 	    $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+	    
 	    if ($this->input->post('typeSelect'))
 	        $this->data['type'] = $this->input->post('typeSelect');
+	        
 	    if ($this->input->post('search'))
 	        $this->data['search'] = $this->input->post('search');
 
-	    $this->data['content']  = $this->content_model->getList($this->data['type'], $this->data['search']);
-	    $this->data['type_list']  = $this->content_model->getType();
+	    $this->data['content']  = $this->pages_model->getList($this->data['type'], $this->data['search']);
+	    $this->data['type_list']  = $this->pages_model->getType();
 	    
 	    
 	    $this->load->view('airyo/pages/list', $this->data);
-	    //$this->data['view'] = 'airyo/pages/list';
     }
+
 
     public function add() {
     
@@ -44,10 +50,12 @@ class Pages extends Airyo {
         $this->data['id'] = '';
         $this->data['message'] = '';
         $this->data['template_list'] = $this->config->item('templates');
+        
         if (!$this->ion_auth->logged_in()) {
             redirect('auth', 'refresh');
         }
-        $this->data['type_list']  = $this->content_model->getType();
+        
+        $this->data['type_list']  = $this->pages_model->getType();
         $this->form_validation->set_rules('h1', '', 'trim|xss_clean|strip_tags|required');
         $this->form_validation->set_rules('template', '', 'required');
         $this->form_validation->set_rules('alias', '', 'callback_check_alias');
@@ -56,6 +64,7 @@ class Pages extends Airyo {
 
         if (!empty($_POST['change']))
             $_POST = array();
+        
         $this->data['page']['h1'] = $this->input->post('h1',TRUE);
         $this->data['page']['alias'] = $this->input->post('alias');
         $this->data['page']['title'] = $this->input->post('title',TRUE);
@@ -129,7 +138,7 @@ class Pages extends Airyo {
                         $upload = !empty($_FILES[$param['field_name']]) ?
                             $_FILES[$param['field_name']] : null;
 
-                        $next_id = $this->content_model->next_id();
+                        $next_id = $this->pages_model->next_id();
                         $pth = 'public'.DIRECTORY_SEPARATOR.'content'.DIRECTORY_SEPARATOR.$next_id;
                         $config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$pth;
                         if (!is_dir($config['upload_path']))
@@ -186,7 +195,7 @@ class Pages extends Airyo {
             else
                 $additional_data['content'] = $this->input->post('content');
 
-            if ($id = $this->content_model->Add($additional_data))
+            if ($id = $this->pages_model->Add($additional_data))
             {
                 $this->session->set_flashdata('message',  array(
                         'type' => 'success',
@@ -211,19 +220,13 @@ class Pages extends Airyo {
             );
         }
         
-        //$alias = 'add';
-        
         
         $this->load->view('airyo/pages/add', $this->data);
-        //$this->data['view'] = 'airyo/pages/'.$alias;
-        
-        
-        /*$this->data['scripts'] = array(
-            '/themes/airyo/js/content.js',
-        );*/
     }
 
-    public function edit($id = '') {
+
+    public function edit($id = '')
+    {
         $this->data['id'] = '';
         $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
         $this->data['main_menu'] = 'pages';
@@ -232,12 +235,12 @@ class Pages extends Airyo {
         if (!$this->ion_auth->logged_in()) {
             redirect('auth', 'refresh');
         }
-        $this->data['type_list']  = $this->content_model->getType();
+        $this->data['type_list']  = $this->pages_model->getType();
 
         // Если передан Ид ищем содержание стр в БД
         if (!empty($id))
         {
-            $this->data['page'] = $this->content_model->getToId($id);
+            $this->data['page'] = $this->pages_model->getToId($id);
             $template = $this->data['page']['template'];
             if (empty($this->data['page']))
                 show_404();
@@ -377,7 +380,7 @@ class Pages extends Airyo {
                     $this->data['page']['content'] = $this->input->post('content');
                 }
 
-                if ($this->content_model->Update($this->data['id'],$save_data))
+                if ($this->pages_model->Update($this->data['id'],$save_data))
                 {
                     $this->data['message'] = array(
                         'type' => 'success',
@@ -435,50 +438,55 @@ class Pages extends Airyo {
         {
             redirect("airyo/pages/add", 'refresh');
         }
-
-        //$alias = 'edit';
+        
         
         $this->load->view('airyo/pages/edit', $this->data);
-        //$this->data['view'] = 'airyo/pages/'.$alias;
-
     }
+
 
     public function check_alias ()
     {
-
-            if (!empty($_POST['alias']) && !preg_match('/^[a-z0-9-\/\.]+$/', $this->input->post('alias'))){
-                $this->form_validation->set_message(__FUNCTION__, 'Некорректно указан адрес страницы');
-                return false;
-            }
-            else
-            {
-            $page =  $this->content_model->getByAlias($this->input->post('alias'));
-            $this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
-            if (empty($page))
-                return true;
-            if ($this->input->post('id') == $page->id)
-                return true;
-            else
-                return false;
-            }
-
+        if (!empty($_POST['alias']) && !preg_match('/^[a-z0-9-\/\.]+$/', $this->input->post('alias'))){
+            $this->form_validation->set_message(__FUNCTION__, 'Некорректно указан адрес страницы');
+            return false;
+        }
+        else
+        {
+	        $page = $this->pages_model->getByAlias($this->input->post('alias'));
+	        $this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
+	        
+	        if (empty($page))
+	            return true;
+	        
+	        if ($this->input->post('id') == $page->id)
+	            return true;
+	        else
+	            return false;
+        }
     }
 
-    public function delete () {
-        if (isset($_POST)) {
-            $id = $this->input->post('id');
-            if ($id) {
-                $data['page'] = $this->content_model->getToId($id);
 
-                if (!empty($data['page'])) {
+    public function delete ()
+    {
+        if (isset($_POST))
+        {
+            $id = $this->input->post('id');
+            
+            if ($id)
+            {
+                $data['page'] = $this->pages_model->getToId($id);
+
+                if (!empty($data['page']))
+                {
                     $aAdditionalData = array(
                         'deleted_id' => $id,
-                        'type' =>  'page',
-                        'data' =>     serialize($data['page'])
+                        'type' => 'page',
+                        'data' => serialize($data['page'])
                     );
 
-                    if ($this->trash_model->Add($aAdditionalData)) {
-                        if ($this->content_model->delete($id)) {
+                    if ($this->trash_model->Add($aAdditionalData))
+                    {
+                        if ($this->pages_model->delete($id)) {
                             $output['success']='success';
                             $this->session->set_flashdata('message',  array(
                                     'type' => 'success',
@@ -492,11 +500,14 @@ class Pages extends Airyo {
                     else {
                         $output['error']='error';
                     }
+                    
                     echo json_encode($output);
                 }
             }
         }
     }
+    
+    
 }
 
 /* End of file content.php */

@@ -7,7 +7,7 @@
 | Upload class to help identify allowed file types.
 |
 */
-$config['default_template'] = 'pages_block';
+$config['default_template'] = 'pages_default';
 $config['templates'] = array(
     'pages_default' => array(
         'name' => 'Шаблон по умолчанию'
