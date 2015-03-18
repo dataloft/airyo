@@ -157,9 +157,10 @@ body:after {
 .footer .logos {
   width: 670px;
   float: left;
-  padding: 25px 0 0 20px;
+  xpadding: 25px 0 0 20px;
   text-align: center;
   overflow: hidden;
+  height: 67px;
 }
 
 .header {
