@@ -30,7 +30,7 @@
 			<textarea class="form-control" name="description" id="inputDescription" cols="60" rows="5"><?=$album->description; ?></textarea>
 		</div>
 		<div class="form-group">
-			<label for="inputDescription">Дата публикации</label>
+			<label for="inputDescription">Дата публикации (дд.мм.гггг)</label>
 			<input type="text" name="create_date" class="form-control" value="<?=$album->create_date; ?>" maxlength="10" id="create_date" style="width: 10em"/>
 		</div>
 		
