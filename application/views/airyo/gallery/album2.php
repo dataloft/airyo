@@ -14,13 +14,6 @@ $this->js = '
 	<script src="/themes/airyo/js/FileUpload/js/jquery.fileupload.js"></script>
 	<script src="/themes/airyo/js/Gallery/js/ekko-lightbox.js"></script>
 	<script src="/themes/airyo/js/gallery.js"></script>
-	
-	<script>
-		$(function() {
-			$(\'.sortable\').sortable();
-		});
-	</script>
-	
 	';
 
 $this->load->view('airyo/common/header')
@@ -47,7 +40,7 @@ $this->load->view('airyo/common/header')
 
 	<div class="row">
 		<div class="col-md-12" style="margin: 0 0 20px">
-			<ul class="nav nav-pills pull-right sortable">
+			<ul class="nav nav-pills pull-right">
 				<li>
 					<a href='#' id="upload_mage" class="pull-right"><span class="glyphicon glyphicon-plus" style="color: #777"></span> Добавить изображения</a>
 					<input id="fileupload" class="file-upload-link" type="file" name="files[]" data-url="/airyo/gallery/uploadimages" multiple />
@@ -92,16 +85,18 @@ $this->load->view('airyo/common/header')
 	<div class="row" id="links">
 	<div class="col-md-12">
 		<form method="POST" action="/airyo/gallery/editAlbum" id="form-edit-album" style="display: <?=(!empty($images)) ? 'block' : 'none'; ?>">
-			<ul>
+			<table class="table table-responsive" id="table-edit-album">
 				<?php foreach($images as $image) : ?>
-					<li>
-
+					<tr class="image-edit-block">
+						<td class="row-vertical-center">
 							<input type="checkbox" class="check" name="selected[]" value="<?=$image->id; ?>" />
-
+						</td>
+						<td class="row-vertical-center">
 							<a class="next" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" data-toggle="lightbox" data-gallery="multiimages" data-parent data-footer="<?=$image->description; ?>" data-title="<?=$image->title;?>">
 								<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive image-gallery" />
 							</a>
-
+						</td>
+						<td>
 							<div class="form-group input-group-sm">
 								<!--label for="inputName">Название</label-->
 								<input type="hidden" value="<?=$image->title; ?>" class="form-control" name="album[title][]" id="inputName" placeholder="Название">
@@ -110,11 +105,11 @@ $this->load->view('airyo/common/header')
 								<label for="inputDescription">Описание</label>
 								<textarea class="form-control" name="album[description][]" id="inputDescription" cols="60" rows="5"><?=$image->description; ?></textarea>
 							</div>
-
-
-					</li>
+							<input type="hidden" name="album[id][]" value="<?=$image->id; ?>" />
+						</td>
+					</tr>
 				<?php endforeach; ?>
-			</ul>
+			</table>
 			<div>
 				<button type="submit" class="btn btn-success">
 					<span class="checkAll"><?= $this->lang->line('save')?></span>
