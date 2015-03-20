@@ -56,15 +56,14 @@ $this->css .= "
 	";
 	
 $this->js = '
-	<script src="/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js"></script>
-	<script src="/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js"></script>
-	<script src="/themes/airyo/js/FileUpload/js/jquery.fileupload.js"></script>
-	<script src="/themes/airyo/js/Gallery/js/ekko-lightbox.js"></script>
-	<script src="/themes/airyo/js/gallery.js"></script>
 	<script src="/themes/airyo/js/jquery-1.7.2.min.js"></script>
 	<script src="/themes/airyo/js/jquery-ui-1.8.16.custom.min.js"></script>
 	<script src="/themes/airyo/js/jquery.ui.touch-punch.js"></script>
 	<script src="/themes/airyo/js/jquery.mjs.nestedSortable.js"></script>
+	<script src="/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js"></script>
+	<script src="/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js"></script>
+	<script src="/themes/airyo/js/FileUpload/js/jquery.fileupload.js"></script>
+	<script src="/themes/airyo/js/gallery.js"></script>
 	';
 	
 $this->js .= "
@@ -220,11 +219,11 @@ $this->load->view('airyo/common/header')
 			<ul class="nav nav-pills pull-right">
 				<li>
 					<a href='#' id="upload_mage" class="pull-right"><span class="glyphicon glyphicon-plus" style="color: #777"></span> Добавить изображения</a>
-					<input id="fileupload" class="file-upload-link" type="file" name="files[]" data-url="/admin/gallery/uploadimages" multiple />
+					<input id="fileupload" class="file-upload-link" type="file" name="files[]" data-url="/airyo/gallery/uploadimages" multiple />
 					<input type="hidden" name="album_label" id="album_label" value="<?=$album->label; ?>" />
 				</li>
 				<li>
-					<a href="/admin/gallery/edit/<?=$album->label; ?>"><span class="glyphicon glyphicon-edit" style="color: #777"></span> Редактирование альбома</a>
+					<a href="/airyo/gallery/edit/<?=$album->label; ?>"><span class="glyphicon glyphicon-edit" style="color: #777"></span> Редактирование альбома</a>
 				</li>
 			</ul>
 <!--			<?php /*if(!empty($images)) : */?>
@@ -253,11 +252,14 @@ $this->load->view('airyo/common/header')
 	</div>
 	</div>
 
+	<?/*php if(!empty($album->description)) : ?>
+		<div class="starter-template">
+			<p class="lead"><?=$album->description; ?></p>
+		</div>
+	<?php endif; */?>
 
 	<div class="row" id="links">
 	<div class="col-md-12">
-	
-		
 		<form method="POST" action="/airyo/gallery/editAlbum" id="form-edit-album" style="display: <?=(!empty($images)) ? 'block' : 'none'; ?>">
 			
 			
