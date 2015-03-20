@@ -90,6 +90,7 @@ $route['airyo/download'] = 'airyo/files/download';
 
 //airyo gallery manager
 $route['airyo/gallery'] = 'airyo/gallery';
+$route['airyo/gallery/(album:any)/ajax-sorting'] = 'airyo/gallery/ajax_sorting/$1';
 $route['airyo/gallery/(album:any)'] = 'airyo/gallery/getalbum/$1';
 $route['airyo/gallery/createalbum'] = 'airyo/gallery/createalbum';
 $route['airyo/gallery/uploadimages'] = 'airyo/gallery/uploadimages';

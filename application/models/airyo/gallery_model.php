@@ -87,7 +87,7 @@ class Gallery_model extends CI_Model {
 
 		$this->db->join($this->db->dbprefix('users'), $this->db->dbprefix('users').'.id'. '=' .$this->db->dbprefix('images').'.user_id');
 
-		$this->db->order_by($this->db->dbprefix('images').'.id', "DESC");
+		$this->db->order_by($this->db->dbprefix('images').'.order', "ASC");
 		if (isset($aParams['iLimit']) AND isset($aParams['iStart'])) {
 			$this->db->limit($aParams['iLimit'], $aParams['iStart']);
 		}
@@ -249,6 +249,13 @@ class Gallery_model extends CI_Model {
 
 		return false;
 	}
+	
+	
+	public function update_order($id, $order) {
+		$this->db->update($this->db->dbprefix('images'), array('order' => $order), array('id' => $id));
+	}
+	
+	
 }
 
 /* End of file gallery_model.php */

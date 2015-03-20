@@ -358,7 +358,7 @@ class Gallery extends Airyo
 		$aMessage = array();
 		if(!empty($aPost)) {
 			$aAlbum = $aPost['album'];
-
+			
 			if(isset($aPost['selected']) AND !empty($aPost['selected'])) {
 				$aSelected = array_flip($aPost['selected']);
 			}
@@ -428,6 +428,24 @@ class Gallery extends Airyo
 		}
 
 		return false;
+	}
+	
+	
+	public function ajax_sorting($album_label) {
+		
+		//var_dump($this->input->post());
+		//echo $album_label;
+		
+		foreach ($this->input->post('list') as $order => $value)
+		{
+			
+			//echo $order.' - '.$value['id'];
+			$this->gallery_model->update_order($value['id'], $order);
+		}
+		
+		
+		
+		
 	}
 
 

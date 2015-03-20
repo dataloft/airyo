@@ -12,89 +12,44 @@ $this->css .= "
 
 <style type=\"text/css\">
 
-		.mjs-nestedSortable-error {
-			background: #fbe3e4;
-			border-color: transparent;
+
+		.placeholder {
+			outline: 1px dashed #4183C4;
+			/*-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+			margin: -1px;*/
 		}
 
-		ol {
-			margin: 0;
-			padding: 0;
-			padding-left: 30px;
-		}
-
-		ol.sortable, ol.sortable ol {
-			margin: 0 0 0 25px;
+		ol.sortable {
+			margin: 0 0 50px;
 			padding: 0;
 			list-style-type: none;
 		}
 
-		ol.sortable {
-			margin: 4em 0;
-		}
-
-		.sortable li {
-			margin: 5px 0 0 0;
+		ol.sortable li {
+			margin: 20px 0 0 0;
 			padding: 0;
 		}
 
-		.sortable li div  {
-			border: 1px solid #d4d4d4;
-			-webkit-border-radius: 3px;
-			-moz-border-radius: 3px;
-			border-radius: 3px;
-			border-color: #D4D4D4 #D4D4D4 #BCBCBC;
-			padding: 6px;
+		ol.sortable li > div  {
+			xborder-top: 1px solid #d4d4d4;
+			padding: 0px;
 			margin: 0;
 			cursor: move;
-			background: #f6f6f6;
-			background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #ededed 100%);
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed));
-			background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
-			background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
-			background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
-			background: linear-gradient(to bottom,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
-		}
-
-		.sortable li.mjs-nestedSortable-branch div {
-			background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #f0ece9 100%);
-			background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#f0ece9 100%);
 
 		}
-
-		.sortable li.mjs-nestedSortable-leaf div {
-			background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #bcccbc 100%);
-			background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#bcccbc 100%);
-
+		
+		.image-gallery {
+			
+		}
+		
+		
+		.vertical-align {
+		    display: flex;
+		    align-items: center;
 		}
 
-		li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
-			border-color: #999;
-			background: #fafafa;
-		}
-
-		.disclose {
-			cursor: pointer;
-			width: 10px;
-			display: none;
-		}
-
-		.sortable li.mjs-nestedSortable-collapsed > ol {
-			display: none;
-		}
-
-		.sortable li.mjs-nestedSortable-branch > div > .disclose {
-			display: inline-block;
-		}
-
-		.sortable li.mjs-nestedSortable-collapsed > div > .disclose > span:before {
-			content: '+ ';
-		}
-
-		.sortable li.mjs-nestedSortable-expanded > div > .disclose > span:before {
-			content: '- ';
-		}
 
 </style>
 
@@ -124,26 +79,26 @@ $this->js .= "
 			opacity: .6,
 			placeholder: 'placeholder',
 			revert: 250,
-			tabSize: 25,
+			tabSize: 1000,
 			tolerance: 'pointer',
 			toleranceElement: '> div',
-			maxLevels: 0,
+			maxLevels: 1,
 			isTree: false,
 			disableNesting: 'no-nest',
 			expandOnHover: 700,
 			startCollapsed: false,
 			
 			update: function () {
-		        list = $(this).nestedSortable('toHierarchy', {startDepthCount: 0});
-		        alert(list[0][id]);
-		        /*$.post(
-		            'http://www.domainname.com/ajax/ajax.php',
-		            { update_sql: 'ok', list: list },
+		        list = $(this).nestedSortable('toHierarchy');
+		        //alert(list[1]['id']);
+		        $.post(
+		            '/airyo/gallery/album1426535677/ajax-sorting',
+		            { list: list },
 		            function(data){
 		                $('#result').hide().html(data).fadeIn('slow')
 		            },
 		            'html'
-		        );*/
+		        );
 		    }
 		});
 		
@@ -155,18 +110,54 @@ $this->js .= "
 		
 
 		$('#toHierarchy').click(function(e){
-			hiered = $('ol.sortable').nestedSortable('toHierarchy', {startDepthCount: 0});
+			hiered = $('ol.sortable').nestedSortable('toHierarchy');
 			hiered = dump(hiered);
-			$('#toHierarchyOutput')[0].innerText = '123';
+			$('#toHierarchyOutput').text(hiered);
 			
 			/*(typeof($('#toHierarchyOutput')[0].textContent) != 'undefined') ?
 			$('#toHierarchyOutput')[0].textContent = hiered : $('#toHierarchyOutput')[0].innerText = hiered;*/
 		});
 		
+		$('#toArray').click(function(e){
+			arraied = $('ol.sortable').nestedSortable('toArray', {startDepthCount: 0});
+			arraied = dump(arraied);
+			(typeof($('#toArrayOutput')[0].textContent) != 'undefined') ?
+			$('#toArrayOutput')[0].textContent = arraied : $('#toArrayOutput')[0].innerText = arraied;
+		})
+	";
+	
+
+$this->js .= '	
+
+		function dump(arr,level) {
+			var dumped_text = "";
+			if(!level) level = 0;
+	
+			//The padding given at the beginning of the line.
+			var level_padding = "";
+			for(var j=0;j<level+1;j++) level_padding += "    ";
+	
+			if(typeof(arr) == "object") { //Array/Hashes/Objects
+				for(var item in arr) {
+					var value = arr[item];
+	
+					if(typeof(value) == "object") { //If it is an array,
+						dumped_text += level_padding + "\'" + item + "\' ...\n";
+						dumped_text += dump(value,level+1);
+					} else {
+						dumped_text += level_padding + "\'" + item + "\' => \"" + value + "\"\n";
+					}
+				}
+			} else { //Strings/Chars/Numbers etc.
+				dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
+			}
+			return dumped_text;
+		}
+		
     
     </script>
 	
-	";
+	';
 	
 	
 	
@@ -226,14 +217,14 @@ $this->load->view('airyo/common/header')
 
 	<div class="row">
 		<div class="col-md-12" style="margin: 0 0 20px">
-			<ul class="nav nav-pills pull-right sortable">
+			<ul class="nav nav-pills pull-right">
 				<li>
 					<a href='#' id="upload_mage" class="pull-right"><span class="glyphicon glyphicon-plus" style="color: #777"></span> Добавить изображения</a>
-					<input id="fileupload" class="file-upload-link" type="file" name="files[]" data-url="/airyo/gallery/uploadimages" multiple />
+					<input id="fileupload" class="file-upload-link" type="file" name="files[]" data-url="/admin/gallery/uploadimages" multiple />
 					<input type="hidden" name="album_label" id="album_label" value="<?=$album->label; ?>" />
 				</li>
 				<li>
-					<a href="/airyo/gallery/edit/<?=$album->label; ?>"><span class="glyphicon glyphicon-edit" style="color: #777"></span> Редактирование альбома</a>
+					<a href="/admin/gallery/edit/<?=$album->label; ?>"><span class="glyphicon glyphicon-edit" style="color: #777"></span> Редактирование альбома</a>
 				</li>
 			</ul>
 <!--			<?php /*if(!empty($images)) : */?>
@@ -262,66 +253,56 @@ $this->load->view('airyo/common/header')
 	</div>
 	</div>
 
-	<?/*php if(!empty($album->description)) : ?>
-		<div class="starter-template">
-			<p class="lead"><?=$album->description; ?></p>
-		</div>
-	<?php endif; */?>
 
 	<div class="row" id="links">
 	<div class="col-md-12">
 	
-	
-	
-	
-		
-		<p><br />
-			<input type="submit" name="serialize" id="serialize" value="Serialize" />
-		<pre id="serializeOutput"></pre>
-	
-		<p>
-			<input type="submit" name="toArray" id="toArray" value="To array" />
-		<pre id="toArrayOutput"></pre>
-	
-		<p>
-			<input type="submit" name="toHierarchy" id="toHierarchy" value="To hierarchy" />
-		<pre id="toHierarchyOutput"></pre>
-	
-	
-	
-	
-		
 		
 		<form method="POST" action="/airyo/gallery/editAlbum" id="form-edit-album" style="display: <?=(!empty($images)) ? 'block' : 'none'; ?>">
 			
 			
 			<ol class="sortable">
+			
 				<?php foreach($images as $image) : ?>
 					<li id="list_<?=$image->id; ?>">
-						<div>
 						
-						<input type="checkbox" class="check" name="selected[]" value="<?=$image->id; ?>" />
-
-						<a class="next" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" data-toggle="lightbox" data-gallery="multiimages" data-parent data-footer="<?=$image->description; ?>" data-title="<?=$image->title;?>">
-							<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive image-gallery" />
-						</a>
-
-						<div class="form-group input-group-sm">
-							<!--label for="inputName">Название</label-->
-							<input type="hidden" value="<?=$image->title; ?>" class="form-control" name="album[title][]" id="inputName" placeholder="Название">
-						</div>
-						<div class="form-group">
-							<label for="inputDescription">Описание</label>
-							<textarea class="form-control" name="album[description][]" id="inputDescription" cols="60" rows="5"><?=$image->description; ?></textarea>
-						</div>
 						
-						</div>
+						<div class="row vertical-align">
+		                                       
+                            <div class="col-lg-1">
+                                <input type="checkbox" class="check" name="selected[]" value="<?=$image->id; ?>" />
+                            </div>
+                            
+                            
+                            <div class="col-lg-2">
+                            	
+                            	<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive image-gallery" />
+                            
+                            </div>
+						
+                            <div class="col-lg-9">
+
+	                           	<div class="form-group input-group-sm">
+									<!--label for="inputName">Название</label-->
+									<input type="hidden" value="<?=$image->title; ?>" class="form-control" name="album[title][]" id="inputName" placeholder="Название">
+								</div>
+								<div class="form-group">
+									<label for="inputDescription">Описание</label>
+									<textarea class="form-control" name="album[description][]" id="inputDescription" cols="60" rows="5"><?=$image->description; ?></textarea>
+								</div>
+								
+								<input type="hidden" name="album[id][]" value="<?=$image->id; ?>" />
+								
+                            </div>
+                            
+                            </div>
+                            
+                            
+						
 					</li>
 				<?php endforeach; ?>
+			
 			</ol>
-			
-			
-			
 			
 			<div>
 				<button type="submit" class="btn btn-success">
