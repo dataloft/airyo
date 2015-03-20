@@ -44,11 +44,12 @@ $this->css .= "
 			
 		}
 		
-		
 		.vertical-align {
 		    display: flex;
 		    align-items: center;
+		    justify-content: center;
 		}
+		
 
 
 </style>
@@ -271,18 +272,18 @@ $this->load->view('airyo/common/header')
 						
 						<div class="row vertical-align">
 		                                       
-                            <div class="col-lg-1">
+                            <div class="col-xs-1">
                                 <input type="checkbox" class="check" name="selected[]" value="<?=$image->id; ?>" />
                             </div>
                             
                             
-                            <div class="col-lg-2">
+                            <div class="col-xs-2">
                             	
                             	<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive image-gallery" />
                             
                             </div>
 						
-                            <div class="col-lg-9">
+                            <div class="col-xs-9">
 
 	                           	<div class="form-group input-group-sm">
 									<!--label for="inputName">Название</label-->
