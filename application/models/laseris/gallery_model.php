@@ -87,7 +87,7 @@ class Gallery_model extends CI_Model {
 
 		$this->db->join($this->db->dbprefix('users'), $this->db->dbprefix('users').'.id'. '=' .$this->db->dbprefix('images').'.user_id');
 
-		$this->db->order_by($this->db->dbprefix('images').'.id', "DESC");
+		$this->db->order_by($this->db->dbprefix('images').'.order', "ASC");
 		if (isset($aParams['iLimit']) AND isset($aParams['iStart'])) {
 			$this->db->limit($aParams['iLimit'], $aParams['iStart']);
 		}
