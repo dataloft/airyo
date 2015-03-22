@@ -2,6 +2,10 @@
 
 class Counters extends Airyo {
 
+
+	protected $logging = true;
+
+
     public function __construct() {
         parent::__construct();
         $this->load->model('airyo/counters_model');

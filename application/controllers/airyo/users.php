@@ -7,6 +7,10 @@
  */
 class Users extends Airyo {
 
+
+	protected $logging = true;
+
+
 	public function __construct() {
 		parent::__construct();
 

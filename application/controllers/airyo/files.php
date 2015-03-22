@@ -2,6 +2,7 @@
 
 class Files extends Airyo {
 
+    
     protected $start_folder = 'public';
     protected $path = '';
     protected $path_img_upload_folder;
@@ -9,6 +10,8 @@ class Files extends Airyo {
     protected $path_url_img_upload_folder;
     protected $path_url_img_thumb_upload_folder;
     protected $delete_img_url;
+    protected $logging = true;
+    
 
     public function __construct() {
         parent::__construct();

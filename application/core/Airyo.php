@@ -10,6 +10,7 @@ class Airyo extends CI_Controller
 {
 	protected $data = array();
 	protected $user;
+	protected $logging = false;
 
 
 	public function __construct() {
@@ -38,7 +39,7 @@ class Airyo extends CI_Controller
 		$this->data['user_data'] = $this->user;
 		$this->data['headermenu_modules'] = new stdClass();
 
-		if($this->user) {
+		if ($this->user) {
 			switch($this->user->role_id) {
 				case 1:
 					$this->data['headermenu_modules'] = $this->modules_model->getUserModules(array('iUserId' => $this->ion_auth->get_user_id()));
@@ -88,12 +89,9 @@ class Airyo extends CI_Controller
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	private function updateLogs(){
-		$aNotUpdate = array(
-			'admin', 'airyo/logout'
-		);
-
-		if(!in_array($this->uri->uri_string, $aNotUpdate)) {
+	private function updateLogs()
+	{	
+		if ($this->logging) {
 			$this->logs_model->updateLogs(array(
 				'user_id'       => $this->ion_auth->get_user_id(),
 				'type'          => 'redirect',

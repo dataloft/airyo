@@ -2,6 +2,10 @@
 
 class Menu extends Airyo {
 
+
+	protected $logging = true;
+
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('airyo/menu_model');

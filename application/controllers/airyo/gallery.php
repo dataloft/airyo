@@ -2,7 +2,10 @@
 
 class Gallery extends Airyo 
 {
+
+
 	protected $sHomeFolder = 'public/gallery';
+	protected $logging = true;
 
 
 	public function __construct() {

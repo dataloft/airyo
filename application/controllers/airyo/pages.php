@@ -4,10 +4,12 @@ class Pages extends Airyo {
 
 
     protected $default;
+    protected $logging = true;
 
 
     public function __construct() {
         parent::__construct();
+        
         $this->load->model('airyo/pages_model');
         $this->load->model('airyo/trash_model');
         $this->config->load('templates');
