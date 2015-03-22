@@ -10,50 +10,46 @@ $this->css = '
 	
 $this->css .= "
 
-<style type=\"text/css\">
-
-
-		.placeholder {
-			outline: 1px dashed #4183C4;
-			/*-webkit-border-radius: 3px;
-			-moz-border-radius: 3px;
-			border-radius: 3px;
-			margin: -1px;*/
-		}
-
-		ol.sortable {
-			margin: 0 0 50px;
-			padding: 0;
-			list-style-type: none;
-		}
-
-		ol.sortable li {
-			margin: 20px 0 0 0;
-			padding: 0;
-		}
-
-		ol.sortable li > div  {
-			xborder-top: 1px solid #d4d4d4;
-			padding: 0px;
-			margin: 0;
-			cursor: move;
-
-		}
-		
-		.image-gallery {
-			
-		}
-		
-		.vertical-align {
-		    display: flex;
-		    align-items: center;
-		    justify-content: center;
-		}
-		
-
-
-</style>
-
+	<style type=\"text/css\">
+	
+	.placeholder {
+		outline: 1px dashed #4183C4;
+		/*-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		margin: -1px;*/
+	}
+	
+	ol.sortable {
+		margin: 0 0 50px;
+		padding: 0;
+		list-style-type: none;
+	}
+	
+	ol.sortable li {
+		margin: 20px 0 0 0;
+		padding: 0;
+	}
+	
+	ol.sortable li > div  {
+		xborder-top: 1px solid #d4d4d4;
+		padding: 0px;
+		margin: 0;
+		cursor: move;
+	
+	}
+	
+	.image-gallery {
+		margin: 10px 0;
+	}
+	
+	.vertical-align {
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	}
+	
+	</style>
 	";
 	
 $this->js = '
@@ -90,7 +86,6 @@ $this->js .= "
 			
 			update: function () {
 		        list = $(this).nestedSortable('toHierarchy');
-		        //alert(list[1]['id']);
 		        $.post(
 		            '/airyo/gallery/album1426535677/ajax-sorting',
 		            { list: list },
@@ -101,97 +96,10 @@ $this->js .= "
 		        );
 		    }
 		});
-		
-		
-		$('#serialize').click(function(){
-			serialized = $('ol.sortable').nestedSortable('serialize');
-			$('#serializeOutput').text(serialized);
-		});
-		
 
-		$('#toHierarchy').click(function(e){
-			hiered = $('ol.sortable').nestedSortable('toHierarchy');
-			hiered = dump(hiered);
-			$('#toHierarchyOutput').text(hiered);
-			
-			/*(typeof($('#toHierarchyOutput')[0].textContent) != 'undefined') ?
-			$('#toHierarchyOutput')[0].textContent = hiered : $('#toHierarchyOutput')[0].innerText = hiered;*/
-		});
-		
-		$('#toArray').click(function(e){
-			arraied = $('ol.sortable').nestedSortable('toArray', {startDepthCount: 0});
-			arraied = dump(arraied);
-			(typeof($('#toArrayOutput')[0].textContent) != 'undefined') ?
-			$('#toArrayOutput')[0].textContent = arraied : $('#toArrayOutput')[0].innerText = arraied;
-		})
-	";
-	
-
-$this->js .= '	
-
-		function dump(arr,level) {
-			var dumped_text = "";
-			if(!level) level = 0;
-	
-			//The padding given at the beginning of the line.
-			var level_padding = "";
-			for(var j=0;j<level+1;j++) level_padding += "    ";
-	
-			if(typeof(arr) == "object") { //Array/Hashes/Objects
-				for(var item in arr) {
-					var value = arr[item];
-	
-					if(typeof(value) == "object") { //If it is an array,
-						dumped_text += level_padding + "\'" + item + "\' ...\n";
-						dumped_text += dump(value,level+1);
-					} else {
-						dumped_text += level_padding + "\'" + item + "\' => \"" + value + "\"\n";
-					}
-				}
-			} else { //Strings/Chars/Numbers etc.
-				dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
-			}
-			return dumped_text;
-		}
-		
-    
-    </script>
-	
-	';
-	
-	
-	
-	
-$this->jsxx .= "
-	
-	<script>
-
-	$(document).ready(function()
-	{
-	
-	    var updateOutput = function(e)
-	    {
-	        var list   = e.length ? e : $(e.target),
-	            output = list.data('output');
-	        if (window.JSON) {
-	            output.val(window.JSON.stringify(list.nestable('serialize')));//, null, 2));
-	        } else {
-	            output.val('JSON browser support required for this demo.');
-	        }
-	    };
-	
-	    $('#nestable3').nestable({
-        	maxDepth: 0
-    
-	    })
-	    .on('change', updateOutput);
-	    
-	    updateOutput($('#nestable3').data('output', $('#nestable3-output')));
-	
-	});
 	</script>
-	
 	";
+
 
 $this->load->view('airyo/common/header')
 
@@ -273,7 +181,7 @@ $this->load->view('airyo/common/header')
 						<div class="row vertical-align">
 		                                       
                             <div class="col-xs-1">
-                                <input type="checkbox" class="check" name="selected[]" value="<?=$image->id; ?>" />
+                                <input style="margin: 10px 0;" type="checkbox" class="check" name="selected[]" value="<?=$image->id; ?>" />
                             </div>
                             
                             
@@ -285,10 +193,8 @@ $this->load->view('airyo/common/header')
 						
                             <div class="col-xs-9">
 
-	                           	<div class="form-group input-group-sm">
-									<!--label for="inputName">Название</label-->
-									<input type="hidden" value="<?=$image->title; ?>" class="form-control" name="album[title][]" id="inputName" placeholder="Название">
-								</div>
+	                           	<input type="hidden" value="<?=$image->title; ?>" class="form-control" name="album[title][]" id="inputName" placeholder="Название">
+								
 								<div class="form-group">
 									<label for="inputDescription">Описание</label>
 									<textarea class="form-control" name="album[description][]" id="inputDescription" cols="60" rows="5"><?=$image->description; ?></textarea>

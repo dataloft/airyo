@@ -16,21 +16,6 @@ class Gallery extends Airyo
 		$this->load->model('airyo/gallery_model');
 
 		$this->data['home_folder'] = $this->sHomeFolder;
-
-		/*$this->data['scripts'] = array(
-			'/themes/airyo/js/FileUpload/js/vendor/jquery.ui.widget.js',
-			'/themes/airyo/js/FileUpload/js/jquery.iframe-transport.js',
-			'/themes/airyo/js/FileUpload/js/jquery.fileupload.js',
-			'/themes/airyo/js/Gallery/js/ekko-lightbox.js',
-			'/themes/airyo/js/gallery.js'
-		);
-		$this->data['styles'] = array(
-			'/themes/airyo/js/FileUpload/css/jquery.fileupload.css',
-			'/themes/airyo/js/FileUpload/css/jquery.fileupload-ui.css',
-			'/themes/airyo/js/FileUpload/css/style.css',
-			'/themes/airyo/js/Gallery/css/ekko-lightbox.css',
-			'/themes/airyo/css/gallery.css'
-		);*/
 	}
 
 
@@ -148,9 +133,12 @@ class Gallery extends Airyo
 	 */
 	public function uploadImages(){
 		$upload = isset($_FILES['files']) ? $_FILES['files'] : null;
+		
+		//$this->logging = false;
+		
 		$aMessage = array();
 
-		if ($upload ) {
+		if ($upload) {
 			$config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$this->sHomeFolder.DIRECTORY_SEPARATOR.$_POST['album'];
 			$config['allowed_types'] = '*';
 			$this->load->library('upload', $config);
@@ -186,6 +174,7 @@ class Gallery extends Airyo
 					'album_id'      => $oAlbum->id,
 					'user_id'       => $this->user->id,
 					'create_date'   => date('Y-m-d H:i:s'),
+					'order'  		=> 1000,
 					'enable'        => 1
 				);
 
