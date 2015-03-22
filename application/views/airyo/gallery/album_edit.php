@@ -31,7 +31,12 @@
 		</div>
 		<div class="form-group">
 			<label for="inputDescription">Дата публикации (дд.мм.гггг)</label>
-			<input type="text" name="create_date" class="form-control" value="<?=$album->create_date; ?>" maxlength="10" id="create_date" style="width: 10em"/>
+			<input type="text" name="create_date" class="form-control" value="<?=$album->create_date; ?>" maxlength="10" id="create_date" style="width: 20em"/>
+		</div>
+		
+		<div class="form-group">
+			<label for="inputDescription">Смарткод</label>
+			<input type="text" readonly="true" onclick="this.select()" class="form-control" value="[[Gallery:<?=$album->label; ?>]]" style="width: 20em"/>
 		</div>
 		
 		<button type="submit" class="btn btn-success"><?= $this->lang->line('save')?></button>
