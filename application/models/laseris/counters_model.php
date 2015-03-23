@@ -42,13 +42,6 @@ class Counters_model extends CI_Model {
         return $counters;
     }
 
-    public function Update ($id, $data)
-    {
-        if ($this->db->update($this->db->dbprefix('counters'), $data, array('id' => $id)))
-            return true;
-        else
-            return false;
-    }
 }
 
 /* End of file page.php */

@@ -72,36 +72,6 @@ class Pages_model extends CI_Model {
         return false;
     }
 
-    public function Add ($data)
-    {
-        $this->db->insert($this->db->dbprefix('content'), $data);
-        $return = $this->db->insert_id();
-
-        return $return;
-    }
-
-    public function Update ($id, $data)
-    {
-       if ($this->db->update($this->db->dbprefix('content'), $data, array('id' => $id)))
-        //$return = $this->db->affected_rows() == 1;
-            return true;
-        else
-            return false;
-    }
-
-	public function get_all_langs() {
-		
-	}
-
-	public function delete($id)
-    {
-        if ($this->db->delete($this->db->dbprefix('content'), array('id' => $id)))
-            //$return = $this->db->affected_rows() == 1;
-            return true;
-        else
-            return false;
-	}
-
 }
 
 /* End of file page.php */

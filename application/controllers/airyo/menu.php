@@ -299,10 +299,14 @@ class Menu extends Airyo {
             if ($this->input->post('level_menu',TRUE))
                 $menu->level_menu = $this->input->post('level_menu',TRUE);
             else
-                $menu->level_menu = $this->data['menu']->parent_id;
-            if ($list = $this->menu_model->getList($this->data['menu']->menu_group)) {
-	            $this->data['lvl_menu']  = $this->printSelectList($this->buildTree($list),$menu->level_menu, 0, $id);
-            } else {
+                $menu->level_menu = $this->data['menu']->parent_id; // На самом деле это parent_id
+            
+                
+            if ($list = $this->menu_model->getList($this->data['menu']->menu_group))
+            {
+	            $this->data['lvl_menu']  = $this->printSelectList($this->buildTree($list), $menu->level_menu, 0, $id);
+            }
+            else {
 	            $this->data['lvl_menu'] = '';
             }
             
@@ -336,7 +340,7 @@ class Menu extends Airyo {
                     'url' => $menu->url,
                     //'order' => $menu->order,
                     'menu_group' =>   $this->data['menu']->menu_group,
-                    'parent_id' =>   $this->input->post('level_menu',TRUE),
+                    'parent_id' =>   $this->input->post('level_menu', TRUE),
 					'enabled' => (int) $this->input->post('enabled')
                 );
 				
