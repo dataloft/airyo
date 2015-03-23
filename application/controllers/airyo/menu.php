@@ -190,6 +190,7 @@ class Menu extends Airyo {
     public function add($mid=0) {
 	    
 		$this->data['main_menu'] = 'menu';
+		
 		$this->data['bc_menu'] = $this->menu_model->getSorterMenuGroups();
 		if(!isset($this->data['bc_menu'][$mid])) redirect("/airyo/menu");
 
@@ -210,25 +211,33 @@ class Menu extends Airyo {
         $this->form_validation->set_rules('url', '', 'required');
         $menu->name = $this->input->post('name');
         $menu->url = $this->input->post('url');
-        $menu->order = $this->input->post('order',TRUE);
+        //$menu->order = $this->input->post('order',TRUE);
         $menu->menu_group = $this->input->post('menu_group');
 		$menu->enabled = (int) $this->input->post('enabled');
 		if($menu->enabled >1 ) $menu->enabled=1;
 	    $this->data['menu'] = $menu;
+       
         if ($this->form_validation->run() == true) {
-			if ($check = $this->menu_model->ckeckUniqueOrder($this->input->post('level_menu',TRUE), $this->input->post('order',TRUE))) {
+			
+			
+			/*if ($check = $this->menu_model->ckeckUniqueOrder($this->input->post('level_menu',TRUE), $this->input->post('order',TRUE))) {
                 $check_order = $this->menu_model->getMaxOrder($this->input->post('level_menu',TRUE))+1;
                 $this->menu_model->Update($check, array('order' => $check_order));
                 $menu->order = $this->input->post('order',TRUE);
             } else {
                 $menu->order = $this->input->post('order',TRUE);
-            }
+            }*/
+            
+            $order = $this->menu_model->getMaxOrder($this->input->post('level_menu'), $this->data['menu_group']) + 1;
+            //echo $order; exit;
+            
+            
             $additional_data = array(
                 'name' => $menu->name,
                 'url' => $menu->url,
                 'menu_group' =>  $mid,
                 'parent_id' =>  $this->input->post('level_menu'),
-                'order' =>  $menu->order,
+                'order' =>  $order,
 				'enabled' => $menu->enabled
             );
             if ($id = $this->menu_model->Add($additional_data)) {
@@ -339,7 +348,8 @@ class Menu extends Airyo {
                         'text' => 'Запись обновлена'
                     );
 					$this->data['menu'] = $this->menu_model->getToId($id);
-                } else {
+                }
+                else {
 	                $this->data['message'] = array(
                         'type' => 'danger',
                         'text' => 'Произошла ошибка при обновлении записи.'

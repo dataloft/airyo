@@ -59,16 +59,18 @@ class Menu_model extends CI_Model {
         return  $q->result_array();
     }
 
-    public function getMaxOrder($parent_id) {
-        $this->db->select('order');
+    public function getMaxOrder($parent_id, $menu_group) {
+        $this->db->select('COUNT(*) as num_rows');
         $this->db->where('parent_id',$parent_id);
-        $this->db->order_by('order','desc');
-        $this->db->limit(1);
+        $this->db->where('menu_group',$menu_group);
+        //$this->db->order_by('order','desc');
+        //$this->db->limit(1);
         $q = $this->db->get($this->db->dbprefix('menu'));
+        
         if ($q->num_rows() > 0)
         {
             $row = $q->row();
-            return $row->order;
+            return $row->num_rows;
         }
         return false;
     }

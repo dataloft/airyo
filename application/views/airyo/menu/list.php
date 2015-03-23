@@ -108,7 +108,7 @@ function printmenutree($menu, $step=1, $parents=array()) {
 	foreach ($menu as $item) 
 	{
 		$li_class = ($item['enabled']) ? '' : ' class="disabled"';
-		$output .= '<li id="list_'.$item['id'].'"'.$li_class.'><div><a href="/airyo/menu/edit/'.$item['id'] . '">'.$item['name'].'</a> <small class="text-muted">' .$item['url'].'</small></div>';
+		$output .= '<li id="list_'.$item['id'].'"'.$li_class.'><div><a href="/airyo/menu/edit/'.$item['id'] . '">'.$item['name'].'</a> &nbsp;&nbsp;<small class="text-muted">' .$item['url'].'</small></div>';
 		$step++;
 		$output .= printmenutree($item['childs'], $step, $parents);
 		$output .= '</li>';
