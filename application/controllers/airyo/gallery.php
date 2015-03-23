@@ -430,14 +430,9 @@ class Gallery extends Airyo
 		
 		foreach ($this->input->post('list') as $order => $value)
 		{
-			
 			//echo $order.' - '.$value['id'];
 			$this->gallery_model->update_order($value['id'], $order);
 		}
-		
-		
-		
-		
 	}
 
 

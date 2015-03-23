@@ -13,10 +13,10 @@ class Menu_model extends CI_Model {
             $this->db->where('menu_group',$type);
         if (!empty($first_lvl))
             $this->db->where('parent_id',0);
-        //$this->db->order_by('order','asc');
+        $this->db->order_by('order','asc');
         //$this->db->order_by('parent_id','asc');
         //$this->db->order_by('id','asc');
-		$this->db->order_by('name','asc');
+		//$this->db->order_by('name','asc');
 
         $q =  $this->db->get($this->db->dbprefix('menu'));
         if ($q->num_rows() > 0)
@@ -99,6 +99,7 @@ class Menu_model extends CI_Model {
         return false;
     }
 
+
     public function Add ($data)
     {
         $this->db->insert($this->db->dbprefix('menu'), $data);
@@ -110,22 +111,20 @@ class Menu_model extends CI_Model {
     {
        if ($this->db->update($this->db->dbprefix('menu'), $data, array('id' => $id)))
             return true;
-        else
+       else
             return false;
     }
 
-	public function get_all_langs() {
-		
-	}
+
 
     public function delete($id)
     {
         if ($this->db->delete($this->db->dbprefix('menu'), array('id' => $id)))
-            //$return = $this->db->affected_rows() == 1;
             return true;
         else
             return false;
     }
+
 
     public function batchDelete($data)
     {
@@ -138,17 +137,18 @@ class Menu_model extends CI_Model {
             return false;
     }
 
+
 	public function getListTree($type=1, $parent_id=0) {
         $this->db->select('*');
         if (!empty($type))
             $this->db->where('menu_group',$type);
         
         $this->db->where('parent_id',$parent_id);
-		$this->db->where('enabled',1);
-        //$this->db->order_by('order','asc');
+		//$this->db->where('enabled',1);
+        $this->db->order_by('order','asc');
         //$this->db->order_by('parent_id','asc');
         //$this->db->order_by('id','asc');
-		$this->db->order_by('name','asc');
+		//$this->db->order_by('name','asc');
 
         $rows =  $this->db->get($this->db->dbprefix('menu'))->result_array();
 		if(!count($rows)) return false;
@@ -162,6 +162,7 @@ class Menu_model extends CI_Model {
 		return $ret;
 		
 	}
+
 
 	public function getSorterMenuGroups(){
 		$rows =  $this->db->get($this->db->dbprefix('menu_group'))->result_array();
@@ -185,6 +186,7 @@ class Menu_model extends CI_Model {
 		return $returning;
 	}*/
 
+
 	public function getChildsLinksArray($id, $first=0){
 		if($first) $this->parentslinks=array();
 		$cur_links = $this->db->select('id, url')->where('parent_id', $id)->where('enabled', 1)->get($this->db->dbprefix('menu'))->result_array();
@@ -198,6 +200,33 @@ class Menu_model extends CI_Model {
 		}
 		return $this->parentslinks;
 	}
+	
+	
+	
+	
+	
+	
+	//For nestedSortable https://github.com/ilikenwf/nestedSortable
+	public function update_branch($branch, $parent_id)
+	{
+		foreach ($branch as $order => $value)
+		{
+			$this->menu_model->update_item($value['id'], $order, $parent_id);
+			if (isset($value['children'])) 
+				$this->update_branch($value['children'], $value['id']);
+		}
+	}
+	public function update_item($id, $order, $parent_id)
+	{
+		$this->db->update(
+			$this->db->dbprefix('menu'),
+			array('order' => $order, 'parent_id' => $parent_id), 
+			array('id' => $id));
+	}
+
+
+
+
 
 }
 

@@ -13,11 +13,14 @@ class Menu extends Airyo {
 	}
 
 	public function index($selected_menu=1) {
+		
 		$selected_menu = (int) $selected_menu;
+		
 		if(!$selected_menu) $selected_menu=1;
+		
 		$this->data['main_menu'] = 'menu';
 
-		$this->data['menu_group'] = '';
+		//$this->data['menu_group'] = '';
 		$this->data['menu_list'] =  $this->menu_model->getMenuGroup();
 		
 		//$this->data['menu_group'] = $this->data['menu_list'][0]['id'];
@@ -33,6 +36,10 @@ class Menu extends Airyo {
 			$this->data['content'] = '';
 		}
 		$this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
+		
+		
+		$this->data['menu'] = $this->menu_model->getListTree($this->data['menu_group']);
+		
 		
 		$this->load->view('airyo/menu/list', $this->data);
 		//$this->data['view'] = 'airyo/menu/list';
@@ -132,7 +139,7 @@ class Menu extends Airyo {
                 $echo.= '<a href="/airyo/menu/edit/'.$item->id . '"';
                 if ($level>0)
                     $echo.='style="margin-left:'.($level*20).'px"';
-               $echo.=  '>' . $item->name . '</a> <small class="text-muted">' . $item->url . '</small>';
+                $echo.=  '>' . $item->name . '</a> <small class="text-muted">' . $item->url . '</small>';
             }
             else
             {
@@ -249,6 +256,7 @@ class Menu extends Airyo {
 	    //$this->data['view'] = 'airyo/menu/edit';
     }
 
+
     public function edit($id = '') {
 	    $this->data['main_menu'] = 'menu';
 
@@ -256,23 +264,29 @@ class Menu extends Airyo {
 	    $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 
         $menu = new stdClass();
-	    $this->data['title'] = "Добавить/редактировать пункт меню";
+	    //$this->data['title'] = "Добавить/редактировать пункт меню";
 
         $this->form_validation->set_rules('name', '', 'required');
         $this->form_validation->set_rules('url', '', 'required');
+        
         // Если передан Ид ищем содержание стр в БД
         if (!empty($id)) {
 	        
 			$this->data['menu'] = $this->menu_model->getToId($id);
-			if(!$this->data['menu']) redirect("airyo/menu/add", 'refresh');
+			
+			//if(!$this->data['menu']) redirect("airyo/menu/add", 'refresh');
+			
 			$this->data['bc_menu'] = $this->menu_model->getSorterMenuGroups();
 			$this->data['menu_group'] = $this->data['menu']->menu_group;
 			
 
-            if (empty($this->data['menu']))
-                show_404();
+            //if (empty($this->data['menu']))
+            //    show_404();
+                
 	        $this->data['id'] = $id;
             $old_parent_id = $this->data['menu']->parent_id;
+            
+            
             if ($this->input->post('level_menu',TRUE))
                 $menu->level_menu = $this->input->post('level_menu',TRUE);
             else
@@ -282,12 +296,15 @@ class Menu extends Airyo {
             } else {
 	            $this->data['lvl_menu'] = '';
             }
+            
+            
             if ($this->form_validation->run() == true) {
 
                 $menu->name = $this->input->post('name',TRUE);
                 $menu->url = $this->input->post('url',TRUE);
+                
                 //Если сменился родитель добавляем пункт к новому родитель в конец списка
-                if ($old_parent_id != $this->input->post('level_menu',TRUE))
+                /*if ($old_parent_id != $this->input->post('level_menu',TRUE))
                     $menu->order = $this->menu_model->getMaxOrder($this->input->post('level_menu',TRUE)) + 1;
                 elseif ($check = $this->menu_model->ckeckUniqueOrder($this->input->post('level_menu',TRUE), $this->input->post('order',TRUE), $id))
                 {
@@ -299,23 +316,24 @@ class Menu extends Airyo {
                 else
                 {
                     $menu->order = $this->input->post('order',TRUE);
-                }
+                }*/
 
                 $menu->menu_group = $this->data['menu']->menu_group;
 
 	            $this->data['menu'] = $menu;
+                
                 $additional_data = array(
                     'name' => $menu->name,
                     'url' => $menu->url,
-                    'order' => $menu->order,
+                    //'order' => $menu->order,
                     'menu_group' =>   $this->data['menu']->menu_group,
                     'parent_id' =>   $this->input->post('level_menu',TRUE),
 					'enabled' => (int) $this->input->post('enabled')
                 );
 				
-                if ($this->menu_model->Update($this->data['id'],$additional_data))
+                if ($this->menu_model->Update($this->data['id'], $additional_data))
                 {
-                    $this->reOrder($this->data['menu']->menu_group);
+                    //$this->reOrder($this->data['menu']->menu_group);
 	                $this->data['message'] = array(
                         'type' => 'success',
                         'text' => 'Запись обновлена'
@@ -345,7 +363,7 @@ class Menu extends Airyo {
 
             }
         } else { //Вставляем новую запись
-            redirect("airyo/menu/add", 'refresh');
+            //redirect("airyo/menu/add", 'refresh');
         }
         
         $this->load->view('airyo/menu/edit', $this->data);
@@ -404,6 +422,22 @@ class Menu extends Airyo {
             }
         }
     }
+    
+    
+    public function ajax_rebuild($menu_group) {
+		
+		//var_dump($this->input->post('list')); exit;
+		
+		$this->menu_model->update_branch($this->input->post('list'), 0);
+		
+		$this->session->set_flashdata('message',  array( //Надо сделать реальные проверки
+                'type' => 'success',
+                'text' => 'Меню успешно обновлено'
+            )
+        );
+	}
+   
+    
 }
 
 /* End of file page.php */

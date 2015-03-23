@@ -1,4 +1,4 @@
-<?$this->load->view('airyo/common/header')?>
+<? $this->load->view('airyo/common/header')?>
 
 <div class="container">
     <? if ($message) {?>
@@ -23,11 +23,6 @@
 
         <input type="text" class="form-control" id="url" name="url" value="<? echo $menu->url; ?>" placeholder="" >
     </div>
-    <!--div class="form-group <?php if (form_error('order')) echo 'has-error"'; ?>">
-        <label for="order" class="control-label">Номер пункта меню</label>
-
-        <input type="text" class="form-control" id="order" name="order" value="<? echo $menu->order; ?>" placeholder="" size="4">
-    </div-->
     <div class="form-group <?php if (form_error('level_menu')) echo 'has-error"'; ?>">
         <label for="level_menu" class="control-label">Родительский раздел</label>
         <select class="form-control" name="level_menu">
@@ -39,7 +34,7 @@
 
     </div>
     <div class="checkbox">
-            <label>  <input type="checkbox" id="enabled"  value="1" name="enabled" <? if (isset($menu->enabled) && $menu->enabled == 1) echo 'checked'; ?> > Enabled</label>
+            <label>  <input type="checkbox" id="enabled"  value="1" name="enabled" <? if (@$menu->enabled == 1) echo 'checked="checked"'; ?> > Enabled</label>
         </div>
     <?
      if (!empty($id)) {?> <input type="hidden" name="id" value="<?=$id?>"><?} else {?><input type="hidden" name="action" value="add"><?}?>
@@ -90,4 +85,4 @@
 
 </script>
 
-<?$this->load->view('airyo/common/footer')?>
+<? $this->load->view('airyo/common/footer')?>

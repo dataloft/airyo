@@ -71,6 +71,7 @@ $route['airyo/users/delete'] = 'airyo/users/delete';
 
 //airyo menu
 $route['airyo/menu'] = 'airyo/menu';
+$route['airyo/menu/ajax_rebuild/(:num)'] = 'airyo/menu/ajax_rebuild/$1';
 $route['airyo/menu/(:num)'] = 'airyo/menu/index/$1';
 $route['airyo/menu/add'] = 'airyo/menu/add';
 $route['airyo/menu/add/(:num)'] = 'airyo/menu/add/$1';
@@ -100,7 +101,6 @@ $route['airyo/gallery/ajaxRemoveAlbum'] = 'airyo/gallery/ajaxRemoveAlbum';
 
 //airyo counters
 $route['airyo/counters'] = 'airyo/counters';
-
 
 
 $route['(:any)'] = 'laseris/pages/index/$1';
