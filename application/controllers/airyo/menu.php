@@ -3,9 +3,6 @@
 class Menu extends Airyo {
 
 
-	protected $logging = true;
-
-
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('airyo/menu_model');
@@ -43,6 +40,8 @@ class Menu extends Airyo {
 		
 		$this->load->view('airyo/menu/list', $this->data);
 		//$this->data['view'] = 'airyo/menu/list';
+		
+		$this->updateLogs();
 	}
 
 	/**

@@ -4,7 +4,6 @@ class Pages extends Airyo {
 
 
     protected $default;
-    protected $logging = true;
 
 
     public function __construct() {
@@ -39,6 +38,8 @@ class Pages extends Airyo {
 	    
 	    
 	    $this->load->view('airyo/pages/list', $this->data);
+	    
+	    $this->updateLogs();
     }
 
 

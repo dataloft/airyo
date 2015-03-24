@@ -8,9 +8,6 @@
 class Users extends Airyo {
 
 
-	protected $logging = true;
-
-
 	public function __construct() {
 		parent::__construct();
 
@@ -53,6 +50,8 @@ class Users extends Airyo {
 		$this->data['pagination'] = $this->pagination;
 		
 		$this->load->view('airyo/users/list', $this->data);
+		
+		$this->updateLogs();
 	}
 
 	/**

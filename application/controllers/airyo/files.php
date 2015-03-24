@@ -10,7 +10,6 @@ class Files extends Airyo {
     protected $path_url_img_upload_folder;
     protected $path_url_img_thumb_upload_folder;
     protected $delete_img_url;
-    protected $logging = true;
     
 
     public function __construct() {
@@ -160,7 +159,7 @@ class Files extends Airyo {
         }
         
         
-        
+        $this->updateLogs();
         
     }
 

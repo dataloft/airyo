@@ -3,9 +3,7 @@
 class Gallery extends Airyo 
 {
 
-
 	protected $sHomeFolder = 'public/gallery';
-	protected $logging = false;
 
 
 	public function __construct() {
@@ -30,9 +28,9 @@ class Gallery extends Airyo
 		$this->data['profile_id'] = $this->user->id;
 		$this->data['pagination'] = $this->pagination;
 		
-		//$this->logging = true;
-		
 		$this->load->view('airyo/gallery/albums', $this->data);
+		
+		$this->updateLogs();
 	}
 
 
@@ -348,8 +346,10 @@ class Gallery extends Airyo
 	 * @author N.Kulchinskiy
 	 */
 	public function editAlbum(){
+		
 		$aPost = $this->input->post();
 		$aMessage = array();
+		
 		if(!empty($aPost)) {
 			$aAlbum = $aPost['album'];
 			
@@ -429,8 +429,6 @@ class Gallery extends Airyo
 		
 		//var_dump($this->input->post());
 		//echo $album_label;
-		
-		//$this->logging = false;
 		
 		foreach ($this->input->post('list') as $order => $value)
 		{

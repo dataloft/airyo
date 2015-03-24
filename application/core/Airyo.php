@@ -10,7 +10,6 @@ class Airyo extends CI_Controller
 {
 	protected $data = array();
 	protected $user;
-	protected $logging = false;
 
 
 	public function __construct() {
@@ -81,7 +80,6 @@ class Airyo extends CI_Controller
 			show_404();
 		}
 		
-		$this->updateLogs();
 	}
 
 	/**
@@ -89,18 +87,15 @@ class Airyo extends CI_Controller
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	private function updateLogs()
+	public function updateLogs()
 	{	
-		//echo $this->logging;
-		
-		if ($this->logging) {
-			$this->logs_model->updateLogs(array(
-				'user_id'       => $this->ion_auth->get_user_id(),
-				'type'          => 'redirect',
-				'description'   => $this->uri->uri_string
-			));
-		}
+		$this->logs_model->updateLogs(array(
+			'user_id'       => $this->ion_auth->get_user_id(),
+			'type'          => 'redirect',
+			'description'   => $this->uri->uri_string
+		));
 	}
+
 
 	/**
 	 * Получение конфигурации для пагинации
