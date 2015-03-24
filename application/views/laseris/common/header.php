@@ -12,12 +12,21 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,700,600,800,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/themes/laseris/css/reset.css" />
     <link rel="stylesheet" href="/themes/laseris/css/style.css" />
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 	
 	<?= @$this->css?>
 	
     <!--[if lte IE 8]><link href= "/themes/laseris/css/ie.css" rel= "stylesheet" media= "all" /><![endif]-->
 
+    <!--[if lt IE 9]>
+		<script src="/themes/laseris/js/html5-ie.js"></script>
+		<script src="/themes/laseris/js/respond.min.js"></script>
+	<![endif]-->
+    
+    <script src="/themes/laseris/js/jquery-1.8.3.min.js"></script>
+    <script src="/themes/laseris/js/jquery.placeholder.min.js"></script>
+    <script src="/themes/laseris/js/script.js"></script>
+    
     <link rel="icon" type="image/vnd.microsoft.icon" href="favicon.ico">
     <link rel="shortcut icon" href="favicon.ico">
 
