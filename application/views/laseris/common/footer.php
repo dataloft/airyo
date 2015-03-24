@@ -89,6 +89,14 @@
         </footer>
         <!-- /footer -->
         
+        <!--[if lt IE 9]>
+		<script src="/themes/laseris/js/html5-ie.js"></script>
+		<script src="/themes/laseris/js/respond.min.js"></script>
+		<![endif]-->
+	    <script src="/themes/laseris/js/jquery-1.8.3.min.js"></script>
+	    <script src="/themes/laseris/js/jquery.placeholder.min.js"></script>
+	    <script src="/themes/laseris/js/script.js"></script>
+        
         <?= @$this->js?>
 
 		<?= @$counters->text; ?>
