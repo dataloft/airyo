@@ -91,6 +91,8 @@ class Airyo extends CI_Controller
 	 */
 	private function updateLogs()
 	{	
+		//echo $this->logging;
+		
 		if ($this->logging) {
 			$this->logs_model->updateLogs(array(
 				'user_id'       => $this->ion_auth->get_user_id(),
