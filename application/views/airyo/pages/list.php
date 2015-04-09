@@ -1,4 +1,4 @@
-<?$this->load->view('airyo/common/header')?>
+<? $this->load->view('airyo/common/header')?>
 
 <div class="container">
     <? if (is_array($message) and array_key_exists('type', $message)) {?>
@@ -25,4 +25,4 @@
 	</div>
 </div>
 
-<?$this->load->view('airyo/common/footer')?>
+<? $this->load->view('airyo/common/footer')?>

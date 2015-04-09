@@ -9,7 +9,7 @@
     <h1 class="page-header"><?= $this->lang->line('module_title_pages')?></h1>
     
     <ul class="breadcrumb">
-		<li><a href="/airyo/pages/"><?= $this->lang->line('module_title_pages')?></a></li>
+		<li><a href="/airyo/news/"><?= $this->lang->line('module_title_pages')?></a></li>
 		<li><? echo $page['h1']; ?></li>
 	</ul>
     
