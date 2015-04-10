@@ -4,6 +4,7 @@ class News extends Airyo {
 
 
     protected $default;
+    protected $img_path;
     protected $thumbs_size = array(
         array(
             'w' =>  120,
@@ -21,43 +22,42 @@ class News extends Airyo {
             'thumb_marker' => '_l'
         ),*/
     );
-
+    
 
     public function __construct() {
         parent::__construct();
+        
         $this->load->library('upload');
         $this->load->library('image_lib');
         $this->load->model('airyo/news_model');
         $this->load->model('airyo/trash_model');
         $this->lang->load('airyo_news', 'russian');
+        
+        $this->data['main_menu'] = 'news';
+        $this->img_path = $_SERVER['DOCUMENT_ROOT'].'/public/news/';
     }
 
-
-    public function index($page = '') {
     
-	    $this->data['main_menu'] = 'news';
-
-	    //$this->data['type'] = '';
-	    //$this->data['search'] = '';
-	    
+    // Список новостей
+    public function index($page = '') {
 	    $this->data['notice'] = @$this->session->flashdata('notice');
-
 	    $this->data['news']  = $this->news_model->getList();
 	    
 	    $this->load->view('airyo/news/list', $this->data);
-	    
 	    $this->updateLogs();
     }
 
 
     public function add() {
     	
-	    $this->data['main_menu'] = 'news';
+	    /*
 	    $this->data['id'] = '';
-	    $this->data['message'] = '';
+	    $this->data['notice'] = '';
 	    $this->data['meta_title'] = "Добавить/редактировать новость";
         $this->data['id'] = '';
-        $this->data['message'] = '';
+        $this->data['notice'] = '';
+        
+        
         if (!$this->ion_auth->logged_in()) {
             redirect('auth', 'refresh');
         }
@@ -89,7 +89,7 @@ class News extends Airyo {
             $additional_data['content'] = $this->input->post('content',TRUE);
             if ($id = $this->news_model->Add($additional_data))
             {
-                $this->session->set_flashdata('message',  array(
+                $this->session->set_flashdata('notice',  array(
                         'type' => 'success',
                         'text' => 'Новость создана'
                     )
@@ -98,7 +98,7 @@ class News extends Airyo {
             }
             else
             {
-                $this->data['message'] = array(
+                $this->data['notice'] = array(
                     'type' => 'danger',
                     'text' => 'Произошла ошибка при сохранении новости.'
                 );
@@ -106,14 +106,14 @@ class News extends Airyo {
         }
         elseif ($this->input->post('action') == 'add')
         {
-            $this->data['message'] = array(
+            $this->data['notice'] = array(
                 'type' => 'danger',
                 'text' =>  validation_errors()
             );
         }
+        */
         
-        
-        $this->load->view('airyo/news/edit', $this->data);
+        //$this->load->view('airyo/news/edit', $this->data);
         
         /*$this->data['scripts'] = array(
             '/themes/airyo/js/content.js',
@@ -123,202 +123,187 @@ class News extends Airyo {
 
     public function edit($id = '') {
     	
-        $this->data['id'] = '';
-        $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
-        $this->data['main_menu'] = 'news';
-        $this->data['template_list'] = $this->config->item('templates');
-        $this->data['meta_title'] = "Добавить/редактировать страницу";
+        //$this->data['notice'] = @$this->session->flashdata('notice');
         
-        if (!$this->ion_auth->logged_in()) {
-            redirect('auth', 'refresh');
-        }
-        
-        // Если передан Ид ищем содержание стр в БД
-        if (!empty($id))
+        // Если форма отправлена
+        if ($this->input->post())
         {
-            $this->data['page'] = $this->news_model->getToId($id);
-            if (empty($this->data['page']))
-                show_404();
-
-            $this->data['id'] = $id;
-            $this->form_validation->set_rules('title', '', 'required');
-            $this->form_validation->set_rules('anons', '', 'required');
-            $this->form_validation->set_rules('content', '', 'required');
-            $this->form_validation->set_rules('alias', '', 'callback_check_alias');
-           
-            if ($this->form_validation->run() == true)
-            {
-                $this->data['page'] = array(
-                    'title' => $this->input->post('title',TRUE),
-                    'alias' =>  $this->input->post('alias',TRUE),
-                    'anons' =>  $this->input->post('anons',TRUE),
-                    'enabled' =>  $this->input->post('enabled',TRUE)
+	        // Сначала загружаем картинки во временную папку
+        	if (!empty($_FILES['img']))
+        	{
+        		$upload_data = $this->image_upload();
+        		//var_dump($upload_data);
+        	}
+        	
+        	$this->form_validation->set_rules('title',	'', 'required');
+	        $this->form_validation->set_rules('anons',	'', 'required');
+	        $this->form_validation->set_rules('content','', 'required');
+	        $this->form_validation->set_rules('alias',	'', 'callback_check_alias');
+        	
+        	//Если поля заполнены корректно, формируем массив из отправленных данных
+        	if ($this->form_validation->run() == true)
+    		{
+        		$input = array(
+                    'title'		=> $this->input->post('title',TRUE),
+                    'alias'		=> $this->input->post('alias',TRUE),
+                    'anons'		=> $this->input->post('anons'),
+                    'content'	=> $this->input->post('content'),
+                    'enabled'	=> $this->input->post('enabled',TRUE)
                 );
-                
-                $save_data = $this->data['page'];
-                
-                $save_data['content'] = $this->input->post('content',TRUE);
-                $this->data['page']['content'] = $this->input->post('content',TRUE);
-                
-                if ($this->news_model->Update($this->data['id'], $save_data))
-                {
-                    $this->data['message'] = array(
-                        'type' => 'success',
-                        'text' => 'Запись обновлена'
-                    );
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    if (!empty($_FILES['img']))
-                    {
-			            $config = array();
-			            $config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].'/public/news/';
-			            $config['allowed_types'] = 'gif|jpg|png';
-			            $config['file_name'] = $this->data['id'];
-			            $config['overwrite'] = true;
-			            
-			            /*if (!is_dir($config['upload_path']))
-			            {
-			                mkdir($config['upload_path']);
-			            }*/
-
-		                $this->upload->initialize($config);
+        	
+	        	// Если редактирование
+	        	if (!empty($id))
+	        	{
+	        		$input['id'] = $id;
+	        		
+	        		if ($this->news_model->update($input))
+	                {
+	                    /*$this->data['notice'] = array(
+	                        'type' => 'success',
+	                        'text' => 'Запись обновлена'
+	                    );*/ 
+	                }
+	                else {
+	                    /*$this->data['notice'] = array(
+	                        'type' => 'danger',
+	                        'text' => 'Произошла ошибка при обновлении записи.'
+	                    );*/
+	                }
+	        	}
+	        	// Если добавление (пустой id)
+		        else {
+		        
+		        	if ($new_id = $this->news_model->add($input))
+		            {
 		                
-		                /*$_FILES['img'] = array (
-		                    'name'=> $this->input->post('alias', TRUE).'.'.end(explode('.', $upload['name'])),
-		                    'type'=> $upload['type'],
-		                    'tmp_name'=> $upload['tmp_name'],
-		                    'error'=> $upload['error'],
-		                    'size'=> $upload['size']);*/
-		                    
-		                if ($this->upload->do_upload('img'))
-		                {
-		                    $tmp_data = $this->upload->data();
-		                    
-		                    foreach ($this->thumbs_size as $thumb)
-		                    {
-		
-		                        $config = array();
-		                        $config['source_image'] = $_SERVER['DOCUMENT_ROOT'].'/public/news/'.$tmp_data['file_name'];
-		                        $config['new_image'] = $_SERVER['DOCUMENT_ROOT'].'/public/news/'.$tmp_data['file_name'];
-		                        $config['width'] = $thumb['w'];
-		                        $config['height'] = $thumb['h'];
-		                        $config['thumb_marker'] = $thumb['thumb_marker'];
-		                        $config['create_thumb'] = true;
-		                        
-		                        
-		                        $this->image_lib->initialize($config);
-		                        
-		                        
-		                        if ($this->image_lib->resize())
-		                        {
-		                            //echo $config['new_image'];
-		                        }
-		                        else
-		                        {
-			                        //echo $this->image_lib->display_errors();
-		                        }
-		                    }
-		                    
-		                    
-		                    /*$tmp_data = $this->upload->data();
-		                    $content['img'] = $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
-		                    $this->oData['page']['img'] =  $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
-		                    $additional_data['img'] =  $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
-		                    $this->load->library('image_lib');
-		                    foreach ($this->thumbs_size as $thumb)
-		                    {
-		
-		                        $config = array();
-		                        $config['source_image'] = $pth.DIRECTORY_SEPARATOR.$tmp_data['file_name'];
-		                        $config['new_image'] = $pth.DIRECTORY_SEPARATOR.$this->input->post('alias',TRUE).'-'.$thumb['w'].'x'.$thumb['h'].'.'.end(explode('.',$upload['name']));
-		                        $config['width'] = $thumb['w'];
-		                        $config['height'] = $thumb['h'];
-		                        $this->image_lib->initialize($config);
-		                        if ($this->image_lib->resize())
-		                        {
-		                            echo $config['new_image'];
-		                        }
-		                    }*/
-		                }
-		                else
-						{
-							//$data = array('upload_data' => $this->upload->data());
-							//$this->load->view('upload_success', $data);
-						}
-                    }
-                    
-                    
-                    
-                    
-                    
-                    
-                }
-                else
-                {
-                    $this->data['message'] = array(
-                        'type' => 'danger',
-                        'text' => 'Произошла ошибка при обновлении записи.'
-                    );
-                }
-            }
-            elseif($this->input->post('id') == $id)
-            {
-                $this->data['page'] = array(
-                    'title' => $this->input->post('title',TRUE),
-                    'alias' =>  $this->input->post('alias',TRUE),
-                    'anons' =>  $this->input->post('anons',TRUE),
-                    'enabled' =>  $this->input->post('enabled',TRUE)
-                );
-
-                    $this->data['page']['content'] = $this->input->post('content',TRUE);
-
-
-                $this->data['message'] = array(
-                    'type' => 'danger',
-                    'text' => validation_errors()
-                );
-
-            }
+		                /*$this->session->set_flashdata('notice',  array(
+		                        'type' => 'success',
+		                        'text' => 'Новость создана'
+		                    )
+		                );*/
+		                
+		                redirect('admin/news/edit/'.$new_id, 'refresh');
+		            }
+		            else {
+		            	
+		                /*$this->data['notice'] = array(
+		                    'type' => 'danger',
+		                    'text' => 'Произошла ошибка при сохранении новости.'
+		                );*/
+		            }
+			        
+		            //redirect("airyo/news/add", 'refresh');
+		        }
+		    }
+        	
+        	
+        	// Чтобы исключить повторную отправку формы при рефреше
+        	redirect($this->uri->uri_string());
         }
-        //Вставляем новую запись
-        else
-        {
-            redirect("admin/news/add", 'refresh');
+        // Если нужно просто показать форму
+        else {
+	        //if (!empty($id))
+	        //{
+	        	$this->data['page'] = $this->news_model->get_by_id($id);
+	        	//if (empty($this->data['page'])) show_404();
+	        //}
         }
         
         
         $this->load->view('airyo/news/edit', $this->data);
-        
-        /*$alias = 'content';
-        
-        $this->data['view'] = 'admin/news/'.$alias;*/
-        
     }
+    
+    
+	public function image_upload()
+	{
+	    // Загрузка картинки
+        //if (!empty($_FILES['img']))
+        //{
+        
+        
+        $config = array(
+        	'upload_path'	=> $this->img_path.'tmp/',
+        	'allowed_types' => 'gif|jpg|png',
+        	'file_name'		=> uniqid(),
+        	'overwrite'		=> true,
+        );
+
+        $this->upload->initialize($config);
+        
+        if ($this->upload->do_upload('img'))
+        {
+            return $this->upload->data();
+        }
+        else {
+            return false;
+        }
+            
+            
+            
+            
+            //var_dump($this->upload->data());
+                
+            /*if ($this->upload->do_upload('img'))
+            {
+                $tmp_data = $this->upload->data();
+                
+                foreach ($this->thumbs_size as $thumb)
+                {
+                    $config = array();
+                    $config['source_image'] = $this->img_path.$tmp_data['file_name'];
+                    $config['new_image'] = $this->img_path.$tmp_data['file_name'];
+                    $config['width'] = $thumb['w'];
+                    $config['height'] = $thumb['h'];
+                    $config['thumb_marker'] = $thumb['thumb_marker'];
+                    $config['create_thumb'] = true;
+                    
+                    $this->image_lib->initialize($config);
+                    
+                    if ($this->image_lib->resize())
+                    {
+                        //echo $config['new_image'];
+                    }
+                    else {
+                        //echo $this->image_lib->display_errors();
+                    }
+                }
+            }
+            else
+			{
+				//$data = array('upload_data' => $this->upload->data());
+				//$this->load->view('upload_success', $data);
+			}*/
+        //}  
+	}
+	
+	public function mk_thumbs()
+	{
+		
+	}
 
 
     public function check_alias()
     {
 
-        if (!empty($_POST['alias']) && !preg_match('/^[a-z0-9-\/\.]+$/', $this->input->post('alias'))){
+        /*if (!empty($_POST['alias']) && !preg_match('/^[a-z0-9-\/\.]+$/', $this->input->post('alias'))){
             $this->form_validation->set_message(__FUNCTION__, 'Некорректно указан адрес страницы');
             return false;
         }
         else
         {
-            $page =  $this->news_model->getToAlias($this->input->post('alias'));
+            $page = $this->news_model->getToAlias($this->input->post('alias'));
             $this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
+            
             if (empty($page))
                 return true;
+                
             if ($this->input->post('id') == $page->id)
                 return true;
             else
                 return false;
-        }
+        }*/
+        
+        return true;
 
     }
 
@@ -331,19 +316,19 @@ class News extends Airyo {
             
             if ($id) {
             
-                $data['page'] = $this->news_model->getToId($id);
+                $data['page'] = $this->news_model->get_by_id($id);
 
                 if (!empty($data['page'])) {
                     $aAdditionalData = array(
                         'deleted_id' => $id,
-                        'type' =>  'page',
-                        'data' =>     serialize($data['page'])
+                        'type' => 'page',
+                        'data' => serialize($data['page'])
                     );
 
                     if ($this->trash_model->Add($aAdditionalData)) {
                         if ($this->news_model->delete($id)) {
                             $output['success']='success';
-                            $this->session->set_flashdata('message',  array(
+                            $this->session->set_flashdata('notice',  array(
                                     'type' => 'success',
                                     'text' => 'Запись удалена'
                                 )

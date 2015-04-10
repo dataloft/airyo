@@ -16,15 +16,13 @@ class Pages extends Airyo {
         $this->lang->load('airyo_pages', 'russian');
         
         $this->default = $this->config->item('default_template');
+        
+        $this->data['main_menu'] = 'pages';
     }
 
 
     public function index($page = '') {
     
-	    $this->data['main_menu'] = 'pages';
-
-	    $this->data['type'] = '';
-	    $this->data['search'] = '';
 	    $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
 	    
 	    if ($this->input->post('typeSelect'))
@@ -33,7 +31,7 @@ class Pages extends Airyo {
 	    if ($this->input->post('search'))
 	        $this->data['search'] = $this->input->post('search');
 
-	    $this->data['content']  = $this->pages_model->getList($this->data['type'], $this->data['search']);
+	    $this->data['content']  = $this->pages_model->getList();
 	    $this->data['type_list']  = $this->pages_model->getType();
 	    
 	    
@@ -44,8 +42,6 @@ class Pages extends Airyo {
 
 
     public function add() {
-    
-	    $this->data['main_menu'] = 'pages';
 	    
 	    $this->data['id'] = '';
 	    $this->data['message'] = '';
@@ -230,7 +226,6 @@ class Pages extends Airyo {
 
     public function edit($id = '')
     {
-        $this->data['id'] = '';
         $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
         $this->data['main_menu'] = 'pages';
         $this->data['template_list'] = $this->config->item('templates');

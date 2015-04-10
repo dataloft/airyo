@@ -59,7 +59,7 @@ class News_model extends CI_Model {
 		return $q->row();
 	}
 
-    public function getToId($id) {
+    public function get_by_id($id) {
         $q = $this->db;
         $this->sql = "
 			SELECT * FROM ".$this->db->dbprefix('news')." WHERE id = '".$id."'
@@ -86,7 +86,7 @@ class News_model extends CI_Model {
         return false;
     }
 
-    public function Add ($data)
+    public function add ($data)
     {
         $this->db->insert($this->db->dbprefix('news'), $data);
         $return = $this->db->insert_id();
@@ -94,9 +94,9 @@ class News_model extends CI_Model {
         return $return;
     }
 
-    public function Update ($id, $data)
+    public function update($data)
     {
-       if ($this->db->update($this->db->dbprefix('news'), $data, array('id' => $id)))
+       if ($this->db->update($this->db->dbprefix('news'), $data, array('id' => $data['id'])))
         //$return = $this->db->affected_rows() == 1;
             return true;
         else
