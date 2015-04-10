@@ -2,19 +2,7 @@
 
 <div class="container">
 	
-    <? if (is_array($notice) and array_key_exists('type', $notice)) { ?>
-    
-        <div class="alert alert-<?=$notice['type']?>">
-        	<a class="close" data-dismiss="alert" href="#">&times;</a>
-        	
-        	<? if ($notice['type']=='success') { ?>
-        		<span class="glyphicon glyphicon-ok"></span>
-        	<? } ?>
-        	
-        	<?=$notice['text']?>
-        </div>
-        
-    <? } ?>
+    <? $this->load->view('airyo/common/notice')?>
     
 	<h1 class="page-header">Новости</h1>
 

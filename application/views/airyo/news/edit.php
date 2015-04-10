@@ -2,15 +2,7 @@
 
 <div class="container">
 
-    <? if (@$notice) { ?>
-		<div class="alert alert-<?=$notice['type']?>">
-			<a class="close" data-dismiss="alert" href="#">&times;</a>
-			<? if ($notice['type']=='success') { ?>
-				<span class="glyphicon glyphicon-ok"></span>
-			<? } ?>
-			<?=$notice['text']?>
-		</div>
-	<? } ?>
+    <? $this->load->view('airyo/common/notice')?>
 	
     <h1 class="page-header"><?= $this->lang->line('module_title_news')?></h1>
     
