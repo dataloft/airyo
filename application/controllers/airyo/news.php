@@ -8,26 +8,22 @@ class News extends Airyo {
     protected $img_tmp_path;
     protected $thumbs_size = array(
         array(
-            'w' =>  120,
-            'h' =>  80,
+            'w' =>  200,
+            'h' =>  2000,
             'thumb_marker' => '_s'
         ),
-        /*array(
-            'w' =>  325,
-            'h' =>  215,
+        array(
+            'w' =>  670,
+            'h' =>  2000,
             'thumb_marker' => '_m'
         ),
-        array(
-            'w' =>  800,
-            'h' =>  500,
-            'thumb_marker' => '_l'
-        ),*/
     );
     
 
     public function __construct() {
         parent::__construct();
         
+        $this->config->load('pagination');
         $this->load->library('upload');
         $this->load->library('image_lib');
         $this->load->model('airyo/news_model');
@@ -40,9 +36,23 @@ class News extends Airyo {
 
     
     // Список новостей
-    public function index($page = '') {
+    public function index($page = '')
+    {
 	    $this->data['notice'] = @$this->session->flashdata('notice');
-	    $this->data['news']  = $this->news_model->getList();
+	    
+	    $pg = $this->config->item('pagination_airyo');
+	    $pg['total_rows'] = $this->news_model->count();
+	    $pg['base_url'] = '/airyo/news';
+	    $pg['uri_segment'] = 3;
+		$pg['per_page'] = 25;
+		$pg["num_links"] = 5;
+		
+	    $this->pagination->initialize($pg);
+	    $page = ($this->uri->segment($pg['uri_segment'])) ? $this->uri->segment($pg['uri_segment']) : 0;
+	    
+	    $this->data['news']  = $this->news_model->getList($pg["per_page"], $page);
+	    
+	    $this->data['links'] = $this->pagination->create_links();
 	    
 	    $this->load->view('airyo/news/list', $this->data);
 	    $this->updateLogs();
@@ -63,8 +73,8 @@ class News extends Airyo {
 	        $this->form_validation->set_rules('alias',	'', 'callback_check_alias');
 	        
 	        $input = array(
-                    'title'		=> $this->input->post('title',TRUE),
-                    'alias'		=> $this->input->post('alias',TRUE),
+                    'title'		=> trim($this->input->post('title',TRUE)),
+                    'alias'		=> trim($this->input->post('alias',TRUE)),
                     'anons'		=> $this->input->post('anons'),
                     'content'	=> $this->input->post('content'),
                     'enabled'	=> $this->input->post('enabled',TRUE),
@@ -154,7 +164,6 @@ class News extends Airyo {
                 {
                     $config = array();
                     $config['source_image'] = $this->img_path.$img_data['file_name'];
-                    $config['new_image'] = $this->img_path.$img_data['file_name'];
                     $config['width'] = $thumb['w'];
                     $config['height'] = $thumb['h'];
                     $config['thumb_marker'] = $thumb['thumb_marker'];
@@ -249,9 +258,8 @@ class News extends Airyo {
         }
         
     }
+
     
     
 }
 
-/* End of file news.php */
-/* Location: ./application/controllers/admin/news.php */

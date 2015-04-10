@@ -29,6 +29,13 @@
 			</ul>
 		</div>
 	</div>
+	
+	<nav>
+	    <ul class="pagination">
+	        <?= $this->pagination->create_links() ?>
+	    </ul>    
+	</nav>
+	
 </div>
 
 <? $this->load->view('airyo/common/footer')?>

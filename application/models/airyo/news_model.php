@@ -5,10 +5,11 @@ class News_model extends CI_Model {
 		parent::__construct();
 	}
 
-	public function getList() {
+	public function getList($limit, $start) {
+        $this->db->limit($limit, $start);
         $this->db->select('*');
-
         $q =  $this->db->get($this->db->dbprefix('news'));
+        
         return  $q->result_array();
 	}
 
@@ -20,11 +21,13 @@ class News_model extends CI_Model {
         $q =  $this->db->get($this->db->dbprefix('news'));
         return  $q->result_array();
 	}
-    public function getTotalNews() {
+	
+    public function count() {
         $this->db->where('enabled',1);
         $this->db->from($this->db->dbprefix('news'));
         return $this->db->count_all_results();
 	}
+	
     public function getNewsList($limit = false, $offset = false) {
         $this->db->select('*');
         $this->db->where('enabled',1);

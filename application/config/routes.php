@@ -101,6 +101,7 @@ $route['airyo/gallery/ajaxRemoveAlbum'] = 'airyo/gallery/ajaxRemoveAlbum';
 
 //admin news
 $route['airyo/news'] = 'airyo/news';
+$route['airyo/news/(:num)'] = 'airyo/news';
 $route['airyo/news/add'] = 'airyo/news/add';
 $route['airyo/news/edit'] = 'airyo/news/edit';
 $route['airyo/news/edit/(:num)'] = 'airyo/news/edit/$1';
