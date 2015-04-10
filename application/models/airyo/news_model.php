@@ -93,15 +93,16 @@ class News_model extends CI_Model {
 
         return $return;
     }
+    
 
     public function update($data)
     {
        if ($this->db->update($this->db->dbprefix('news'), $data, array('id' => $data['id'])))
-        //$return = $this->db->affected_rows() == 1;
             return true;
-        else
+       else
             return false;
     }
+
 
 	public function get_all_langs() {
 		

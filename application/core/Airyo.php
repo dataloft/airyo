@@ -5,6 +5,7 @@ class Airyo extends CI_Controller
 {
 	protected $data = array();
 	protected $user;
+	protected $notice = false;
 
 
 	public function __construct() {
@@ -85,6 +86,30 @@ class Airyo extends CI_Controller
 			'type'          => 'redirect',
 			'description'   => $this->uri->uri_string
 		));
+	}
+	
+	
+	public function notice_push($notice, $type = '')
+	{	
+		$this->session->set_flashdata('notice', 
+			array(
+                'type' => $type,
+                'text' => $notice
+            )
+        );
+        
+        $this->notice = 
+        	array(
+                'type' => $type,
+                'text' => $notice
+            );
+	}
+	
+	public function notice_pull()
+	{	
+		$notice = $this->notice ? $this->notice : $this->session->flashdata('notice');
+		$this->session->set_flashdata('notice', false);
+		return $notice;
 	}
 
 
