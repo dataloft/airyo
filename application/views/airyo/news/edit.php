@@ -63,7 +63,7 @@ $this->load->view('airyo/common/header')
 				if (!empty($thumbs['_s']))
 				{ ?>
 				    <div class="form-group">
-				    	<img src="/public/news/<?= $thumbs['_s']['name']?>" width="<?= $thumbs['_s']['prop'][0]?>" height="<?= $thumbs['_s']['prop'][1]?>" class="img-thumbnail"><br>
+				    	<img src="/public/news/<?= $thumbs['_s']['name']?>?<?= mt_rand()?>" width="<?= $thumbs['_s']['prop'][0]?>" height="<?= $thumbs['_s']['prop'][1]?>" class="img-thumbnail"><br>
 				    	<input type="checkbox" id="img_delete" name="img_delete" value="1"> <label for="img_delete" class="control-label">Удалить картинку</label>
 				    </div>
 				<? } ?>

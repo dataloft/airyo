@@ -85,6 +85,7 @@ class News extends Airyo {
             if (@$this->input->post('img_delete'))
             {
 	            $this->img_delete($id);
+	            $this->data['thumbs'] = array();
             }
         	
         	// Если поля заполнены корректно
