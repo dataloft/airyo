@@ -111,6 +111,21 @@ class Airyo extends CI_Controller
 		$this->session->set_flashdata('notice', false);
 		return $notice;
 	}
+	
+	
+	public function validate_date($date)
+	{
+		$format = 'd.m.Y';
+		$d = DateTime::createFromFormat($format, $date);
+		return $d && $d->format($format) == $date;
+	}
+	
+	
+	// Проверка на предмет существования страницы (ответ 200) по заданному адресу
+	public function url_check()
+    {
+    	
+    }
 
 
 }

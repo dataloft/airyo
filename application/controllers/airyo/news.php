@@ -3,9 +3,7 @@
 class News extends Airyo {
 
 
-    protected $default;
     protected $img_path;
-    protected $img_tmp_path;
     protected $thumbs_size = array(
         array(
             'w' =>  200,
@@ -60,7 +58,11 @@ class News extends Airyo {
     // Добавление, редактирование
     public function edit($id = '') {
     	
+    	$this->data['page'] = $this->news_model->get_by_id($id);
         $this->data['thumbs'] = $this->get_thumbs($id);
+        
+        // Если запись, не существует, то добавляем новую, а для этого подставляем дату
+        if (!isset($this->data['page']['date'])) $this->data['page']['date'] = date("d.m.Y");
         
         // Если форма отправлена
         if ($this->input->post())
@@ -68,16 +70,16 @@ class News extends Airyo {
 	        $this->form_validation->set_rules('title',	'', 'required');
 	        $this->form_validation->set_rules('anons',	'', 'required');
 	        $this->form_validation->set_rules('content','', 'required');
-	        $this->form_validation->set_rules('alias',	'', 'callback_check_alias');// сделать проверку
-	        $this->form_validation->set_rules('date',	'', 'required');// сделать нормальную проверку
+	        $this->form_validation->set_rules('alias',	'', 'required|callback_check_alias');
+	        $this->form_validation->set_rules('date',	'', 'callback_validate_date');
 	        
 	        $input = array(
-                    'title'		=> trim($this->input->post('title',TRUE)),
-                    'alias'		=> trim($this->input->post('alias',TRUE)),
-                    'anons'		=> $this->input->post('anons'),
-                    'content'	=> $this->input->post('content'),
-                    'enabled'	=> $this->input->post('enabled',TRUE),
-                    'date'		=> $this->input->post('date'),
+                'title'		=> trim($this->input->post('title',TRUE)),
+                'alias'		=> trim($this->input->post('alias',TRUE)),
+                'anons'		=> $this->input->post('anons'),
+                'content'	=> $this->input->post('content'),
+                'enabled'	=> $this->input->post('enabled',TRUE),
+                'date'		=> $this->input->post('date'),
             );
             
             if (@$this->input->post('img_delete'))
@@ -85,11 +87,11 @@ class News extends Airyo {
 	            $this->img_delete($id);
             }
         	
-        	// Если поля заполнены корректно, формируем массив из отправленных данных
+        	// Если поля заполнены корректно
         	if ($this->form_validation->run())
     		{
 	        	// Если редактирование
-	        	if (!empty($id))
+	        	if ($id == @$this->data['page']['id'])
 	        	{
 	        		$input['id'] = $id;
 	        		
@@ -123,11 +125,6 @@ class News extends Airyo {
 		    }
         	
         	$this->data['page'] = $input;
-        }
-        // Если нужно просто показать форму
-        else {
-	        $this->data['page'] = $this->news_model->get_by_id($id);
-	        if (!isset($this->data['page']['date'])) $this->data['page']['date'] = date("d.m.Y");
         }
         
         $this->data['notice'] = $this->notice_pull();
@@ -214,9 +211,16 @@ class News extends Airyo {
         
         return $thumbs;
     }
+    
+    
+    public function check_alias()
+    {
+    	
+    }
 
 
-    public function delete () {
+    public function delete()
+    {
     
         if (isset($_POST)) {
         
@@ -253,10 +257,8 @@ class News extends Airyo {
                 }
             }
         }
-        
     }
-
-    
+  
     
 }
 
