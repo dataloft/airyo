@@ -38,6 +38,7 @@ class News extends Airyo {
     {
 	    $this->data['notice'] = @$this->session->flashdata('notice');
 	    
+	    // Готовим конфиг для пагинации
 	    $pg = $this->config->item('pagination_airyo');
 	    $pg['total_rows'] = $this->news_model->count();
 	    $pg['base_url'] = '/airyo/news';
@@ -48,6 +49,7 @@ class News extends Airyo {
 	    $this->pagination->initialize($pg);
 	    $page = ($this->uri->segment($pg['uri_segment'])) ? $this->uri->segment($pg['uri_segment']) : 0;
 	    
+	    // Получаем список новостей для текущей страницы
 	    $this->data['news']  = $this->news_model->getList($pg["per_page"], $page);
 	    
 	    $this->load->view('airyo/news/list', $this->data);
@@ -58,41 +60,48 @@ class News extends Airyo {
     // Добавление, редактирование
     public function edit($id = '') {
     	
+    	// Сначала получаем из БД новость с указанным id и картинки к ней
     	$this->data['page'] = $this->news_model->get_by_id($id);
         $this->data['thumbs'] = $this->get_thumbs($id);
         
-        // Если запись, не существует, то добавляем новую, а для этого подставляем дату
+        // Если запись, не существует, то генерируем дату для подстановки в форму
         if (!isset($this->data['page']['date'])) $this->data['page']['date'] = date("d.m.Y");
         
         // Если форма отправлена
         if ($this->input->post())
         {
-	        $this->form_validation->set_rules('title',	'', 'required');
-	        $this->form_validation->set_rules('anons',	'', 'required');
+	        // Устанавливаем правила проверки полей формы
+	        $this->form_validation->set_rules('title',	'', 'trim|required');
+	        $this->form_validation->set_rules('anons',	'', 'trim|required');
 	        $this->form_validation->set_rules('content','', 'required');
-	        $this->form_validation->set_rules('alias',	'', 'required|callback_check_alias');
+	        $this->form_validation->set_rules('alias',	'', 'trim|strtolower|required|callback_check_alias');
 	        $this->form_validation->set_rules('date',	'', 'callback_validate_date');
 	        
-	        $input = array(
-                'title'		=> trim($this->input->post('title',TRUE)),
-                'alias'		=> trim($this->input->post('alias',TRUE)),
-                'anons'		=> $this->input->post('anons'),
-                'content'	=> $this->input->post('content'),
-                'enabled'	=> $this->input->post('enabled',TRUE),
-                'date'		=> $this->input->post('date'),
-            );
-            
+            // Удаляем картинки, если отмечен чекбокс
             if (@$this->input->post('img_delete'))
             {
 	            $this->img_delete($id);
 	            $this->data['thumbs'] = array();
             }
         	
-        	// Если поля заполнены корректно
+        	// Проверяем данные формы и готовим их для сохранения
         	if ($this->form_validation->run())
     		{
+	        	$input = array(
+	                'title'		=> $this->input->post('title',TRUE),
+	                'alias'		=> $this->input->post('alias',TRUE),
+	                'anons'		=> $this->input->post('anons'),
+	                'content'	=> $this->input->post('content'),
+	                'enabled'	=> $this->input->post('enabled',TRUE),
+	                'date'		=> $this->input->post('date'),
+	            );
+	        }
+	        
+	        //Если есть корректные данные - сохраняем
+	        if (@$input)
+	        {
 	        	// Если редактирование
-	        	if ($id == @$this->data['page']['id'])
+	        	if (@$this->data['page']['id'])
 	        	{
 	        		$input['id'] = $id;
 	        		
@@ -106,7 +115,7 @@ class News extends Airyo {
 	                    $this->notice_push($this->lang->line('notice_update_model_error'), 'danger');
 	                }
 	        	}
-	        	// Если добавление (пустой id)
+	        	// Если добавление
 		        else
 		        {
 		        	if ($new_id = $this->news_model->add($input))
@@ -118,14 +127,16 @@ class News extends Airyo {
 		            else {
 		                $this->notice_push($this->lang->line('notice_update_model_error'), 'danger');
 		            }
-		        }  
+		        } 
 		    }
+		    // Если данные формы некорректны - выводим нотис
 		    else
 		    {
 			    $this->notice_push($this->lang->line('notice_form_incorrect'), 'warning');
 		    }
         	
-        	$this->data['page'] = $input;
+        	// Данные для формы, если валидация не прошла
+        	$this->data['page'] = $this->input->post();
         }
         
         $this->data['notice'] = $this->notice_pull();
@@ -214,9 +225,22 @@ class News extends Airyo {
     }
     
     
-    public function check_alias()
+    public function check_alias($alias)
     {
+    	// Первая проверка на допустимые символы
+    	if (!preg_match('/^[a-z0-9-\.\_]+$/', $alias)){
+            $this->form_validation->set_message(__FUNCTION__, 'Некорректные символы в алиасе');
+            return false;
+        }
     	
+    	// Вторая проверка - отсутствие другой записи с тем же алиасом
+    	$r = $this->news_model->get_by_alias($alias);
+    	if (sizeof($r) >= 1 && $r[0]['id'] != $this->data['page']['id']) {
+    		$this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
+    		return false;
+    	}
+    	
+    	return true;
     }
 
 

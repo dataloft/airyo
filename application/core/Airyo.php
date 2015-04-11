@@ -10,7 +10,7 @@ class Airyo extends CI_Controller
 
 	public function __construct() {
 		parent::__construct();
-
+		
 		$this->load->library('ion_auth');
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
@@ -119,13 +119,6 @@ class Airyo extends CI_Controller
 		$d = DateTime::createFromFormat($format, $date);
 		return $d && $d->format($format) == $date;
 	}
-	
-	
-	// Проверка на предмет существования страницы (ответ 200) по заданному адресу
-	public function url_check()
-    {
-    	
-    }
 
 
 }

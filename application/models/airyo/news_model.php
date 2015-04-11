@@ -33,6 +33,17 @@ class News_model extends CI_Model {
 		
         return $q->row_array();
     }
+    
+    
+    public function get_by_alias($alias)
+    {
+        $q = $this->db->query("
+			SELECT * FROM ".$this->db->dbprefix('news')."
+			WHERE alias = '".$alias."'
+		");
+        
+        return  $q->result_array();
+    }
 
 
     public function add($data)

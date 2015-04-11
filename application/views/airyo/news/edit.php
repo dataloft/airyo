@@ -79,8 +79,8 @@ $this->load->view('airyo/common/header')
 					<textarea rows="20" id="content" name="content" class="form-control" placeholder=""><?= @$page['content']; ?></textarea>
 				</div>
 				<div class="form-group <? if (form_error('alias')) echo 'has-error'; ?>">
-					<label for="alias" class="control-label">Адрес</label>
-		            <input type="text" class="form-control" id="alias" name="alias" value="<?= @$page['alias']; ?>" placeholder="" >
+					<label for="alias" class="control-label">Алиас</label>
+		            <input type="text" class="form-control" id="alias" name="alias" value="<?= @$page['alias']; ?>" placeholder="">
 				</div>
 		        <div class="checkbox">
 		            <label><input type="checkbox" id="enabled"  value="1" name="enabled" <? if (@$page['enabled']) echo 'checked'; ?> > Enabled</label>
