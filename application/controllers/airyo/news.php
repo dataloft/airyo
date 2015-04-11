@@ -52,8 +52,6 @@ class News extends Airyo {
 	    
 	    $this->data['news']  = $this->news_model->getList($pg["per_page"], $page);
 	    
-	    $this->data['links'] = $this->pagination->create_links();
-	    
 	    $this->load->view('airyo/news/list', $this->data);
 	    $this->updateLogs();
     }
@@ -70,7 +68,8 @@ class News extends Airyo {
 	        $this->form_validation->set_rules('title',	'', 'required');
 	        $this->form_validation->set_rules('anons',	'', 'required');
 	        $this->form_validation->set_rules('content','', 'required');
-	        $this->form_validation->set_rules('alias',	'', 'callback_check_alias');
+	        $this->form_validation->set_rules('alias',	'', 'callback_check_alias');// сделать проверку
+	        $this->form_validation->set_rules('date',	'', 'required');// сделать нормальную проверку
 	        
 	        $input = array(
                     'title'		=> trim($this->input->post('title',TRUE)),
@@ -78,6 +77,7 @@ class News extends Airyo {
                     'anons'		=> $this->input->post('anons'),
                     'content'	=> $this->input->post('content'),
                     'enabled'	=> $this->input->post('enabled',TRUE),
+                    'date'		=> $this->input->post('date'),
             );
             
             if (@$this->input->post('img_delete'))
@@ -127,6 +127,7 @@ class News extends Airyo {
         // Если нужно просто показать форму
         else {
 	        $this->data['page'] = $this->news_model->get_by_id($id);
+	        if (!isset($this->data['page']['date'])) $this->data['page']['date'] = date("d.m.Y");
         }
         
         $this->data['notice'] = $this->notice_pull();
@@ -156,14 +157,14 @@ class News extends Airyo {
 	        	
 	        	$data = array(
 	        		'id'	=> $id,
-	        		'img' 	=> $img_data['file_name'],
+	        		'img_ext' 	=> $img_data['file_ext'],
 	        	);
 	        	$this->news_model->update($data);
 	        	
 	        	foreach ($this->thumbs_size as $thumb)
                 {
                     $config = array();
-                    $config['source_image'] = $this->img_path.$img_data['file_name'];
+                    $config['source_image'] = $this->img_path.$id.$img_data['file_ext'];
                     $config['width'] = $thumb['w'];
                     $config['height'] = $thumb['h'];
                     $config['thumb_marker'] = $thumb['thumb_marker'];
@@ -184,16 +185,14 @@ class News extends Airyo {
 		$this->news_model->update(
 			array(
         		'id'	=> $id,
-        		'img' 	=> '',
+        		'img_ext' 	=> '',
         	)
 		);
 		
-		@unlink($this->img_path.$row['img']);
-		
-		$ext = end(explode(".", $row['img']));
+		@unlink($this->img_path.$id.$row['img_ext']);
 		
 		foreach ($this->thumbs_size as $thumb)
-            @unlink($this->img_path.$id.$thumb['thumb_marker'].'.'.$ext);
+            @unlink($this->img_path.$id.$thumb['thumb_marker'].$row['img_ext']);
 	}
 
 
@@ -203,14 +202,14 @@ class News extends Airyo {
 	    
 	    $thumbs = array();
 	    
-	    $ext = end(explode(".", $row['img']));
-	    
-	    foreach ($this->thumbs_size as $thumb)
-        {
-           	if (file_exists($this->img_path.$row['id'].$thumb['thumb_marker'].'.'.$ext)) {
-           		$thumbs[$thumb['thumb_marker']]['name'] = $row['id'].$thumb['thumb_marker'].'.'.$ext;
-           		$thumbs[$thumb['thumb_marker']]['prop'] = getimagesize($this->img_path.$row['id'].$thumb['thumb_marker'].'.'.$ext);
-           	}
+	    if ($row) {
+		    foreach ($this->thumbs_size as $thumb)
+	        {
+	           	if (file_exists($this->img_path.$id.$thumb['thumb_marker'].$row['img_ext'])) {
+	           		$thumbs[$thumb['thumb_marker']]['name'] = $id.$thumb['thumb_marker'].$row['img_ext'];
+	           		$thumbs[$thumb['thumb_marker']]['prop'] = getimagesize($this->img_path.$id.$thumb['thumb_marker'].$row['img_ext']);
+	           	}
+	        }
         }
         
         return $thumbs;
@@ -238,13 +237,11 @@ class News extends Airyo {
                     	
                     	$this->img_delete($id);
                     	
-                        if ($this->news_model->delete($id)) {
+                        if ($this->news_model->delete($id))
+                        {
                         	$output['success']='success';
-                            $this->session->set_flashdata('notice',  array(
-                                    'type' => 'success',
-                                    'text' => 'Запись удалена'
-                                )
-                            );
+                            $this->notice_push($this->lang->line('notice_delete_sucsess'), 'success');
+                            
                         } else {
                             $output['error']='error';
                         }

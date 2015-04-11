@@ -1,4 +1,32 @@
-<? $this->load->view('airyo/common/header')?>
+<?
+
+$this->css .= '
+	<link href="/themes/airyo/css/datepicker/bootstrap-datepicker.css" rel="stylesheet" type="text/css" />
+	';
+
+$this->js = '
+	<script src="/themes/airyo/js/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+	<script src="/themes/airyo/js/datepicker/locales/bootstrap-datepicker.ru.js" type="text/javascript"></script>
+	';
+	
+$this->js .= "
+	<script type='text/javascript'>
+	    
+    $(function() {
+        
+        $('#date').datepicker({
+        	format: 'dd.mm.yyyy',
+        	language: 'ru'
+        });
+           
+    });
+	    
+	</script>
+	";
+
+$this->load->view('airyo/common/header')
+
+?>
 
 <div class="container">
 
@@ -11,10 +39,14 @@
 		<li><?= @$page['title'] ? $page['title'] : 'Добавление новости' ?></li>
 	</ul>
     
-    <?php echo form_open_multipart("", 'name="edit" method="POST"');?>
+    <?php echo form_open_multipart("", 'method="POST"');?>
     	
     	<div class="row">
     	<div class="col-md-8">
+    		<div class="form-group<? if (form_error('date')) echo ' has-error'; ?>">
+				<label for="date">Дата публикации (дд.мм.гггг)</label>
+				<input type="text" name="date" class="form-control" value="<?= @$page['date'] ?>" maxlength="10" id="date" />
+			</div>
 	    	<div class="form-group <? if (form_error('title')) echo 'has-error'; ?>">
 	            <label for="title" class="control-label">Заголовок</label>
 	            <input type="text" class="form-control" id="title" name="title" value="<?= htmlspecialchars(@$page['title']); ?>" placeholder="" >
@@ -26,13 +58,13 @@
 		</div>
     	<div class="col-md-4">
 	    	<div class="form-group">
-	    		<label for="title" class="control-label">Изображение</label>
+	    		<label for="title" class="control-label">Картинка</label>
 				<?
 				if (!empty($thumbs['_s']))
 				{ ?>
 				    <div class="form-group">
 				    	<img src="/public/news/<?= $thumbs['_s']['name']?>" width="<?= $thumbs['_s']['prop'][0]?>" height="<?= $thumbs['_s']['prop'][1]?>" class="img-thumbnail"><br>
-				    	<input type="checkbox" id="img_delete" name="img_delete" value="1"> <label for="img_delete" class="control-label">Удалить файл</label>
+				    	<input type="checkbox" id="img_delete" name="img_delete" value="1"> <label for="img_delete" class="control-label">Удалить картинку</label>
 				    </div>
 				<? } ?>
 				<input type="file" name="img">
@@ -72,8 +104,6 @@
 <script type="text/javascript">
 
     function trash (id) {
-        //var li = $('#'+id).parent();
-        //var tr = td.parent();
         if (confirm('Удалить запись?')) {
             $.ajax({
                 type: 'post',

@@ -10,3 +10,5 @@ $lang['delete_item_link'] = 'Удалить новость';
 $lang['delete_item_cofirm'] = 'Удалить новость?';
 
 $lang['error_delete'] = 'Не удалось удалить новость';
+
+$lang['notice_delete_sucsess'] = 'Новость удалена';

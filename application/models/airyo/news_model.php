@@ -8,6 +8,9 @@ class News_model extends CI_Model {
 	public function getList($limit, $start) {
         $this->db->limit($limit, $start);
         $this->db->select('*');
+        $this->db->select('date AS date_unformated');
+        $this->db->select('DATE_FORMAT(date, ("%d.%m.%Y")) AS date');
+        $this->db->order_by("date_unformated", "DESC");
         $q =  $this->db->get($this->db->dbprefix('news'));
         
         return  $q->result_array();
@@ -23,7 +26,7 @@ class News_model extends CI_Model {
 	}
 	
     public function count() {
-        $this->db->where('enabled',1);
+        //$this->db->where('enabled',1);
         $this->db->from($this->db->dbprefix('news'));
         return $this->db->count_all_results();
 	}
@@ -62,17 +65,17 @@ class News_model extends CI_Model {
 		return $q->row();
 	}
 
-    public function get_by_id($id) {
-        $q = $this->db;
-        $this->sql = "
-			SELECT * FROM ".$this->db->dbprefix('news')." WHERE id = '".$id."'
-		";
-        $q = $q->query($this->sql);
-        if ($q->num_rows() > 0)
-            return $q->row_array();
 
-        return false;
+    public function get_by_id($id)
+    {
+        $q = $this->db->query("
+			SELECT *, DATE_FORMAT(date, ('%d.%m.%Y')) AS date
+			FROM ".$this->db->dbprefix('news')." WHERE id = '".$id."'
+		");
+		
+        return $q->row_array();
     }
+
 
     public function getToAlias($alias, $array = false) {
         $q = $this->db;
@@ -91,6 +94,8 @@ class News_model extends CI_Model {
 
     public function add ($data)
     {
+        if (isset($data['date'])) $data['date'] = date("Y-m-d", strtotime($data['date']));
+        
         $this->db->insert($this->db->dbprefix('news'), $data);
         $return = $this->db->insert_id();
 
@@ -100,6 +105,8 @@ class News_model extends CI_Model {
 
     public function update($data)
     {
+       if (isset($data['date'])) $data['date'] = date("Y-m-d", strtotime($data['date']));
+       
        if ($this->db->update($this->db->dbprefix('news'), $data, array('id' => $data['id'])))
             return true;
        else

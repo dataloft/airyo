@@ -23,7 +23,7 @@
                     {
                 ?>
         				<li class="list-group-item">
-        					<a href="/airyo/news/edit/<?=$row['id']?>"><?=$row['title']?></a>
+        					<a href="/airyo/news/edit/<?=$row['id']?>"><?=$row['title']?></a> &nbsp;&nbsp;<small class="text-muted"><?=$row['date']?></small>
         				</li>
 		        <? } ?>
 			</ul>
