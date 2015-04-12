@@ -235,7 +235,7 @@ class News extends Airyo {
     	
     	// Вторая проверка - отсутствие другой записи с тем же алиасом
     	$r = $this->news_model->get_by_alias($alias);
-    	if (sizeof($r) >= 1 && $r[0]['id'] != $this->data['page']['id']) {
+    	if (sizeof($r) >= 1 && @$r[0]['id'] != @$this->data['page']['id']) {
     		$this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
     		return false;
     	}
