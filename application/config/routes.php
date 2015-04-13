@@ -39,11 +39,10 @@
 */
 
 
-//Frontend Routes:
+
 
 $route['404_override'] = '';
 $route['default_controller'] = 'laseris/pages';
-$route['gallery'] = 'laseris/gallery';
 
 
 //Admin Routes:
@@ -99,10 +98,9 @@ $route['airyo/gallery/editAlbum'] = 'airyo/gallery/editAlbum';
 $route['airyo/gallery/edit/(album:any)'] = 'airyo/gallery/editDescriptionAlbum/$1';
 $route['airyo/gallery/ajaxRemoveAlbum'] = 'airyo/gallery/ajaxRemoveAlbum';
 
-//admin news
+//airyo news
 $route['airyo/news'] = 'airyo/news';
 $route['airyo/news/(:num)'] = 'airyo/news';
-$route['airyo/news/add'] = 'airyo/news/add';
 $route['airyo/news/edit'] = 'airyo/news/edit';
 $route['airyo/news/edit/(:num)'] = 'airyo/news/edit/$1';
 $route['airyo/news/delete'] = 'airyo/news/delete';
@@ -111,6 +109,10 @@ $route['airyo/news/delete'] = 'airyo/news/delete';
 $route['airyo/counters'] = 'airyo/counters';
 
 
+//Frontend Routes:
+$route['news'] = 'laseris/news';
+$route['news/(:any)'] = 'laseris/news/item/$1';
+$route['gallery'] = 'laseris/gallery';
 $route['(:any)'] = 'laseris/pages/index/$1';
 
 
