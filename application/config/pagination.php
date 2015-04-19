@@ -26,7 +26,7 @@ $config['pagination_airyo'] = array(
 );
 
 $config['pagination'] = array(
-	'full_tag_open'     => '<ul class="pagination">',
+	'full_tag_open'     => '<ul class="pagination pagination-sm">',
 	'full_tag_close'    => '</ul>',
 	'first_link'        => '&laquo;',
 	'first_tag_open'    => '<li>',
@@ -41,7 +41,7 @@ $config['pagination'] = array(
 	'prev_tag_open'     => '<li>',
 	'prev_tag_close'    => '</li>',
 	'cur_tag_open'      => '<li class="active"><span>',
-	'cur_tag_close'     => '<span class="sr-only">(current)</span></span></li>',
+	'cur_tag_close'     => '</span></li>',
 	'num_tag_open'      => '<li>',
 	'num_tag_close'     => '</li>',
 	'base_url'          => '',

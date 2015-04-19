@@ -73,7 +73,7 @@ class News extends Airyo {
 	        // Устанавливаем правила проверки полей формы
 	        $this->form_validation->set_rules('title',	'', 'trim|required');
 	        $this->form_validation->set_rules('anons',	'', 'trim|required');
-	        $this->form_validation->set_rules('content','', 'required');
+	        //$this->form_validation->set_rules('content','', 'required');
 	        $this->form_validation->set_rules('alias',	'', 'trim|strtolower|required|callback_check_alias');
 	        $this->form_validation->set_rules('date',	'', 'callback_validate_date');
 	        

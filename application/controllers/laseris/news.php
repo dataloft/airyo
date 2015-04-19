@@ -6,6 +6,7 @@ class News extends Frontend {
 	public function __construct() {
 		parent::__construct();
 		
+		$this->config->load('pagination');
 		$this->load->model('laseris/news_model');
         $this->load->helper('url');
         $this->load->library('Smart_codes');

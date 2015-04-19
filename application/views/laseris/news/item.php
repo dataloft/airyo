@@ -7,7 +7,7 @@ $this->load->view('laseris/common/header');
 
 ?>
 
-<a href="/news/">Вернуться к списку новостей</a>
+<a href="/news/" style="margin: 0 0 30px 0; display: block; text-decoration: none"><i class="fa fa-arrow-left"></i> Вернуться к списку новостей</a>
 
 <article class="inner_article">
 
@@ -19,7 +19,7 @@ if (!empty($page['img_ext'])
 	{
 ?>
 
-<div class="album" id="<?=$page['alias']?>">
+<div class="album news-album" id="<?=$page['alias']?>">
 	<div class="image-thumb">
 		<a name="<?=$page['alias']?>" href="/public/news/<?= $page['id']?>_m<?= $page['img_ext']?>" title="">
 			<img src="/public/news/<?= $page['id']?>_s<?= $page['img_ext']?>" alt="" class="img-responsive image-gallery" />

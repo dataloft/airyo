@@ -75,7 +75,7 @@ $this->load->view('airyo/common/header')
 		<div class="row">
 	        <div class="col-md-12">
 		        <div class="form-group <? if (form_error('content')) echo 'has-error'; ?>">
-		            <label for="description" class="control-label">Текст новости</label>
+		            <label for="description" class="control-label">Основной текст</label>
 					<textarea rows="20" id="content" name="content" class="form-control" placeholder=""><?= @$page['content']; ?></textarea>
 				</div>
 				<div class="form-group <? if (form_error('alias')) echo 'has-error'; ?>">
