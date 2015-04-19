@@ -20,7 +20,6 @@ class News extends Frontend {
 	    $pg['base_url'] = '/news?';
 		$pg['per_page'] = 10;
 		$pg["num_links"] = 5;
-		$pg['use_page_numbers'] = TRUE;
 		$pg['page_query_string'] = TRUE;
 		
 	    $this->pagination->initialize($pg);
@@ -32,14 +31,19 @@ class News extends Frontend {
 	}
 	
 	
-	public function item($id = '')
+	public function item($alias = '')
 	{
+		$this->data['page'] = $this->news_model->get_by_alias($alias);
 		
-		
-		
-		
-		
-		$this->load->view('laseris/news/item', $this->data);
+		if ($this->data['page'])
+		{
+			$this->data['page']['content'] = $this->smart_codes->Parse($this->data['page']['content']);
+            
+            $this->load->view('laseris/news/item', $this->data);
+		}
+		else {
+			show_404();
+		}
 	}
 	
 	

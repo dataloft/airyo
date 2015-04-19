@@ -6,13 +6,13 @@ class News extends Airyo {
     protected $img_path;
     protected $thumbs_size = array(
         array(
-            'w' =>  200,
-            'h' =>  2000,
+            'w' =>  140,
+            'h' =>  140,
             'thumb_marker' => '_s'
         ),
         array(
-            'w' =>  670,
-            'h' =>  2000,
+            'w' =>  800,
+            'h' =>  800,
             'thumb_marker' => '_m'
         ),
     );
