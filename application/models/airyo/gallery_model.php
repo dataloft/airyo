@@ -38,7 +38,7 @@ class Gallery_model extends CI_Model {
 			$this->db->where('album.label', $aParams['sAlbumLabel']);
 		}
 
-		$this->db->order_by("create_date", "DESC");
+		$this->db->order_by("album.create_date", "DESC");
 
 		if(isset($aParams['iLimit']) AND isset($aParams['iStart'])) {
 			$this->db->limit($aParams['iLimit'], $aParams['iStart']);
