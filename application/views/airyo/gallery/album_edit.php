@@ -1,4 +1,30 @@
-<?$this->load->view('airyo/common/header')?>
+<?
+
+$this->css .= '
+	<link href="/themes/airyo/css/datepicker/bootstrap-datepicker.css" rel="stylesheet" type="text/css" />
+	';
+
+$this->js = '
+	<script src="/themes/airyo/js/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+	<script src="/themes/airyo/js/datepicker/locales/bootstrap-datepicker.ru.js" type="text/javascript"></script>
+	';
+	
+$this->js .= "
+	<script type='text/javascript'>
+	    
+    $(function() {
+        
+        $('#create_date').datepicker({
+        	format: 'dd.mm.yyyy',
+        	language: 'ru'
+        });
+           
+    });
+	    
+	</script>
+	";
+	
+$this->load->view('airyo/common/header') ?>
 
 <div class="container">
 	<h1 class="page-header">Фотоальбомы</h1>
