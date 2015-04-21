@@ -31,7 +31,7 @@
 				<?php if(!empty($albums)) : ?>
 					<ul class="list-group">
 						<?php foreach($albums as $album) : ?>
-							<li class="list-group-item"><a href="/airyo/gallery/<?=$album->label; ?>"><?=$album->title; ?></a></li>
+							<li class="list-group-item"><a href="/airyo/gallery/<?=$album->label; ?>"><?=$album->title; ?></a> &nbsp;&nbsp;<small class="text-muted"><?=$album->create_date?></small></li>
 						<?php endforeach; ?>
 					</ul>
 					<div class="text-center">
