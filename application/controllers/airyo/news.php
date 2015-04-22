@@ -51,8 +51,10 @@ class News extends Airyo {
 	    
 	    // Получаем список новостей для текущей страницы
 	    $this->data['news']  = $this->news_model->getList($pg["per_page"], $page);
+	    $this->data['pagination'] = $this->pagination->create_links();
 	    
 	    $this->load->view('airyo/news/list', $this->data);
+	    
 	    $this->updateLogs();
     }
 
