@@ -70,6 +70,7 @@ $this->load->view('airyo/common/header') ?>
 		
 		<input type="hidden" value="<?=$album->id; ?>" name="album_id" />
 		<input type="hidden" name="form_edit" value="edit" />
+		
 	<?php echo form_close(); ?>
 
 	<?php echo form_open("/airyo/gallery/ajaxRemoveAlbum", 'class="form-album-delete" method="POST" role="form"');?>

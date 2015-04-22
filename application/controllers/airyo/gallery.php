@@ -89,7 +89,7 @@ class Gallery extends Airyo
 				'description'   => $this->input->post('album_description',TRUE),
 				'image_id'      => 1,
 				'user_id'       => $this->user->id,
-				'create_date'   => date('Y-m-d H:i:s'),
+				'create_date'   => $this->input->post('create_date'),
 				'enable'        => 1
 			);
 

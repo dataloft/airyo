@@ -173,7 +173,10 @@ class Gallery_model extends CI_Model {
 	 *
 	 * @author N.Kulchinskiy
 	 */
-	public function addAlbum($aData) {
+	public function addAlbum($aData)
+	{
+		if (isset($aData['create_date'])) $aData['create_date'] = date("Y-m-d", strtotime($aData['create_date']));
+		
 		$this->db->insert($this->db->dbprefix('albums'), $aData);
 		return $this->db->insert_id();
 	}

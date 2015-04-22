@@ -225,6 +225,7 @@ class News extends Airyo {
     }
     
     
+    // Проверка при добавлении
     public function check_alias($alias)
     {
     	// Первая проверка на допустимые символы

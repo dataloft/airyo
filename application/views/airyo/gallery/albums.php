@@ -1,4 +1,30 @@
-<?$this->load->view('airyo/common/header')?>
+<?
+
+$this->css .= '
+	<link href="/themes/airyo/css/datepicker/bootstrap-datepicker.css" rel="stylesheet" type="text/css" />
+	';
+
+$this->js = '
+	<script src="/themes/airyo/js/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+	<script src="/themes/airyo/js/datepicker/locales/bootstrap-datepicker.ru.js" type="text/javascript"></script>
+	';
+	
+$this->js .= "
+	<script type='text/javascript'>
+	    
+    $(function() {
+        
+        $('#create_date').datepicker({
+        	format: 'dd.mm.yyyy',
+        	language: 'ru'
+        });
+           
+    });
+	    
+	</script>
+	";
+	
+$this->load->view('airyo/common/header') ?>
 
 <div class="container">
 	<h1 class="page-header">Фотоальбомы</h1>
@@ -63,6 +89,10 @@
 					<div class="form-group">
 						<label for="inputDescription">Описание</label>
 						<textarea class="form-control" name="album_description" id="inputDescription" cols="30" rows="6"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="inputDescription">Дата публикации (дд.мм.гггг)</label>
+						<input type="text" name="create_date" class="form-control" value="<?= date('d.m.Y')?>" maxlength="10" id="create_date" style="width: 20em"/>
 					</div>
 				</div>
 				<div class="modal-footer">
