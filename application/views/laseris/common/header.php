@@ -2,7 +2,7 @@
 <html lang="ru">
 
 <head>
-    <title>ЛазерИнформСервис</title>
+    <title><?= @$page['title'] ? $page['title'] : 'ЛазерИнформСервис'?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8" />
     <meta name="keywords" content="">

@@ -17,6 +17,7 @@ class Pages extends Frontend {
 		if ($this->data['page'])
 		{
 			$this->data['page']['content'] = $this->smart_codes->Parse($this->data['page']['content']);
+            $this->data['page']['title'] = $this->data['page']['h1'];
             
             $this->load->view('laseris/pages/'.$this->data['page']['template'], $this->data);
 		}
