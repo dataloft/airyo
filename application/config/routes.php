@@ -105,6 +105,13 @@ $route['airyo/news/edit'] = 'airyo/news/edit';
 $route['airyo/news/edit/(:num)'] = 'airyo/news/edit/$1';
 $route['airyo/news/delete'] = 'airyo/news/delete';
 
+//airyo chunks
+$route['airyo/chunks'] = 'airyo/chunks';
+$route['airyo/chunks/(:num)'] = 'airyo/chunks';
+$route['airyo/chunks/edit'] = 'airyo/chunks/edit';
+$route['airyo/chunks/edit/(:num)'] = 'airyo/chunks/edit/$1';
+$route['airyo/chunks/delete'] = 'airyo/chunks/delete';
+
 //airyo counters
 $route['airyo/counters'] = 'airyo/counters';
 

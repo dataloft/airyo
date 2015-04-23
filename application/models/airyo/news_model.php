@@ -5,12 +5,14 @@ class News_model extends CI_Model {
 		parent::__construct();
 	}
 
-	public function getList($limit, $start) {
+	public function getList($limit, $start)
+	{
         $this->db->limit($limit, $start);
         $this->db->select('*');
         $this->db->select('date AS date_unformated');
         $this->db->select('DATE_FORMAT(date, ("%d.%m.%Y")) AS date');
         $this->db->order_by("date_unformated", "DESC");
+        
         $q =  $this->db->get($this->db->dbprefix('news'));
         
         return  $q->result_array();

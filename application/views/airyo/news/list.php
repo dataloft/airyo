@@ -14,27 +14,22 @@
 			</p>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<ul class="list-group">
-                <?
-                if (!empty($news))
-                    foreach ($news as $row)
-                    {
-                ?>
-        				<li class="list-group-item">
-        					<a href="/airyo/news/edit/<?=$row['id']?>"><?=$row['title']?></a> &nbsp;&nbsp;<small class="text-muted"><?=$row['date']?></small>
-        				</li>
-		        <? } ?>
-			</ul>
-		</div>
-	</div>
 	
-	<nav>
-	    <ul class="pagination">
-	        <?= $this->pagination->create_links() ?>
-	    </ul>    
-	</nav>
+	<? if (!empty($news)) { ?>
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="list-group">
+					<? foreach ($news as $row) { ?>
+	    				<li class="list-group-item">
+	    					<a href="/airyo/news/edit/<?=$row['id']?>"><?=$row['title']?></a> &nbsp;&nbsp;<small class="text-muted"><?=$row['date']?></small>
+	    				</li>
+    				<? } ?>
+				</ul>
+			</div>
+		</div>
+	<? } ?>
+	
+	<? $this->load->view('airyo/common/pagination')?>
 	
 </div>
 
