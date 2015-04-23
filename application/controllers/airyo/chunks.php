@@ -53,14 +53,14 @@ class Chunks extends Airyo {
 	        // Устанавливаем правила проверки полей формы
 	        $this->form_validation->set_rules('name',	'', 'trim|required');
 	        $this->form_validation->set_rules('content','', 'required');
-	        $this->form_validation->set_rules('alias',	'', 'trim|strtolower|required|callback_check_alias');
+	        //$this->form_validation->set_rules('alias',	'', 'trim|strtolower|required|callback_check_alias');
         	
         	// Проверяем данные формы и готовим их для сохранения
         	if ($this->form_validation->run())
     		{
 	        	$input = array(
 	                'name'		=> $this->input->post('name',TRUE),
-	                'alias'		=> $this->input->post('alias',TRUE),
+	                //'alias'		=> $this->input->post('alias',TRUE),
 	                'content'	=> $this->input->post('content'),
 	            );
 	        }

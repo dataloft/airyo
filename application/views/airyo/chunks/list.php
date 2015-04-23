@@ -5,18 +5,9 @@
     <? $this->load->view('airyo/common/notice')?>
     
 	<h1 class="page-header"><?= $this->lang->line('module_title')?></h1>
-
-	<div class="row">
-		<div class="col-md-12" style="margin-top: 20px">
-			<p class="pull-right">
-				<span class="glyphicon glyphicon-plus" style="color: #777"></span>
-				<a href="/airyo/<?= $main_menu?>/edit">Создать</a>
-			</p>
-		</div>
-	</div>
 	
 	<? if (!empty($list)) { ?>
-		<div class="row">
+		<div class="row" style="margin-top: 40px">
 			<div class="col-md-12">
 				<ul class="list-group">
 					<? foreach ($list as $row) { ?>

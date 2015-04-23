@@ -23,19 +23,10 @@
 		            <label for="description" class="control-label">Наполнение</label>
 					<textarea rows="20" id="content" name="content" class="form-control" placeholder=""><?= @$page['content']; ?></textarea>
 				</div>
-				<div class="form-group <? if (form_error('alias')) echo 'has-error'; ?>">
-					<label for="alias" class="control-label">Алиас</label>
-		            <input type="text" class="form-control" id="alias" name="alias" value="<?= @$page['alias']; ?>" placeholder="">
-				</div>
 	
 		        <? if (!empty($id)) { ?> <input type="hidden" name="id" value="<?=$id?>"><? } else { ?><input type="hidden" name="action" value="add"><? } ?>
 				<button type="submit" name="submit" value="submit" class="btn btn-success" style="float: left;">Сохранить</button>
 				
-				<?
-			    if (!empty($page['id'])) {
-			    	echo '<a href="#" style="float: right;" onclick="trash('.$page['id'].');">'.$this->lang->line('delete_item_link').'</a>';
-			    }
-			    ?>
 			</div> 
 		</div> 
 
