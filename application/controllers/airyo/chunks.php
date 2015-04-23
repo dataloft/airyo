@@ -7,22 +7,20 @@ class Chunks extends Airyo {
         parent::__construct();
         
         $this->config->load('pagination');
-        //$this->load->library('upload');
-        //$this->load->library('image_lib');
-        //$this->load->model('airyo/news_model');
+        $this->load->model('airyo/chunks_model');
         $this->load->model('airyo/trash_model');
-        //$this->lang->load('airyo_news', 'russian');
+        $this->lang->load('airyo_chunks', 'russian');
         
         $this->data['main_menu'] = 'chunks';
     }
 
     
-    // Список новостей
+    // Список фрагментов
     public function index($page = '')
     {
 	    // Готовим конфиг для пагинации
 	    $pg = $this->config->item('pagination_airyo');
-	    //$pg['total_rows'] = $this->chunks_model->count();
+	    $pg['total_rows'] = $this->chunks_model->count();
 	    $pg['base_url'] = '/airyo/chunks';
 	    $pg['uri_segment'] = 3;
 		$pg['per_page'] = 25;
@@ -32,7 +30,7 @@ class Chunks extends Airyo {
 	    $page = ($this->uri->segment($pg['uri_segment'])) ? $this->uri->segment($pg['uri_segment']) : 0;
 	    
 	    // Получаем список новостей для текущей страницы
-	    //$this->data['news']  = $this->news_model->getList($pg["per_page"], $page);
+	    $this->data['list']  = $this->chunks_model->get_list($pg["per_page"], $page);
 	    
 	    $this->load->view('airyo/chunks/list', $this->data);
 	   
@@ -44,39 +42,26 @@ class Chunks extends Airyo {
     public function edit($id = '') {
     	
     	// Сначала получаем из БД новость с указанным id и картинки к ней
-    	$this->data['page'] = $this->news_model->get_by_id($id);
-        $this->data['thumbs'] = $this->get_thumbs($id);
+    	$this->data['page'] = $this->chunks_model->get_by_id($id);
         
         // Если запись, не существует, то генерируем дату для подстановки в форму
-        if (!isset($this->data['page']['date'])) $this->data['page']['date'] = date("d.m.Y");
+        //if (!isset($this->data['page']['date'])) $this->data['page']['date'] = date("d.m.Y");
         
         // Если форма отправлена
         if ($this->input->post())
         {
 	        // Устанавливаем правила проверки полей формы
-	        $this->form_validation->set_rules('title',	'', 'trim|required');
-	        $this->form_validation->set_rules('anons',	'', 'trim|required');
-	        //$this->form_validation->set_rules('content','', 'required');
+	        $this->form_validation->set_rules('name',	'', 'trim|required');
+	        $this->form_validation->set_rules('content','', 'required');
 	        $this->form_validation->set_rules('alias',	'', 'trim|strtolower|required|callback_check_alias');
-	        $this->form_validation->set_rules('date',	'', 'callback_validate_date');
-	        
-            // Удаляем картинки, если отмечен чекбокс
-            if (@$this->input->post('img_delete'))
-            {
-	            $this->img_delete($id);
-	            $this->data['thumbs'] = array();
-            }
         	
         	// Проверяем данные формы и готовим их для сохранения
         	if ($this->form_validation->run())
     		{
 	        	$input = array(
-	                'title'		=> $this->input->post('title',TRUE),
+	                'name'		=> $this->input->post('name',TRUE),
 	                'alias'		=> $this->input->post('alias',TRUE),
-	                'anons'		=> $this->input->post('anons'),
 	                'content'	=> $this->input->post('content'),
-	                'enabled'	=> $this->input->post('enabled',TRUE),
-	                'date'		=> $this->input->post('date'),
 	            );
 	        }
 	        
@@ -88,9 +73,8 @@ class Chunks extends Airyo {
 	        	{
 	        		$input['id'] = $id;
 	        		
-	        		if ($this->news_model->update($input))
+	        		if ($this->chunks_model->update($input))
 	                {
-	                    $this->image_upload($id);
 	                    $this->notice_push($this->lang->line('notice_update_sucsess'), 'success');
 	                    redirect($this->uri->uri_string());
 	                }
@@ -101,11 +85,10 @@ class Chunks extends Airyo {
 	        	// Если добавление
 		        else
 		        {
-		        	if ($new_id = $this->news_model->add($input))
+		        	if ($new_id = $this->chunks_model->add($input))
 		            {
-		                $this->image_upload($new_id);
 		                $this->notice_push($this->lang->line('notice_add_sucsess'), 'success');
-		                redirect('airyo/news/edit/'.$new_id, 'refresh');
+		                redirect('airyo/chunks/edit/'.$new_id, 'refresh');
 		            }
 		            else {
 		                $this->notice_push($this->lang->line('notice_update_model_error'), 'danger');
@@ -124,87 +107,7 @@ class Chunks extends Airyo {
         
         $this->data['notice'] = $this->notice_pull();
         
-        $this->load->view('airyo/news/edit', $this->data);
-    }
-    
-    
-	public function image_upload($id)
-	{
-        if (is_uploaded_file($_FILES['img']['tmp_name']))
-	    {
-			$this->img_delete($id);
-			
-			$config = array(
-	        	'upload_path'	=> $this->img_path,
-	        	'allowed_types' => 'gif|jpg|png',
-	        	'file_name'		=> $id,
-	        	'overwrite'		=> true,
-	        );
-	
-	        $this->upload->initialize($config);
-	        
-	        if ($this->upload->do_upload('img'))
-	        {
-	        	$img_data = $this->upload->data();
-	        	
-	        	$data = array(
-	        		'id'	=> $id,
-	        		'img_ext' 	=> $img_data['file_ext'],
-	        	);
-	        	$this->news_model->update($data);
-	        	
-	        	foreach ($this->thumbs_size as $thumb)
-                {
-                    $config = array();
-                    $config['source_image'] = $this->img_path.$id.$img_data['file_ext'];
-                    $config['width'] = $thumb['w'];
-                    $config['height'] = $thumb['h'];
-                    $config['thumb_marker'] = $thumb['thumb_marker'];
-                    $config['create_thumb'] = true;
-                    
-                    $this->image_lib->initialize($config);
-                    $this->image_lib->resize();
-                }
-	        }
-        }
-	}
-	
-	
-	public function img_delete($id)
-	{
-		$row = $this->news_model->get_by_id($id);
-		
-		$this->news_model->update(
-			array(
-        		'id'	=> $id,
-        		'img_ext' 	=> '',
-        	)
-		);
-		
-		@unlink($this->img_path.$id.$row['img_ext']);
-		
-		foreach ($this->thumbs_size as $thumb)
-            @unlink($this->img_path.$id.$thumb['thumb_marker'].$row['img_ext']);
-	}
-
-
-    public function get_thumbs($id)
-    {
-	    $row = $this->news_model->get_by_id($id);
-	    
-	    $thumbs = array();
-	    
-	    if ($row) {
-		    foreach ($this->thumbs_size as $thumb)
-	        {
-	           	if (file_exists($this->img_path.$id.$thumb['thumb_marker'].$row['img_ext'])) {
-	           		$thumbs[$thumb['thumb_marker']]['name'] = $id.$thumb['thumb_marker'].$row['img_ext'];
-	           		$thumbs[$thumb['thumb_marker']]['prop'] = getimagesize($this->img_path.$id.$thumb['thumb_marker'].$row['img_ext']);
-	           	}
-	        }
-        }
-        
-        return $thumbs;
+        $this->load->view('airyo/chunks/edit', $this->data);
     }
     
     
@@ -217,7 +120,7 @@ class Chunks extends Airyo {
         }
     	
     	// Вторая проверка - отсутствие другой записи с тем же алиасом
-    	$r = $this->news_model->get_by_alias($alias);
+    	$r = $this->chunks_model->get_by_alias($alias);
     	if (sizeof($r) >= 1 && @$r[0]['id'] != @$this->data['page']['id']) {
     		$this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
     		return false;
@@ -236,9 +139,10 @@ class Chunks extends Airyo {
             
             if ($id) {
             
-                $data['page'] = $this->news_model->get_by_id($id);
+                $data['page'] = $this->chunks_model->get_by_id($id);
 
-                if (!empty($data['page'])) {
+                if (!empty($data['page']))
+                {
                     $aAdditionalData = array(
                         'deleted_id' => $id,
                         'type' => 'page',
@@ -247,9 +151,7 @@ class Chunks extends Airyo {
 
                     if ($this->trash_model->Add($aAdditionalData)) {
                     	
-                    	$this->img_delete($id);
-                    	
-                        if ($this->news_model->delete($id))
+                        if ($this->chunks_model->delete($id))
                         {
                         	$output['success']='success';
                             $this->notice_push($this->lang->line('notice_delete_sucsess'), 'success');

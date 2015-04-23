@@ -13,10 +13,13 @@ class Frontend extends CI_Controller
 		$this->load->library('pagination');
 		$this->load->model('laseris/menu_model');
 		$this->load->model('laseris/counters_model');
+		$this->load->model('laseris/chunks_model');
 		$this->load->helper('url');
+
 
 		$this->data['menu'] = $this->menu_model->getListTree(1);
 		$this->data['mainmenu'] = $this->menu_model->getListTree(2);
+		$this->data['chunks'] = $this->chunks_model->get();
 		
 		
 		if ($counters = $this->counters_model->getCounters(

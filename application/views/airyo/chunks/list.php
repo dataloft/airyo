@@ -4,31 +4,30 @@
 	
     <? $this->load->view('airyo/common/notice')?>
     
-	<h1 class="page-header">Фрагменты</h1>
+	<h1 class="page-header"><?= $this->lang->line('module_title')?></h1>
 
 	<div class="row">
 		<div class="col-md-12" style="margin-top: 20px">
 			<p class="pull-right">
 				<span class="glyphicon glyphicon-plus" style="color: #777"></span>
-				<a href="/airyo/news/edit<? if (!empty($type)) echo '?type='.$type; ?>" class="add">Создать</a>
+				<a href="/airyo/<?= $main_menu?>/edit">Создать</a>
 			</p>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<ul class="list-group">
-                <?
-                if (!empty($news))
-                    foreach ($news as $row)
-                    {
-                ?>
-        				<li class="list-group-item">
-        					<a href="/airyo/news/edit/<?=$row['id']?>"><?=$row['title']?></a> &nbsp;&nbsp;<small class="text-muted"><?=$row['date']?></small>
-        				</li>
-		        <? } ?>
-			</ul>
+	
+	<? if (!empty($list)) { ?>
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="list-group">
+					<? foreach ($list as $row) { ?>
+	    				<li class="list-group-item">
+	    					<a href="/airyo/<?= $main_menu ?>/edit/<?= $row['id'] ?>"><?=$row['name']?></a> &nbsp;&nbsp;<small class="text-muted"><?=$row['alias']?></small>
+	    				</li>
+    				<? } ?>
+				</ul>
+			</div>
 		</div>
-	</div>
+	<? } ?>
 	
 	<? $this->load->view('airyo/common/pagination')?>
 	

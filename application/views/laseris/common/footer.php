@@ -82,8 +82,7 @@
                     <!--img src="/themes/laseris/img/main/logos-590.png" alt=""-->
                 </div>
                 <div class="copy-right">
-                    &copy; ЛазерИнформСервис, 1992-2015 &nbsp;&nbsp;&nbsp;
-                    &copy; Игнатов А.Г., 1982-2015
+                	<?= @$chunks['copyright'] ?>
                 </div>
             </div>
         </footer>
