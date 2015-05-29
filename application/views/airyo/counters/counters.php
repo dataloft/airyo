@@ -15,11 +15,11 @@
 			<textarea rows="20" id="text" name="text" class="form-control" placeholder=""><?=$counters->text?></textarea>
 		</div>
 		<div class="form-group <?php if (form_error('domain')) echo 'has-error"'; ?>">
-			<label for="domains" class="control-label">Домены на которых будет выводиться код счетчиков</label>
+			<label for="domains" class="control-label">Домены на которых будет выводиться код счетчиков (через запятую)</label>
 			<input type="text" class="form-control" id="domain" name="domain" value="<?=$counters->domain?>" placeholder="" >
 		</div>
 		<div class="form-group <?php if (form_error('ip_restrict')) echo 'has-error"'; ?>">
-			<label for="ip_restrict" class="control-label">Ограничение для IP</label>
+			<label for="ip_restrict" class="control-label">Ограничение для IP (через запятую)</label>
             <input type="text" class="form-control" id="ip_restrict" name="ip" value="<?=$counters->ip?>" placeholder="" >
 		</div>
               
