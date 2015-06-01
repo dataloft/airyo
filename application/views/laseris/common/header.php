@@ -36,16 +36,17 @@
         <div class="wrap">
             <!-- header -->
             <header class="header">
-                <div class="logo_pic">
-                    <img src="/themes/laseris/img/main/logo_pic.jpg" alt="">
-                </div>
-                <div class="logo">
-                    <a href="/" class="i i-logo"></a>
+                <div class="logo_text"><img src="/themes/laseris/img/main/logo_text.png" alt=""></div>
+                <a href="/" class="logo_img"><img src="/themes/laseris/img/main/logo_img.png" alt=""></a>
+                <div class="logo_pic"><img src="/themes/laseris/img/main/logo_pic2.jpg" alt=""></div>
+                <div class="text">Информационные, консультационные и маркетинговые услуги Технология и оборудование для лазерной сварки - «под ключ»</div>
+                <div class="contacts">
+                    <div class="phone">+7 905 204 23 25 (СПб), +7 965 410 16 06 (по России)</div>      <div class="mail"><a href="mailto:laseris-spb@peterlink.ru">laseris-spb@peterlink.ru</a></div>
                 </div>
             </header>
             <!-- /header -->
             <!-- nav -->
-            <nav class="nav">
+            <!-- <nav class="nav">
                 <ul>
                 	
                     <?
@@ -77,7 +78,7 @@
 					}
 					?>
                 </ul>
-            </nav>
+            </nav> -->
             <!-- /nav -->
             <!-- page -->
             <div class="page">

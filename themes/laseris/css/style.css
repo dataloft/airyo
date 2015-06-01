@@ -65,10 +65,10 @@ body:before {
 body:after {
   content: "";
   display: block;
-  height: 25px;
+  height: 43px;
   background: #903f98;
   position: absolute;
-  top: 102px;
+  top: 145px;
   left: 0;
   right: 0;
 }
@@ -164,16 +164,81 @@ body:after {
 }
 
 .header {
-  height: 127px;
+  height: 188px;
   position: relative;
   margin: 0 auto;
-  margin-bottom: -25px;
+  margin-bottom: 15px;
+}
+.header .logo_text,
+.header .logo_img {
+  display: block;
+  float: left;
+  position: absolute;
+  line-height: 0;
+}
+.header .logo_text {
+  position: absolute;
+  top: 27px;
+  left: 261px;
+}
+.header .logo_img {
+  top: 34px;
+  right: 35px;
+}
+.header .text {
+  font-size: 15px;
+  line-height: 21px;
+  height: 42px;
+  overflow: hidden;
+  color: #9b479f;
+  position: absolute;
+  top: 80px;
+  left: 265px;
+  text-align: justify;
+  width: 495px;
+}
+.header .text:after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+}
+.header .contacts {
+  height: 43px;
+  line-height: 43px;
+  font-size: 14px;
+  text-align: center;
+  color: #f8e5fb;
+  background: #904099;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 220px;
+}
+.header .contacts .phone {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10px;
+}
+.header .contacts .phone a {
+  color: #f8e5fb;
+  text-decoration: none;
+}
+.header .contacts .mail {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10px;
+}
+.header .contacts .mail a {
+  color: #f8e5fb;
 }
 .header:after {
   content: "";
   display: block;
   width: 220px;
-  height: 20px;
+  height: 10px;
   background: #c59ac9;
   position: absolute;
   top: 100%;
@@ -181,7 +246,7 @@ body:after {
 }
 .header .logo_pic {
   width: 220px;
-  height: 127px;
+  height: 188px;
   overflow: hidden;
   float: left;
 }
