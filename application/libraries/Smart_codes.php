@@ -94,6 +94,57 @@ class Smart_codes
         
         return $this->load->view('laseris/gallery/gallery_album', $data, TRUE);
     }
+    
+    
+    public function gallery_last($limit = 1)
+    {
+        $this->load->config('gallery');
+        $this->load->model('laseris/gallery_model');
+        
+        $data = array();
+        
+        $albums = $this->gallery_model->getFetchCountriesAlbums();
+		
+		$aGalleryConfig = $this->config->item('gallery');
+		$data['preview_extension'] = $aGalleryConfig['image_preview_extension'];
+		$data['preview_size'] = $aGalleryConfig['image_preview_size'][0];
+		
+		if (!empty($albums)){
+			foreach ($albums as $a)
+			{
+				$images = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $a->label));
+				
+				if (isset($images[0])) $data["images"][$a->id][] = $images[0];
+				if (isset($images[1])) $data["images"][$a->id][] = $images[1];
+				if (isset($images[2])) $data["images"][$a->id][] = $images[2];
+				if (isset($images[3])) $data["images"][$a->id][] = $images[3];
+			}
+		}
+		
+		$i = 0;
+		foreach ($albums as $a)
+		{
+			if (!empty($data["images"][$a->id])) 
+			{
+				$data['albums'][$a->id] = $a;
+				$i++;
+			}
+			
+			if ($i >= $limit) break;
+		}
+		
+        return $this->load->view('laseris/gallery/gallery_last', $data, TRUE);
+    }
+    
+    
+    public function news_last($limit = 1)
+    {
+        $this->load->model('laseris/news_model');
+        
+        $data['news']  = $this->news_model->getList(2, 0);
+		
+        return $this->load->view('laseris/news/last', $data, TRUE);
+    }
 
 
 }

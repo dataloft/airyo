@@ -26,6 +26,20 @@ class News_model extends CI_Model {
         
         return $this->db->count_all_results();
 	}
+	
+	
+	public function get_last($limit) {
+        $this->db->limit($limit, $start);
+        $this->db->select('*');
+        $this->db->select('date AS date_unformated');
+        $this->db->select('DATE_FORMAT(date, ("%d.%m.%Y")) AS date');
+        $this->db->where('enabled', 1);
+        $this->db->order_by("date_unformated", "DESC");
+        
+        $q =  $this->db->get($this->db->dbprefix('news'));
+        
+        return  $q->result_array();
+	}
     
     
     public function get_by_alias($alias)
