@@ -1,0 +1,646 @@
+/* ----------------------------------- *\
+			import
+\* ----------------------------------- */
+
+/* ----------------------------------- *\
+			icons
+\* ----------------------------------- */
+
+.i {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: middle;
+}
+/*
+Icon classes can be used entirely standalone. They are named after their original file names.
+
+```html
+<i class="icon-home"></i>
+```
+*/
+
+.i-logo {
+  background-image: url(../img/spr.png);
+  background-position: 0px 0px;
+  width: 619px;
+  height: 62px;
+}
+/* ----------------------------------- *\
+			fonts
+\* ----------------------------------- */
+
+/* ----------------------------------- *\
+			forms styles
+\* ----------------------------------- */
+
+/* ----------------------------------- *\
+			structura
+\* ----------------------------------- */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+.empty {
+  height: 103px;
+}
+body {
+  background: #f9f5fa;
+  position: relative;
+}
+body:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 50%;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #c59ac9;
+}
+body:after {
+  content: "";
+  display: block;
+  height: 43px;
+  background: #903f98;
+  position: absolute;
+  top: 145px;
+  left: 0;
+  right: 0;
+}
+.wrap {
+  position: relative;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  width: 930px;
+  background: #f9f5fa;
+  margin: 0 auto;
+  z-index: 2;
+}
+.wrap:before {
+  content: "";
+  display: block;
+  width: 220px;
+  height: 99999px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #903f98;
+}
+.wrap:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 9999px;
+  left: 100%;
+  top: 0;
+  bottom: 0;
+  background: #c59ac9;
+  z-index: -1;
+}
+.wrapper {
+  position: relative;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  min-width: 930px;
+  overflow: hidden;
+}
+.wrapper:before {
+  content: "";
+  width: 930px;
+  background: #f9f5fa;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -465px;
+}
+
+.footer {
+  position: relative;
+  margin-top: -143px;
+  height: 143px;
+  min-width: 930px;
+  overflow: hidden;
+  background: url(../img/main/footer.png) 0 bottom repeat-x;
+  z-index: 3;
+}
+.footer .inner {
+  width: 930px;
+  height: 143px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.footer .copy-left {
+  width: 220px;
+  height: 143px;
+  padding: 40px 0 0 15px;
+  float: left;
+  xtext-align: center;
+  overflow: hidden;
+  font-size: 90%;
+  color: white;
+}
+.footer .copy-right {
+  margin: 30px 0;
+  width: 670px;
+  float: left;
+  color: #FFF;
+  text-align: center;
+}
+.footer .logos {
+  width: 670px;
+  float: left;
+  xpadding: 25px 0 0 20px;
+  text-align: center;
+  overflow: hidden;
+  height: 67px;
+}
+
+.header {
+  height: 188px;
+  position: relative;
+  margin: 0 auto;
+  margin-bottom: 15px;
+}
+.header .logo_text,
+.header .logo_img {
+  display: block;
+  float: left;
+  position: absolute;
+  line-height: 0;
+}
+.header .logo_text {
+  position: absolute;
+  top: 27px;
+  left: 261px;
+}
+.header .logo_img {
+  top: 34px;
+  right: 35px;
+}
+.header .text {
+  font-size: 15px;
+  line-height: 21px;
+  height: 42px;
+  overflow: hidden;
+  color: #9b479f;
+  position: absolute;
+  top: 80px;
+  left: 265px;
+  text-align: justify;
+  width: 495px;
+}
+.header .text:after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+}
+.header .contacts {
+  height: 43px;
+  line-height: 43px;
+  font-size: 14px;
+  text-align: center;
+  color: #f8e5fb;
+  background: #904099;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 220px;
+}
+.header .contacts .phone {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10px;
+}
+.header .contacts .phone a {
+  color: #f8e5fb;
+  text-decoration: none;
+}
+.header .contacts .mail {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10px;
+}
+.header .contacts .mail a {
+  color: #f8e5fb;
+}
+.header:after {
+  content: "";
+  display: block;
+  width: 220px;
+  height: 10px;
+  background: #c59ac9;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+.header .logo_pic {
+  width: 220px;
+  height: 188px;
+  overflow: hidden;
+  float: left;
+}
+.header .logo {
+  text-align: center;
+  line-height: 102px;
+  overflow: hidden;
+  float: left;
+  width: 710px;
+  padding-left: 20px;
+}
+.header .logo a,
+.header .logo img {
+  vertical-align: middle;
+}
+.nav {
+  clear: both;
+  height: 25px;
+  line-height: 25px;
+  overflow: hidden;
+  background: #903f98;
+  font-size: 16px;
+  font-weight: 800;
+  color: #e8b2ff;
+  text-shadow: 0 1px 1px black;
+  margin-left: 220px;
+  text-align: center;
+  position: relative;
+  top: -25px;
+}
+.nav a {
+  color: #e8b2ff;
+  text-decoration: none;
+}
+.nav a:hover,
+.nav a.active {
+  color: #efcaff;
+}
+.nav li {
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 15px;
+}
+.nav li.active a {
+	color: #fff;
+}
+
+
+.page {
+  overflow: hidden;
+  padding: 0px 0 30px 0;
+  position: relative;
+}
+.page .side {
+  width: 220px;
+  float: left;
+  padding-top: 10px;
+}
+.page .content {
+  width: 710px;
+  float: right;
+  padding: 0 20px;
+}
+/* ----------------------------------- *\
+			common elements
+\* ----------------------------------- */
+
+/* ----------------------------------- *\
+			main styles
+\* ----------------------------------- */
+
+body {
+  line-height: 1.15;
+  font-size: 14px;
+  color: #903f98;
+}
+a {
+  color: #903f98;
+  text-decoration: underline;
+}
+a:hover {
+  text-decoration: none;
+}
+h1,
+h2 {
+  font-size: 19px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+h2 {
+  margin-bottom: 10px;
+}
+p {
+  margin-bottom: 20px;
+}
+.index_article {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.index_article p {
+  margin-bottom: 10px;
+}
+.link {
+  font-size: 30px;
+  font-weight: 800;
+  font-style: italic;
+}
+.link a {
+  text-decoration: none;
+}
+.link a:hover {
+  text-decoration: underline;
+}
+
+.inner_article {
+  margin-bottom: 25px;
+}
+.inner_article p {
+  margin-bottom: 10px;
+}
+.inner_article h2{
+  text-transform: none;
+  font-size:120%;
+}
+.inner_article h2 span{
+	font-weight: 400;
+	font-style: italic;
+	font-size: 70%;
+	text-transform: none;
+}
+.inner_article ol{
+	margin: 0 0 0 30px;
+}
+.inner_article ol li{
+	list-style-type: decimal;
+	list-style-position: outside;
+	margin-bottom:8px;
+}
+.inner_article ul{
+	margin: 0 0 0 30px;
+}
+.inner_article ul li{
+	list-style-type: square;
+	list-style-position: outside;
+	margin-bottom:8px;
+}
+.inner_article .none-list{
+	margin: 0 0 0 30px;
+}
+.inner_article .none-list li{
+	list-style-type: none!important;
+	list-style-position: inside!important;
+	margin-bottom:8px;
+}
+
+article table{margin:0 auto;}
+article table tr td{border:1px solid #000;padding:5px 10px;text-align:center;}
+
+/* ----------------------------------- *\
+			side
+\* ----------------------------------- */
+
+.side_menu {
+  color: white;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: normal;
+}
+.side_menu > ul > li {
+ 	margin-bottom: 15px;
+}
+.side_menu > ul > li > a {
+  font-size: 16px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.side_menu > ul > li > a:hover {
+  text-decoration: underline;
+}
+.side_menu > ul ul {
+  margin-bottom: 20px;
+}
+.side_menu > ul ul li {
+  padding-left: 9px;
+  position: relative;
+}
+.side_menu > ul ul li:after {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #b790fa;
+  position: absolute;
+  top: 8px;
+  left: 0;
+}
+.side_menu > ul ul a {
+  color: white;
+  text-decoration: none;
+}
+.side_menu > ul ul a:hover {
+  text-decoration: underline;
+}
+
+.side_menu > ul ul ul {
+  margin-bottom: 0 !important;
+}
+
+.side_menu li.active {
+	font-weight: bold;
+}
+
+.side_menu li.active li {
+	font-weight: normal;
+}
+
+
+/* ----------------------------------- *\
+			gallery
+\* ----------------------------------- */
+
+div.album {
+	margin: 0;
+}
+
+div.album div.image-thumb {
+	float: left;
+	width: 156px;
+	height: 130px;
+	border-right: 1px solid #dedede;
+	border-bottom: 1px solid #ccc;
+	margin: 0 10px 10px 0;
+	background-color: #fff;
+}
+
+div.album div.image-thumb a {
+  display: block;
+  width: 154px;
+  height: 128px;
+  overflow: hidden;
+  border: 8px solid white;
+  line-height: 112px;
+  position: relative;
+  outline: none;
+  text-align: center;
+}
+
+div.album div.image-thumb a:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  transition: opacity ease 0.2s;
+}
+
+div.album div.image-thumb a:hover:after {
+  opacity: 1;
+}
+
+div.album div.image-thumb img {
+  width: auto;
+  max-width: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+  line-height: 0;
+}
+
+div.news-album {
+	float: right;
+	margin: 0 0 30px 30px;
+}
+
+
+
+/* News */
+
+ul.news-list {
+	margin: 0;
+	padding: 0;
+}
+ul.news-list li {
+	list-style: none;
+	margin: 0 0 15px 0;
+	padding: 0;
+	clear: both;
+}
+ul.news-list li .title {
+	font-weight: bold;
+	display: block;
+	margin: 0 0 10px 0;
+}
+ul.news-list li .title {
+	font-weight: bold;
+}
+ul.news-list li .date {
+	font-size: 80%;
+	display: block;
+	margin: 10px 0 10px 0;
+}
+
+
+
+ul.pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin: 30px 0;
+  border-radius: 4px;s
+}
+.pagination > li {
+  display: inline;
+}
+.pagination > li > a,
+.pagination > li > span {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  margin-left: -1px;
+  line-height: 1.42857143;
+  color: #903f98;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+.pagination > li:first-child > a,
+.pagination > li:first-child > span {
+  margin-left: 0;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+  color: #903f98;
+  background-color: #eee;
+  border-color: #ddd;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  z-index: 2;
+  color: #fff;
+  cursor: default;
+  background-color: #903f98;
+  border-color: #903f98;
+}
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+  color: #777;
+  cursor: not-allowed;
+  background-color: #fff;
+  border-color: #ddd;
+}
+.pagination-sm > li > a,
+.pagination-sm > li > span {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+.pagination-sm > li:first-child > a,
+.pagination-sm > li:first-child > span {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+.pagination-sm > li:last-child > a,
+.pagination-sm > li:last-child > span {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+
+
+
+
+

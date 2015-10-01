@@ -33,7 +33,7 @@ $(function () {
 	 */
 	'use strict';
 	// Change this to the location of your server-side upload handler:
-	var url = '/admin/files/upload';
+	var url = '/airyo/files/upload';
 	$('#fileupload').fileupload({
 		url: url,
 		dataType: 'json',

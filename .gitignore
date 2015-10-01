@@ -15,8 +15,6 @@ application/logs/*
 */cache/!index.html
 */cache/!.htaccess
 
-.idea
 .htaccess
 
-application/config/*
 public/*

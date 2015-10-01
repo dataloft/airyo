@@ -7,66 +7,12 @@
 | Upload class to help identify allowed file types.
 |
 */
-$config['default_template'] = 'pages_block';
+$config['default_template'] = 'pages_default';
 $config['templates'] = array(
-                'pages_default' => array(
-                    'name' => 'Шаблон по умолчанию'
-                ),
-                'pages_1block' => array(
-                    'name' => 'Текст и текст',
-                    'fields' => array(
-                        'content1' => array(
-                            'type' => 'textarea',
-                            'label' => 'h1',
-                            'required' => '1',
-                            'attributes' => array(
-                                'rows' => '20',
-                                'cols' => '10',
-                            )
-                        ),
-                        'content2' => array(
-                            'type' => 'text',
-                            'label' => 'Какой-то текст',
-                            'required' => '1',
-                            'attributes' => array(
-                                'placeholder' => 'Какой-то текст'
-                            )
-                        ),
-                    )
-                ),
-                'gallery' => array(
-                    'name' => 'Кртинка и текст',
-                    'fields' => array(
-                        'content1' => array(
-                            'type' => 'textarea',
-                            'label' => 'Текст',
-                            'required' => '1',
-                            'attributes' => array(
-                                'rows' => '20',
-                                'cols' => '10',
-                            )
-                        ),
-                        'img' => array(
-                            'type' => 'file',
-                            'label' => 'Картинка',
-                            'required' => '1',
-
-                        ),
-                    )
-                ),
-                'pages_menu' => array(
-                    'name' => 'Меню',
-                    'modules' => array(
-                        'menu' => array(
-                            'model' => 'menu_model',
-                            'method' => array(
-                                'name' => 'getList',
-                                'params' => '1, true'
-                            )
-                        )
-                    )
-                ),
-			);
+    'pages_default' => array(
+        'name' => 'Шаблон по умолчанию'
+    ),
+);
 
 
 /* End of file mimes.php */

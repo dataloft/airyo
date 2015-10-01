@@ -180,7 +180,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 1;
 
 /*
 |--------------------------------------------------------------------------
@@ -246,7 +246,7 @@ $config['encryption_key'] = 'nlkjlsdjp3i203iedfsfkpip';
 */
 $config['sess_cookie_name']		= 'ci_session';
 $config['sess_expiration']		= 7200;
-$config['sess_expire_on_close']	= FALSE;
+$config['sess_expire_on_close']	= TRUE;
 $config['sess_encrypt_cookie']	= FALSE;
 $config['sess_use_database']	= FALSE;
 $config['sess_table_name']		= 'ci_sessions';
@@ -360,14 +360,6 @@ $config['proxy_ips'] = '';
 
 $config['auth'] = 'admin';
 
-/** @var array - Разрешение сформированных превью */
-$config['gallery'] = array(
-	'image_preview_extension' => '.jpg',
-	'image_preview_size' => array(
-		array('height' => 100, 'width' => 200),
-		array('height' => 200, 'width' => 300),
-	) // Варианты размеров превью
-);
 
 /**
 | -------------------------------------------------------------------
