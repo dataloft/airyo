@@ -42,7 +42,7 @@
 
 
 $route['404_override'] = '';
-$route['default_controller'] = 'laseris/pages';
+$route['default_controller'] = 'startbootstrap/pages';
 
 
 //Admin Routes:
@@ -117,10 +117,10 @@ $route['airyo/counters'] = 'airyo/counters';
 
 
 //Frontend Routes:
-$route['news'] = 'laseris/news';
-$route['news/(:any)'] = 'laseris/news/item/$1';
-$route['gallery'] = 'laseris/gallery';
-$route['(:any)'] = 'laseris/pages/index/$1';
+$route['news'] = 'startbootstrap/news';
+$route['news/(:any)'] = 'startbootstrap/news/item/$1';
+$route['gallery'] = 'startbootstrap/gallery';
+$route['(:any)'] = 'startbootstrap/pages/index/$1';
 
 
 

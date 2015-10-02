@@ -76,7 +76,7 @@ class Smart_codes
     public function Gallery($sAlbumLabel)
     {
         $this->load->config('gallery');
-        $this->load->model('laseris/gallery_model');
+        $this->load->model('startbootstrap/gallery_model');
         
         $aGalleryConfig = $this->config->item('gallery');
         
@@ -92,14 +92,14 @@ class Smart_codes
         
         $data["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
         
-        return $this->load->view('laseris/gallery/gallery_album', $data, TRUE);
+        return $this->load->view('startbootstrap/gallery/gallery_album', $data, TRUE);
     }
     
     
     public function gallery_last($limit = 1)
     {
         $this->load->config('gallery');
-        $this->load->model('laseris/gallery_model');
+        $this->load->model('startbootstrap/gallery_model');
         
         $data = array();
         
@@ -133,17 +133,17 @@ class Smart_codes
 			if ($i >= $limit) break;
 		}
 		
-        return $this->load->view('laseris/gallery/gallery_last', $data, TRUE);
+        return $this->load->view('startbootstrap/gallery/gallery_last', $data, TRUE);
     }
     
     
     public function news_last($limit = 1)
     {
-        $this->load->model('laseris/news_model');
+        $this->load->model('startbootstrap/news_model');
         
         $data['news']  = $this->news_model->getList(2, 0);
 		
-        return $this->load->view('laseris/news/last', $data, TRUE);
+        return $this->load->view('startbootstrap/news/last', $data, TRUE);
     }
 
 

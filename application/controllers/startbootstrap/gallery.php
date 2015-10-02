@@ -9,7 +9,7 @@ class Gallery extends Frontend {
 		parent::__construct();
 		$this->load->config('gallery');
 		$this->load->helper('file');
-		$this->load->model('laseris/gallery_model');
+		$this->load->model('startbootstrap/gallery_model');
 
 		$this->data['home_folder'] = $this->sHomeFolder;
 	}
@@ -31,7 +31,7 @@ class Gallery extends Frontend {
 			}
 		}
 		
-		$this->load->view('laseris/gallery/gallery', $this->data);
+		$this->load->view('startbootstrap/gallery/gallery', $this->data);
 	}
 
 

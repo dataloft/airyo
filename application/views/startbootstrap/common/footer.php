@@ -4,16 +4,13 @@
             <hr>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Company 2013</p>
+                    <p>&copy; Project 2015</p>
                 </div>
             </div>
         </footer>
     </div>
     <!-- /.container -->
 
-    <!-- JavaScript -->
-    <script src="/themes/startbootstrap/js/jquery-1.10.2.js"></script>
-    <script src="/themes/startbootstrap/js/bootstrap.js"></script>
 
     <!-- Script to Activate the Carousel -->
     <script>

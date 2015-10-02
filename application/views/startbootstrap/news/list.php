@@ -1,4 +1,4 @@
-<?$this->load->view('laseris/common/header')?>
+<? $this->load->view('startbootstrap/common/header') ?>
 
 <article class="inner_article">
 
@@ -34,4 +34,4 @@
 
 </article>
 
-<?$this->load->view('laseris/common/footer')?>
+<? $this->load->view('startbootstrap/common/footer') ?>

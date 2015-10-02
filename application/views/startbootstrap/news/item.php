@@ -1,9 +1,9 @@
 <? 
 
-$this->css = '<link rel="stylesheet" href="/themes/laseris/css/magnific-popup.css" />';
-$this->js = '<script src="/themes/laseris/js/jquery.magnific-popup.min.js"></script>';
+$this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/magnific-popup.css" />';
+$this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js"></script>';
 
-$this->load->view('laseris/common/header');
+$this->load->view('startbootstrap/common/header');
 
 ?>
 
@@ -53,4 +53,4 @@ echo "
 </script>
 
 
-<? $this->load->view('laseris/common/footer')?>
+<? $this->load->view('startbootstrap/common/footer')?>

@@ -6,8 +6,7 @@ class News extends Frontend {
 	public function __construct() {
 		parent::__construct();
 		
-		$this->config->load('pagination');
-		$this->load->model('laseris/news_model');
+		$this->load->model('startbootstrap/news_model');
         $this->load->helper('url');
         $this->load->library('Smart_codes');
 	}
@@ -28,7 +27,7 @@ class News extends Frontend {
 	    // Получаем список новостей для текущей страницы
 	    $this->data['news']  = $this->news_model->getList($this->pagination->per_page, $this->input->get('per_page'));
 	    
-	    $this->load->view('laseris/news/list', $this->data);
+	    $this->load->view('startbootstrap/news/list', $this->data);
 	}
 	
 	
@@ -40,7 +39,7 @@ class News extends Frontend {
 		{
 			$this->data['page']['content'] = $this->smart_codes->Parse($this->data['page']['content']);
             
-            $this->load->view('laseris/news/item', $this->data);
+            $this->load->view('startbootstrap/news/item', $this->data);
 		}
 		else {
 			show_404();

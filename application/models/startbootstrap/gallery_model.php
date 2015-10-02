@@ -3,13 +3,18 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Gallery_model extends CI_Model {
 
+	public $data = array();
+	
+
 	public function __construct() {
 		parent::__construct();
 	}
 
+
 	public function record_count() {
 		return $this->db->count_all("albums");
 	}
+
 
 	/**
 	 * Метод получения альбомов
@@ -20,7 +25,7 @@ class Gallery_model extends CI_Model {
 	 * @author N.Kulchinskiy
 	 */
 	public function getFetchCountriesAlbums(array $aParams = array()) {
-		$this->db->select('album.*');
+		$this->db->select('album.*, DATE_FORMAT(album.create_date, ("%d.%m.%Y")) AS create_date');
 		$this->db->select('(SELECT i.id FROM ' . $this->db->dbprefix('images') . ' AS i WHERE i.album_id = album.id ORDER BY id DESC LIMIT 1) AS random_image_id');
 		$this->db->select('(SELECT COUNT(img.id) FROM ' . $this->db->dbprefix('images') . ' AS img WHERE img.album_id = album.id) AS images_count');
 
@@ -33,7 +38,7 @@ class Gallery_model extends CI_Model {
 			$this->db->where('album.label', $aParams['sAlbumLabel']);
 		}
 
-		$this->db->order_by("create_date", "DESC");
+		$this->db->order_by("album.create_date", "DESC");
 
 		if(isset($aParams['iLimit']) AND isset($aParams['iStart'])) {
 			$this->db->limit($aParams['iLimit'], $aParams['iStart']);
@@ -82,7 +87,7 @@ class Gallery_model extends CI_Model {
 
 		$this->db->join($this->db->dbprefix('users'), $this->db->dbprefix('users').'.id'. '=' .$this->db->dbprefix('images').'.user_id');
 
-		$this->db->order_by($this->db->dbprefix('images').'.id', "DESC");
+		$this->db->order_by($this->db->dbprefix('images').'.order', "ASC");
 		if (isset($aParams['iLimit']) AND isset($aParams['iStart'])) {
 			$this->db->limit($aParams['iLimit'], $aParams['iStart']);
 		}

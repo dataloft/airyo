@@ -11,14 +11,18 @@ class Frontend extends CI_Controller
 		parent::__construct();
 		
 		$this->load->library('pagination');
-		$this->load->model('laseris/menu_model');
-		$this->load->model('laseris/counters_model');
-		$this->load->model('laseris/chunks_model');
+		$this->load->model('startbootstrap/menu_model');
+		$this->load->model('startbootstrap/counters_model');
+		$this->load->model('startbootstrap/chunks_model');
 		$this->load->helper('url');
 
 
-		$this->data['menu'] = $this->menu_model->getListTree(1);
-		$this->data['mainmenu'] = $this->menu_model->getListTree(2);
+		//$this->data['menu'] = $this->menu_model->getListTree(1);
+		//$this->data['mainmenu'] = $this->menu_model->getListTree(2);
+		
+		$this->data['menu'] = $this->menu_model->getList(1,true);
+		$this->data['mainmenu'] = $this->menu_model->getList(1,true);
+		
 		$this->data['chunks'] = $this->chunks_model->get();
 		
 		
