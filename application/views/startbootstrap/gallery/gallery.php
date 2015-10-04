@@ -18,7 +18,9 @@ $this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js
 		
 		<div class="row">
         	<div class="col-lg-12">
-				<h2><?=$album->title; ?><small><?=$album->description; ?></small></h2>
+				<h1 class="page-header"><?=$album->title; ?>
+					<small><?=$album->description; ?></small>
+				</h1>
 			</div>
 		</div>
 		
