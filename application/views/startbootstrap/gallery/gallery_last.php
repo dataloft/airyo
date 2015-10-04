@@ -1,7 +1,7 @@
 <?
 
-$this->css = '<link rel="stylesheet" href="/themes/laseris/css/magnific-popup.css" />';
-$this->js = '<script src="/themes/laseris/js/jquery.magnific-popup.min.js"></script>';
+$this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/magnific-popup.css" />';
+$this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js"></script>';
 
 ?>
 
@@ -21,7 +21,7 @@ $this->js = '<script src="/themes/laseris/js/jquery.magnific-popup.min.js"></scr
 		<? if(!empty($images[$album->id])) : ?>
 		<? foreach($images[$album->id] as $image) : ?>
 
-			<div class="image-thumb">
+			<div class="col-md-3 portfolio-item">
 				<a name="album<?=$album->id?>" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" title="<?=$image->description;?>">
 					<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive image-gallery" />
 				</a>

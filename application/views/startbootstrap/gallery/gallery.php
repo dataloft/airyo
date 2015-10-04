@@ -7,21 +7,27 @@ $this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js
 
 <? $this->load->view('startbootstrap/common/header')?>
 
+<!-- Код начала альбомов -->
+<div class="container">
+
 <? if(!empty($albums)) : ?>
 	
 	<? foreach($albums as $album) : ?>
 		
 	<div class="album" id="album<?=$album->id?>">
-	
-		<h2><?=$album->title; ?></h2>
-		<p><?=$album->description; ?></p>
+		
+		<div class="row">
+        	<div class="col-lg-12">
+				<h2><?=$album->title; ?><small><?=$album->description; ?></small></h2>
+			</div>
+		</div>
 		
 		<? if(!empty($images[$album->id])) : ?>
 		<? foreach($images[$album->id] as $image) : ?>
 
-			<div class="image-thumb">
+			<div class="col-md-3 portfolio-item">
 				<a name="album<?=$album->id?>" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" title="<?=$image->description;?>">
-					<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive image-gallery" />
+					<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive" />
 				</a>
 			</div>
 		
@@ -29,11 +35,16 @@ $this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js
 		<? endif ?>
 		
 	</div>
+
+
 	<div style="clear: both; height: 20px;"></div>
 	
 	<? endforeach; ?>
 
 <? endif ?>
+
+</div>
+<!-- Код окончания альбомов -->
 
 <script>
 
