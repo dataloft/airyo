@@ -17,7 +17,7 @@ $this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js
 	
 		<h2><?=$album->title; ?></h2>
 		<p><?=$album->description; ?></p>
-		
+		<div class="row">
 		<? if(!empty($images[$album->id])) : ?>
 		<? foreach($images[$album->id] as $image) : ?>
 
@@ -31,7 +31,6 @@ $this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js
 		<? endif ?>
 		
 	</div>
-	<div style="clear: both; height: 20px;"></div>
 	
 	<? endforeach; ?>
 	
