@@ -14,27 +14,25 @@ $this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js
 	
 	<? foreach($albums as $album) : ?>
 		
-		<div class="album" id="album<?=$album->id?>">
-			<div class="row">
-	        	<div class="col-lg-12">
-					<h1 class="page-header"><?=$album->title; ?>
-						<small><?=$album->description; ?></small>
-					</h1>
-				</div>
-		
-				<? if(!empty($images[$album->id])) : ?>
-				<? foreach($images[$album->id] as $image) : ?>
-
-				<div class="col-md-3 portfolio-item">
-					<a name="album<?=$album->id?>" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" title="<?=$image->description;?>">
-						<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive" />
-					</a>
-				</div>
-		
-				<? endforeach; ?>
-				<? endif ?>
-		
+		<div class="row" id="album<?=$album->id?>">
+        	<div class="col-lg-12">
+				<h1 class="page-header"><?=$album->title; ?>
+					<small><?=$album->description; ?></small>
+				</h1>
 			</div>
+	
+			<? if(!empty($images[$album->id])) : ?>
+			<? foreach($images[$album->id] as $image) : ?>
+
+			<div class="col-md-3 portfolio-item">
+				<a name="album<?=$album->id?>" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" title="<?=$image->description;?>">
+					<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive" />
+				</a>
+			</div>
+	
+			<? endforeach; ?>
+			<? endif ?>
+	
 		</div>
 	
 	<? endforeach; ?>
