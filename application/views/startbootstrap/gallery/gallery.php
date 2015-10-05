@@ -31,7 +31,7 @@ $this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js
 					<picture class="gallery-img"> 
 						<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 1000px)">
 						<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_big['width']; ?>x<?=$preview_size_big['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 240px) and (max-width:991px)">
-						<img srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" class="img-responsive" alt="…">
+						<img srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" data-src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_big['width']; ?>x<?=$preview_size_big['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" class="img-responsive" alt="…">
                     </picture>
 				</a>
 			</div>
@@ -67,6 +67,35 @@ if(!empty($albums)) {
 	}
 }
 ?>
+
+function imgReplace(imagesrc) {
+		$('.img-responsive').each(function () {
+			var imgSrc = $( this).attr(imagesrc);
+			$( this).parent().css({
+				"background": "url(../.." + imgSrc + ") no-repeat center / cover",
+				"width": "100%",
+				"height": "100%",
+				"display": "block"
+			});
+			$( this).remove();
+		});
+	}
+
+	if($(window).width() >= 1000){
+		imgReplace('srcset');
+	}
+	else {
+		imgReplace('data-src');
+	}
+
+	$(window).resize(function(){
+		if ($(window).width() >= 1000){
+			imgReplace('srcset');
+		}
+		else {
+			imgReplace('data-src');
+		}
+	});
 	
 });
 

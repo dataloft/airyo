@@ -91,8 +91,19 @@ footer {
 
 .portfolio-item {
 	margin-bottom: 25px;
+	height: auto;
 }
 
-.gallery-img {
-	max-width: 100%;
+@media only screen and (min-width: 1001px) {
+
+	.portfolio-item {
+		height: 154px;
+	}
+}
+
+@media only screen and (max-width: 1000px) {
+
+	.portfolio-item {
+		height: 454px;
+	}
 }
