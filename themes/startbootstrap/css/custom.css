@@ -92,3 +92,7 @@ footer {
 .portfolio-item {
 	margin-bottom: 25px;
 }
+
+.gallery-img {
+	max-width: 100%;
+}

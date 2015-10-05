@@ -21,7 +21,8 @@ class Gallery extends Frontend {
 		
 		$aGalleryConfig = $this->config->item('gallery');
 		$this->data['preview_extension'] = $aGalleryConfig['image_preview_extension'];
-		$this->data['preview_size'] = $aGalleryConfig['image_preview_size'][0];
+		$this->data['preview_size_small'] = $aGalleryConfig['image_preview_size'][1];
+		$this->data['preview_size_big'] = $aGalleryConfig['image_preview_size'][0];
 		
 		
 		if (!empty($this->data["albums"])){

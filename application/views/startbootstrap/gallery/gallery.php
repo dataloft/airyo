@@ -1,7 +1,9 @@
 <?
 
 $this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/magnific-popup.css" />';
-$this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js"></script>';
+
+$this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js"></script>
+<script src="/themes/startbootstrap/js/picturefill.min.js"></script>';
 
 ?>
 
@@ -26,7 +28,11 @@ $this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js
 
 			<div class="col-md-3 portfolio-item">
 				<a name="album<?=$album->id?>" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" title="<?=$image->description;?>">
-					<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive" />
+					<picture class="gallery-img"> 
+						<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 1000px)">
+						<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_big['width']; ?>x<?=$preview_size_big['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 240px) and (max-width:991px)">
+						<img srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" class="img-responsive" alt="…">
+                    </picture>
 				</a>
 			</div>
 	
