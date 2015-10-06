@@ -37,7 +37,7 @@ $this->js = '<script src="/themes/startbootstrap/js/blueimp-gallery.min.js"></sc
 			<? foreach($images[$album->id] as $image) : ?>
 
 			<div class="col-md-3 portfolio-item">
-				<a name="album<?=$album->id?>" title="Blueimp gallery" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" title="<?=$image->description;?>">
+				<a name="album<?=$album->id?>" title="<?=$image->description;?>" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>">
 					<picture class="pictures-gallery"> 
 						<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 1000px)">
 						<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_big['width']; ?>x<?=$preview_size_big['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 240px) and (max-width:991px)">
