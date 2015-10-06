@@ -108,31 +108,34 @@ footer {
 	}
 }
 
-@media only screen and (max-width: 1000px) {
 
-	.portfolio-item {
-		height: 454px;
+@media only screen and (min-width: 1001px) {
+	.pictures-gallery {
+		position: relative;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.pictures-gallery img {
+		position: absolute;
+		margin: auto;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+
+	.portfolio-item a {
+		display: block;
+		height: 100%;
 	}
 }
 
-.portfolio-item a {
-	display: block;
-	height: 100%;
-}
 
-.pictures-gallery {
-	position: relative;
-	display: block;
-	width: 100%;
-	height: 100%;
+@media only screen and (max-width: 1000px) {
+	.pictures-gallery img {
+		width: 100%;
+		height: auto;
+	}
 }
-
-.pictures-gallery img {
-	position: absolute;
-	margin: auto;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-}
-
