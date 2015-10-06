@@ -1,13 +1,23 @@
 <?
 
-$this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/magnific-popup.css" />';
+$this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/blueimp-gallery.min.css" />';
 
-$this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js"></script>
+$this->js = '<script src="/themes/startbootstrap/js/blueimp-gallery.min.js"></script>
 <script src="/themes/startbootstrap/js/picturefill.min.js"></script>';
 
 ?>
 
 <? $this->load->view('startbootstrap/common/header')?>
+
+<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+	<div class="slides"></div>
+	<h3 class="title"></h3>
+	<a class="prev">‹</a>
+	<a class="next">›</a>
+	<a class="close">×</a>
+	<a class="play-pause"></a>
+	<ol class="indicator"></ol>
+</div>
 
 <!-- Код начала альбомов -->
 <div class="container">
@@ -27,7 +37,7 @@ $this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js
 			<? foreach($images[$album->id] as $image) : ?>
 
 			<div class="col-md-3 portfolio-item">
-				<a name="album<?=$album->id?>" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" title="<?=$image->description;?>">
+				<a name="album<?=$album->id?>" title="Blueimp gallery" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" title="<?=$image->description;?>">
 					<picture class="pictures-gallery"> 
 						<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 1000px)">
 						<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_big['width']; ?>x<?=$preview_size_big['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 240px) and (max-width:991px)">
@@ -57,11 +67,14 @@ $(document).ready(function(){
 if(!empty($albums)) {
 	foreach($albums as $album) {
 		echo "
-			$('#album".$album->id."').magnificPopup({
-				delegate: 'a[name=album".$album->id."]', 
-				type: 'image',
-				gallery:{enabled:true}
-			});
+			document.getElementById('album".$album->id."').onclick = function (event) {
+    		event = event || window.event;
+    		var target = event.target || event.srcElement,
+        	link = target.src ? target.parentNode : target,
+        	options = {index: link, event: event},
+        	links = this.getElementsByTagName('a');
+    		blueimp.Gallery(links, options);
+		};
 		";
 		
 	}
