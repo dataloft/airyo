@@ -101,7 +101,7 @@ footer {
 	}
 }
 
-@media only screen and (min-width: 1001px) and (max-width: 1200px) {
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
 
 	.portfolio-item {
 		height: 128px;
@@ -109,7 +109,7 @@ footer {
 }
 
 
-@media only screen and (min-width: 1001px) {
+@media only screen and (min-width: 992px) {
 	.pictures-gallery {
 		position: relative;
 		display: block;
@@ -133,7 +133,7 @@ footer {
 }
 
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 991px) {
 	.pictures-gallery img {
 		width: 100%;
 		height: auto;
