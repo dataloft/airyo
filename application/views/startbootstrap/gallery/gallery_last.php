@@ -1,7 +1,8 @@
 <?
 
-$this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/magnific-popup.css" />';
-$this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js"></script>';
+$this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/blueimp-gallery.min.css" />';
+$this->js = '<script src="/themes/startbootstrap/js/jquery.blueimp-gallery.min.js"></script>
+<script src="/themes/startbootstrap/js/picturefill.min.js"></script>';
 
 ?>
 
