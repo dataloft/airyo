@@ -27,8 +27,8 @@ class News extends Frontend {
 		$pg['prev_tag_close'] = '</li>';
 		$pg['next_tag_open'] = '<li>';
 		$pg['next_tag_close'] = '</li>';
-		$pg['cur_tag_open'] = '<li class="active"><a href="">';
-		$pg['cur_tag_close'] = '</a></li>';
+		$pg['cur_tag_open'] = '<li class="active"><span>';
+		$pg['cur_tag_close'] = '</span></li>';
 		$pg['num_tag_open'] = '<li>';
 		$pg['num_tag_close'] = '</li>';
 
