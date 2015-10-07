@@ -50,11 +50,13 @@
 		</div>
 				<hr>
 		<? } ?>
+		<div class="row text-center">
+			<div class="col-lg-12">
+				<?= $this->pagination->create_links() ?>
+			</div>
+		</div>
 
 
-	<div style="clear: both;"></div>
-
-	<?= $this->pagination->create_links() ?>
 	</div>
 </article>
 

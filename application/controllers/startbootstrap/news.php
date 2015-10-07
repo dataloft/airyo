@@ -9,6 +9,7 @@ class News extends Frontend {
 		$this->load->model('startbootstrap/news_model');
         $this->load->helper('url');
         $this->load->library('Smart_codes');
+		$this->config->load('pagination');
 	}
 
 	
@@ -21,17 +22,6 @@ class News extends Frontend {
 		$pg['per_page'] = 10;
 		$pg["num_links"] = 5;
 		$pg['page_query_string'] = TRUE;
-		$pg['full_tag_open'] = '<div class="row text-center"><div class="col-lg-12"><ul class="pagination">';
-		$pg['full_tag_close'] = '</ul></div></div>';
-		$pg['prev_tag_open'] = '<li>';
-		$pg['prev_tag_close'] = '</li>';
-		$pg['next_tag_open'] = '<li>';
-		$pg['next_tag_close'] = '</li>';
-		$pg['cur_tag_open'] = '<li class="active"><span>';
-		$pg['cur_tag_close'] = '</span></li>';
-		$pg['num_tag_open'] = '<li>';
-		$pg['num_tag_close'] = '</li>';
-
 
 		$this->pagination->initialize($pg);
 	    
