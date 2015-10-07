@@ -2,7 +2,7 @@
 
 $this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/blueimp-gallery.min.css" />';
 
-$this->js = '<script src="/themes/startbootstrap/js/blueimp-gallery.min.js"></script>
+$this->js = '<script src="/themes/startbootstrap/js/jquery.blueimp-gallery.min.js"></script>
 <script src="/themes/startbootstrap/js/picturefill.min.js"></script>';
 
 ?>
@@ -26,7 +26,7 @@ $this->js = '<script src="/themes/startbootstrap/js/blueimp-gallery.min.js"></sc
 	
 	<? foreach($albums as $album) : ?>
 		
-		<div class="row" id="album<?=$album->id?>">
+		<div class="row">
         	<div class="col-lg-12">
 				<h1 class="page-header"><?=$album->title; ?>
 					<small><?=$album->description; ?></small>
@@ -37,11 +37,13 @@ $this->js = '<script src="/themes/startbootstrap/js/blueimp-gallery.min.js"></sc
 			<? foreach($images[$album->id] as $image) : ?>
 
 			<div class="col-md-3 portfolio-item">
-				<a name="album<?=$album->id?>" title="<?=$image->description;?>" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>">
+				<a title="<?=$image->description;?>" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" data-gallery="album<?=$album->id?>">
 					<picture class="pictures-gallery"> 
+                         <!--[if IE 9]><video style="display: none;"><![endif]-->
 						<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 1000px)">
 						<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_big['width']; ?>x<?=$preview_size_big['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 240px) and (max-width:991px)">
-						<img srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" data-src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_big['width']; ?>x<?=$preview_size_big['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" class="img-responsive" alt="…">
+                        <!--[if IE 9]></video><![endif]-->
+						<img srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" class="img-responsive" alt="…">
                     </picture>
 				</a>
 			</div>
@@ -57,32 +59,5 @@ $this->js = '<script src="/themes/startbootstrap/js/blueimp-gallery.min.js"></sc
 
 </div>
 <!-- Код окончания альбомов -->
-
-<script>
-
-$(document).ready(function(){
-
-<?
-
-if(!empty($albums)) {
-	foreach($albums as $album) {
-		echo "
-			document.getElementById('album".$album->id."').onclick = function (event) {
-    		event = event || window.event;
-    		var target = event.target || event.srcElement,
-        	link = target.src ? target.parentNode : target,
-        	options = {index: link, event: event},
-        	links = this.getElementsByTagName('a');
-    		blueimp.Gallery(links, options);
-		};
-		";
-		
-	}
-}
-?>
-
-});
-
-</script>
 
 <? $this->load->view('startbootstrap/common/footer')?>
