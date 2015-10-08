@@ -27,7 +27,7 @@ $this->js = '<script src="/themes/startbootstrap/js/jquery.blueimp-gallery.min.j
 		<div class="col-md-3 portfolio-item">
 			<a title="<?=$image->description;?>" 
 				href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" 
-				data-gallery="<?=$album->title?>">
+				data-gallery="album<?=$album->id?>">
 				<picture class="pictures-gallery">
 					<!--[if IE 9]><video style="display: none;"><![endif]-->
 					<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 1000px)">
