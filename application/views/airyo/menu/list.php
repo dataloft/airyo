@@ -98,18 +98,6 @@ $this->js .= "
 	</script>
 	";
 
-	if (is_array($message) and array_key_exists('type', $message)) {
-    	$this->js .= '
-    	<script>  
-    		swal({   
-    			title: "Готово!",   
-    			text: "' . $message['text'] . '",   
-    			type: "' . $message['type'] . '", 
-    			timer: 1500,   
-    			showConfirmButton: false });
-		</script>';
-     }
-
 function printmenutree($menu, $step=1, $parents=array()) {
 	
 	$output = '';
@@ -138,6 +126,9 @@ $this->load->view('airyo/common/header')
 
 
 <div class="container">
+	<? if (is_array($message) and array_key_exists('type', $message)) {?>
+        <div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
+    <? } ?>
     <h1 class="page-header">Меню</h1>
     <div class="row">
         <div class="col-md-3" style="margin-bottom: 10px">

@@ -52,10 +52,11 @@
             title: "Удалить запись?",
             type: "warning",
             showCancelButton: true,
-            confirmButtonText: "Ок",   
+            confirmButtonText: "Ок", 
+            confirmButtonColor: "#DD6B55",  
             cancelButtonText: "Отмена",   
             closeOnConfirm: false,   
-            closeOnCancel: false
+            closeOnCancel: true
         }, 
         function(isConfirm) {   
             if (isConfirm) {  
@@ -81,9 +82,7 @@
                     }
                 });          
             } 
-            else {     
-                swal("Отменено", "Ваши данные в безопасности :)", "error");   
-            } 
+            
         });
     }
 
