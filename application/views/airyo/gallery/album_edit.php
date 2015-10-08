@@ -66,17 +66,41 @@ $this->load->view('airyo/common/header') ?>
 		</div>
 		
 		<button type="submit" class="btn btn-success"><?= $this->lang->line('save')?></button>
-		<a href="#" class="link-album-delete" style="float: right;" data-album="<?=$album->id; ?>">Удалить альбом</a>
+		<? if (!empty($album->id)) {?>
+			<a href="#" style="float: right;" onclick="trash('<?=$album->id?>');">Удалить альбом</a>
+		<?}?>
 		
 		<input type="hidden" value="<?=$album->id; ?>" name="album_id" />
 		<input type="hidden" name="form_edit" value="edit" />
 		
 	<?php echo form_close(); ?>
 
-	<?php echo form_open("/airyo/gallery/ajaxRemoveAlbum", 'class="form-album-delete" method="POST" role="form"');?>
-		<input type="hidden" value="<?=$album->id; ?>" name="album_id" />
-	<?php echo form_close();?>
-
 </div>
+
+<script type="text/javascript">
+
+		function trash (id) {
+			var postData = {"album_id": id};
+			if (confirm('Удалить запись?')) {
+				$.ajax({
+					type: 'post',
+					url: '/airyo/gallery/ajaxRemoveAlbum',
+					data: postData,
+					complete: function() {
+						$("#pos_save").removeAttr("disable");
+
+					},
+					success: function(data, status) {
+							location.replace('/airyo/gallery');
+						},
+					error: function (data,status, error)
+					{
+						alert(error);
+					}
+				});
+			}
+		}
+
+</script>
 
 <?$this->load->view('airyo/common/footer')?>

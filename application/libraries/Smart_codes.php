@@ -82,14 +82,16 @@ class Smart_codes
         
         $data['home_folder'] = 'public/gallery';
         $data['preview_extension'] = $aGalleryConfig['image_preview_extension'];
-        $data['preview_size'] = $aGalleryConfig['image_preview_size'][0];
+        $data['preview_size_small'] = $aGalleryConfig['image_preview_size'][1];
+        $data['preview_size_big'] = $aGalleryConfig['image_preview_size'][0];
         
-        $rand_num = mt_rand(0, 0xffffff);
-        $rand_str = sprintf("%06x", $rand_num);
+        // $rand_num = mt_rand(0, 0xffffff);
+        // $rand_str = sprintf("%06x", $rand_num);
         
-        $data['album']['name'] = $sAlbumLabel.$rand_str;
-        $data['album']['label'] = $sAlbumLabel;
+        // $data['album']['name'] = $sAlbumLabel.$rand_str;
+        // $data['album']['label'] = $sAlbumLabel;
         
+        $data["album"] = $this->gallery_model->getAlbumByLabel($sAlbumLabel);
         $data["images"] = $this->gallery_model->getFetchCountriesImages(array('sAlbumLabel' => $sAlbumLabel));
         
         return $this->load->view('startbootstrap/gallery/gallery_album', $data, TRUE);

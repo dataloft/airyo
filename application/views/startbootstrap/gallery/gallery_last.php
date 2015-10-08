@@ -1,7 +1,8 @@
 <?
 
-$this->css = '<link rel="stylesheet" href="/themes/laseris/css/magnific-popup.css" />';
-$this->js = '<script src="/themes/laseris/js/jquery.magnific-popup.min.js"></script>';
+$this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/blueimp-gallery.min.css" />';
+$this->js = '<script src="/themes/startbootstrap/js/jquery.blueimp-gallery.min.js"></script>
+<script src="/themes/startbootstrap/js/picturefill.min.js"></script>';
 
 ?>
 
@@ -12,16 +13,14 @@ $this->js = '<script src="/themes/laseris/js/jquery.magnific-popup.min.js"></scr
 <header><h1>Фотогалереи</h1></header>
 	
 	<? foreach($albums as $album) : ?>
-		
-	<div class="album" id="album<?=$album->id?>">
 	
 		<h2><?=$album->title; ?></h2>
 		<p><?=$album->description; ?></p>
-		
+		<div class="row" id="album<?=$album->id?>">
 		<? if(!empty($images[$album->id])) : ?>
 		<? foreach($images[$album->id] as $image) : ?>
 
-			<div class="image-thumb">
+			<div class="col-md-3 portfolio-item">
 				<a name="album<?=$album->id?>" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" title="<?=$image->description;?>">
 					<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive image-gallery" />
 				</a>
@@ -30,8 +29,7 @@ $this->js = '<script src="/themes/laseris/js/jquery.magnific-popup.min.js"></scr
 		<? endforeach; ?>
 		<? endif ?>
 		
-	</div>
-	<div style="clear: both; height: 20px;"></div>
+		</div>
 	
 	<? endforeach; ?>
 	

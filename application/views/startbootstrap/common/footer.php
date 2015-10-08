@@ -4,7 +4,7 @@
             <hr>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>&copy; Project 2015</p>
+                    <p><?= @$chunks['copyright'] ?></p>
                 </div>
             </div>
         </footer>

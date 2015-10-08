@@ -1,62 +1,66 @@
 <?
-
-$this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/magnific-popup.css" />';
-$this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js"></script>';
-
+$this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/blueimp-gallery.min.css" />';
+$this->js = '<script src="/themes/startbootstrap/js/jquery.blueimp-gallery.min.js"></script>
+<script src="/themes/startbootstrap/js/picturefill.min.js"></script>';
 ?>
 
-<? $this->load->view('startbootstrap/common/header')?>
+<? $this->load->view('startbootstrap/common/header') ?>
+
+<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+	<div class="slides"></div>
+	<h3 class="title"></h3>
+	<a class="prev">‹</a>
+	<a class="next">›</a>
+	<a class="close">×</a>
+	<a class="play-pause"></a>
+	<ol class="indicator"></ol>
+</div>
+
+<!-- Код начала альбомов -->
+<div class="container">
 
 <? if(!empty($albums)) : ?>
-	
+
 	<? foreach($albums as $album) : ?>
-		
-	<div class="album" id="album<?=$album->id?>">
-	
-		<h2><?=$album->title; ?></h2>
-		<p><?=$album->description; ?></p>
-		
+
+	<div class="row">
+
+		<div class="col-lg-12">
+			<h1 class="page-header"><?=$album->title; ?>
+				<small><?=$album->description; ?></small>
+			</h1>
+		</div>
+
 		<? if(!empty($images[$album->id])) : ?>
 		<? foreach($images[$album->id] as $image) : ?>
 
-			<div class="image-thumb">
-				<a name="album<?=$album->id?>" href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" title="<?=$image->description;?>">
-					<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive image-gallery" />
-				</a>
-			</div>
-		
+		<div class="col-md-3 portfolio-item">
+			<a title="<?=$image->description;?>" 
+				href="/<?=$home_folder;?>/<?=$album->label; ?>/<?=$image->label;?>" 
+				data-gallery="album<?=$album->id?>">
+				<picture class="pictures-gallery"> 
+					<!--[if IE 9]><video style="display: none;"><![endif]-->
+					<source srcset="/<?=$home_folder;?>/<?=$album->label;?>/thumbs<?=$preview_size_small['width'];?>x<?=$preview_size_small['height'];?>/thumbs<?=$image->id;?><?=$preview_extension;?>" 
+						media="(min-width: 992px)">
+					<source srcset="/<?=$home_folder; ?>/<?=$album->label;?>/thumbs<?=$preview_size_big['width'];?>x<?=$preview_size_big['height'];?>/thumbs<?=$image->id; ?><?=$preview_extension;?>" 
+						media="(min-width: 240px) and (max-width:991px)">
+					<!--[if IE 9]></video><![endif]-->
+					<img srcset="/<?=$home_folder;?>/<?=$album->label;?>/thumbs<?=$preview_size_small['width'];?>x<?=$preview_size_small['height'];?>/thumbs<?=$image->id;?><?=$preview_extension;?>" 
+						class="img-responsive" alt="…">
+				</picture>
+			</a>
+		</div>
+
 		<? endforeach; ?>
 		<? endif ?>
-		
+
 	</div>
-	<div style="clear: both; height: 20px;"></div>
-	
+
 	<? endforeach; ?>
 
 <? endif ?>
 
-<script>
-
-$(document).ready(function(){
-
-<?
-
-if(!empty($albums)) {
-	foreach($albums as $album) {
-		echo "
-			$('#album".$album->id."').magnificPopup({
-				delegate: 'a[name=album".$album->id."]', 
-				type: 'image',
-				gallery:{enabled:true}
-			});
-		";
-		
-	}
-}
-?>
-	
-});
-
-</script>
+</div>
+<!-- Код окончания альбомов -->
 
 <? $this->load->view('startbootstrap/common/footer')?>

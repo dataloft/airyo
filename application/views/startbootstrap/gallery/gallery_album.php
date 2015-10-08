@@ -1,41 +1,48 @@
 <?
 
-$this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/magnific-popup.css" />';
-$this->js = '<script src="/themes/startbootstrap/js/jquery.magnific-popup.min.js"></script>';
+$this->css = '<link rel="stylesheet" href="/themes/startbootstrap/css/blueimp-gallery.min.css" />';
+$this->js = '<script src="/themes/startbootstrap/js/jquery.blueimp-gallery.min.js"></script>
+<script src="/themes/startbootstrap/js/picturefill.min.js"></script>';
 
 ?>
 
-<? if(!empty($images)) : ?>
+<? if(!empty($album)) : ?>
 
-	<div class="album" id="<?=$album['name']?>">
-	
-		<? foreach($images as $image) : ?>
-		
-			<div class="image-thumb">
-				<a name="<?=$album['name']?>" href="/<?=$home_folder; ?>/<?=$album['label'] ?>/<?=$image->label; ?>" title="<?=$image->description;?>">
-					<img src="/<?=$home_folder; ?>/<?=$album['label']; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive image-gallery" />
-				</a>
-			</div>
-		
-		<? endforeach; ?>
-		
+	<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+		<div class="slides"></div>
+		<h3 class="title"></h3>
+		<a class="prev">‹</a>
+		<a class="next">›</a>
+		<a class="close">×</a>
+		<a class="play-pause"></a>
+		<ol class="indicator"></ol>
 	</div>
-	
-	<script>
-	
-	$(document).ready(function(){
-	<?
-	echo "
-			$('#".$album['name']."').magnificPopup({
-				delegate: 'a[name=".$album['name']."]', 
-				type: 'image',
-				gallery:{enabled:true}
-			});
-		";
-	?>
-	
-	});
-	
-	</script>
+
+<!-- Начало смарткод-галерии -->
+
+	<div class="row"> 
+
+	<? foreach($images as $image) : ?>
+
+		<div class="col-md-3 portfolio-item">
+			<a title="<?=$image->description;?>" 
+				href="/<?=$home_folder; ?>/<?=$album->label; ?>/<?=$image->label; ?>" 
+				data-gallery="<?=$album->title?>">
+				<picture class="pictures-gallery">
+					<!--[if IE 9]><video style="display: none;"><![endif]-->
+					<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 1000px)">
+					<source srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_big['width']; ?>x<?=$preview_size_big['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" media="(min-width: 240px) and (max-width:991px)">
+					<!--[if IE 9]></video><![endif]-->
+					<img srcset="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size_small['width']; ?>x<?=$preview_size_small['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" class="img-responsive" alt="…">
+                </picture>
+			</a>
+		</div>
+
+	<? endforeach; ?>
 
 <? endif ?>
+
+	</div>
+	 <!-- End .row -->
+
+<!-- Окончание смарткод-галерии -->
