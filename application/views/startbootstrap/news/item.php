@@ -7,32 +7,40 @@ $this->load->view('startbootstrap/common/header');
 
 ?>
 
-<a href="/news/" style="margin: 0 0 30px 0; display: block; text-decoration: none"><i class="fa fa-arrow-left"></i> Вернуться к списку новостей</a>
 
+
+<div class="container">
+<br>
+<a href="/news/" class="btn btn-default"><i class="fa fa-arrow-left"></i><span class="glyphicon glyphicon-chevron-left"></span> Вернуться к списку новостей</a>
 <article class="inner_article">
 
 <header><h1><?= $page['title']?></h1></header>
 
-<? 
-if (!empty($page['img_ext']) 
-	&& file_exists($_SERVER['DOCUMENT_ROOT'].'/public/news/'.$page['id'].'_m'.$page['img_ext'])) 
-	{
-?>
+	<div class="row">
+		<div class="col-md-2">
+			<?
+			if (!empty($page['img_ext'])
+				&& file_exists($_SERVER['DOCUMENT_ROOT'].'/public/news/'.$page['id'].'_m'.$page['img_ext']))
+				{
+			?>
 
-<div class="album news-album" id="<?=$page['alias']?>">
-	<div class="image-thumb">
-		<a name="<?=$page['alias']?>" href="/public/news/<?= $page['id']?>_m<?= $page['img_ext']?>" title="">
-			<img src="/public/news/<?= $page['id']?>_s<?= $page['img_ext']?>" alt="" class="img-responsive image-gallery" />
-		</a>
+			<div class="album news-album" id="<?=$page['alias']?>">
+				<div class="image-thumb">
+					<a name="<?=$page['alias']?>" href="/public/news/<?= $page['id']?>_m<?= $page['img_ext']?>" title="">
+						<img class="img-responsive" src="/public/news/<?= $page['id']?>_s<?= $page['img_ext']?>" alt="" class="img-responsive image-gallery" />
+					</a>
+				</div>
+			</div>
+
+
+		<?
+		}
+		?>
+		</div>
+		<div class="col-md-10">
+			<div><?= $page['content']?></div>
+		</div>
 	</div>
-</div>
-
-<? 
-}
-?>
-
-<div><?= $page['content']?></div>
-
 </article>
 
 <script>

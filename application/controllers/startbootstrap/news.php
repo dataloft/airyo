@@ -9,6 +9,7 @@ class News extends Frontend {
 		$this->load->model('startbootstrap/news_model');
         $this->load->helper('url');
         $this->load->library('Smart_codes');
+		$this->config->load('pagination');
 	}
 
 	
@@ -21,8 +22,8 @@ class News extends Frontend {
 		$pg['per_page'] = 10;
 		$pg["num_links"] = 5;
 		$pg['page_query_string'] = TRUE;
-		
-	    $this->pagination->initialize($pg);
+
+		$this->pagination->initialize($pg);
 	    
 	    // Получаем список новостей для текущей страницы
 	    $this->data['news']  = $this->news_model->getList($this->pagination->per_page, $this->input->get('per_page'));
