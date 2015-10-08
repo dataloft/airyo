@@ -48,39 +48,43 @@
 <script type="text/javascript">
 
     function trash (id) {
-        //var li = $('#'+id).parent();
-        //var tr = td.parent();
-        if (confirm('Удалить запись?')) {
-            $.ajax({
-                type: 'post',
-                url: '/airyo/menu/delete',
-                dataType: 'json',
-                data: {id:id},
-                complete: function() {
-                    $("#pos_save").removeAttr("disable");
-                },
-                success: function(data, status) {
-                    if (data.error) {
-                        alert('Удалить запись не удалось');
+        swal({
+            title: "Удалить запись?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ок",   
+            cancelButtonText: "Отмена",   
+            closeOnConfirm: false,   
+            closeOnCancel: false
+        }, 
+        function(isConfirm) {   
+            if (isConfirm) {  
+                $.ajax({
+                    type: 'post',
+                    url: '/airyo/menu/delete',
+                    dataType: 'json',
+                    data: {id:id},
+                    complete: function() {
+                        $("#pos_save").removeAttr("disable");
+                    },
+                    success: function(data, status) {
+                        if (data.error) {
+                            swal("Отменено", "Удалить запись не удалось", "error");  
                     }
-                    if (data.success) {
-                        location.replace('/airyo/menu');
-                        /* alert('Удалить запись удалось');
-                         //change the background color to red before removing
-                         li.css("background-color","#FF3700");
-                         li.fadeOut(400, function(){
-                         li.remove();*/
-                        //  });
-
+                        if (data.success) {
+                            location.replace('/airyo/menu');
+                        }
+                    },
+                    error: function (data, status, error)
+                    {
+                        swal("Ошибка", error, "error"); 
                     }
-
-                },
-                error: function (data,status, error)
-                {
-                    alert(error);
-                }
-            });
-        }
+                });          
+            } 
+            else {     
+                swal("Отменено", "Ваши данные в безопасности :)", "error");   
+            } 
+        });
     }
 
 </script>
