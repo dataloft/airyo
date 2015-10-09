@@ -26,7 +26,7 @@ $this->js = '<script src="/themes/startbootstrap/js/jquery.blueimp-gallery.min.j
 	<div class="row">
 
 		<div class="col-lg-12">
-			<h1 class="page-header"><?=$album->title; ?>
+			<h1><?=$album->title; ?>
 				<small><?=$album->description; ?></small>
 			</h1>
 		</div>

@@ -33,7 +33,7 @@ footer {
 
 
 body {
-	margin-top: 50px; /* 50px is the height of the navbar - change this if the navbarn height changes */
+	margin-top: 70px; /* 50px is the height of the navbar - change this if the navbarn height changes */
 }
 
 .full-width-image-1 {
@@ -55,8 +55,8 @@ body {
 }
 
 .section {
-	padding-top: 75px;
-	padding-bottom: 75px;
+	xpadding-top: 75px;
+	xpadding-bottom: 75px;
 }
 
 .section-heading {
@@ -83,8 +83,8 @@ footer {
 }
 
 .section {
-	padding-top: 25px;
-	padding-bottom: 25px;
+	xpadding-top: 25px;
+	xpadding-bottom: 25px;
 }
 
 }

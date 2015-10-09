@@ -4,7 +4,7 @@
 
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="well text-center">
+			<div class="well">
 				<?= @$chunks['news_intro'] ?>
 			</div>
 		</div>
