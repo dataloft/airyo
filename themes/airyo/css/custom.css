@@ -1,0 +1,40 @@
+.slider-wrapper {
+	margin-top: 40px;
+}
+
+.one-slide {
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	margin-bottom: 35px;
+}
+
+.one-slide:hover {
+	box-shadow: 0 0 0 15px #f1f1f1;
+	border-radius: 0;
+}
+
+.one-slide h4 {
+	padding-left: 12px;
+}
+
+.one-slide-input {
+	border: none;
+}
+
+#name,
+#name1,
+#name2,
+#link,
+#link1,
+#link2 {
+	padding-top: 26px;
+	padding-bottom: 20px;
+}
+
+#del-label,
+#del-label1,
+#del-label2 {
+	padding-top: 16px;
+	padding-bottom: 14px;
+	margin-bottom: 10px;
+}

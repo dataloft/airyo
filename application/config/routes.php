@@ -98,6 +98,10 @@ $route['airyo/gallery/editAlbum'] = 'airyo/gallery/editAlbum';
 $route['airyo/gallery/edit/(album:any)'] = 'airyo/gallery/editDescriptionAlbum/$1';
 $route['airyo/gallery/ajaxRemoveAlbum'] = 'airyo/gallery/ajaxRemoveAlbum';
 
+//airyo sliders manager
+$route['airyo/sliders'] = 'airyo/sliders';
+$route['airyo/sliders/slide'] = 'airyo/sliders/sliderNum';
+
 //airyo news
 $route['airyo/news'] = 'airyo/news';
 $route['airyo/news/(:num)'] = 'airyo/news';
