@@ -13,14 +13,14 @@ class Sliders_model extends CI_Model {
 	}
 
 	public function get_by_id() {
-
+		
 	}
 
-	public function edit() {
+	public function update() {
 
 	}
 
 	public function delete() {
-
+		
 	}
 }

@@ -11,23 +11,20 @@ class Sliders extends Airyo
         $this->data['main_menu'] = 'sliders';
     }
 
-	public function index($page = '') 
+	public function index() 
 	{
 		$this->data['sliders'] = $this->sliders_model->get_list();
 		$this->load->view('airyo/sliders/list', $this->data);
 	}
 
-	public function one_slide($page = '') 
-	{
-		$this->load->view('airyo/sliders/slide', $this->data);
-	}
-
-	public function edit() {
-
+	public function edit($id = false) {
+		
+		
+		$this->load->view('airyo/sliders/edit', $this->data);
 	}
 
 	public function delete() {
-
+		
 	}
 
 }

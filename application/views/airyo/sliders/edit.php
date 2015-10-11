@@ -18,7 +18,7 @@ $this->css = '<link rel="stylesheet" href="/themes/airyo/css/custom.css" />';
 				<li>
 					<a href="#">
 						<span class="glyphicon glyphicon-plus" style="color: #777"></span>
-						Добавить изображение
+						Добавить слайды
 					</a>
 				</li>
 			</ul>
