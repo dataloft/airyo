@@ -1,31 +1,33 @@
 <?php
 
-class Sliders extends Airyo {
+class Sliders extends Airyo 
+{
 
-	protected $default;
-
-
-    public function __construct() {
+    public function __construct() 
+    {
         parent::__construct();
-        
-        $this->load->model('airyo/pages_model');
-        $this->load->model('airyo/trash_model');
-        $this->config->load('templates');
-        
-        $this->lang->load('airyo_pages', 'russian');
-        
-        $this->default = $this->config->item('default_template');
-        
-        $this->data['main_menu'] = 'pages';
+
+        $this->load->model('airyo/sliders_model');
+        $this->data['main_menu'] = 'sliders';
     }
 
-	public function index($page = '')
+	public function index($page = '') 
 	{
+		$this->data['sliders'] = $this->sliders_model->get_list();
 		$this->load->view('airyo/sliders/list', $this->data);
 	}
 
-	public function sliderNum($page = '') 
+	public function one_slide($page = '') 
 	{
 		$this->load->view('airyo/sliders/slide', $this->data);
 	}
+
+	public function edit() {
+
+	}
+
+	public function delete() {
+
+	}
+
 }

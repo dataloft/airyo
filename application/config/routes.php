@@ -100,7 +100,7 @@ $route['airyo/gallery/ajaxRemoveAlbum'] = 'airyo/gallery/ajaxRemoveAlbum';
 
 //airyo sliders manager
 $route['airyo/sliders'] = 'airyo/sliders';
-$route['airyo/sliders/slide'] = 'airyo/sliders/sliderNum';
+$route['airyo/sliders/slide'] = 'airyo/sliders/one_slide';
 
 //airyo news
 $route['airyo/news'] = 'airyo/news';
