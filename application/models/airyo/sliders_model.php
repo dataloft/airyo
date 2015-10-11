@@ -12,8 +12,12 @@ class Sliders_model extends CI_Model {
 		return $result->result_array();
 	}
 
-	public function get_by_id() {
+	public function get_by_id($id) {
+		$result = $this->db->query("SELECT * FROM ".$this->db->dbprefix('slide')." 
+			WHERE sliders_id = '".$id."'
+		");
 		
+        return $result->result_array();
 	}
 
 	public function update() {

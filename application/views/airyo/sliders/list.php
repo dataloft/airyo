@@ -8,7 +8,7 @@
 			<ul class="list-group">
 				<? foreach ($sliders as $row) { ?>
 				<li class="list-group-item">
-					<a href="/airyo/sliders/edit/11"><?=$row['title']?></a>
+					<a href="/airyo/sliders/edit/<?=$row['id']?>"><?=$row['title']?></a>
 				</li>
 				<? } ?>
 			</ul>

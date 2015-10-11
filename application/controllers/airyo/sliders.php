@@ -18,8 +18,7 @@ class Sliders extends Airyo
 	}
 
 	public function edit($id = false) {
-		
-		
+		$this->data['slide'] = $this->sliders_model->get_by_id($id);
 		$this->load->view('airyo/sliders/edit', $this->data);
 	}
 
