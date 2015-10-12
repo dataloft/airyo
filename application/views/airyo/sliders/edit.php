@@ -38,10 +38,11 @@ $this->css = '<link rel="stylesheet" href="/themes/airyo/css/custom.css" />';
 						<img src="/themes/airyo/img/a19.jpg" alt="" class="img-responsive img-slide">
 					</a>
 					<div class="input-group">
-						<input type="text" name="name" id="name" class="form-control one-slide-input" 
+						<input type="text" name="title[]" id="title<?= $row['id'] ?>" class="form-control one-slide-input" 
 						placeholder="Название" value="<?=$row['title']?>">
-						<textarea name="description" id="description" cols="10" rows="3" class="form-control one-slide-textarea" placeholder="Описание"><?=$row['description']?></textarea>
-						<input type="text" name="link" id="link" class="form-control one-slide-input" 
+						<input type="hidden" name="id[]" value="<?=$row['id']?>">
+						<textarea name="description[]" id="description<?= $row['id'] ?>" cols="10" rows="3" class="form-control one-slide-textarea" placeholder="Описание"><?=$row['description']?></textarea>
+						<input type="text" name="link[] ?>]" id="link<?= $row['id'] ?>" class="form-control one-slide-input" 
 						placeholder="Ссылка" value="<?=$row['link']?>">
 						<label for="del" class="form-control one-slide-input one-slide-label"><input type="checkbox" name="del" id="del"> Удалить</label>
 						<label class="form-control one-slide-input one-slide-label">
