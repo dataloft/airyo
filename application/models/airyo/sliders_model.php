@@ -20,11 +20,11 @@ class Sliders_model extends CI_Model {
         return $result->result_array();
 	}
 
-	public function update($text_input) 
+	public function update($data) 
 	{
-		if (!empty($text_input))
+		if (!empty($data))
 		{
-			if (!$this->db->update_batch($this->db->dbprefix('slide'), $text_input, 'id'))
+			if (!$this->db->update_batch($this->db->dbprefix('slide'), $data, 'id'))
 			{
             	return true;
            	}

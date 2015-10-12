@@ -32,22 +32,24 @@ class Sliders extends Airyo
                 $this->notice_push('Статусы обновлены', 'success');
             }
             
-            $i = count($this->input->post('title'));
-            $text_input = [];
-            for ($k = 0; $k < $i; $k++) {
-            	$text_input[$k] = array (
-            		'title' => $this->input->post('title')[$k],
-            		'description' => $this->input->post('description')[$k],
-            		'link' => $this->input->post('link')[$k],
-            		'id' => $this->input->post('id')[$k],
+            
+            // Формируем массив входящих данных тут же можно добавить проверки
+            $input = array();
+            
+            foreach ($this->input->post('slides') as $id => $data)
+            {
+            	$input[] = array(
+            		'id' => $id,
+            		'title' => $data['title'],
+            		'description' => $data['description'],
+            		'link' => $data['link']
             	);
             }
-
-            if ($this->sliders_model->update($text_input))
-
+            
+            if ($this->sliders_model->update($input))
             {
                 $this->notice_push('Записи обновлены', 'success');
-            }    
+            } 
             
             
             redirect($this->uri->uri_string());

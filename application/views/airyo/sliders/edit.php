@@ -38,13 +38,12 @@ $this->css = '<link rel="stylesheet" href="/themes/airyo/css/custom.css" />';
 						<img src="/themes/airyo/img/a19.jpg" alt="" class="img-responsive img-slide">
 					</a>
 					<div class="input-group">
-						<input type="text" name="title[]" id="title<?= $row['id'] ?>" class="form-control one-slide-input" 
-						placeholder="Название" value="<?=$row['title']?>">
-						<input type="hidden" name="id[]" value="<?=$row['id']?>">
-						<textarea name="description[]" id="description<?= $row['id'] ?>" cols="10" rows="3" class="form-control one-slide-textarea" placeholder="Описание"><?=$row['description']?></textarea>
-						<input type="text" name="link[] ?>]" id="link<?= $row['id'] ?>" class="form-control one-slide-input" 
-						placeholder="Ссылка" value="<?=$row['link']?>">
-						<label for="del" class="form-control one-slide-input one-slide-label"><input type="checkbox" name="del" id="del"> Удалить</label>
+						<input type="text" name="slides[<?= $row['id'] ?>][title]" class="form-control one-slide-input" placeholder="Название" value="<?=$row['title']?>">
+						<textarea name="slides[<?= $row['id'] ?>][description]" cols="10" rows="3" class="form-control one-slide-textarea" placeholder="Описание"><?=$row['description']?></textarea>
+						<input type="text" name="slides[<?= $row['id'] ?>][link]" class="form-control one-slide-input" placeholder="Ссылка" value="<?=$row['link']?>">
+						<label for="del" class="form-control one-slide-input one-slide-label">
+							<input type="checkbox" name="delete[<?= $row['id'] ?>]"> Удалить
+						</label>
 						<label class="form-control one-slide-input one-slide-label">
 							<input type="hidden" name="enabled[<?= $row['id'] ?>]" value="<?= $row['enabled'] ?>">
 							<input type="checkbox" name="enabled_new[<?= $row['id'] ?>]" value="1"<?= $row['enabled'] ? ' checked="checked"' : '' ?>> Показать
