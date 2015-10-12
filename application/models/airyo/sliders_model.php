@@ -23,6 +23,22 @@ class Sliders_model extends CI_Model {
 	public function update() {
 
 	}
+	
+	public function update_state($change)
+    {
+        if (!empty($change))
+        {
+            if ($this->db->query("
+					UPDATE ".$this->db->dbprefix('slide')." SET `enabled` = NOT `enabled`
+					WHERE id IN (".implode(',',$change).")
+				"))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 	public function delete() {
 		

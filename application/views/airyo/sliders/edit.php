@@ -6,6 +6,8 @@ $this->css = '<link rel="stylesheet" href="/themes/airyo/css/custom.css" />';
 
 <div class="container">
 
+	<? $this->load->view('airyo/common/notice')?>
+
 	<h1 class="page-header">Слайдеры</h1>
 
 	<ol class="breadcrumb">
@@ -25,9 +27,10 @@ $this->css = '<link rel="stylesheet" href="/themes/airyo/css/custom.css" />';
 		</div>
 	</div>
 	
+	
+	<? if (!empty($slide)) { ?>
 	<div class="row slider-wrapper">
-		<? if (!empty($slide)) { ?>
-		<form action="#">
+		<form action="" method="post">
 			<? foreach ($slide as $row) { ?>
 			<div class="col-md-4">
 				<div class="one-slide">
@@ -41,20 +44,20 @@ $this->css = '<link rel="stylesheet" href="/themes/airyo/css/custom.css" />';
 						<input type="text" name="link" id="link" class="form-control one-slide-input" 
 						placeholder="Ссылка" value="<?=$row['link']?>">
 						<label for="del" class="form-control one-slide-input one-slide-label"><input type="checkbox" name="del" id="del"> Удалить</label>
-						<label for="show" class="form-control one-slide-input one-slide-label"><input type="checkbox" name="show" id="show"> Показать</label>
+						<label class="form-control one-slide-input one-slide-label">
+							<input type="hidden" name="enabled[<?= $row['id'] ?>]" value="<?= $row['enabled'] ?>">
+							<input type="checkbox" name="enabled_new[<?= $row['id'] ?>]" value="1"<?= $row['enabled'] ? ' checked="checked"' : '' ?>> Показать
+						</label>
 					</div>
 				</div>
 			</div>
 			<? } ?>
+			<div class="col-md-12">
+				<button type="submit" name="submit" value="submit" class="btn btn-success">Сохранить</button>
+			</div>
 		</form>
-		<? } ?>
 	</div>
-
-	<div>
-		<button type="submit" class="btn btn-success">
-			<span>Сохранить и удалить отмеченные</span>
-		</button>
-	</div>
+	<? } ?>
 
 </div>
 
