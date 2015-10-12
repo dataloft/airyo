@@ -15,6 +15,4 @@ application/logs/*
 */cache/!index.html
 */cache/!.htaccess
 
-.htaccess
-
 public/*
