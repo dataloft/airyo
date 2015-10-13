@@ -27,7 +27,7 @@ $this->css .= "
 	}
 	
 	ol.sortable li {
-		margin: 15px 0 0 0;
+		margin: 21px 0 0 0;
 		padding: 0;
 	}
 	
