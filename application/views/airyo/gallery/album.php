@@ -27,10 +27,14 @@ $this->css .= "
 	}
 	
 	ol.sortable li {
-		margin: 20px 0 0 0;
+		margin: 15px 0 0 0;
 		padding: 0;
 	}
 	
+	.form-group-gallery {
+		margin-bottom: 0;
+	}
+
 	ol.sortable li > div  {
 		xborder-top: 1px solid #d4d4d4;
 		padding: 0px;
@@ -202,7 +206,7 @@ $this->load->view('airyo/common/header')
 
 	                           	<input type="hidden" value="<?=$image->title; ?>" class="form-control" name="album[title][]" id="inputName" placeholder="Название">
 								
-								<div class="form-group">
+								<div class="form-group form-group-gallery">
 									<label for="inputDescription">Описание</label>
 									<textarea class="form-control" name="album[description][]" id="inputDescription" cols="60" rows="3"><?=$image->description; ?></textarea>
 									<input style="margin: 10px 0;" type="checkbox" class="check" id="img_checkbox_<?=$image->id; ?>" name="selected[]" value="<?=$image->id; ?>" />
