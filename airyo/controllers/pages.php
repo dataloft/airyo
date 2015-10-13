@@ -224,7 +224,7 @@ class Pages extends Airyo {
     }
 
 
-    public function edit($id = '')
+    public function edit($id = false)
     {
         $this->data['message'] =  $this->session->flashdata('message')? $this->session->flashdata('message'):'';
         $this->data['main_menu'] = 'pages';
@@ -434,7 +434,7 @@ class Pages extends Airyo {
         //Вставляем новую запись
         else
         {
-            redirect("airyo/pages/add", 'refresh');
+            redirect("pages/add", 'refresh');
         }
         
         

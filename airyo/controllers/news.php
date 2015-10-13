@@ -124,7 +124,7 @@ class News extends Airyo {
 		            {
 		                $this->image_upload($new_id);
 		                $this->notice_push($this->lang->line('notice_add_sucsess'), 'success');
-		                redirect('airyo/news/edit/'.$new_id, 'refresh');
+		                redirect('news/edit/'.$new_id, 'refresh');
 		            }
 		            else {
 		                $this->notice_push($this->lang->line('notice_update_model_error'), 'danger');
