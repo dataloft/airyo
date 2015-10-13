@@ -27,7 +27,7 @@ $this->css .= "
 	}
 	
 	ol.sortable li {
-		margin: 21px 0 0 0;
+		margin: 15px 0 0 0;
 		padding: 0;
 	}
 	
@@ -36,15 +36,13 @@ $this->css .= "
 	}
 
 	ol.sortable li > div  {
-		xborder-top: 1px solid #d4d4d4;
 		padding: 0px;
 		margin: 0;
 		cursor: move;
-	
 	}
 	
 	.image-gallery {
-		margin: 10px 0;
+		margin: 0;
 	}
 	
 	.vertical-align {
