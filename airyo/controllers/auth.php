@@ -22,7 +22,7 @@ class Auth extends Airyo {
 	function index() {
 		if (!$this->ion_auth->logged_in()) {
 			//redirect them to the login page
-			redirect('airyo/login', 'refresh');
+			redirect('login', 'refresh');
 		}
 		elseif (!$this->ion_auth->is_admin()) { //remove this elseif if you want to enable this for non-admins
 			//redirect them to the home page because they must be an administrator to view this
@@ -68,7 +68,7 @@ class Auth extends Airyo {
 				//redirect them back to the home page
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
 				$oLog = $this->logs_model->getLastLog(array('iUserId' => $this->ion_auth->get_user_id(), 'sType' => 'redirect'));
-				$sRedirect = (!empty($oLog)) ? $oLog->description : 'airyo/pages';
+				$sRedirect = (!empty($oLog)) ? $oLog->description : 'pages';
 
 				redirect($sRedirect, 'refresh');
 			} else {
@@ -85,7 +85,7 @@ class Auth extends Airyo {
 		} else {
 			if ($this->ion_auth->logged_in()) {
 				//redirect them to the login page
-               redirect('airyo/pages', 'refresh');
+               redirect('pages', 'refresh');
 			}
             //$this->validation->set_message('Имя функц.', 'Ваше сообщение об ошибке');
 			//the user is not logging in so display the login page
