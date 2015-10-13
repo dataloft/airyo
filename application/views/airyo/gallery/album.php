@@ -48,6 +48,18 @@ $this->css .= "
 	    align-items: center;
 	    justify-content: center;
 	}
+
+	.gallery-img-wrapper {
+		padding-left: 0;
+	}
+
+	.gallery-description-wrapper {
+		padding-right: 0;
+	}
+
+	.form-control {
+		resize: none;
+	}
 	
 	</style>
 	";
@@ -180,24 +192,21 @@ $this->load->view('airyo/common/header')
 						
 						<div class="row vertical-align">
 		                                       
-                            <div class="col-xs-1">
-                                <input style="margin: 10px 0;" type="checkbox" class="check" name="selected[]" value="<?=$image->id; ?>" />
-                            </div>
-                            
-                            
-                            <div class="col-xs-2">
+                            <div class="col-xs-2 gallery-img-wrapper">
                             	
                             	<img src="/<?=$home_folder; ?>/<?=$album->label; ?>/thumbs<?=$preview_size['width']; ?>x<?=$preview_size['height']; ?>/thumbs<?=$image->id; ?><?=$preview_extension; ?>" alt="" class="img-responsive image-gallery" />
                             
                             </div>
 						
-                            <div class="col-xs-9">
+                            <div class="col-xs-10 gallery-description-wrapper">
 
 	                           	<input type="hidden" value="<?=$image->title; ?>" class="form-control" name="album[title][]" id="inputName" placeholder="Название">
 								
 								<div class="form-group">
 									<label for="inputDescription">Описание</label>
-									<textarea class="form-control" name="album[description][]" id="inputDescription" cols="60" rows="5"><?=$image->description; ?></textarea>
+									<textarea class="form-control" name="album[description][]" id="inputDescription" cols="60" rows="3"><?=$image->description; ?></textarea>
+									<input style="margin: 10px 0;" type="checkbox" class="check" id="img_checkbox_<?=$image->id; ?>" name="selected[]" value="<?=$image->id; ?>" />
+									<label for="img_checkbox_<?=$image->id; ?>">Удалить</label>
 								</div>
 								
 								<input type="hidden" name="album[id][]" value="<?=$image->id; ?>" />
