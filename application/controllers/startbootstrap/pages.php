@@ -6,6 +6,7 @@ class Pages extends Frontend {
 		parent::__construct();
 		
 		$this->load->model('startbootstrap/pages_model');
+		$this->load->model('startbootstrap/sliders_model');
         $this->load->helper('url');
         $this->load->library('Smart_codes');
 	}
@@ -18,6 +19,17 @@ class Pages extends Frontend {
 		{
 			$this->data['page']['content'] = $this->smart_codes->Parse($this->data['page']['content']);
             $this->data['page']['title'] = $this->data['page']['h1'];
+
+            $sliders_list = $this->sliders_model->get_list();
+            if (!empty($sliders_list)){
+				foreach ($sliders_list  as $row) {
+					$this->data["sliders"][] = array (
+						'id' => $row["id"],
+						'title' => $row["title"],
+						'slide' => $this->sliders_model->get_by_id($row['id'])
+					);
+				}
+			}
             
             $this->load->view('startbootstrap/pages/'.$this->data['page']['template'], $this->data);
 		}

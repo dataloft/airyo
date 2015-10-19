@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.9
+-- version 4.4.10
 -- http://www.phpmyadmin.net
 --
--- Host: localhost:8889
--- Generation Time: Oct 02, 2015 at 03:51 PM
--- Server version: 5.5.34
--- PHP Version: 5.4.25
+-- Host: localhost:3306
+-- Generation Time: Oct 19, 2015 at 05:31 PM
+-- Server version: 5.5.42
+-- PHP Version: 5.4.42
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,10 +14,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `airyo`
+-- Database: `air`
 --
 
 -- --------------------------------------------------------
@@ -27,30 +27,22 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `airyo_albums` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `label` varchar(255) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(511) DEFAULT NULL,
   `image_id` int(10) unsigned DEFAULT NULL,
   `user_id` int(11) unsigned NOT NULL,
   `create_date` datetime NOT NULL,
-  `enable` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `fk_airyo_albums_1_idx` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Альбомы' AUTO_INCREMENT=10 ;
+  `enable` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='Альбомы';
 
 --
 -- Dumping data for table `airyo_albums`
 --
 
 INSERT INTO `airyo_albums` (`id`, `label`, `title`, `description`, `image_id`, `user_id`, `create_date`, `enable`) VALUES
-(3, 'album1424958384', 'Альбом 01.03.2015', 'Apple отложит начало производства версии iPad с большим экраном на сентябрь текущего года, сообщает Bloomberg со ссылкой на собственные источники.Такое решение связано с задержкой поставок дисплеев, говорит один из источников агентства. По информации Bloomberg, изначально планировалось запустить производство 12,9-дюймового планшета уже в этом квартале.', 1, 2, '2015-03-01 00:00:00', 1),
-(4, 'album1425550392', 'Альбом 01.05.2015', 'ывп ывпа ывпвы', 1, 2, '2015-05-01 00:00:00', 1),
-(5, 'album1426153547', 'Альбом 01.06.2015', 'xxx', 1, 2, '2015-06-01 00:00:00', 1),
-(6, 'album1426535677', 'sdfsdf', 'sdfsdf', 1, 2, '2015-02-01 00:00:00', 1),
-(7, 'album1429712032', '23', '23', 1, 2, '2015-04-22 14:13:52', 1),
-(8, 'album1429712408', '33', '33', 1, 2, '2023-04-20 15:00:00', 1),
-(9, 'album1429712658', '444', '44', 1, 2, '2015-04-25 00:00:00', 1);
+(14, 'album1445263023', 'Adaptive album', '', 1, 2, '2015-10-19 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -59,20 +51,18 @@ INSERT INTO `airyo_albums` (`id`, `label`, `title`, `description`, `image_id`, `
 --
 
 CREATE TABLE `airyo_chunks` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
-  `content` text NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `content` text NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_chunks`
 --
 
 INSERT INTO `airyo_chunks` (`id`, `name`, `alias`, `content`) VALUES
-(2, 'Копирайты внизу страницы', 'copyright', '© 2015 Company Name'),
+(2, 'Копирайты внизу страницы', 'copyright', '© 2015 Kadev Web Development'),
 (3, 'Новости - текст перед лентой', 'news_intro', '<p>Информация для сайта LASERIS.RU подготавливается на основе постоянного мониторинга средств научно-технической информации и в т.ч.: интернета, с акцентом на лазерную технику и лазерные технологии обработки материалов и, в первую очередь - лазерную сварку. При этом необходимо иметь в виду, что технологические особенности сварки и др.лазерных технологий на базе новейших мощных волоконных, диодных и дисковых лазеров - являются конфиденциальной информацией ООО"ЛазерИнформСервис" и других Исполнителей и Партнёров, и, к сожалению - не могут размещаться на сайте и  передаются Заказчикам только на договорной или контрактной основе.</p>\n<p>Новые библиографические источники: статьи и книги, отчёты и обзоры, изобретения и патенты,  касающиеся достаточно узкой области науки и техники - только лазерного технологического  оборудования и лазерных технологий обработки материалов, представляют из себя значительный объём - до тысячи источников в месяц, поэтому в разделах сайта приводятся только отдельные примеры таких источников и наиболее актуальная информация.</p>\n\n<br> ');
 
 -- --------------------------------------------------------
@@ -82,7 +72,7 @@ INSERT INTO `airyo_chunks` (`id`, `name`, `alias`, `content`) VALUES
 --
 
 CREATE TABLE `airyo_content` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `h1` varchar(255) NOT NULL,
   `content` mediumtext NOT NULL,
@@ -91,17 +81,15 @@ CREATE TABLE `airyo_content` (
   `meta_keywords` text NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   `type` varchar(200) NOT NULL,
-  `template` varchar(200) NOT NULL DEFAULT 'default',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=150 ;
+  `template` varchar(200) NOT NULL DEFAULT 'default'
+) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_content`
 --
 
 INSERT INTO `airyo_content` (`id`, `title`, `h1`, `content`, `alias`, `meta_description`, `meta_keywords`, `enabled`, `type`, `template`) VALUES
-(106, '0', 'Главная страница', '<header><h1>ОСНОВНЫЕ НАПРАВЛЕНИЯ ДЕЯТЕЛЬНОСТИ</h1></header>\n\n[[Gallery:album1426153547]]\n\n<i class="fa fa-file-pdf-o fa-lg"></i> fa-lg\n\n[[news_last:2]]\n\n<p>РАЗРАБОТКА и ПОСТАВКА ПОД «КЛЮЧ» на договорной основе ТЕХНОЛОГИИ и оборудования,\nоснастки для лазерной и гибридной сварки излучением большой мощности (до 30–50–100 кВт)\nволоконными, диодными, дисковыми лазерами, включая сервисное и информационное\nобслуживание, обучение персонала, аттестацию и сертификацию;</p>\n\n[[gallery_last:2]]\n\n<p>Информационные, консультационные и маркетинговые услуги,\nвключая подготовку информационных и патентных, аналитических обзоров и справок на основе\nодного из лучших в России информационных и патентных фондов (более 10 тыс. ед. хранения\nс 70–80-х годов) по ЛАЗЕРНЫМ ТЕХНОЛОГИЯМ ОБРАБОТКИ МАТЕРИАЛОВ (ЛТ)\nи ЛАЗЕРНОМУ ТЕХНОЛОГИЧЕСКОМУ ОБОРУДОВАНИЮ (ЛТО);</p>\n\n<p>ООО «ЛазерИнформСервис» (ранее АОЗТ и ЗАО) работает с 30.05.1992 года – см. раздел «ИСТОРИЯ»;</p>\n<p>Комплектация ЛТО выполняется от лучших мировых производителей из соображений\nцелесообразности и оптимальности их параметров: ЦЕНЫ и КАЧЕСТВА,\nс максимальным учетом пожеланий заказчика;</p>\n<p>Технология лазерной и гибридной сварки стали и сплавов толщиной до 15–50 мм\nразрабатывается лучшими российскими специалистами на основе многолетнего опыта\nна базе самых современных лазеров мощностью до 30–100 кВт</p>\n<header>\n<h2>Контакты</h2>\n</header>\n\n<br>\n<p><img src="/public/pages/home/home.jpg" width="667" height="276"></p>\n<p style="font-size: 120%">Лазерная сварка – уникально возможные высокие: производительность и степень автоматизации, физико-механические и эксплуатационные свойства сварных соединений!</p>', '', '0', '0', 1, '0', 'pages_default'),
+(106, '0', 'Главная страница', '<header><h1>Мои фотоальбомы</h1></header>\n\n[[Gallery:album1444317330]]\n\n[[news_last:2]]\n\n<p>РАЗРАБОТКА и ПОСТАВКА ПОД «КЛЮЧ» на договорной основе ТЕХНОЛОГИИ и оборудования,\nоснастки для лазерной и гибридной сварки излучением большой мощности (до 30–50–100 кВт)\nволоконными, диодными, дисковыми лазерами, включая сервисное и информационное\nобслуживание, обучение персонала, аттестацию и сертификацию;</p>\n\n<p>Информационные, консультационные и маркетинговые услуги,\nвключая подготовку информационных и патентных, аналитических обзоров и справок на основе\nодного из лучших в России информационных и патентных фондов (более 10 тыс. ед. хранения\nс 70–80-х годов) по ЛАЗЕРНЫМ ТЕХНОЛОГИЯМ ОБРАБОТКИ МАТЕРИАЛОВ (ЛТ)\nи ЛАЗЕРНОМУ ТЕХНОЛОГИЧЕСКОМУ ОБОРУДОВАНИЮ (ЛТО);</p>\n\n<p>ООО «ЛазерИнформСервис» (ранее АОЗТ и ЗАО) работает с 30.05.1992 года – см. раздел «ИСТОРИЯ»;</p>\n<p>Комплектация ЛТО выполняется от лучших мировых производителей из соображений\nцелесообразности и оптимальности их параметров: ЦЕНЫ и КАЧЕСТВА,\nс максимальным учетом пожеланий заказчика;</p>\n<p>Технология лазерной и гибридной сварки стали и сплавов толщиной до 15–50 мм\nразрабатывается лучшими российскими специалистами на основе многолетнего опыта\nна базе самых современных лазеров мощностью до 30–100 кВт</p>\n<header>\n<h2>Контакты</h2>\n</header>\n\n<br>\n<p><img src="/public/pages/home/home.jpg" width="667" height="276"></p>\n<p style="font-size: 120%">Лазерная сварка – уникально возможные высокие: производительность и степень автоматизации, физико-механические и эксплуатационные свойства сварных соединений!</p>', '', '0', '0', 1, '0', 'pages_default'),
 (121, '0', 'Новости', 'Информация подготавливается', 'news', '0', '0', 1, '0', 'pages_default'),
 (122, '0', 'Вакансии и кадры', '', 'vacancy', '0', '0', 1, '', 'pages_default'),
 (123, '0', 'Выставки в 2015 году', 'Информация подготавливается', 'exhibitions', '0', '0', 1, '0', 'pages_default');
@@ -113,12 +101,11 @@ INSERT INTO `airyo_content` (`id`, `title`, `h1`, `content`, `alias`, `meta_desc
 --
 
 CREATE TABLE `airyo_counters` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `text` text NOT NULL,
   `ip` text NOT NULL,
-  `domain` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `domain` text NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_counters`
@@ -134,11 +121,10 @@ INSERT INTO `airyo_counters` (`id`, `text`, `ip`, `domain`) VALUES
 --
 
 CREATE TABLE `airyo_groups` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `id` mediumint(8) unsigned NOT NULL,
   `name` varchar(20) NOT NULL,
-  `description` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `description` varchar(100) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_groups`
@@ -155,7 +141,7 @@ INSERT INTO `airyo_groups` (`id`, `name`, `description`) VALUES
 --
 
 CREATE TABLE `airyo_images` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `order` int(11) NOT NULL,
   `label` varchar(255) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
@@ -163,114 +149,18 @@ CREATE TABLE `airyo_images` (
   `album_id` int(11) DEFAULT NULL,
   `user_id` int(10) unsigned DEFAULT NULL,
   `create_date` datetime NOT NULL,
-  `enable` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `fk_airyo_images_1_idx` (`album_id`),
-  KEY `fk_airyo_images_users_idx` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Изображения' AUTO_INCREMENT=131 ;
+  `enable` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8 COMMENT='Изображения';
 
 --
 -- Dumping data for table `airyo_images`
 --
 
 INSERT INTO `airyo_images` (`id`, `order`, `label`, `title`, `description`, `album_id`, `user_id`, `create_date`, `enable`) VALUES
-(1, 1, '_vyM8JUgV_0.jpg', '_vyM8JUgV_0', NULL, 3, 2, '2015-02-26 13:46:57', 1),
-(2, 2, '000kysdx.jpg', '000kysdx', NULL, 3, 2, '2015-02-26 13:46:57', 1),
-(3, 4, '006fs3c6.jpeg', '006fs3c6', NULL, 3, 2, '2015-02-26 13:46:57', 1),
-(4, 5, '006ft4g0.jpeg', '006ft4g0', NULL, 3, 2, '2015-02-26 13:46:57', 1),
-(5, 0, '6idWeE8WbtY.jpg', '6idWeE8WbtY', NULL, 3, 2, '2015-02-26 13:46:57', 1),
-(6, 3, '_push1.jpg', '_push1', NULL, 3, 2, '2015-02-26 13:46:57', 1),
-(15, 0, 'ava-dog.jpg', 'ava-dog', '', 5, 2, '2015-03-12 09:45:52', 1),
-(18, 81, '29563-154310-4be5f790dbd87f31eecdd2303f26a2a3.jpg', '29563-154310-4be5f790dbd87f31eecdd2303f26a2a3', '', 6, 2, '2015-03-16 19:54:47', 1),
-(20, 80, '32626-180203-6276717f9262c4344fd3dc886b8d6607.jpg', '32626-180203-6276717f9262c4344fd3dc886b8d6607', '', 6, 2, '2015-03-16 19:54:47', 1),
-(21, 83, '31101-235208-b56cc21701ff81b0a657bbfd60d336ae.jpg', '31101-235208-b56cc21701ff81b0a657bbfd60d336ae', '', 6, 2, '2015-03-16 19:54:47', 1),
-(22, 82, '30654-222700-a17f92c2589a8cf22f0753ac58e1b7ce.gif', '30654-222700-a17f92c2589a8cf22f0753ac58e1b7ce', '', 6, 2, '2015-03-16 19:54:47', 1),
-(23, 25, '34455-011233-b81bcd146f8bca9c013ecf24492696b1.jpg', '34455-011233-b81bcd146f8bca9c013ecf24492696b1', 'dfsfdsf', 6, 2, '2015-03-16 19:54:48', 1),
-(24, 79, '34769-234308-3f4c65034941ef4a241bd31efbdc3fa1.jpg', '34769-234308-3f4c65034941ef4a241bd31efbdc3fa1', '', 6, 2, '2015-03-16 19:54:48', 1),
-(29, 0, '5588-0e084aed1c8e4fed2a8e0c827a1fad91.jpg', '5588-0e084aed1c8e4fed2a8e0c827a1fad91', '', 6, 2, '2015-03-17 13:49:21', 1),
-(30, 84, 'b.jpg', 'b', '', 6, 2, '2015-03-17 13:49:30', 1),
-(39, 44, '006fs3c6.jpeg', '006fs3c6', '', 6, 2, '2015-03-21 05:13:38', 1),
-(40, 64, '_vyM8JUgV_0.jpg', '_vyM8JUgV_0', '', 6, 2, '2015-03-21 05:13:38', 1),
-(41, 18, '6idWeE8WbtY.jpg', '6idWeE8WbtY', '', 6, 2, '2015-03-21 05:13:38', 1),
-(42, 36, '_push1.jpg', '_push1', '', 6, 2, '2015-03-21 05:13:38', 1),
-(43, 61, '006ft4g0.jpeg', '006ft4g0', '', 6, 2, '2015-03-21 05:13:38', 1),
-(44, 10, '000kysdx.jpg', '000kysdx', '', 6, 2, '2015-03-21 05:13:38', 1),
-(45, 33, '5588-0e084aed1c8e4fed2a8e0c827a1fad911.jpg', '5588-0e084aed1c8e4fed2a8e0c827a1fad911', '', 6, 2, '2015-03-21 05:13:39', 1),
-(46, 58, '6315-141712-cd4af33303c06ee7fa320f53ebe49e22.jpg', '6315-141712-cd4af33303c06ee7fa320f53ebe49e22', '', 6, 2, '2015-03-21 05:13:39', 1),
-(47, 3, '6579-4440a2ff41eb03939f86ccd68d19c275.jpg', '6579-4440a2ff41eb03939f86ccd68d19c275', '', 6, 2, '2015-03-21 05:13:39', 1),
-(48, 30, '11047-230033-5a86e8b1e7e5972cfa6dd925b69da53a.jpg', '11047-230033-5a86e8b1e7e5972cfa6dd925b69da53a', '', 6, 2, '2015-03-21 05:13:39', 1),
-(49, 53, '14187-175608-7d82c841dfa35a6b5cb6fe6dd75bd3fc.jpg', '14187-175608-7d82c841dfa35a6b5cb6fe6dd75bd3fc', '', 6, 2, '2015-03-21 05:13:39', 1),
-(50, 77, '14915-090140-f5d4e7452c069c1e6cea5839c46a1f5e.jpg', '14915-090140-f5d4e7452c069c1e6cea5839c46a1f5e', '', 6, 2, '2015-03-21 05:13:39', 1),
-(51, 24, '15146-205131-d4b71c1ef1d12f76af8652df0e3e060f.jpg', '15146-205131-d4b71c1ef1d12f76af8652df0e3e060f', '', 6, 2, '2015-03-21 05:13:39', 1),
-(52, 49, '20218-001419-59e01dec0e9a73963ca2a693e31658c6.jpg', '20218-001419-59e01dec0e9a73963ca2a693e31658c6', '', 6, 2, '2015-03-21 05:13:39', 1),
-(53, 73, '22527-161112-827effbf5515b9617b287175adbe6b56.jpg', '22527-161112-827effbf5515b9617b287175adbe6b56', '', 6, 2, '2015-03-21 05:13:39', 1),
-(54, 19, '26315-132605-3a60f879fa2032cd292a7f276a3565a0.jpg', '26315-132605-3a60f879fa2032cd292a7f276a3565a0', '', 6, 2, '2015-03-21 05:13:39', 1),
-(55, 43, '26248-204503-f993bb22889d9f36406eb9f6c7179003.jpg', '26248-204503-f993bb22889d9f36406eb9f6c7179003', '', 6, 2, '2015-03-21 05:13:39', 1),
-(56, 69, '26447-203050-6a3d486d20105adab0118dc104ac3a83.jpg', '26447-203050-6a3d486d20105adab0118dc104ac3a83', '', 6, 2, '2015-03-21 05:13:39', 1),
-(57, 14, '26315-153807-0f8c7c084112f57d2364744a7553fa3a.jpg', '26315-153807-0f8c7c084112f57d2364744a7553fa3a', '', 6, 2, '2015-03-21 05:13:39', 1),
-(58, 39, '26348-173918-06ee0517c962a9cbf947bf2108e7fe4a.jpg', '26348-173918-06ee0517c962a9cbf947bf2108e7fe4a', '', 6, 2, '2015-03-21 05:13:39', 1),
-(59, 60, '27370-215053-f6982654c9cf28fd8785bd249239417c.jpg', '27370-215053-f6982654c9cf28fd8785bd249239417c', '', 6, 2, '2015-03-21 05:13:39', 1),
-(60, 9, '27544-191957-ec6a892b5f5a7ecd9f05d8e2736a02b1.jpg', '27544-191957-ec6a892b5f5a7ecd9f05d8e2736a02b1', '', 6, 2, '2015-03-21 05:13:39', 1),
-(61, 32, '27880-223618-6681b5ab6a70fbfe3f16c7a426f06319.gif', '27880-223618-6681b5ab6a70fbfe3f16c7a426f06319', '', 6, 2, '2015-03-21 05:13:39', 1),
-(62, 57, '29563-154310-4be5f790dbd87f31eecdd2303f26a2a31.jpg', '29563-154310-4be5f790dbd87f31eecdd2303f26a2a31', '', 6, 2, '2015-03-21 05:13:39', 1),
-(63, 6, '30685-174705-dd65b2e6d954e64239ffc3c6a7dbf8a7.jpg', '30685-174705-dd65b2e6d954e64239ffc3c6a7dbf8a7', '', 6, 2, '2015-03-21 05:13:39', 1),
-(64, 28, '31101-235208-b56cc21701ff81b0a657bbfd60d336ae1.jpg', '31101-235208-b56cc21701ff81b0a657bbfd60d336ae1', '', 6, 2, '2015-03-21 05:13:39', 1),
-(65, 52, '32626-180203-6276717f9262c4344fd3dc886b8d66071.jpg', '32626-180203-6276717f9262c4344fd3dc886b8d66071', '', 6, 2, '2015-03-21 05:13:39', 1),
-(66, 76, '34455-011233-b81bcd146f8bca9c013ecf24492696b11.jpg', '34455-011233-b81bcd146f8bca9c013ecf24492696b11', '', 6, 2, '2015-03-21 05:13:39', 1),
-(67, 23, '30654-222700-a17f92c2589a8cf22f0753ac58e1b7ce1.gif', '30654-222700-a17f92c2589a8cf22f0753ac58e1b7ce1', '', 6, 2, '2015-03-21 05:13:39', 1),
-(68, 48, '34769-234308-3f4c65034941ef4a241bd31efbdc3fa11.jpg', '34769-234308-3f4c65034941ef4a241bd31efbdc3fa11', '', 6, 2, '2015-03-21 05:13:39', 1),
-(69, 72, '34892-173541-5f2f3ee5103e698ed5b1259794f8c90a.gif', '34892-173541-5f2f3ee5103e698ed5b1259794f8c90a', '', 6, 2, '2015-03-21 05:13:39', 1),
-(70, 17, '050709_dog2.jpg', '050709_dog2', '', 6, 2, '2015-03-21 05:13:39', 1),
-(71, 42, '070420_cat.jpg', '070420_cat', '', 6, 2, '2015-03-21 05:13:39', 1),
-(72, 67, '282334_372762972806550_76794709_n.jpg', '282334_372762972806550_76794709_n', '', 6, 2, '2015-03-21 05:13:39', 1),
-(73, 13, '070212_cat.jpg', '070212_cat', '', 6, 2, '2015-03-21 05:13:39', 1),
-(74, 4, '401324_600.jpg', '401324_600', '', 6, 2, '2015-03-21 05:13:39', 1),
-(75, 63, '464748c4fc442d4c6bcc51bc3d60c1a7.gif', '464748c4fc442d4c6bcc51bc3d60c1a7', '', 6, 2, '2015-03-21 05:13:40', 1),
-(77, 35, '2207855.jpg', '2207855', '', 6, 2, '2015-03-21 05:13:40', 1),
-(78, 56, '1236241875_epic_accident_caught_on_tv.gif', '1236241875_epic_accident_caught_on_tv', '', 6, 2, '2015-03-21 05:13:40', 1),
-(79, 7, '1365950429-1d3b9ea777469134d748e8443705f4ff.jpg', '1365950429-1d3b9ea777469134d748e8443705f4ff', '', 6, 2, '2015-03-21 05:13:40', 1),
-(80, 27, '1377230274-28cacdc124a959fc836883477be5cbf1.jpg', '1377230274-28cacdc124a959fc836883477be5cbf1', '', 6, 2, '2015-03-21 05:13:40', 1),
-(81, 51, '1380194871-5676a5459aef0fcd16e354aafb1b8791.jpg', '1380194871-5676a5459aef0fcd16e354aafb1b8791', '', 6, 2, '2015-03-21 05:13:40', 1),
-(82, 85, '1392359551-546afc17f397aacb96bc2e5412ca3e38.jpg', '1392359551-546afc17f397aacb96bc2e5412ca3e38', '', 6, 2, '2015-03-21 05:13:40', 1),
-(83, 22, '1382466237-788713a6caa7f9ad6410ec7a4a278b9d.jpg', '1382466237-788713a6caa7f9ad6410ec7a4a278b9d', '', 6, 2, '2015-03-21 05:13:40', 1),
-(84, 47, '1396695602-48587974c8a9178b4bcbe9db5ce527bd.jpg', '1396695602-48587974c8a9178b4bcbe9db5ce527bd', '', 6, 2, '2015-03-21 05:13:40', 1),
-(85, 71, '1401436025-bdaaf4a37c0ff9cb476099fcaaf65c2a.jpg', '1401436025-bdaaf4a37c0ff9cb476099fcaaf65c2a', '', 6, 2, '2015-03-21 05:13:40', 1),
-(86, 16, '1399024543-9a44202c27cd33e602d41ca6a740ff52.jpg', '1399024543-9a44202c27cd33e602d41ca6a740ff52', '', 6, 2, '2015-03-21 05:13:40', 1),
-(87, 41, '1395592386-06ba10e4f706114271d50e8a65558b4a.gif', '1395592386-06ba10e4f706114271d50e8a65558b4a', '', 6, 2, '2015-03-21 05:13:40', 1),
-(88, 68, '1401979079-efb2df500c5a480ee984d29d70ca4f64.gif', '1401979079-efb2df500c5a480ee984d29d70ca4f64', '', 6, 2, '2015-03-21 05:13:40', 1),
-(89, 12, '1404125395-f9a5200d13dd7dc619ce3d454666f5a5.jpg', '1404125395-f9a5200d13dd7dc619ce3d454666f5a5', '', 6, 2, '2015-03-21 05:13:40', 1),
-(90, 38, '1411163409-8dbde3b6d0c865eb07cf42706e9c773d.jpg', '1411163409-8dbde3b6d0c865eb07cf42706e9c773d', '', 6, 2, '2015-03-21 05:13:40', 1),
-(91, 62, '1411645100-8a159f209485f1c0aaacc5bc9770dca1.jpg', '1411645100-8a159f209485f1c0aaacc5bc9770dca1', '', 6, 2, '2015-03-21 05:13:40', 1),
-(93, 34, '1418984903-f1ce7cba40dd9624e57581b212fae487.png', '1418984903-f1ce7cba40dd9624e57581b212fae487', '', 6, 2, '2015-03-21 05:13:40', 1),
-(94, 59, '1423596189-5e36efd123275d884aaf4244d42ee16a.jpg', '1423596189-5e36efd123275d884aaf4244d42ee16a', '', 6, 2, '2015-03-21 05:13:40', 1),
-(95, 2, '1422360064-150caac34e9ea3211ef16bef065add1d.jpg', '1422360064-150caac34e9ea3211ef16bef065add1d', '', 6, 2, '2015-03-21 05:13:40', 1),
-(96, 31, '1405316629-5cc23aa064a8b990e0e612fd85d24401.gif', '1405316629-5cc23aa064a8b990e0e612fd85d24401', '', 6, 2, '2015-03-21 05:13:40', 1),
-(97, 55, '1423648180-be772ef1fcbe8e6a998e7d51fdcb438e.jpg', '1423648180-be772ef1fcbe8e6a998e7d51fdcb438e', '', 6, 2, '2015-03-21 05:13:40', 1),
-(98, 75, '1425491296-87644a7fb098a271b20c92d061e151ec.jpg', '1425491296-87644a7fb098a271b20c92d061e151ec', '', 6, 2, '2015-03-21 05:13:40', 1),
-(99, 21, '1423930926-90685356c13255ebfc4e32d08ddde024.jpg', '1423930926-90685356c13255ebfc4e32d08ddde024', '', 6, 2, '2015-03-21 05:13:40', 1),
-(100, 46, 'A3z1XQacnxo.jpg', 'A3z1XQacnxo', '', 6, 2, '2015-03-21 05:13:40', 1),
-(101, 70, '1426512708-3e8809e5ee393e6ccb174d7c6af041a3.gif', '1426512708-3e8809e5ee393e6ccb174d7c6af041a3', '', 6, 2, '2015-03-21 05:13:40', 1),
-(102, 15, 'call_centre.jpg', 'call_centre', '', 6, 2, '2015-03-21 05:13:41', 1),
-(103, 40, 'apple_store.jpg', 'apple_store', '', 6, 2, '2015-03-21 05:13:41', 1),
-(104, 66, 'dog-hugs-goat.jpg', 'dog-hugs-goat', '', 6, 2, '2015-03-21 05:13:41', 1),
-(105, 11, 'GrkxMl5tCUI.jpg', 'GrkxMl5tCUI', '', 6, 2, '2015-03-21 05:13:41', 1),
-(106, 37, 'first-sex-gifs-53074c0f3d5c5.gif', 'first-sex-gifs-53074c0f3d5c5', '', 6, 2, '2015-03-21 05:13:41', 1),
-(107, 8, 'HlBZbwgnS1s.jpg', 'HlBZbwgnS1s', '', 6, 2, '2015-03-21 05:13:41', 1),
-(108, 29, 'moderator.jpg', 'moderator', '', 6, 2, '2015-03-21 05:13:41', 1),
-(109, 54, 'OCRm_zLkEqM.jpg', 'OCRm_zLkEqM', '', 6, 2, '2015-03-21 05:13:41', 1),
-(110, 78, 'OXMD80e85t4.jpg', 'OXMD80e85t4', '', 6, 2, '2015-03-21 05:13:41', 1),
-(111, 26, 'sekasa.jpg', 'sekasa', '', 6, 2, '2015-03-21 05:13:41', 1),
-(112, 50, 'tits.jpg', 'tits', '', 6, 2, '2015-03-21 05:13:41', 1),
-(113, 74, 'skladnoi-styl.gif', 'skladnoi-styl', '', 6, 2, '2015-03-21 05:13:41', 1),
-(114, 20, 'yJtso-zjePM.jpg', 'yJtso-zjePM', '', 6, 2, '2015-03-21 05:13:41', 1),
-(115, 45, 'x_e24cacaf.jpg', 'x_e24cacaf', '', 6, 2, '2015-03-21 05:13:41', 1),
-(116, 65, 'sobaka_kupaka.gif', 'sobaka_kupaka', '', 6, 2, '2015-03-21 05:13:41', 1),
-(117, 5, '_push11.jpg', '_push11', '', 6, 2, '2015-03-22 10:51:50', 1),
-(118, 1, 'ava-dog.jpg', 'ava-dog', '', 6, 2, '2015-03-22 12:22:28', 1),
-(123, 1, '6idWeE8WbtY.jpg', '6idWeE8WbtY', '', 4, 2, '2015-03-22 12:25:27', 1),
-(126, 2, '6315-141712-cd4af33303c06ee7fa320f53ebe49e22.jpg', '6315-141712-cd4af33303c06ee7fa320f53ebe49e22', '', 4, 2, '2015-03-22 12:25:27', 1),
-(129, 0, '006ft4g01.jpeg', '006ft4g01', '', 4, 2, '2015-03-22 12:26:31', 1),
-(130, 1, '_push1.jpg', '_push1', '', 5, 2, '2015-09-16 08:11:51', 1);
+(155, 1000, 'a7.jpg', 'a7', NULL, 14, 2, '2015-10-19 16:57:11', 1),
+(156, 1000, 'a10.jpg', 'a10', NULL, 14, 2, '2015-10-19 16:57:11', 1),
+(157, 1000, 'a8.jpg', 'a8', NULL, 14, 2, '2015-10-19 16:57:11', 1),
+(158, 1000, 'a9.jpg', 'a9', NULL, 14, 2, '2015-10-19 16:57:11', 1);
 
 -- --------------------------------------------------------
 
@@ -279,12 +169,11 @@ INSERT INTO `airyo_images` (`id`, `order`, `label`, `title`, `description`, `alb
 --
 
 CREATE TABLE `airyo_login_attempts` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL,
   `ip_address` varbinary(16) NOT NULL,
   `login` varchar(100) NOT NULL,
-  `time` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `time` int(11) unsigned DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -293,13 +182,11 @@ CREATE TABLE `airyo_login_attempts` (
 --
 
 CREATE TABLE `airyo_logs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
   `type` varchar(45) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_logs_users1_idx` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица для логирования' AUTO_INCREMENT=10451 ;
+  `description` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=10563 DEFAULT CHARSET=utf8 COMMENT='Таблица для логирования';
 
 --
 -- Dumping data for table `airyo_logs`
@@ -10763,7 +10650,119 @@ INSERT INTO `airyo_logs` (`id`, `user_id`, `type`, `description`) VALUES
 (10447, 2, 'redirect', 'airyo/menu'),
 (10448, 2, 'redirect', 'airyo/menu'),
 (10449, 2, 'redirect', 'airyo/news'),
-(10450, 2, 'redirect', 'airyo/gallery');
+(10450, 2, 'redirect', 'airyo/gallery'),
+(10451, 2, 'redirect', 'airyo/gallery'),
+(10452, 2, 'redirect', 'airyo/menu'),
+(10453, 2, 'redirect', 'airyo/menu'),
+(10454, 2, 'redirect', 'airyo/pages'),
+(10455, 2, 'redirect', 'airyo/gallery'),
+(10456, 2, 'redirect', 'airyo/gallery'),
+(10457, 2, 'redirect', 'airyo/pages'),
+(10458, 2, 'redirect', 'airyo/pages'),
+(10459, 2, 'redirect', 'airyo/menu'),
+(10460, 2, 'redirect', 'airyo/menu'),
+(10461, 2, 'redirect', 'airyo/menu'),
+(10462, 2, 'redirect', 'airyo/menu'),
+(10463, 2, 'redirect', 'airyo/menu'),
+(10464, 2, 'redirect', 'airyo/menu'),
+(10465, 2, 'redirect', 'airyo/menu'),
+(10466, 2, 'redirect', 'airyo/menu'),
+(10467, 2, 'redirect', 'airyo/menu'),
+(10468, 2, 'redirect', 'airyo/menu'),
+(10469, 2, 'redirect', 'airyo/menu'),
+(10470, 2, 'redirect', 'airyo/menu'),
+(10471, 2, 'redirect', 'airyo/pages'),
+(10472, 2, 'redirect', 'airyo/gallery'),
+(10473, 2, 'redirect', 'airyo/gallery'),
+(10474, 2, 'redirect', 'airyo/gallery'),
+(10475, 2, 'redirect', 'airyo/gallery'),
+(10476, 2, 'redirect', 'airyo/gallery'),
+(10477, 2, 'redirect', 'airyo/gallery'),
+(10478, 2, 'redirect', 'airyo/gallery'),
+(10479, 2, 'redirect', 'airyo/gallery'),
+(10480, 2, 'redirect', 'airyo/gallery'),
+(10481, 2, 'redirect', 'airyo/gallery'),
+(10482, 2, 'redirect', 'airyo/gallery'),
+(10483, 2, 'redirect', 'airyo/gallery'),
+(10484, 2, 'redirect', 'airyo/pages'),
+(10485, 2, 'redirect', 'airyo/menu'),
+(10486, 2, 'redirect', 'airyo/menu'),
+(10487, 2, 'redirect', 'airyo/chunks'),
+(10488, 2, 'redirect', 'airyo/gallery'),
+(10489, 2, 'redirect', 'airyo/menu'),
+(10490, 2, 'redirect', 'airyo/menu'),
+(10491, 2, 'redirect', 'airyo/menu'),
+(10492, 2, 'redirect', 'airyo/pages'),
+(10493, 2, 'redirect', 'airyo/menu'),
+(10494, 2, 'redirect', 'airyo/menu'),
+(10495, 2, 'redirect', 'airyo/menu'),
+(10496, 2, 'redirect', 'airyo/menu'),
+(10497, 2, 'redirect', 'airyo/menu'),
+(10498, 2, 'redirect', 'airyo/gallery'),
+(10499, 2, 'redirect', 'airyo/gallery'),
+(10500, 2, 'redirect', 'airyo/menu'),
+(10501, 2, 'redirect', 'airyo/gallery'),
+(10502, 2, 'redirect', 'airyo/pages'),
+(10503, 2, 'redirect', 'airyo/gallery'),
+(10504, 2, 'redirect', 'airyo/gallery'),
+(10505, 2, 'redirect', 'airyo/pages'),
+(10506, 2, 'redirect', 'airyo/gallery'),
+(10507, 2, 'redirect', 'airyo/pages'),
+(10508, 2, 'redirect', 'airyo/pages'),
+(10509, 2, 'redirect', 'airyo/gallery'),
+(10510, 2, 'redirect', 'airyo/pages'),
+(10511, 2, 'redirect', 'airyo/gallery'),
+(10512, 2, 'redirect', 'airyo/gallery'),
+(10513, 2, 'redirect', 'airyo/pages'),
+(10514, 2, 'redirect', 'airyo/pages'),
+(10515, 2, 'redirect', 'airyo/pages'),
+(10516, 2, 'redirect', 'airyo/gallery'),
+(10517, 2, 'redirect', 'airyo/pages'),
+(10518, 2, 'redirect', 'airyo/pages'),
+(10519, 2, 'redirect', 'airyo/gallery'),
+(10520, 2, 'redirect', 'airyo/gallery'),
+(10521, 2, 'redirect', 'airyo/gallery'),
+(10522, 2, 'redirect', 'airyo/gallery'),
+(10523, 2, 'redirect', 'airyo/pages'),
+(10524, 2, 'redirect', 'airyo/pages'),
+(10525, 2, 'redirect', 'airyo/pages'),
+(10526, 2, 'redirect', 'airyo/gallery'),
+(10527, 2, 'redirect', 'airyo/pages'),
+(10528, 2, 'redirect', 'airyo/menu'),
+(10529, 2, 'redirect', 'airyo/pages'),
+(10530, 2, 'redirect', 'airyo/pages'),
+(10531, 2, 'redirect', 'airyo/menu'),
+(10532, 2, 'redirect', 'airyo/menu'),
+(10533, 2, 'redirect', 'airyo/menu'),
+(10534, 2, 'redirect', 'airyo/menu/1'),
+(10535, 2, 'redirect', 'airyo/gallery'),
+(10536, 2, 'redirect', 'airyo/pages'),
+(10537, 2, 'redirect', 'airyo/pages'),
+(10538, 2, 'redirect', 'airyo/gallery'),
+(10539, 2, 'redirect', 'airyo/menu'),
+(10540, 2, 'redirect', 'airyo/menu'),
+(10541, 2, 'redirect', 'airyo/pages'),
+(10542, 2, 'redirect', 'airyo/pages'),
+(10543, 2, 'redirect', 'airyo/pages'),
+(10544, 2, 'redirect', 'airyo/gallery'),
+(10545, 2, 'redirect', 'airyo/gallery'),
+(10546, 2, 'redirect', 'airyo/gallery'),
+(10547, 2, 'redirect', 'airyo/pages'),
+(10548, 2, 'redirect', 'airyo/pages'),
+(10549, 2, 'redirect', 'airyo/pages'),
+(10550, 2, 'redirect', 'airyo/pages'),
+(10551, 2, 'redirect', 'airyo/menu'),
+(10552, 2, 'redirect', 'airyo/menu'),
+(10553, 2, 'redirect', 'airyo/gallery'),
+(10554, 2, 'redirect', 'airyo/gallery'),
+(10555, 2, 'redirect', 'airyo/gallery'),
+(10556, 2, 'redirect', 'airyo/files'),
+(10557, 2, 'redirect', 'airyo/files'),
+(10558, 2, 'redirect', 'airyo/gallery'),
+(10559, 2, 'redirect', 'airyo/gallery'),
+(10560, 2, 'redirect', 'airyo/gallery'),
+(10561, 2, 'redirect', 'airyo/gallery'),
+(10562, 2, 'redirect', 'airyo/gallery');
 
 -- --------------------------------------------------------
 
@@ -10772,15 +10771,14 @@ INSERT INTO `airyo_logs` (`id`, `user_id`, `type`, `description`) VALUES
 --
 
 CREATE TABLE `airyo_menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `url` tinytext NOT NULL,
   `menu_group` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL,
   `order` int(11) NOT NULL,
-  `enabled` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=81 ;
+  `enabled` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_menu`
@@ -10791,33 +10789,18 @@ INSERT INTO `airyo_menu` (`id`, `name`, `url`, `menu_group`, `parent_id`, `order
 (8, 'Информация', 'info', 1, 0, 0, 1),
 (23, 'История', 'story', 1, 0, 1, 1),
 (24, 'Новости', 'news', 1, 0, 2, 1),
-(25, 'Вакансии и кадры', 'vacancy', 1, 8, 4, 0),
 (26, 'ВЫСТАВКИ в 2015 году', 'exhibitions', 1, 24, 0, 1),
 (27, 'Конференции', 'conference', 1, 24, 5, 0),
-(28, 'Семинары', 'workshops', 1, 24, 3, 0),
-(29, 'ЛТО и ЛТ', 'lto', 1, 24, 4, 0),
-(30, 'Аналитические обзоры', 'analytical-reviews', 1, 8, 5, 0),
 (31, 'Библиография', 'bibliography', 1, 8, 1, 1),
-(32, 'Лазерные технологии (ЛТ)', 'lt', 1, 8, 9, 0),
-(33, 'Лазерное технологическое оборудование (ЛТО)', 'lto', 1, 8, 7, 0),
-(34, 'Рынок ЛТО и ЛТ', 'market', 1, 8, 8, 0),
-(35, 'Благодарности и награды', 'thanks_and_awards', 1, 23, 3, 0),
-(36, 'Достижения', 'achievements', 1, 23, 4, 0),
 (37, 'Изобретения и патенты', 'inventions-and-patents', 1, 8, 0, 1),
 (38, 'Партнеры и заказчики', 'partnersandcustomers', 1, 23, 1, 1),
 (39, 'Фотогалерея', 'gallery', 1, 23, 5, 0),
 (42, 'О фирме', 'http://andreyka.ru', 2, 0, 3, 1),
 (43, 'Контакты', 'contact', 2, 0, 2, 1),
 (44, 'Сертификаты', 'certificates', 2, 0, 0, 0),
-(45, 'Терминология и ключевые слова', 'keywords', 1, 8, 6, 1),
-(46, 'Библиографические справочники', 'spravochnik', 1, 31, 0, 1),
 (47, 'Основные обозначения', 'oboznacheniya', 1, 8, 2, 1),
-(48, 'Перечень сокращений', 'sokr', 1, 8, 3, 1),
-(49, 'Список научных трудов', 'scientific-work', 1, 31, 1, 1),
 (50, 'Аттестаты', '23', 2, 0, 1, 0),
 (51, 'Сертификаты', 'certificates', 1, 23, 2, 1),
-(52, 'Аттестаты', 'attestat', 1, 23, 0, 1),
-(53, 'В Санкт-Петербурге', 'vystavki-spb-2015', 1, 26, 4, 1),
 (54, 'В странах СНГ', 'vystavki-prom-sng-2015', 1, 26, 0, 1),
 (55, 'В мире', 'vystavki-prom-mir-2015', 1, 26, 3, 1),
 (56, 'В России', 'vystavki-prom-rossiya', 1, 26, 2, 1),
@@ -10831,9 +10814,6 @@ INSERT INTO `airyo_menu` (`id`, `name`, `url`, `menu_group`, `parent_id`, `order
 (64, 'Сварка', 'news', 1, 62, 1, 1),
 (65, 'Резка', 'news', 1, 62, 0, 1),
 (66, 'Наплавка', 'news', 1, 62, 3, 1),
-(67, 'Маркировка / Гравировка', 'news', 1, 62, 2, 1),
-(68, 'Алфавитный', 'spravochnik', 1, 46, 1, 1),
-(69, 'Тематический', 'spravochnik', 1, 46, 0, 1),
 (70, 'НОВЫЕ ПУБЛИКАЦИИ ', 'news', 1, 24, 2, 1),
 (71, 'ФОТОГАЛЛЕРЕЯ', 'gallery', 1, 0, 3, 1),
 (72, 'Выставки / семинары / конференции', 'photo', 1, 71, 0, 0),
@@ -10853,10 +10833,9 @@ INSERT INTO `airyo_menu` (`id`, `name`, `url`, `menu_group`, `parent_id`, `order
 --
 
 CREATE TABLE `airyo_menu_group` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_menu_group`
@@ -10873,13 +10852,12 @@ INSERT INTO `airyo_menu_group` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `airyo_modules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
   `description` varchar(511) DEFAULT NULL,
-  `position` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Модули' AUTO_INCREMENT=10 ;
+  `position` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='Модули';
 
 --
 -- Dumping data for table `airyo_modules`
@@ -10891,10 +10869,11 @@ INSERT INTO `airyo_modules` (`id`, `title`, `alias`, `description`, `position`) 
 (3, 'Файлы', 'files', NULL, 4),
 (4, 'Пользователи', 'users', NULL, 5),
 (5, 'Фотоальбомы', 'gallery', NULL, 6),
-(6, 'Счётчики', 'counters', NULL, 7),
+(6, 'Счётчики', 'counters', NULL, 8),
 (7, 'Новости', 'news', NULL, 3),
-(8, 'Фрагменты', 'chunks', NULL, 8),
-(9, 'Поисковая оптимизация', 'seo', NULL, 9);
+(8, 'Фрагменты', 'chunks', NULL, 9),
+(9, 'Поисковая оптимизация', 'seo', NULL, 10),
+(10, 'Слайдеры', 'sliders', NULL, 7);
 
 -- --------------------------------------------------------
 
@@ -10903,17 +10882,15 @@ INSERT INTO `airyo_modules` (`id`, `title`, `alias`, `description`, `position`) 
 --
 
 CREATE TABLE `airyo_news` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `anons` text NOT NULL,
   `content` text NOT NULL,
   `alias` varchar(255) NOT NULL,
   `img_ext` varchar(32) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
-  `date` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=57 ;
+  `date` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_news`
@@ -10971,12 +10948,10 @@ INSERT INTO `airyo_news` (`id`, `title`, `anons`, `content`, `alias`, `img_ext`,
 --
 
 CREATE TABLE `airyo_roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `title` varchar(45) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `title_UNIQUE` (`title`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Роли пользователей' AUTO_INCREMENT=3 ;
+  `description` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Роли пользователей';
 
 --
 -- Dumping data for table `airyo_roles`
@@ -10993,15 +10968,13 @@ INSERT INTO `airyo_roles` (`id`, `title`, `description`) VALUES
 --
 
 CREATE TABLE `airyo_seo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `meta_keywords` text NOT NULL,
   `meta_description` text NOT NULL,
   `last_modified` datetime NOT NULL,
-  `path` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `path` (`path`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `path` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_seo`
@@ -11013,16 +10986,61 @@ INSERT INTO `airyo_seo` (`id`, `title`, `meta_keywords`, `meta_description`, `la
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `airyo_slide`
+--
+
+CREATE TABLE `airyo_slide` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `description` varchar(511) DEFAULT NULL,
+  `link` varchar(255) DEFAULT NULL,
+  `sliders_id` int(11) unsigned NOT NULL,
+  `create_date` datetime NOT NULL,
+  `enabled` int(11) NOT NULL DEFAULT '1',
+  `order` int(11) unsigned DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='Слайд';
+
+--
+-- Dumping data for table `airyo_slide`
+--
+
+INSERT INTO `airyo_slide` (`id`, `title`, `description`, `link`, `sliders_id`, `create_date`, `enabled`, `order`) VALUES
+(5, 'Slide 1', 'First slide.', 'http://yandex.ru', 1, '0000-00-00 00:00:00', 1, 3),
+(6, 'Slide 2', 'This is a second slide', 'http://google.com', 1, '0000-00-00 00:00:00', 1, 2),
+(7, 'Slide 3', 'This is a last slide', 'http://apple.com', 1, '0000-00-00 00:00:00', 1, 1),
+(25, 'Slide 4', 'This is a last slide', 'http://apple.com', 1, '0000-00-00 00:00:00', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `airyo_sliders`
+--
+
+CREATE TABLE `airyo_sliders` (
+  `id` int(11) unsigned NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `create_date` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Слайдеры';
+
+--
+-- Dumping data for table `airyo_sliders`
+--
+
+INSERT INTO `airyo_sliders` (`id`, `title`, `create_date`) VALUES
+(1, 'First slide', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `airyo_trash`
 --
 
 CREATE TABLE `airyo_trash` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `deleted_id` int(11) NOT NULL,
   `data` text NOT NULL,
-  `type` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
+  `type` varchar(100) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_trash`
@@ -11055,7 +11073,25 @@ INSERT INTO `airyo_trash` (`id`, `deleted_id`, `data`, `type`) VALUES
 (24, 1, 'a:4:{s:2:"id";s:1:"1";s:4:"name";s:23:"dfasdfasdfasasdfdsafsaf";s:5:"alias";s:6:"345345";s:7:"content";s:6:"123123";}', 'page'),
 (25, 1, 'a:4:{s:2:"id";s:1:"1";s:4:"name";s:23:"dfasdfasdfasasdfdsafsaf";s:5:"alias";s:6:"345345";s:7:"content";s:6:"123123";}', 'page'),
 (26, 1, 'a:4:{s:2:"id";s:1:"1";s:4:"name";s:23:"dfasdfasdfasasdfdsafsaf";s:5:"alias";s:6:"345345";s:7:"content";s:6:"123123";}', 'page'),
-(27, 1, 'a:4:{s:2:"id";s:1:"1";s:4:"name";s:23:"dfasdfasdfasasdfdsafsaf";s:5:"alias";s:6:"345345";s:7:"content";s:6:"123123";}', 'page');
+(27, 1, 'a:4:{s:2:"id";s:1:"1";s:4:"name";s:23:"dfasdfasdfasasdfdsafsaf";s:5:"alias";s:6:"345345";s:7:"content";s:6:"123123";}', 'page'),
+(28, 69, 'O:8:"stdClass":7:{s:2:"id";s:2:"69";s:4:"name";s:24:"Тематический";s:3:"url";s:11:"spravochnik";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:2:"46";s:5:"order";s:1:"0";s:7:"enabled";s:1:"1";}', 'menu'),
+(29, 68, 'O:8:"stdClass":7:{s:2:"id";s:2:"68";s:4:"name";s:20:"Алфавитный";s:3:"url";s:11:"spravochnik";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:2:"46";s:5:"order";s:1:"1";s:7:"enabled";s:1:"1";}', 'menu'),
+(30, 30, 'O:8:"stdClass":7:{s:2:"id";s:2:"30";s:4:"name";s:39:"Аналитические обзоры";s:3:"url";s:18:"analytical-reviews";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:1:"8";s:5:"order";s:1:"5";s:7:"enabled";s:1:"0";}', 'menu'),
+(31, 53, 'O:8:"stdClass":7:{s:2:"id";s:2:"53";s:4:"name";s:34:"В Санкт-Петербурге";s:3:"url";s:17:"vystavki-spb-2015";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:2:"26";s:5:"order";s:1:"4";s:7:"enabled";s:1:"1";}', 'menu'),
+(32, 34, 'O:8:"stdClass":7:{s:2:"id";s:2:"34";s:4:"name";s:25:"Рынок ЛТО и ЛТ";s:3:"url";s:6:"market";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:1:"8";s:5:"order";s:1:"8";s:7:"enabled";s:1:"0";}', 'menu'),
+(33, 33, 'O:8:"stdClass":7:{s:2:"id";s:2:"33";s:4:"name";s:81:"Лазерное технологическое оборудование (ЛТО)";s:3:"url";s:3:"lto";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:1:"8";s:5:"order";s:1:"7";s:7:"enabled";s:1:"0";}', 'menu'),
+(34, 32, 'O:8:"stdClass":7:{s:2:"id";s:2:"32";s:4:"name";s:44:"Лазерные технологии (ЛТ)";s:3:"url";s:2:"lt";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:1:"8";s:5:"order";s:1:"9";s:7:"enabled";s:1:"0";}', 'menu'),
+(35, 67, 'O:8:"stdClass":7:{s:2:"id";s:2:"67";s:4:"name";s:43:"Маркировка / Гравировка";s:3:"url";s:4:"news";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:2:"62";s:5:"order";s:1:"2";s:7:"enabled";s:1:"1";}', 'menu'),
+(36, 49, 'O:8:"stdClass":7:{s:2:"id";s:2:"49";s:4:"name";s:40:"Список научных трудов";s:3:"url";s:15:"scientific-work";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:2:"31";s:5:"order";s:1:"1";s:7:"enabled";s:1:"1";}', 'menu'),
+(37, 46, 'O:8:"stdClass":7:{s:2:"id";s:2:"46";s:4:"name";s:57:"Библиографические справочники";s:3:"url";s:11:"spravochnik";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:2:"31";s:5:"order";s:1:"0";s:7:"enabled";s:1:"1";}', 'menu'),
+(38, 45, 'O:8:"stdClass":7:{s:2:"id";s:2:"45";s:4:"name";s:55:"Терминология и ключевые слова";s:3:"url";s:8:"keywords";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:1:"8";s:5:"order";s:1:"6";s:7:"enabled";s:1:"1";}', 'menu'),
+(39, 28, 'O:8:"stdClass":7:{s:2:"id";s:2:"28";s:4:"name";s:16:"Семинары";s:3:"url";s:9:"workshops";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:2:"24";s:5:"order";s:1:"3";s:7:"enabled";s:1:"0";}', 'menu'),
+(40, 48, 'O:8:"stdClass":7:{s:2:"id";s:2:"48";s:4:"name";s:37:"Перечень сокращений";s:3:"url";s:4:"sokr";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:1:"8";s:5:"order";s:1:"3";s:7:"enabled";s:1:"1";}', 'menu'),
+(41, 52, 'O:8:"stdClass":7:{s:2:"id";s:2:"52";s:4:"name";s:18:"Аттестаты";s:3:"url";s:8:"attestat";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:2:"23";s:5:"order";s:1:"0";s:7:"enabled";s:1:"1";}', 'menu'),
+(42, 35, 'O:8:"stdClass":7:{s:2:"id";s:2:"35";s:4:"name";s:44:"Благодарности и награды";s:3:"url";s:17:"thanks_and_awards";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:2:"23";s:5:"order";s:1:"3";s:7:"enabled";s:1:"0";}', 'menu'),
+(43, 36, 'O:8:"stdClass":7:{s:2:"id";s:2:"36";s:4:"name";s:20:"Достижения";s:3:"url";s:12:"achievements";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:2:"23";s:5:"order";s:1:"4";s:7:"enabled";s:1:"0";}', 'menu'),
+(44, 29, 'O:8:"stdClass":7:{s:2:"id";s:2:"29";s:4:"name";s:14:"ЛТО и ЛТ";s:3:"url";s:3:"lto";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:2:"24";s:5:"order";s:1:"4";s:7:"enabled";s:1:"0";}', 'menu'),
+(45, 25, 'O:8:"stdClass":7:{s:2:"id";s:2:"25";s:4:"name";s:30:"Вакансии и кадры";s:3:"url";s:7:"vacancy";s:10:"menu_group";s:1:"1";s:9:"parent_id";s:1:"8";s:5:"order";s:1:"4";s:7:"enabled";s:1:"0";}', 'menu');
 
 -- --------------------------------------------------------
 
@@ -11064,11 +11100,10 @@ INSERT INTO `airyo_trash` (`id`, `deleted_id`, `data`, `type`) VALUES
 --
 
 CREATE TABLE `airyo_type_content` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
-  `alias` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `alias` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_type_content`
@@ -11086,7 +11121,7 @@ INSERT INTO `airyo_type_content` (`id`, `type`, `alias`) VALUES
 --
 
 CREATE TABLE `airyo_users` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL,
   `ip_address` varbinary(16) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(80) NOT NULL,
@@ -11103,18 +11138,17 @@ CREATE TABLE `airyo_users` (
   `last_name` varchar(50) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
-  `role_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `role_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_users`
 --
 
 INSERT INTO `airyo_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`, `role_id`) VALUES
-(2, '��,�', 'root', 'efb3d1a007c517abe13ebf40cdbc5a66c570c64a', NULL, 'root@airyo.ru', NULL, NULL, NULL, 'dd7604fd9b0e020199bf78c43cd40e746aadebad', 1392664432, 1443800063, 1, 'Андрей', 'Журавлёв', '', '', 2),
-(3, '\\5m�', 'editor', '28c13e5cb22101749f1f69de448846391f99c616', NULL, 'editor@laseris.ru', NULL, NULL, NULL, NULL, 1422555843, 1427137942, 1, 'editor', NULL, NULL, NULL, 1),
-(4, '\\5m�', 'laseris', 'c295487c82cb3f165a9b8c459ba6224f114ade3d', NULL, 'laseris-spb@peterlink.ru', NULL, NULL, NULL, 'b640ee560ea33ea314f65edaea28a4469acfb80a', 1423115410, 1424938432, 1, 'laseris', NULL, NULL, NULL, 2);
+(2, 0xefbfbdefbfbd2cefbfbd, 'root', 'efb3d1a007c517abe13ebf40cdbc5a66c570c64a', NULL, 'root@airyo.ru', NULL, NULL, NULL, 'dd7604fd9b0e020199bf78c43cd40e746aadebad', 1392664432, 1445261517, 1, 'Андрей', 'Журавлёв', '', '', 2),
+(3, 0x5c356d3f, 'editor', '28c13e5cb22101749f1f69de448846391f99c616', NULL, 'editor@laseris.ru', NULL, NULL, NULL, NULL, 1422555843, 1427137942, 1, 'editor', NULL, NULL, NULL, 1),
+(4, 0x5c356d3f, 'laseris', 'c295487c82cb3f165a9b8c459ba6224f114ade3d', NULL, 'laseris-spb@peterlink.ru', NULL, NULL, NULL, 'b640ee560ea33ea314f65edaea28a4469acfb80a', 1423115410, 1424938432, 1, 'laseris', NULL, NULL, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -11123,14 +11157,10 @@ INSERT INTO `airyo_users` (`id`, `ip_address`, `username`, `password`, `salt`, `
 --
 
 CREATE TABLE `airyo_users_groups` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
-  `group_id` mediumint(8) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uc_users_groups` (`user_id`,`group_id`),
-  KEY `fk_users_groups_users1_idx` (`user_id`),
-  KEY `fk_users_groups_groups1_idx` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=177 ;
+  `group_id` mediumint(8) unsigned NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_users_groups`
@@ -11150,11 +11180,10 @@ INSERT INTO `airyo_users_groups` (`id`, `user_id`, `group_id`) VALUES
 --
 
 CREATE TABLE `airyo_users_modules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `module_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Соотношения пользователей и групп' AUTO_INCREMENT=96 ;
+  `module_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8 COMMENT='Соотношения пользователей и групп';
 
 --
 -- Dumping data for table `airyo_users_modules`
@@ -11175,14 +11204,13 @@ INSERT INTO `airyo_users_modules` (`id`, `user_id`, `module_id`) VALUES
 --
 
 CREATE TABLE `airyo_versions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `data` text NOT NULL,
   `type` varchar(32) NOT NULL,
   `id_origin` int(11) NOT NULL,
   `author` int(11) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_versions`
@@ -11207,6 +11235,269 @@ INSERT INTO `airyo_versions` (`id`, `data`, `type`, `id_origin`, `author`, `time
 (20, 'a:3:{s:4:"name";s:51:"Новости - текст перед лентой";s:7:"content";s:1949:"<p>Информация для сайта LASERIS.RU подготавливается на основе постоянного мониторинга средств научно-технической информации и в т.ч.: интернета, с акцентом на лазерную технику и лазерные технологии обработки материалов и, в первую очередь - лазерную сварку. При этом необходимо иметь в виду, что технологические особенности сварки и др.лазерных технологий на базе новейших мощных волоконных, диодных и дисковых лазеров - являются конфиденциальной информацией ООО"ЛазерИнформСервис" и других Исполнителей и Партнёров, и, к сожалению - не могут размещаться на сайте и  передаются Заказчикам только на договорной или контрактной основе.</p>\n<p>Новые библиографические источники: статьи и книги, отчёты и обзоры, изобретения и патенты,  касающиеся достаточно узкой области науки и техники - только лазерного технологического  оборудования и лазерных технологий обработки материалов, представляют из себя значительный объём - до тысячи источников в месяц, поэтому в разделах сайта приводятся только отдельные примеры таких источников и наиболее актуальная информация.</p>\n\n<br> ";s:2:"id";i:3;}', 'chunks', 3, 2, '2015-04-28 11:37:54');
 
 --
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `airyo_albums`
+--
+ALTER TABLE `airyo_albums`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_airyo_albums_1_idx` (`user_id`);
+
+--
+-- Indexes for table `airyo_chunks`
+--
+ALTER TABLE `airyo_chunks`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `alias` (`alias`);
+
+--
+-- Indexes for table `airyo_content`
+--
+ALTER TABLE `airyo_content`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `alias` (`alias`);
+
+--
+-- Indexes for table `airyo_counters`
+--
+ALTER TABLE `airyo_counters`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_groups`
+--
+ALTER TABLE `airyo_groups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_images`
+--
+ALTER TABLE `airyo_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_airyo_images_1_idx` (`album_id`),
+  ADD KEY `fk_airyo_images_users_idx` (`user_id`);
+
+--
+-- Indexes for table `airyo_login_attempts`
+--
+ALTER TABLE `airyo_login_attempts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_logs`
+--
+ALTER TABLE `airyo_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_logs_users1_idx` (`user_id`);
+
+--
+-- Indexes for table `airyo_menu`
+--
+ALTER TABLE `airyo_menu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_menu_group`
+--
+ALTER TABLE `airyo_menu_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_modules`
+--
+ALTER TABLE `airyo_modules`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_news`
+--
+ALTER TABLE `airyo_news`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `alias` (`alias`);
+
+--
+-- Indexes for table `airyo_roles`
+--
+ALTER TABLE `airyo_roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `title_UNIQUE` (`title`);
+
+--
+-- Indexes for table `airyo_seo`
+--
+ALTER TABLE `airyo_seo`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `path` (`path`);
+
+--
+-- Indexes for table `airyo_slide`
+--
+ALTER TABLE `airyo_slide`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_airyo_sliders_1_idx` (`sliders_id`);
+
+--
+-- Indexes for table `airyo_sliders`
+--
+ALTER TABLE `airyo_sliders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_trash`
+--
+ALTER TABLE `airyo_trash`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_type_content`
+--
+ALTER TABLE `airyo_type_content`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_users`
+--
+ALTER TABLE `airyo_users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_users_groups`
+--
+ALTER TABLE `airyo_users_groups`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uc_users_groups` (`user_id`,`group_id`),
+  ADD KEY `fk_users_groups_users1_idx` (`user_id`),
+  ADD KEY `fk_users_groups_groups1_idx` (`group_id`);
+
+--
+-- Indexes for table `airyo_users_modules`
+--
+ALTER TABLE `airyo_users_modules`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_versions`
+--
+ALTER TABLE `airyo_versions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `airyo_albums`
+--
+ALTER TABLE `airyo_albums`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT for table `airyo_chunks`
+--
+ALTER TABLE `airyo_chunks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `airyo_content`
+--
+ALTER TABLE `airyo_content`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=124;
+--
+-- AUTO_INCREMENT for table `airyo_counters`
+--
+ALTER TABLE `airyo_counters`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `airyo_groups`
+--
+ALTER TABLE `airyo_groups`
+  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `airyo_images`
+--
+ALTER TABLE `airyo_images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=159;
+--
+-- AUTO_INCREMENT for table `airyo_login_attempts`
+--
+ALTER TABLE `airyo_login_attempts`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `airyo_logs`
+--
+ALTER TABLE `airyo_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10563;
+--
+-- AUTO_INCREMENT for table `airyo_menu`
+--
+ALTER TABLE `airyo_menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=81;
+--
+-- AUTO_INCREMENT for table `airyo_menu_group`
+--
+ALTER TABLE `airyo_menu_group`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `airyo_modules`
+--
+ALTER TABLE `airyo_modules`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `airyo_news`
+--
+ALTER TABLE `airyo_news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=57;
+--
+-- AUTO_INCREMENT for table `airyo_roles`
+--
+ALTER TABLE `airyo_roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `airyo_seo`
+--
+ALTER TABLE `airyo_seo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `airyo_slide`
+--
+ALTER TABLE `airyo_slide`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+--
+-- AUTO_INCREMENT for table `airyo_sliders`
+--
+ALTER TABLE `airyo_sliders`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `airyo_trash`
+--
+ALTER TABLE `airyo_trash`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
+--
+-- AUTO_INCREMENT for table `airyo_type_content`
+--
+ALTER TABLE `airyo_type_content`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `airyo_users`
+--
+ALTER TABLE `airyo_users`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `airyo_users_groups`
+--
+ALTER TABLE `airyo_users_groups`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=177;
+--
+-- AUTO_INCREMENT for table `airyo_users_modules`
+--
+ALTER TABLE `airyo_users_modules`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=96;
+--
+-- AUTO_INCREMENT for table `airyo_versions`
+--
+ALTER TABLE `airyo_versions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+--
 -- Constraints for dumped tables
 --
 
@@ -11222,6 +11513,12 @@ ALTER TABLE `airyo_albums`
 ALTER TABLE `airyo_images`
   ADD CONSTRAINT `fk_airyo_images_albums` FOREIGN KEY (`album_id`) REFERENCES `airyo_albums` (`id`),
   ADD CONSTRAINT `fk_airyo_images_users` FOREIGN KEY (`user_id`) REFERENCES `airyo_users` (`id`);
+
+--
+-- Constraints for table `airyo_slide`
+--
+ALTER TABLE `airyo_slide`
+  ADD CONSTRAINT `fk_airyo_sliders_slides` FOREIGN KEY (`sliders_id`) REFERENCES `airyo_sliders` (`id`);
 
 --
 -- Constraints for table `airyo_users_groups`

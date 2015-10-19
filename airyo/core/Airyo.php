@@ -122,5 +122,27 @@ class Airyo extends CI_Controller
 		return $d && $d->format($format) == $date;
 	}
 
+	// Подготовка массива изменения статуса для списков
+	public function state_changes($data, $data_new)
+	{	
+		$changes = array();
+	    
+	    if (!empty($data))
+	    {
+		    foreach ($data as $id => $state)
+            {
+            	if ($state == 0 && isset($data_new[$id]))
+            	{
+	            	$changes[] = $id;
+            	}
+            	elseif ($state == 1 && !isset($data_new[$id]))
+            	{
+	            	$changes[] = $id;
+            	}
+            }
+	    }
+	    
+	    return $changes;
+	}
 
 }
