@@ -1,17 +1,20 @@
 <?$this->load->view('common/header')?>
 
 <div class="container">
+	
 	<?php if ($message) : ?>
 		<div class="alert alert-<?=$message['type']?>"> <a class="close" data-dismiss="alert" href="#">&times;</a> <? if ($message['type']=='success') {?><span class="glyphicon glyphicon-ok"></span><?}?> <?=$message['text']?></div>
 	<?php endif; ?>
-	<h1 class="page-header">Пользователи</h1>
 	
+	<h1 class="page-header">Пользователи</h1>
+
 	<ol class="breadcrumb">
-       <li><a href="/airyo/users/">Пользователи</a></li>
-       <li>Новый пользователь</li>
+		<li><a href="/airyo/users/">Пользователи</a></li>
+		<li>Новый пользователь</li>
 	</ol>
 
 	<?php echo form_open("", 'class="form-horizontal" method="POST"');?>
+	
 		<div class="form-group  <?php if(form_error('username')) echo 'has-error'; ?>">
 			<label for="inputlogin" class="control-label col-xs-2">Логин:</label>
 			<div class="col-xs-3">
@@ -30,6 +33,7 @@
 				<input type="email" autocomplete="off" class="form-control" name="email" id="inputEmail" placeholder="E-mail" value="<?=!empty($session['email']) ? $session['email'] : ''; ?>" />
 			</div>
 		</div>
+
 		<?php if($user_data->role_id == 2) : ?>
 			<div class="form-group <?php if(form_error('role')) echo 'has-error'; ?>">
 				<label for="inputGroup" class="control-label col-xs-2">Роль:</label>
@@ -37,12 +41,13 @@
 					<select class="form-control" name="role" id="inputRole">
 						<option value="0">user</option>
 						<?php foreach ($roles as $role) : ?>
-							<option value="<?=$role->id; ?>"><?=$role->title; ?></option>
+						<option value="<?=$role->id; ?>"><?=$role->title; ?></option>
 						<?php endforeach; ?>
 					</select>
 				</div>
 			</div>
 		<?php endif; ?>
+
 		<div class="form-group <?php if(form_error('newpass')) echo 'has-error'; ?>">
 			<label for="inputNewPassword" class="control-label col-xs-2">Пароль:</label>
 			<div class="col-xs-3">
@@ -71,7 +76,9 @@
 			</div>
 		</div>
 		<input type="hidden" name="form_add" value="add" />
+	
 	<?php echo form_close();?>
+	
 </div>
 
 <?$this->load->view('common/footer')?>
