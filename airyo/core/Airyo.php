@@ -6,8 +6,8 @@ class Airyo extends CI_Controller
 	protected $data = array();
 	protected $user;
 	protected $notice = false;
-
-
+	
+	
 	public function __construct() {
 		parent::__construct();
 		
@@ -24,17 +24,18 @@ class Airyo extends CI_Controller
 		
 		$this->lang->load('content');
 		$this->lang->load('airyo', 'russian');
-
+		
 		$this->user = $this->users_model->getUserById($this->ion_auth->get_user_id());
 		
 		$this->data['main_menu'] = '';
 		$this->data['menu'] = array();
 		$this->data['usermenu'] = array();
-
+		
 		$this->data['message'] = '';
 		$this->data['show_breadcrumbs'] = true;
 		$this->data['user_data'] = $this->user;
 		$this->data['headermenu_modules'] = new stdClass();
+		
 		
 		if ($this->user) {
 			switch($this->user->role_id) {
@@ -50,12 +51,12 @@ class Airyo extends CI_Controller
 				if(sizeof($aUrl) > 1) {
 					if($this->modules_model->getModuleByName($aUrl[2])) {
 						$aModulesList = $this->modules_model->getUserModules(array('iUserId' => $this->user->id));
-
+						
 						$aUserModules = array();
 						foreach ($aModulesList as $aModule) {
 							$aUserModules[] = $aModule->alias;
 						}
-
+						
 						if(!empty($aUserModules)) {
 							if (!in_array($aUrl[2], $aUserModules)) {
 								if ($aUrl[2] == 'users' AND isset($aUrl[4]) AND $aUrl[4] == $this->user->id) {
@@ -79,8 +80,8 @@ class Airyo extends CI_Controller
 		}
 		
 	}
-
-
+	
+	
 	public function updateLogs()
 	{	
 		$this->logs_model->updateLogs(array(
@@ -94,19 +95,19 @@ class Airyo extends CI_Controller
 	public function notice_push($notice, $type = '')
 	{	
 		$this->session->set_flashdata('notice', 
+				array(
+					'type' => $type,
+					'text' => $notice
+				)
+			);
+		
+		$this->notice = 
 			array(
-                'type' => $type,
-                'text' => $notice
-            )
-        );
-        
-        $this->notice = 
-        	array(
-                'type' => $type,
-                'text' => $notice
-            );
+			'type' => $type,
+			'text' => $notice
+		);
 	}
-	
+
 	public function notice_pull()
 	{	
 		$notice = $this->notice ? $this->notice : $this->session->flashdata('notice');
@@ -122,28 +123,28 @@ class Airyo extends CI_Controller
 		return $d && $d->format($format) == $date;
 	}
 	
-
+	
 	// Подготовка массива изменения статуса для списков
 	public function state_changes($data, $data_new)
 	{	
 		$changes = array();
-	    
-	    if (!empty($data))
-	    {
-		    foreach ($data as $id => $state)
-            {
-            	if ($state == 0 && isset($data_new[$id]))
-            	{
-	            	$changes[] = $id;
-            	}
-            	elseif ($state == 1 && !isset($data_new[$id]))
-            	{
-	            	$changes[] = $id;
-            	}
-            }
-	    }
-	    
-	    return $changes;
+		
+		if (!empty($data))
+		{
+			foreach ($data as $id => $state)
+			{
+				if ($state == 0 && isset($data_new[$id]))
+				{
+					$changes[] = $id;
+				}
+				elseif ($state == 1 && !isset($data_new[$id]))
+				{
+					$changes[] = $id;
+				}
+			}
+		}
+		
+		return $changes;
 	}
-
+	
 }
