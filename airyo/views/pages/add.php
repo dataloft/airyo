@@ -1,6 +1,6 @@
 <?
 
-$this->js = '<script src="/airyo/theme/js/content.js"></script>';
+$this->js = '<script src="/themes/airyo/js/content.js"></script>';
 
 $this->load->view('common/header')
 
