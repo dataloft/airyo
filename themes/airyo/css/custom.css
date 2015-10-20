@@ -1,0 +1,58 @@
+.slider-wrapper {
+	margin-top: 20px;
+}
+
+.one-slide {
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	margin-bottom: 35px;
+}
+
+.input-group {
+	width: 100%;
+}
+
+.one-slide input,
+.one-slide textarea {
+	border: none;
+}
+
+.one-slide-input {
+	padding-top: 26px;
+	padding-bottom: 20px;
+}
+
+.one-slide-textarea {
+	resize: none;
+}
+
+.one-slide-label {
+	border: none;
+	padding-top: 16px;
+	padding-bottom: 30px;
+	font-weight: normal;
+	color: #999999;
+	width: 50% !important;
+	float: left !important;
+	display: block !important;
+}
+
+.one-slide a {
+	display: block;
+	overflow: hidden;
+}
+
+@media only screen and (min-width: 1201px) {
+
+	.one-slide a {
+		height: 214px;
+	}
+
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+
+	.one-slide a {
+		height: 174px;
+	}
+}

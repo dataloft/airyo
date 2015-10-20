@@ -44,6 +44,7 @@
 $route['404_override'] = '';
 $route['default_controller'] = 'startbootstrap/pages';
 
+
 //Frontend Routes:
 $route['news'] = 'startbootstrap/news';
 $route['news/(:any)'] = 'startbootstrap/news/item/$1';
