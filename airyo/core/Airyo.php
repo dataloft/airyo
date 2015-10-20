@@ -61,7 +61,7 @@ class Airyo extends CI_Controller
 								if ($aUrl[2] == 'users' AND isset($aUrl[4]) AND $aUrl[4] == $this->user->id) {
 									$this->data['show_breadcrumbs'] = false;
 								} else {
-									die('sd');
+									//die('sd');
 									$sRandomModule = array_shift($aUserModules);
 									redirect($sRandomModule, 'refresh');
 								}

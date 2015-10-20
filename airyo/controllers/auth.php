@@ -50,7 +50,7 @@ class Auth extends Airyo {
 
 
 		//validate form input
-		$this->form_validation->set_rules('identity', 'Identity', 'required');
+		$this->form_validation->set_rules('username', 'Username', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
 
 		if ($this->form_validation->run() == true) {
@@ -58,7 +58,7 @@ class Auth extends Airyo {
 			//check for "remember me"
 			$remember = (bool) $this->input->post('remember');
 
-			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
+			if ($this->ion_auth->login($this->input->post('username'), $this->input->post('password'), $remember))
 			{
 				$this->user = $this->users_model->getUserById($this->ion_auth->get_user_id());
 				if ($this->user->role_id == 0) {
@@ -93,10 +93,10 @@ class Auth extends Airyo {
             $this->session->set_flashdata('message', $this->ion_auth->errors());
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
-			$this->data['identity'] = array('name' => 'identity',
-				'id' => 'identity',
+			$this->data['username'] = array('name' => 'username',
+				'id' => 'username',
 				'type' => 'text',
-				'value' => $this->form_validation->set_value('identity'),
+				'value' => $this->form_validation->set_value('username'),
 			);
 			$this->data['password'] = array('name' => 'password',
 				'id' => 'password',
@@ -173,9 +173,9 @@ class Auth extends Airyo {
 			//render
 			$this->_render_page('auth/change_password', $this->data);
 		} else {
-			$identity = $this->session->userdata($this->config->item('identity', 'ion_auth'));
+			$username = $this->session->userdata($this->config->item('username', 'ion_auth'));
 
-			$change = $this->ion_auth->change_password($identity, $this->input->post('old'), $this->input->post('new'));
+			$change = $this->ion_auth->change_password($username, $this->input->post('old'), $this->input->post('new'));
 
 			if ($change)
 			{
@@ -202,28 +202,28 @@ class Auth extends Airyo {
 				'id' => 'email',
 			);
 
-			if ( $this->config->item('identity', 'ion_auth') == 'username' ){
-				$this->data['identity_label'] = $this->lang->line('forgot_password_username_identity_label');
+			if ( $this->config->item('username', 'ion_auth') == 'username' ){
+				$this->data['username_label'] = $this->lang->line('forgot_password_username_username_label');
 			}
 			else
 			{
-				$this->data['identity_label'] = $this->lang->line('forgot_password_email_identity_label');
+				$this->data['username_label'] = $this->lang->line('forgot_password_email_username_label');
 			}
 
 			//set any errors and display the form
 			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 			$this->_render_page('auth/forgot_password', $this->data);
 		} else {
-			// get identity for that email
-            $identity = $this->ion_auth->where('email', strtolower($this->input->post('email')))->users()->row();
-            if(empty($identity)) {
+			// get username for that email
+            $username = $this->ion_auth->where('email', strtolower($this->input->post('email')))->users()->row();
+            if(empty($username)) {
                 $this->ion_auth->set_message('forgot_password_email_not_found');
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
                 redirect("auth/forgot_password", 'refresh');
             }
 
 			//run the forgotten password method to email an activation code to the user
-			$forgotten = $this->ion_auth->forgotten_password($identity->{$this->config->item('identity', 'ion_auth')});
+			$forgotten = $this->ion_auth->forgotten_password($username->{$this->config->item('username', 'ion_auth')});
 
 			if($forgotten) {
 				//if there were no errors
@@ -298,9 +298,9 @@ class Auth extends Airyo {
 				else
 				{
 					// finally change the password
-					$identity = $user->{$this->config->item('identity', 'ion_auth')};
+					$username = $user->{$this->config->item('username', 'ion_auth')};
 
-					$change = $this->ion_auth->reset_password($identity, $this->input->post('new'));
+					$change = $this->ion_auth->reset_password($username, $this->input->post('new'));
 
 					if ($change)
 					{

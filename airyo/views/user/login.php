@@ -23,7 +23,7 @@
 					<?php echo form_open("", 'id="login" class="login" name="login" method="POST"');?>
 					<fieldset>
 						<div class="input-group" style="margin-bottom: 25px"> <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-							<input class="form-control" value="<? echo set_value('identity'); ?>" placeholder="Имя или email" name="identity" type="text" autofocus required>
+							<input class="form-control" value="<? echo set_value('identity'); ?>" placeholder="Имя или email" name="username" type="text" autofocus required>
 						</div>
 						<div class="input-group" style="margin-bottom: 25px"> <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 							<input class="form-control" placeholder="Пароль" name="password" type="password" value="" required>
