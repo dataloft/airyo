@@ -103,27 +103,25 @@ $this->load->view('common/header')
 			<?php if(!empty($modules) AND $countModules = sizeof($modules) AND $user->role_id == 1) : ?>
 				<div class="tab-pane <?=(isset($message['form']) AND $message['form'] == 'modules') ? 'active' : ''; ?>" id="modules">
 					<?php echo form_open("", 'class="form-horizontal" autocomplete="off" method="POST"');?>
-						<div class="col-md-5">
+						<div class="col-md-12" style="padding: 0">
 							<ul class="list-group">
 								<?php foreach($modules as $key => $module) : ?>
 									<?php if ($countModules / 2 == $key) : ?>
 											</ul>
-										</div>
-										<div class="col-md-5">
-											<ul class="list-group">
-									<?php endif; ?>
-									<li class="list-group-item">
-										<span class="badge badge-checkbox">
-											<input type="checkbox" <?=in_array($module->id, $user_modules) ? 'checked' : ''; ?> name="modules[]" value="<?=$module->id; ?>" />
-										</span>
-										<?=$module->title; ?>
-									</li>
-								<?php endforeach; ?>
+						</div>
+						<div class="col-md-12" style="padding: 0">
+							<ul class="list-group">
+								<?php endif; ?>
+								<li class="list-group-item">
+									<span class="badge badge-checkbox">
+										<input type="checkbox" <?=in_array($module->id, $user_modules) ? 'checked' : ''; ?> name="modules[]" value="<?=$module->id; ?>" />
+									</span>
+									<?=$module->title; ?>
+								</li>
+							<?php endforeach; ?>
 							</ul>
 						</div>
-							<div class="col-md-2 col-md-offset-4">
-								<button type="submit" class="btn btn-success"><?= $this->lang->line('save')?></button>
-							</div>
+						<button type="submit" class="btn btn-success"><?= $this->lang->line('save')?></button>
 					<input type="hidden" name="form_edit" value="modules" />
 					<?php echo form_close();?>
 				</div>
