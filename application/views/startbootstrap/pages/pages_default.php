@@ -1,7 +1,8 @@
 <? $this->load->view('startbootstrap/common/header') ?>
 
 <!-- Header Carousel -->
-<? foreach($sliders as $key => $value) : ?>
+
+<? if(0){ foreach($sliders as $key => $value) : ?>
 	<header id="myCarousel<?=$value['id']?>" class="carousel slide">
 	
 		<!-- Indicators -->
@@ -31,7 +32,8 @@
 			<span class="icon-next"></span>
 		</a>
 	</header>
-<? endforeach; ?>
+<? endforeach; } ?>
+
 
 <!-- Page Content -->
 <div class="container">
