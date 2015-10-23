@@ -5,7 +5,7 @@ class Pages_model extends CI_Model {
 		parent::__construct();
 	}
 
-	public function getList($type=false, $search=false) {
+	public function get_list($type=false, $search=false) {
         $this->db->select('*');
         if (!empty($type))
             $this->db->where('type',$type);
@@ -45,7 +45,7 @@ class Pages_model extends CI_Model {
 		return $q->row();
 	}
 
-    public function getToId($id) {
+    public function get_by_id($id) {
         $q = $this->db;
         $this->sql = "
 			SELECT * FROM ".$this->db->dbprefix('content')." WHERE id = '".$id."'

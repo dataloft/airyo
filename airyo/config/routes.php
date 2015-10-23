@@ -55,7 +55,7 @@ $route['airyo/logout'] = 'auth/logout';
 
 //airyo pages
 $route['airyo/pages'] = 'pages';
-$route['airyo/pages/add'] = 'pages/add';
+$route['airyo/pages/add'] = 'pages/edit';
 $route['airyo/pages/edit'] = 'pages/edit';
 $route['airyo/pages/edit/(:num)'] = 'pages/edit/$1';
 $route['airyo/pages/delete'] = 'pages/delete';
