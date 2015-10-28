@@ -41,7 +41,7 @@ class Pages extends Airyo {
 		if ($this->input->post()) {
 			$this->form_validation->set_rules('content', '', 'trim|required|xss_clean');
 	        $this->form_validation->set_rules('h1', '', 'trim|required|xss_clean');
-	        $this->form_validation->set_rules('alias', '', 'trim|strtolower|xss_clean|required|callback_check_alias');
+	        $this->form_validation->set_rules('alias', '', 'trim|strtolower|xss_clean|callback_check_alias');
 	        $this->form_validation->set_rules('enabled', '', 'trim|xss_clean');
 
 			$input = array();
@@ -81,7 +81,7 @@ class Pages extends Airyo {
 
 	public function check_alias ($alias) {
 		// Первая проверка на допустимые символы
-    	if (!preg_match('/^[a-z0-9-\.\_]+$/', $alias)){
+    	/*if (!preg_match('/^[a-z0-9-\.\_]+$/', $alias)){
             $this->form_validation->set_message(__FUNCTION__, 'Некорректные символы в алиасе');
             return false;
         }
@@ -91,7 +91,7 @@ class Pages extends Airyo {
     	if (sizeof($r) >= 1 && @$r[0]['id'] != @$this->data['page']['id']) {
     		$this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
     		return false;
-    	}
+    	}*/
     	
     	return true;
 	}
