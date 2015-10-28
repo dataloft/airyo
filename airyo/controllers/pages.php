@@ -38,32 +38,62 @@ class Pages extends Airyo {
 
 		$this->data['page'] = $this->pages_model->get_by_id($id);
 		
-		
-		
-		
+		if ($this->input->post()) {
+			$this->form_validation->set_rules('content', '', 'trim|required|xss_clean');
+	        $this->form_validation->set_rules('h1', '', 'trim|required|xss_clean');
+	        $this->form_validation->set_rules('alias', '', 'trim|strtolower|xss_clean|required|callback_check_alias');
+	        $this->form_validation->set_rules('enabled', '', 'trim|xss_clean');
 
+			$input = array();
+			if ($this->form_validation->run()) {
+				$input = array(
+					'content'	=> $this->input->post('content'),
+					'h1'		=> $this->input->post('h1'),
+					'alias'		=> $this->input->post('alias'),
+					'enabled'	=> $this->input->post('enabled'),
+				);
+			}
+
+			if ($input) {
+			 	if ($this->data['page']['id']) {
+					$input['id'] = $id;
+					if ($this->pages_model->update($input)) {
+						$this->notice_push($this->lang->line('notice_update_sucsess'), 'success');
+						redirect($this->uri->uri_string());
+					}
+					else {
+						$this->notice_push($this->lang->line('notice_update_model_error'), 'danger');
+					}
+				}
+			}
+
+			else {
+				$this->notice_push($this->lang->line('notice_form_incorrect'), 'warning');
+			}
+
+			$this->data['page'] = $this->input->post();
+		}
+
+		$this->data['notice'] = $this->notice_pull();
 		$this->load->view('pages/edit', $this->data);
 	}
 
 
-	public function check_alias () {
-		if (!empty($_POST['alias']) && !preg_match('/^[a-z0-9-\/\.]+$/', $this->input->post('alias'))){
-			$this->form_validation->set_message(__FUNCTION__, 'Некорректно указан адрес страницы');
-			return false;
-		}
-		else
-		{
-			$page = $this->pages_model->getByAlias($this->input->post('alias'));
-			$this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
-
-			if (empty($page))
-				return true;
-
-			if ($this->input->post('id') == $page->id)
-				return true;
-			else
-				return false;
-		}
+	public function check_alias ($alias) {
+		// Первая проверка на допустимые символы
+    	if (!preg_match('/^[a-z0-9-\.\_]+$/', $alias)){
+            $this->form_validation->set_message(__FUNCTION__, 'Некорректные символы в алиасе');
+            return false;
+        }
+    	
+    	// Вторая проверка - отсутствие другой записи с тем же алиасом
+    	$r = $this->pages_model->get_by_alias($alias);
+    	if (sizeof($r) >= 1 && @$r[0]['id'] != @$this->data['page']['id']) {
+    		$this->form_validation->set_message(__FUNCTION__, 'The alias you entered is already used.');
+    		return false;
+    	}
+    	
+    	return true;
 	}
 
 

@@ -57,19 +57,13 @@ class Pages_model extends CI_Model {
         return false;
     }
 
-    public function getByAlias($alias, $array = false) {
-        $q = $this->db;
-        $this->sql = "
-			SELECT * FROM ".$this->db->dbprefix('content')." WHERE alias = '".$alias."' && enabled = '1'
-		";
-        $q = $q->query($this->sql);
-        if ($q->num_rows() > 0)
-            if (!$array)
-                return $q->row();
-            else
-                return $q->row_array();
-
-        return false;
+    public function get_by_alias($alias) {
+       $q = $this->db->query("
+            SELECT * FROM ".$this->db->dbprefix('content')."
+            WHERE alias = '".$alias."'
+        ");
+        
+        return  $q->result_array();
     }
 
     public function Add ($data)
@@ -80,10 +74,9 @@ class Pages_model extends CI_Model {
         return $return;
     }
 
-    public function Update ($id, $data)
+    public function update ($data)
     {
-       if ($this->db->update($this->db->dbprefix('content'), $data, array('id' => $id)))
-        //$return = $this->db->affected_rows() == 1;
+       if ($this->db->update($this->db->dbprefix('content'), $data, array('id' => $data['id'])))
             return true;
         else
             return false;

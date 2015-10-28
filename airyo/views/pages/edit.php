@@ -1,6 +1,7 @@
 <?$this->load->view('common/header')?>
 
 <div class="container">
+<? $this->load->view('common/notice')?>
 	<h1 class="page-header">
 		<?= $this->lang->line('module_title_pages')?>
 	</h1>
