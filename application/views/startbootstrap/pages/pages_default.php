@@ -39,7 +39,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <?=html_entity_decode($page['content'])?>
+            <?=$page['content']?>
         </div>
     </div>
 </div>

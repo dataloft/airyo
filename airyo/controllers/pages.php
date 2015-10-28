@@ -29,7 +29,7 @@ class Pages extends Airyo {
 		$this->data['page'] = $this->pages_model->get_by_id($id);
 
 		if ($this->input->post()) {
-			$this->form_validation->set_rules('content', 'lang:content', 'trim|required|htmlentities|xss_clean');
+			//$this->form_validation->set_rules('content', 'lang:content', 'trim|required|htmlentities|xss_clean');
 			$this->form_validation->set_rules('h1', 'lang:h1', 'trim|required|htmlentities|xss_clean');
 			$this->form_validation->set_rules('alias', '', 'trim|strtolower|htmlentities|xss_clean|callback_check_alias');
 			$this->form_validation->set_rules('enabled', '', 'trim|xss_clean');
