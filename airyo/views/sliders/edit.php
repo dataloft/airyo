@@ -52,6 +52,16 @@ $this->css = "
 		overflow: hidden;
 	}
 
+	.slider-wrapper .col-md-4 {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.slider-wrapper .col-md-4 .one-slide {
+		margin-left: 15px;
+		margin-right: 15px;
+	}
+
 	@media only screen and (min-width: 1201px) {
 
 		.one-slide a {
