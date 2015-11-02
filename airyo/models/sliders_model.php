@@ -12,6 +12,11 @@ class Sliders_model extends CI_Model {
 		return $result->result_array();
 	}
 
+	public function add_img($data) {
+		$this->db->insert($this->db->dbprefix('slide'), $data);
+		return $this->db->insert_id();
+	}
+
 	public function get_by_id($id) {
 		$this->db->select('*');
 		$this->db->from('slide');
@@ -19,6 +24,14 @@ class Sliders_model extends CI_Model {
 		$this->db->order_by("order","asc");
 		$result=$this->db->get();
 		return $result->result_array();
+	}
+
+	public function get_slider_by_id($id) {
+		$this->db->select('*');
+		$this->db->from('sliders');
+		$this->db->where('id', $id);
+		$result=$this->db->get();
+		return $result->row_array();
 	}
 
 	public function update($data) 
