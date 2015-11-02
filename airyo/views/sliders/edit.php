@@ -101,6 +101,7 @@ $this->js .= "
 	$(document).ready(function(){
 		$( '.sortable' ).sortable({
 			handle: '.glyphicon-move',
+			opacity: 1.0,
 			cancel:'.btn',
 			update: function (event, ui) {
 				var data = $( '.sortable' ).sortable('serialize');
