@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.9
+-- version 4.4.10
 -- http://www.phpmyadmin.net
 --
--- Host: localhost:8889
--- Generation Time: Oct 28, 2015 at 07:47 AM
--- Server version: 5.5.34
--- PHP Version: 5.4.25
+-- Host: localhost:3306
+-- Generation Time: Nov 03, 2015 at 05:43 PM
+-- Server version: 5.5.42
+-- PHP Version: 5.4.42
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `airyo`
@@ -27,17 +27,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `airyo_albums` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `label` varchar(255) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(511) DEFAULT NULL,
   `image_id` int(10) unsigned DEFAULT NULL,
   `user_id` int(11) unsigned NOT NULL,
   `create_date` datetime NOT NULL,
-  `enable` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `fk_airyo_albums_1_idx` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Альбомы' AUTO_INCREMENT=13 ;
+  `enable` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Альбомы';
 
 --
 -- Dumping data for table `airyo_albums`
@@ -53,13 +51,11 @@ INSERT INTO `airyo_albums` (`id`, `label`, `title`, `description`, `image_id`, `
 --
 
 CREATE TABLE `airyo_chunks` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
-  `content` text NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `content` text NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_chunks`
@@ -72,45 +68,15 @@ INSERT INTO `airyo_chunks` (`id`, `name`, `alias`, `content`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `airyo_content`
---
-
-CREATE TABLE `airyo_content` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `h1` varchar(255) NOT NULL,
-  `content` mediumtext NOT NULL,
-  `alias` varchar(255) NOT NULL,
-  `meta_description` text NOT NULL,
-  `meta_keywords` text NOT NULL,
-  `enabled` tinyint(1) NOT NULL,
-  `type` varchar(200) NOT NULL,
-  `template` varchar(200) NOT NULL DEFAULT 'default',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=123 ;
-
---
--- Dumping data for table `airyo_content`
---
-
-INSERT INTO `airyo_content` (`id`, `title`, `h1`, `content`, `alias`, `meta_description`, `meta_keywords`, `enabled`, `type`, `template`) VALUES
-(106, '0', 'Главная страница', '<h1>Airyo <small>хорошая основа вашего сайта</small></h1>\n\n<p>Как известно, можно сделать сайт на основе популярной коробочной или облачной CMS, a можно на основе фреймворка. В первом случае вы получаете стандартный админский интерфейс, и некоторые особенности создания новых модулей (либо невозможность их создания в случае облака). Во втором случае, админский интерфейс может быть максимально заточен под нужны проекта, при создании новых модулей ограничений нет.</p>\n\n<p>Плюсы работы с коробочной CMS в том, что сайт на ее основе может быть дешевле, при условии, что используется стандартная комплектация. В случае с фреймворком плюсы заключаются в гибкости, возможности сделать ровно то, что хочется.</p>\n\n<p>Большинство популярных веб-ресурсов, конечно же, не являются коробочными продуктами, поскольку ограничения CMS сильно мешают гибкому развитию проекта. Такие ресурсы сделаны на фреймворках.</p>\n\n<!--<div class="well"></div>-->\n\n<p class="lead">Мы постарались объединить положительные стороны разных методов разработки:</p>\n\n<ul>\n<li>В основе сайта популярный фреймворк, а значит это гибкое, быстрое, безопасное решение.</li>\n<li>Сайт уже содержит каркас CMS с набором <a href="#">модулей первой необходимости</a>, но данная CMS не ограничивает свободу в создании новых модулей.</li>\n<li>Есть несколько хорошо протестированных <a href="#">готовых дизайн тем для сайта</a>, каждая из которых может быть переработана и адаптирована под ваши нужны.</li>\n<li>Сайт может быть расположен на хостинге повышенной доступности с резервированием данных, но при этом, в отличие от облака, вы будете фактическим владельцем сайта, а не просто его арендатором.</li>\n<li>Любые изменения в сайте вы можете заказать через <a href="http://smartandy.ru">наш сервис</a> на условиях 500р/час, что дешевле средней стоимости на рынке фриланса, при этом, вам не потребуется искать и выбирать специалистов. Большинство задач выполняются в день обращения.</li>\n</ul>\n\n<h2>Про дизайн этого сайта</h2>\n\n<p>В качестве демонстрации того, как все работает, мы сделали несколько готовых сайтов на основе проверенных и популярных дизайн-тем. Каждый сайт протестирован на разных устройствах и использует только качественные библиотеки.</p>\n\n<p>Любой из представленных дизайнов вы можете взять для себя бесплатно и использовать для своих нужд как есть, либо с любыми доработками.</p>\n\n<p>Дизайн-тема данного сайта называется <a href="#">Twitter Bootstrap</a>. Это, пожалуй, наиболее известный и часто используемый на данный момент Frontend Framework. Внешне сайт на Bootstrap может выглядеть лаконично, а может быть доработан и насыщен графикой. Но даже самый простой вариант сайта имеет очень много преимуществ. Он будет очень быстро загружаться и работать, будет выглядеть хорошо и аккуратно на любых устройствах.</p>\n\n<div class="well">\n<p>Для того, чтобы выбрать эту версию для основы своего сайта, вы можете действовать тремя способами:</p>\n<ol>\n<li>Забрать ее бесплатно из репозитория и настроить на своем сервере (потребуются навыки веб-разработчика)</li>\n<li>Воспользоваться автоматическим сервисом нашего хостинга. Не требует специальных знаний.</li>\n<li>Отправить заявку на развертывание и доработку сайта нам.</li>\n</ol>\n</div>\n\n\n\n<h2>А теперь немного картинок <small>не забудьте попробовать посмотреть на смартфоне</small></h2>\n\n[[Gallery:album1444295654]]\n\n\n<p><a href="#" class="btn btn-default btn-lg btn-block" role="button">Хочу такой сайт</a></p>\n\n\n\n<!--\n\n[[news_last:2]]\n\n[[gallery_last:2]]\n\n-->', '', '0', '0', 1, '0', 'pages_default'),
-(122, '0', 'Информация', 'Тест', 'info', '0', '0', 1, '0', 'pages_default');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `airyo_counters`
 --
 
 CREATE TABLE `airyo_counters` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `text` text NOT NULL,
   `ip` text NOT NULL,
-  `domain` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `domain` text NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_counters`
@@ -126,11 +92,10 @@ INSERT INTO `airyo_counters` (`id`, `text`, `ip`, `domain`) VALUES
 --
 
 CREATE TABLE `airyo_groups` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `id` mediumint(8) unsigned NOT NULL,
   `name` varchar(20) NOT NULL,
-  `description` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `description` varchar(100) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_groups`
@@ -147,7 +112,7 @@ INSERT INTO `airyo_groups` (`id`, `name`, `description`) VALUES
 --
 
 CREATE TABLE `airyo_images` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `order` int(11) NOT NULL,
   `label` varchar(255) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
@@ -155,11 +120,8 @@ CREATE TABLE `airyo_images` (
   `album_id` int(11) DEFAULT NULL,
   `user_id` int(10) unsigned DEFAULT NULL,
   `create_date` datetime NOT NULL,
-  `enable` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `fk_airyo_images_1_idx` (`album_id`),
-  KEY `fk_airyo_images_users_idx` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Изображения' AUTO_INCREMENT=164 ;
+  `enable` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8 COMMENT='Изображения';
 
 --
 -- Dumping data for table `airyo_images`
@@ -169,7 +131,9 @@ INSERT INTO `airyo_images` (`id`, `order`, `label`, `title`, `description`, `alb
 (155, 1, '864d6dcc89b5ba03686ff95f0667d877.jpg', '864d6dcc89b5ba03686ff95f0667d877', '', 12, 2, '2015-10-08 09:15:08', 1),
 (156, 4, '148ee3336fcd4141ed40d22bb242f8f1.jpg', '148ee3336fcd4141ed40d22bb242f8f1', '', 12, 2, '2015-10-08 09:15:08', 1),
 (157, 2, '6fe46d76c0f62887db5df417cb601d79.jpg', '6fe46d76c0f62887db5df417cb601d79', '', 12, 2, '2015-10-08 09:15:08', 1),
-(158, 0, '22b80944dc6d639d4b7ce5058d7e7736.jpg', '22b80944dc6d639d4b7ce5058d7e7736', '', 12, 2, '2015-10-08 09:15:08', 1);
+(161, 1000, 'a14.jpg', 'a14', '', 12, 2, '2015-11-02 14:32:42', 1),
+(162, 1000, 'a16.jpg', 'a16', '', 12, 2, '2015-11-02 14:32:42', 1),
+(163, 1000, 'a15.jpg', 'a15', '', 12, 2, '2015-11-02 14:32:42', 1);
 
 -- --------------------------------------------------------
 
@@ -178,12 +142,11 @@ INSERT INTO `airyo_images` (`id`, `order`, `label`, `title`, `description`, `alb
 --
 
 CREATE TABLE `airyo_login_attempts` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL,
   `ip_address` varbinary(16) NOT NULL,
   `login` varchar(100) NOT NULL,
-  `time` int(11) unsigned DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `time` int(11) unsigned DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -192,13 +155,11 @@ CREATE TABLE `airyo_login_attempts` (
 --
 
 CREATE TABLE `airyo_logs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
   `type` varchar(45) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_logs_users1_idx` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица для логирования' AUTO_INCREMENT=740 ;
+  `description` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=838 DEFAULT CHARSET=utf8 COMMENT='Таблица для логирования';
 
 --
 -- Dumping data for table `airyo_logs`
@@ -943,7 +904,105 @@ INSERT INTO `airyo_logs` (`id`, `user_id`, `type`, `description`) VALUES
 (736, 2, 'redirect', 'airyo/files'),
 (737, 2, 'redirect', 'airyo/pages'),
 (738, 2, 'redirect', 'airyo/pages'),
-(739, 2, 'redirect', 'airyo/menu');
+(739, 2, 'redirect', 'airyo/menu'),
+(740, 2, 'redirect', 'airyo/pages'),
+(741, 2, 'redirect', 'airyo/news'),
+(742, 2, 'redirect', 'airyo/pages'),
+(743, 2, 'redirect', 'airyo/pages'),
+(744, 2, 'redirect', 'airyo/pages'),
+(745, 2, 'redirect', 'airyo/pages'),
+(746, 2, 'redirect', 'airyo/pages'),
+(747, 2, 'redirect', 'airyo/pages'),
+(748, 2, 'redirect', 'airyo/pages'),
+(749, 2, 'redirect', 'airyo/pages'),
+(750, 2, 'redirect', 'airyo/pages'),
+(751, 2, 'redirect', 'airyo/pages'),
+(752, 2, 'redirect', 'airyo/news'),
+(753, 2, 'redirect', 'airyo/news'),
+(754, 2, 'redirect', 'airyo/pages'),
+(755, 2, 'redirect', 'airyo/pages'),
+(756, 2, 'redirect', 'airyo/news'),
+(757, 2, 'redirect', 'airyo/pages'),
+(758, 2, 'redirect', 'airyo/pages'),
+(759, 2, 'redirect', 'airyo/pages'),
+(760, 2, 'redirect', 'airyo/pages'),
+(761, 2, 'redirect', 'airyo/pages'),
+(762, 2, 'redirect', 'airyo/pages'),
+(763, 2, 'redirect', 'airyo/pages'),
+(764, 2, 'redirect', 'airyo/pages'),
+(765, 2, 'redirect', 'airyo/pages'),
+(766, 2, 'redirect', 'airyo/pages'),
+(767, 2, 'redirect', 'airyo/pages'),
+(768, 2, 'redirect', 'airyo/pages'),
+(769, 2, 'redirect', 'airyo/pages'),
+(770, 2, 'redirect', 'airyo/pages'),
+(771, 2, 'redirect', 'airyo/pages'),
+(772, 2, 'redirect', 'airyo/pages'),
+(773, 2, 'redirect', 'airyo/pages'),
+(774, 2, 'redirect', 'airyo/pages'),
+(775, 2, 'redirect', 'airyo/pages'),
+(776, 2, 'redirect', 'airyo/pages'),
+(777, 2, 'redirect', 'airyo/pages'),
+(778, 2, 'redirect', 'airyo/pages'),
+(779, 2, 'redirect', 'airyo/pages'),
+(780, 2, 'redirect', 'airyo/menu'),
+(781, 2, 'redirect', 'airyo/pages'),
+(782, 2, 'redirect', 'airyo/gallery'),
+(783, 2, 'redirect', 'airyo/gallery'),
+(784, 2, 'redirect', 'airyo/gallery'),
+(785, 2, 'redirect', 'airyo/gallery'),
+(786, 2, 'redirect', 'airyo/gallery'),
+(787, 2, 'redirect', 'airyo/gallery'),
+(788, 2, 'redirect', 'airyo/gallery'),
+(789, 2, 'redirect', 'airyo/gallery'),
+(790, 2, 'redirect', 'airyo/gallery'),
+(791, 2, 'redirect', 'airyo/gallery'),
+(792, 2, 'redirect', 'airyo/gallery'),
+(793, 2, 'redirect', 'airyo/gallery'),
+(794, 2, 'redirect', 'airyo/gallery'),
+(795, 2, 'redirect', 'airyo/gallery'),
+(796, 2, 'redirect', 'airyo/gallery'),
+(797, 2, 'redirect', 'airyo/gallery'),
+(798, 2, 'redirect', 'airyo/gallery'),
+(799, 2, 'redirect', 'airyo/news'),
+(800, 2, 'redirect', 'airyo/menu'),
+(801, 2, 'redirect', 'airyo/gallery'),
+(802, 2, 'redirect', 'airyo/gallery'),
+(803, 2, 'redirect', 'airyo/pages'),
+(804, 2, 'redirect', 'airyo/pages'),
+(805, 2, 'redirect', 'airyo/pages'),
+(806, 2, 'redirect', 'airyo/pages'),
+(807, 2, 'redirect', 'airyo/pages'),
+(808, 2, 'redirect', 'airyo/pages'),
+(809, 2, 'redirect', 'airyo/pages'),
+(810, 2, 'redirect', 'airyo/pages'),
+(811, 2, 'redirect', 'airyo/pages'),
+(812, 2, 'redirect', 'airyo/pages'),
+(813, 2, 'redirect', 'airyo/pages'),
+(814, 2, 'redirect', 'airyo/pages'),
+(815, 2, 'redirect', 'airyo/pages'),
+(816, 2, 'redirect', 'airyo/pages'),
+(817, 2, 'redirect', 'airyo/pages'),
+(818, 2, 'redirect', 'airyo/pages'),
+(819, 2, 'redirect', 'airyo/pages'),
+(820, 2, 'redirect', 'airyo/pages'),
+(821, 2, 'redirect', 'airyo/pages'),
+(822, 2, 'redirect', 'airyo/pages'),
+(823, 2, 'redirect', 'airyo/pages'),
+(824, 2, 'redirect', 'airyo/pages'),
+(825, 2, 'redirect', 'airyo/pages'),
+(826, 2, 'redirect', 'airyo/pages'),
+(827, 2, 'redirect', 'airyo/pages'),
+(828, 2, 'redirect', 'airyo/pages'),
+(829, 2, 'redirect', 'airyo/pages'),
+(830, 2, 'redirect', 'airyo/pages'),
+(831, 2, 'redirect', 'airyo/pages'),
+(832, 2, 'redirect', 'airyo/pages'),
+(833, 2, 'redirect', 'airyo/pages'),
+(834, 2, 'redirect', 'airyo/pages'),
+(835, 2, 'redirect', 'airyo/pages'),
+(836, 2, 'redirect', 'airyo/pages'),
+(837, 2, 'redirect', 'airyo/pages');
 
 -- --------------------------------------------------------
 
@@ -952,15 +1011,14 @@ INSERT INTO `airyo_logs` (`id`, `user_id`, `type`, `description`) VALUES
 --
 
 CREATE TABLE `airyo_menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `url` tinytext NOT NULL,
   `menu_group` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL,
   `order` int(11) NOT NULL,
-  `enabled` tinyint(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=83 ;
+  `enabled` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_menu`
@@ -1027,10 +1085,9 @@ INSERT INTO `airyo_menu` (`id`, `name`, `url`, `menu_group`, `parent_id`, `order
 --
 
 CREATE TABLE `airyo_menu_group` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_menu_group`
@@ -1047,13 +1104,12 @@ INSERT INTO `airyo_menu_group` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `airyo_modules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
   `description` varchar(511) DEFAULT NULL,
-  `position` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Модули' AUTO_INCREMENT=11 ;
+  `position` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='Модули';
 
 --
 -- Dumping data for table `airyo_modules`
@@ -1078,24 +1134,50 @@ INSERT INTO `airyo_modules` (`id`, `title`, `alias`, `description`, `position`) 
 --
 
 CREATE TABLE `airyo_news` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `anons` text NOT NULL,
   `content` text NOT NULL,
   `alias` varchar(255) NOT NULL,
   `img_ext` varchar(32) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
-  `date` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`alias`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=43 ;
+  `date` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_news`
 --
 
 INSERT INTO `airyo_news` (`id`, `title`, `anons`, `content`, `alias`, `img_ext`, `enabled`, `date`) VALUES
-(42, 'Видео: велосипедист проехал по тросу над обрывом', 'Велосипедиста Кенни Белэя (Kenny Belaey) называют «волшебником» не случайно: едва ли найдется кто-нибудь еще, способный проехать на велосипеде по 20-метровому тросу над пропастью.', '<p style="">У спортсмена на подготовку к этому трюку ушел год. И это при том, что он четырехкратный чемпион UCI World в дисциплине, требующей от велосипедистов прохождения полосы препятствий без касания земли ногами.</p>\n<p style=""><iframe width="560" height="315" src="https://www.youtube.com/embed/3um6o3O9Q44" frameborder="0" allowfullscreen=""></iframe></p>\n<p>Видео было снято на горнолыжном курорте Ла-Плань во Франции. Кенни провел на его склонах немало времени. «Когда я впервые въехал на трос — и это после нескольких месяцев подготовки! — я решил, что это невозможно, — рассказывает велосипедист. — В итоге трюк оказался самым сложным из всех, с которыми мы сталкивались».</p>\n', 'nadex_record', '.jpg', 1, '2015-05-29 00:00:00');
+(42, 'Видео: велосипедист проехал по тросу над обрывом', 'Велосипедиста Кенни Белэя (Kenny Belaey) называют «волшебником» не случайно: едва ли найдется кто-нибудь еще, способный проехать на велосипеде по 20-метровому тросу над пропастью.', '<p style="">У спортсмена на подготовку к этому трюку ушел год. И это при том, что он четырехкратный чемпион UCI World в дисциплине, требующей от велосипедистов прохождения полосы препятствий без касания земли ногами.</p>\n<p style=""><iframe width="560" height="315" src="https://www.youtube.com/embed/3um6o3O9Q44" frameborder="0" allowfullscreen=""></iframe></p>\n<p>Видео было снято на горнолыжном курорте Ла-Плань во Франции. Кенни провел на его склонах немало времени. «Когда я впервые въехал на трос — и это после нескольких месяцев подготовки! — я решил, что это невозможно, — рассказывает велосипедист. — В итоге трюк оказался самым сложным из всех, с которым мы сталкивались».</p>\n', 'nadex_record', '.jpg', 1, '2015-05-29 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `airyo_pages`
+--
+
+CREATE TABLE `airyo_pages` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `h1` varchar(255) NOT NULL,
+  `content` mediumtext NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  `meta_description` text NOT NULL,
+  `meta_keywords` text NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `type` varchar(200) NOT NULL,
+  `template` varchar(200) NOT NULL DEFAULT 'default'
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `airyo_pages`
+--
+
+INSERT INTO `airyo_pages` (`id`, `title`, `h1`, `content`, `alias`, `meta_description`, `meta_keywords`, `enabled`, `type`, `template`) VALUES
+(106, '0', 'Главная страница', '<h1>Airyo <small>хорошая основа вашего сайта</small></h1>\n\n<p>Как известно, можно сделать сайт на основе популярной коробочной или облачной CMS, a можно на основе фреймворка. В первом случае вы получаете стандартный админский интерфейс, и некоторые особенности создания новых модулей (либо невозможность их создания в случае облака). Во втором случае, админский интерфейс может быть максимально заточен под нужны проекта, при создании новых модулей ограничений нет.</p>\n\n<p>Плюсы работы с коробочной CMS в том, что сайт на ее основе может быть дешевле, при условии, что используется стандартная комплектация. В случае с фреймворком плюсы заключаются в гибкости, возможности сделать ровно то, что хочется.</p>\n\n<p>Большинство популярных веб-ресурсов, конечно же, не являются коробочными продуктами, поскольку ограничения CMS сильно мешают гибкому развитию проекта. Такие ресурсы сделаны на фреймворках.</p>\n\n<!--<div class="well"></div>-->\n\n<p class="lead">Мы постарались объединить положительные стороны разных методов разработки:</p>\n\n<ul>\n<li>В основе сайта популярный фреймворк, а значит это гибкое, быстрое, безопасное решение.</li>\n<li>Сайт уже содержит каркас CMS с набором <a href="#">модулей первой необходимости</a>, но данная CMS не ограничивает свободу в создании новых модулей.</li>\n<li>Есть несколько хорошо протестированных <a href="#">готовых дизайн тем для сайта</a>, каждая из которых может быть переработана и адаптирована под ваши нужны.</li>\n<li>Сайт может быть расположен на хостинге повышенной доступности с резервированием данных, но при этом, в отличие от облака, вы будете фактическим владельцем сайта, а не просто его арендатором.</li>\n<li>Любые изменения в сайте вы можете заказать через <a href="http://smartandy.ru">наш сервис</a> на условиях 500р/час, что дешевле средней стоимости на рынке фриланса, при этом, вам не потребуется искать и выбирать специалистов. Большинство задач выполняются в день обращения.</li>\n</ul>\n\n<h2>Про дизайн этого сайта</h2>\n\n<p>В качестве демонстрации того, как все работает, мы сделали несколько готовых сайтов на основе проверенных и популярных дизайн-тем. Каждый сайт протестирован на разных устройствах и использует только качественные библиотеки.</p>\n\n<p>Любой из представленных дизайнов вы можете взять для себя бесплатно и использовать для своих нужд как есть, либо с любыми доработками.</p>\n\n<p>Дизайн-тема данного сайта называется <a href="#">Twitter Bootstrap</a>. Это, пожалуй, наиболее известный и часто используемый на данный момент Frontend Framework. Внешне сайт на Bootstrap может выглядеть лаконично, а может быть доработан и насыщен графикой. Но даже самый простой вариант сайта имеет очень много преимуществ. Он будет очень быстро загружаться и работать, будет выглядеть хорошо и аккуратно на любых устройствах.</p>\n\n<div class="well">\n<p>Для того, чтобы выбрать эту версию для основы своего сайта, вы можете действовать тремя способами:</p>\n<ol>\n<li>Забрать ее бесплатно из репозитория и настроить на своем сервере (потребуются навыки веб-разработчика)</li>\n<li>Воспользоваться автоматическим сервисом нашего хостинга. Не требует специальных знаний.</li>\n<li>Отправить заявку на развертывание и доработку сайта нам.</li>\n</ol>\n</div>\n\n\n\n<h2>А теперь немного картинок <small>не забудьте попробовать посмотреть на смартфоне</small></h2>\n\n[[Gallery:album1444295654]]\n\n\n<p><a href="#" class="btn btn-default btn-lg btn-block" role="button">Хочу такой сайт</a></p>\n\n\n\n<!--\n\n[[news_last:2]]\n\n[[gallery_last:2]]\n\n--!>', '', '0', '0', 1, '0', 'pages_default'),
+(130, '', 'Информация', '<h1>Information page test</h1>\n<!-- Comments --!>', 'info', '', '', 1, '', 'pages_default'),
+(145, '', 'О нас', '<h1>About us section</h1>', 'about', '', '', 0, '', 'pages_foundation');
 
 -- --------------------------------------------------------
 
@@ -1104,11 +1186,10 @@ INSERT INTO `airyo_news` (`id`, `title`, `anons`, `content`, `alias`, `img_ext`,
 --
 
 CREATE TABLE `airyo_pages_layouts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `view` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `view` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_pages_layouts`
@@ -1120,16 +1201,34 @@ INSERT INTO `airyo_pages_layouts` (`id`, `name`, `view`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `airyo_pages_views`
+--
+
+CREATE TABLE `airyo_pages_views` (
+  `id` int(11) unsigned NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `view` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `airyo_pages_views`
+--
+
+INSERT INTO `airyo_pages_views` (`id`, `title`, `view`) VALUES
+(1, 'Bootstrap 3', 'pages_default'),
+(2, 'Foundation 5', 'pages_foundation');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `airyo_roles`
 --
 
 CREATE TABLE `airyo_roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `title` varchar(45) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `title_UNIQUE` (`title`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Роли пользователей' AUTO_INCREMENT=3 ;
+  `description` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Роли пользователей';
 
 --
 -- Dumping data for table `airyo_roles`
@@ -1146,15 +1245,13 @@ INSERT INTO `airyo_roles` (`id`, `title`, `description`) VALUES
 --
 
 CREATE TABLE `airyo_seo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `meta_keywords` text NOT NULL,
   `meta_description` text NOT NULL,
   `last_modified` datetime NOT NULL,
-  `path` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `path` (`path`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `path` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_seo`
@@ -1170,7 +1267,7 @@ INSERT INTO `airyo_seo` (`id`, `title`, `meta_keywords`, `meta_description`, `la
 --
 
 CREATE TABLE `airyo_slide` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(511) DEFAULT NULL,
   `link` varchar(255) DEFAULT NULL,
@@ -1178,28 +1275,17 @@ CREATE TABLE `airyo_slide` (
   `create_date` datetime NOT NULL,
   `enabled` int(11) NOT NULL DEFAULT '1',
   `order` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_airyo_sliders_1_idx` (`sliders_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Слайд' AUTO_INCREMENT=24 ;
+  `img_title` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8 COMMENT='Слайд';
 
 --
 -- Dumping data for table `airyo_slide`
 --
 
-INSERT INTO `airyo_slide` (`id`, `title`, `description`, `link`, `sliders_id`, `create_date`, `enabled`, `order`) VALUES
-(5, 'Slide 1', 'First slide.', 'http://yandex.ru', 1, '0000-00-00 00:00:00', 1, '2'),
-(6, 'Slide 2', 'This is a second slide', 'http://google.com', 1, '0000-00-00 00:00:00', 1, '0'),
-(7, 'Slide 32222', 'This is a last slide', 'http://apple.com', 1, '0000-00-00 00:00:00', 1, '1'),
-(10, 'Slide 11 from slider 2', 'First slide of second slider', 'http://www.codeigniter.com/', 2, '0000-00-00 00:00:00', 0, '0'),
-(11, 'Slide 22 from slider 2', 'Second slide of second slider', 'http://laravel.com', 2, '0000-00-00 00:00:00', 1, '2'),
-(15, 'Slide 33 from slider 2', 'Third slide of second slider', 'http://php.net', 2, '0000-00-00 00:00:00', 1, '1'),
-(16, 'Slide 44 from slider 2', 'Fourth slide of second slider', 'http://stackoverflow.com/questions/4061293/mysql-cant-create-table-errno-150', 2, '0000-00-00 00:00:00', 1, '4'),
-(17, 'Slide 55 from slider 2', 'Fifth slide of second slider', 'http://kinopoisk.ru', 2, '0000-00-00 00:00:00', 0, '3'),
-(18, 'Slide 66 from slider 2', 'Sixth slide of second slider', 'http://habrahabr.ru/company/jugru/blog/268607/', 2, '0000-00-00 00:00:00', 1, '5'),
-(20, 'Slide 3-1', 'Text1', NULL, 3, '0000-00-00 00:00:00', 1, '2'),
-(21, 'Slide 3-2', 'Text2', NULL, 3, '0000-00-00 00:00:00', 1, '3'),
-(22, 'Slide 3-3', 'Text3', NULL, 3, '0000-00-00 00:00:00', 1, '1'),
-(23, 'Slide 3-4', 'Text4', NULL, 3, '0000-00-00 00:00:00', 1, '0');
+INSERT INTO `airyo_slide` (`id`, `title`, `description`, `link`, `sliders_id`, `create_date`, `enabled`, `order`, `img_title`) VALUES
+(99, '', '', '', 1, '2015-11-03 11:26:24', 0, '0', 'a13.jpg'),
+(100, '', '', '', 1, '2015-11-03 11:26:24', 0, '2', 'a9.jpg'),
+(102, '', '', '', 1, '2015-11-03 11:26:24', 1, '1', 'a19.jpg');
 
 -- --------------------------------------------------------
 
@@ -1208,19 +1294,17 @@ INSERT INTO `airyo_slide` (`id`, `title`, `description`, `link`, `sliders_id`, `
 --
 
 CREATE TABLE `airyo_sliders` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL,
   `title` varchar(255) DEFAULT NULL,
-  `create_date` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Слайдеры' AUTO_INCREMENT=3 ;
+  `create_date` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Слайдеры';
 
 --
 -- Dumping data for table `airyo_sliders`
 --
 
 INSERT INTO `airyo_sliders` (`id`, `title`, `create_date`) VALUES
-(1, 'First slide', '0000-00-00 00:00:00'),
-(2, 'Second slide', '0000-00-00 00:00:00');
+(1, 'First slide', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1229,12 +1313,11 @@ INSERT INTO `airyo_sliders` (`id`, `title`, `create_date`) VALUES
 --
 
 CREATE TABLE `airyo_trash` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `deleted_id` int(11) NOT NULL,
   `data` text NOT NULL,
-  `type` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=79 ;
+  `type` varchar(100) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_trash`
@@ -1327,11 +1410,10 @@ INSERT INTO `airyo_trash` (`id`, `deleted_id`, `data`, `type`) VALUES
 --
 
 CREATE TABLE `airyo_type_content` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
-  `alias` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `alias` varchar(255) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_type_content`
@@ -1349,7 +1431,7 @@ INSERT INTO `airyo_type_content` (`id`, `type`, `alias`) VALUES
 --
 
 CREATE TABLE `airyo_users` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL,
   `ip_address` varbinary(16) NOT NULL,
   `username` varchar(100) NOT NULL,
   `password` varchar(80) NOT NULL,
@@ -1366,17 +1448,16 @@ CREATE TABLE `airyo_users` (
   `last_name` varchar(50) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
-  `role_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `role_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_users`
 --
 
 INSERT INTO `airyo_users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`, `role_id`) VALUES
-(2, '��,�', 'root', 'ae53bfd913251b7ddf5a09623ed074e4a5048d9d', NULL, 'root@airyo.ru', NULL, NULL, NULL, 'a819b0355785a72ec08d6535790ceadddc01235a', 1392664432, 1446018195, 1, 'root', '', '', '', 2),
-(3, '\\5m�', 'editor', '834dfce1709c5f9f68f3c3fd609a1adca2c5e798', NULL, 'editor@airyo.ru', NULL, NULL, NULL, '68ff2e8044eeb2ecbc9d2209f307f75d52090830', 1422555843, 1445411189, 1, 'editor', NULL, NULL, NULL, 1);
+(2, 0xefbfbdefbfbd2cefbfbd, 'root', 'ae53bfd913251b7ddf5a09623ed074e4a5048d9d', NULL, 'root@airyo.ru', NULL, NULL, NULL, 'a819b0355785a72ec08d6535790ceadddc01235a', 1392664432, 1446549473, 1, 'root', '', '', '', 2),
+(3, 0x5c356d3f, 'editor', '834dfce1709c5f9f68f3c3fd609a1adca2c5e798', NULL, 'editor@airyo.ru', NULL, NULL, NULL, '68ff2e8044eeb2ecbc9d2209f307f75d52090830', 1422555843, 1445411189, 1, 'editor', NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1385,14 +1466,10 @@ INSERT INTO `airyo_users` (`id`, `ip_address`, `username`, `password`, `salt`, `
 --
 
 CREATE TABLE `airyo_users_groups` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL,
   `user_id` int(11) unsigned NOT NULL,
-  `group_id` mediumint(8) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uc_users_groups` (`user_id`,`group_id`),
-  KEY `fk_users_groups_users1_idx` (`user_id`),
-  KEY `fk_users_groups_groups1_idx` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=199 ;
+  `group_id` mediumint(8) unsigned NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=199 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_users_groups`
@@ -1410,11 +1487,10 @@ INSERT INTO `airyo_users_groups` (`id`, `user_id`, `group_id`) VALUES
 --
 
 CREATE TABLE `airyo_users_modules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `module_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Соотношения пользователей и групп' AUTO_INCREMENT=99 ;
+  `module_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8 COMMENT='Соотношения пользователей и групп';
 
 --
 -- Dumping data for table `airyo_users_modules`
@@ -1436,14 +1512,13 @@ INSERT INTO `airyo_users_modules` (`id`, `user_id`, `module_id`) VALUES
 --
 
 CREATE TABLE `airyo_versions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `data` text NOT NULL,
   `type` varchar(32) NOT NULL,
   `id_origin` int(11) NOT NULL,
   `author` int(11) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `airyo_versions`
@@ -1467,6 +1542,291 @@ INSERT INTO `airyo_versions` (`id`, `data`, `type`, `id_origin`, `author`, `time
 (19, 'a:3:{s:4:"name";s:51:"Новости - текст перед лентой";s:7:"content";s:1948:"<p>Информация для сайта LASERIS.RU подготавливается на основе постоянного мониторинга средств научно-технической информации и в т.ч.: интернета, с акцентом на лазерную технику и лазерные технологии обработки материалов и, в первую очередь - лазерную сварку. При этом необходимо иметь в виду, что технологические особенности сварки и др.лазерных технологий на базе новейших мощных волоконных, диодных и дисковых лазеров - являются конфиденциальной информацией ООО"ЛазерИнформСервис" и других Исполнителей и Партнёров, и, к сожалению - не могут размещаться на сайте и  передаются Заказчикам только на договорной или контрактной основе.</p>\n<p>Новые библиографические источники: статьи и книги, отчёты и обзоры, изобретения и патенты,  касающиеся достаточно узкой области науки и техники - только лазерного технологического  оборудования и лазерных технологий обработки материалов, представляют из себя значительный объём - до тысячи источников в месяц, поэтому в разделах сайта приводятся только отдельные примеры таких источников и наиболее актуальная информация.</p>\n\n<br>";s:2:"id";i:3;}', 'chunks', 3, 2, '2015-04-28 11:37:44'),
 (20, 'a:3:{s:4:"name";s:51:"Новости - текст перед лентой";s:7:"content";s:1949:"<p>Информация для сайта LASERIS.RU подготавливается на основе постоянного мониторинга средств научно-технической информации и в т.ч.: интернета, с акцентом на лазерную технику и лазерные технологии обработки материалов и, в первую очередь - лазерную сварку. При этом необходимо иметь в виду, что технологические особенности сварки и др.лазерных технологий на базе новейших мощных волоконных, диодных и дисковых лазеров - являются конфиденциальной информацией ООО"ЛазерИнформСервис" и других Исполнителей и Партнёров, и, к сожалению - не могут размещаться на сайте и  передаются Заказчикам только на договорной или контрактной основе.</p>\n<p>Новые библиографические источники: статьи и книги, отчёты и обзоры, изобретения и патенты,  касающиеся достаточно узкой области науки и техники - только лазерного технологического  оборудования и лазерных технологий обработки материалов, представляют из себя значительный объём - до тысячи источников в месяц, поэтому в разделах сайта приводятся только отдельные примеры таких источников и наиболее актуальная информация.</p>\n\n<br> ";s:2:"id";i:3;}', 'chunks', 3, 2, '2015-04-28 11:37:54');
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `airyo_albums`
+--
+ALTER TABLE `airyo_albums`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_airyo_albums_1_idx` (`user_id`);
+
+--
+-- Indexes for table `airyo_chunks`
+--
+ALTER TABLE `airyo_chunks`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `alias` (`alias`);
+
+--
+-- Indexes for table `airyo_counters`
+--
+ALTER TABLE `airyo_counters`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_groups`
+--
+ALTER TABLE `airyo_groups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_images`
+--
+ALTER TABLE `airyo_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_airyo_images_1_idx` (`album_id`),
+  ADD KEY `fk_airyo_images_users_idx` (`user_id`);
+
+--
+-- Indexes for table `airyo_login_attempts`
+--
+ALTER TABLE `airyo_login_attempts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_logs`
+--
+ALTER TABLE `airyo_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_logs_users1_idx` (`user_id`);
+
+--
+-- Indexes for table `airyo_menu`
+--
+ALTER TABLE `airyo_menu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_menu_group`
+--
+ALTER TABLE `airyo_menu_group`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_modules`
+--
+ALTER TABLE `airyo_modules`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_news`
+--
+ALTER TABLE `airyo_news`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `alias` (`alias`);
+
+--
+-- Indexes for table `airyo_pages`
+--
+ALTER TABLE `airyo_pages`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `alias` (`alias`);
+
+--
+-- Indexes for table `airyo_pages_layouts`
+--
+ALTER TABLE `airyo_pages_layouts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_pages_views`
+--
+ALTER TABLE `airyo_pages_views`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_roles`
+--
+ALTER TABLE `airyo_roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `title_UNIQUE` (`title`);
+
+--
+-- Indexes for table `airyo_seo`
+--
+ALTER TABLE `airyo_seo`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `path` (`path`);
+
+--
+-- Indexes for table `airyo_slide`
+--
+ALTER TABLE `airyo_slide`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_airyo_sliders_1_idx` (`sliders_id`);
+
+--
+-- Indexes for table `airyo_sliders`
+--
+ALTER TABLE `airyo_sliders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_trash`
+--
+ALTER TABLE `airyo_trash`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_type_content`
+--
+ALTER TABLE `airyo_type_content`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_users`
+--
+ALTER TABLE `airyo_users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_users_groups`
+--
+ALTER TABLE `airyo_users_groups`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uc_users_groups` (`user_id`,`group_id`),
+  ADD KEY `fk_users_groups_users1_idx` (`user_id`),
+  ADD KEY `fk_users_groups_groups1_idx` (`group_id`);
+
+--
+-- Indexes for table `airyo_users_modules`
+--
+ALTER TABLE `airyo_users_modules`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `airyo_versions`
+--
+ALTER TABLE `airyo_versions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `airyo_albums`
+--
+ALTER TABLE `airyo_albums`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `airyo_chunks`
+--
+ALTER TABLE `airyo_chunks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `airyo_counters`
+--
+ALTER TABLE `airyo_counters`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `airyo_groups`
+--
+ALTER TABLE `airyo_groups`
+  MODIFY `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `airyo_images`
+--
+ALTER TABLE `airyo_images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=164;
+--
+-- AUTO_INCREMENT for table `airyo_login_attempts`
+--
+ALTER TABLE `airyo_login_attempts`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `airyo_logs`
+--
+ALTER TABLE `airyo_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=838;
+--
+-- AUTO_INCREMENT for table `airyo_menu`
+--
+ALTER TABLE `airyo_menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=83;
+--
+-- AUTO_INCREMENT for table `airyo_menu_group`
+--
+ALTER TABLE `airyo_menu_group`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `airyo_modules`
+--
+ALTER TABLE `airyo_modules`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `airyo_news`
+--
+ALTER TABLE `airyo_news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
+--
+-- AUTO_INCREMENT for table `airyo_pages`
+--
+ALTER TABLE `airyo_pages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=146;
+--
+-- AUTO_INCREMENT for table `airyo_pages_layouts`
+--
+ALTER TABLE `airyo_pages_layouts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `airyo_pages_views`
+--
+ALTER TABLE `airyo_pages_views`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `airyo_roles`
+--
+ALTER TABLE `airyo_roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `airyo_seo`
+--
+ALTER TABLE `airyo_seo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `airyo_slide`
+--
+ALTER TABLE `airyo_slide`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=107;
+--
+-- AUTO_INCREMENT for table `airyo_sliders`
+--
+ALTER TABLE `airyo_sliders`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `airyo_trash`
+--
+ALTER TABLE `airyo_trash`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=79;
+--
+-- AUTO_INCREMENT for table `airyo_type_content`
+--
+ALTER TABLE `airyo_type_content`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `airyo_users`
+--
+ALTER TABLE `airyo_users`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `airyo_users_groups`
+--
+ALTER TABLE `airyo_users_groups`
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=199;
+--
+-- AUTO_INCREMENT for table `airyo_users_modules`
+--
+ALTER TABLE `airyo_users_modules`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=99;
+--
+-- AUTO_INCREMENT for table `airyo_versions`
+--
+ALTER TABLE `airyo_versions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- Constraints for dumped tables
 --

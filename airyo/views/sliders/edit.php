@@ -35,6 +35,7 @@ $this->css .= "
 
 	.one-slide-input {
 		border: none;
+		border-radius: 0;
 		padding-top: 26px;
 		padding-bottom: 20px;
 	}

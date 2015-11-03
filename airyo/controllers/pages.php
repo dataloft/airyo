@@ -23,6 +23,48 @@ class Pages extends Airyo {
 		$this->updateLogs();
 	}
 
+	public function add() {
+		$this->data['page'] = $this->pages_model->get_pages_view();
+		$this->load->helper('form');
+
+		if ($this->input->post()) {
+			$this->form_validation->set_rules('h1', 'lang:h1', 'trim|required|htmlentities|xss_clean');
+			$this->form_validation->set_rules('alias', 'lang:alias', 'trim|strtolower|htmlentities|xss_clean|callback_check_alias|is_unique[airyo_pages.alias]');
+			$this->form_validation->set_rules('enabled', '', 'trim|xss_clean');
+			$this->form_validation->set_rules('template', 'lang:template', 'trim|required|xss_clean');
+			$this->form_validation->set_message('required', 'Поле %s обязательно для заполнения!');
+			$this->form_validation->set_message('is_unique', 'Значение поля %s уже используется! Выберите другое!');
+
+			$input_data = array();
+			if ($this->form_validation->run()) {
+				$input_data = array(
+					'content'	=> $this->input->post('content'),
+					'h1'		=> $this->input->post('h1'),
+					'alias'		=> $this->input->post('alias'),
+					'enabled'	=> $this->input->post('enabled'),
+					'template'	=> $this->input->post('template'),
+				);
+			}
+
+			if ($input_data) {
+				if ($this->pages_model->add($input_data)) {
+					$this->notice_push($this->lang->line('notice_add_sucsess'), 'success');
+					redirect('/airyo/pages');
+				}
+				else {
+					$this->notice_push($this->lang->line('notice_add_model_error'), 'danger');
+				}
+			}
+
+			else {
+				$this->notice_push($this->lang->line('notice_form_incorrect'), 'warning');
+			}
+		}
+
+		$this->data['notice'] = $this->notice_pull();
+		$this->load->view('pages/add', $this->data);
+	}
+
 
 	public function edit($id = false) {
 

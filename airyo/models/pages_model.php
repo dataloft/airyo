@@ -20,9 +20,15 @@ class Pages_model extends CI_Model {
 
         }
 
-        $q =  $this->db->get($this->db->dbprefix('content'));
+        $q =  $this->db->get($this->db->dbprefix('pages'));
         return  $q->result_array();
 	}
+
+    public function get_pages_view() {
+        $this->db->select('*');
+        $result = $this->db->get($this->db->dbprefix('pages_views'));
+        return $result->result_array();
+    }
 
 	public function getType() {
 		$q = $this->db;
@@ -32,14 +38,14 @@ class Pages_model extends CI_Model {
 	}
 
     public function next_id(){
-        $sql = "SELECT `AUTO_INCREMENT` inc FROM `information_schema`.`TABLES` WHERE (`TABLE_NAME`='".$this->db->dbprefix('content')."')";
+        $sql = "SELECT `AUTO_INCREMENT` inc FROM `information_schema`.`TABLES` WHERE (`TABLE_NAME`='".$this->db->dbprefix('pages')."')";
         return $this->db->query($sql)->row()->inc;
     }
 
     public function get($page) {
 		$q = $this->db;
 		$this->sql = "
-			SELECT * FROM ".$this->db->dbprefix('content')." WHERE alias = '".$page."' and enabled = 1
+			SELECT * FROM ".$this->db->dbprefix('pages')." WHERE alias = '".$page."' and enabled = 1
 		";
 		$q = $q->query($this->sql);
 		return $q->row();
@@ -48,7 +54,7 @@ class Pages_model extends CI_Model {
     public function get_by_id($id) {
         $q = $this->db;
         $this->sql = "
-			SELECT * FROM ".$this->db->dbprefix('content')." WHERE id = '".$id."'
+			SELECT * FROM ".$this->db->dbprefix('pages')." WHERE id = '".$id."'
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
@@ -59,24 +65,21 @@ class Pages_model extends CI_Model {
 
     public function get_by_alias($alias) {
        $q = $this->db->query("
-            SELECT * FROM ".$this->db->dbprefix('content')."
+            SELECT * FROM ".$this->db->dbprefix('pages')."
             WHERE alias = '".$alias."'
         ");
         
         return  $q->result_array();
     }
 
-    public function Add ($data)
-    {
-        $this->db->insert($this->db->dbprefix('content'), $data);
-        $return = $this->db->insert_id();
-
-        return $return;
+    public function add($data) {
+        $this->db->insert($this->db->dbprefix('pages'), $data);
+        return $this->db->insert_id();
     }
 
     public function update ($data)
     {
-       if ($this->db->update($this->db->dbprefix('content'), $data, array('id' => $data['id'])))
+       if ($this->db->update($this->db->dbprefix('pages'), $data, array('id' => $data['id'])))
             return true;
         else
             return false;
@@ -88,7 +91,7 @@ class Pages_model extends CI_Model {
 
 	public function delete($id)
     {
-        if ($this->db->delete($this->db->dbprefix('content'), array('id' => $id)))
+        if ($this->db->delete($this->db->dbprefix('pages'), array('id' => $id)))
             //$return = $this->db->affected_rows() == 1;
             return true;
         else

@@ -20,7 +20,7 @@ class Pages_model extends CI_Model {
 
         }
 
-        $q =  $this->db->get($this->db->dbprefix('content'));
+        $q =  $this->db->get($this->db->dbprefix('pages'));
         return  $q->result_array();
 	}
 
@@ -32,14 +32,14 @@ class Pages_model extends CI_Model {
 	}
 
     public function next_id(){
-        $sql = "SELECT `AUTO_INCREMENT` inc FROM `information_schema`.`TABLES` WHERE (`TABLE_NAME`='".$this->db->dbprefix('content')."')";
+        $sql = "SELECT `AUTO_INCREMENT` inc FROM `information_schema`.`TABLES` WHERE (`TABLE_NAME`='".$this->db->dbprefix('pages')."')";
         return $this->db->query($sql)->row()->inc;
     }
 
     public function get($page) {
 		$q = $this->db;
 		$this->sql = "
-			SELECT * FROM ".$this->db->dbprefix('content')." WHERE alias = '".$page."' and enabled = 1
+			SELECT * FROM ".$this->db->dbprefix('pages')." WHERE alias = '".$page."' and enabled = 1
 		";
 		$q = $q->query($this->sql);
 		return $q->row();
@@ -48,7 +48,7 @@ class Pages_model extends CI_Model {
     public function getToId($id) {
         $q = $this->db;
         $this->sql = "
-			SELECT * FROM ".$this->db->dbprefix('content')." WHERE id = '".$id."'
+			SELECT * FROM ".$this->db->dbprefix('pages')." WHERE id = '".$id."'
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
@@ -60,7 +60,7 @@ class Pages_model extends CI_Model {
     public function getByAlias($alias, $array = false) {
         $q = $this->db;
         $this->sql = "
-			SELECT * FROM ".$this->db->dbprefix('content')." WHERE alias = '".$alias."' && enabled = '1'
+			SELECT * FROM ".$this->db->dbprefix('pages')." WHERE alias = '".$alias."' && enabled = '1'
 		";
         $q = $q->query($this->sql);
         if ($q->num_rows() > 0)
