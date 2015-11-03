@@ -13,6 +13,7 @@ $this->css .= "
 	}
 
 	.glyphicon-move {
+		background: #fff;
 		color: #777; 
 		font-size:18px; 
 		padding: 8px 12px; 

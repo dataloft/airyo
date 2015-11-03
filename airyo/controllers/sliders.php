@@ -22,8 +22,8 @@ class Sliders extends Airyo
 	}
 
 	public function edit($id = false) {
-		
-        if ($this->input->post())
+
+        if ($this->input->post() AND !$this->input->post('delete'))
         {
         	// Обновляем статусы enabled там, где они изменились
             if ($this->sliders_model->update_state(
@@ -35,8 +35,7 @@ class Sliders extends Airyo
             {
                 $this->notice_push('Статусы обновлены', 'success');
             }
-            
-            
+                      
             // Формируем массив входящих данных тут же можно добавить проверки
             $input = array();
             
@@ -55,8 +54,20 @@ class Sliders extends Airyo
                 $this->notice_push('Записи обновлены', 'success');
             } 
             
-            
             redirect($this->uri->uri_string());
+        }
+
+      // Удаление записей
+        elseif ($this->input->post('delete')) {
+        	$row_id = array();
+        	foreach ($this->input->post('delete') as $key => $value) {
+        		$row_id[] = $key;
+        	}
+
+        	if ($this->sliders_model->delete($row_id)) {
+        		$this->notice_push('Записи удалены', 'success');
+        	}
+        	redirect($this->uri->uri_string());
         }
 		
 		$this->data['slide'] = $this->sliders_model->get_by_id($id);

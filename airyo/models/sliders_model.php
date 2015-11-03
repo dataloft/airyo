@@ -68,7 +68,10 @@ class Sliders_model extends CI_Model {
 		$this->db->update($this->db->dbprefix('slide'), array('order' => $order), array('id' => $id));
 	}
 
-	public function delete() {
-		
+	public function delete($id) {
+		$this->db->query("
+					DELETE FROM ".$this->db->dbprefix('slide')." 
+					WHERE id IN (".implode(',',$id).")");
+		return $this->db->affected_rows();
 	}
 }
