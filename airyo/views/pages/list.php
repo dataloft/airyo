@@ -9,7 +9,7 @@
 		<div class="col-md-12" style="margin: 20px 0 20px">
 			<p class="pull-right">
 				<span class="glyphicon glyphicon-plus" style="color: #777"></span> 
-				<a href="pages/add" class="add">Создать страницу</a>
+				<a href="pages/edit" class="add">Создать страницу</a>
 			</p>
 		</div>
 	</div>
