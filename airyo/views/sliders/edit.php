@@ -105,6 +105,9 @@ $this->js .= "
 			handle: '.glyphicon-move',
 			opacity: 1.0,
 			cancel:'.btn',
+			start: function(e, ui ){
+				ui.placeholder.height(ui.helper.outerHeight());
+			},
 			update: function (event, ui) {
 				var data = $( '.sortable' ).sortable('serialize');
 				 $.ajax({
