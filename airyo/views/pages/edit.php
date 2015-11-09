@@ -11,14 +11,18 @@
 	</ul>
 	<?php echo form_open_multipart("", 'name="edit" method="POST"');?>
 		<? if (! $page['id']) : ?>
-		 <div class="form-group <?php if (form_error('template')) echo 'has-error"'; ?>">
-            <label for="template" class="control-label">Шаблон страницы</label>
-            <select class="form-control" id="tpl" name="template">
-                <? foreach ($page_view as $row) { ?>
-                    <option value="<?=$row['view']?>"><?=$row['title']?></option>
-                <?}?>
-            </select>
-        </div>
+			<? if ($page_view_count > 1) : ?>
+			<div class="form-group <?php if (form_error('template')) echo 'has-error"'; ?>">
+				<label for="template" class="control-label">Шаблон страницы</label>
+				<select class="form-control" id="tpl" name="template">
+					<? foreach ($page_view as $row) { ?>
+						<option value="<?=$row['view']?>"><?=$row['title']?></option>
+					<?}?>
+				</select>
+			</div>
+			<? else : ?>
+			<input type="hidden" name="template" value="<?=$page_view[0]['view']?>">
+			<? endif; ?>
 		<? endif; ?>
 		<div class="form-group <?php if (form_error('content')) echo 'has-error"'; ?>">
 			<label for="description" class="control-label">Html-код страницы</label>

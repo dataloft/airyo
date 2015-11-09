@@ -26,6 +26,7 @@ class Pages extends Airyo {
 
 		$this->data['page'] = $this->pages_model->get_by_id($id);
 		$this->data['page_view'] = $this->pages_model->get_pages_view();
+		$this->data['page_view_count'] = $this->pages_model->count_pages_view();
 
 		if ($this->input->post()) {
 			//$this->form_validation->set_rules('content', 'lang:content', 'trim|required|htmlentities|xss_clean');

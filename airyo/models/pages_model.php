@@ -30,6 +30,11 @@ class Pages_model extends CI_Model {
         return $result->result_array();
     }
 
+    public function count_pages_view() {
+        $result = $this->db->count_all_results($this->db->dbprefix('pages_views'));
+        return $result;
+    }
+
 	public function getType() {
 		$q = $this->db;
 		$this->sql = "SELECT * FROM ".$this->db->dbprefix('type_content');
